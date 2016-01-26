@@ -7,10 +7,11 @@ $CFG = new stdClass();
 $CFG->dbtype    = 'mysqli';
 $CFG->dblibrary = 'native';
 $CFG->dbhost    = 'localhost';
-$CFG->dbname    = 'rubricmoodle';
-$CFG->dbuser    = 'rubricteam';
-$CFG->dbpass    = 'fourowon';
-$CFG->prefix    = 'mdl1_';
+$CFG->dbname    = 'moodledb';
+$CFG->dbuser    = 'moodleuser';
+$CFG->dbpass    = 'moodlepassword';
+$CFG->prefix    = 'mdl_';
+
 $CFG->dboptions = array (
   'dbpersist' => 0,
   'dbport' => 3306,
@@ -18,7 +19,7 @@ $CFG->dboptions = array (
 );
 
 
-$CFG->wwwroot   = 'http://199.116.235.48/dev/';
+$CFG->wwwroot   =  'http://199.116.235.48/moodle';
 
 $CFG->dataroot  = '/var/moodledata';
 $CFG->admin     = 'admin';
