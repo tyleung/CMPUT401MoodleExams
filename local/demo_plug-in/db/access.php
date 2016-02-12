@@ -26,7 +26,7 @@
 
 $capabilities = array(
     
-    'local/memplugin:add' => array(
+    'local/demo_plug-in:add' => array(
         
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,

@@ -20,7 +20,6 @@ $CFG->dboptions = array (
 
 
 $CFG->wwwroot   =  'http://199.116.235.48/moodle';
-
 $CFG->dataroot  = '/var/moodledata';
 $CFG->admin     = 'admin';
 
