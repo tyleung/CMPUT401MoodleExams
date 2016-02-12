@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Defines the capabilities for the local plugin 'feedback_ec10'
+ * Strings for component 'demo_plug-in', language 'en'
  *
  * @package     local
  * @subpackage  demo_plug-in
@@ -24,17 +24,11 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$capabilities = array(
-    
-    'local/memplugin:add' => array(
-        
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_SYSTEM,
-        'archetypes' => array( // The roles that you want to allow
-            'teacher' => CAP_ALLOW,
-            'manager' => CAP_ALLOW
-        ),
-    ),
-);
+//$string['menuoption'] = 'Demo Plug-in';
+//$string['pluginname'] = 'CMPUT 401 Demo Plug-in';
+
+$string['menuoption'] = 'jaeyoon1 MEM Plugin (DEV build)';
+$string['pluginname'] = 'jaeyoon1 MEM Plugin (DEV)';
+$string[':add'] = 'You do not have permission to use the feeback';
 
 ?>
