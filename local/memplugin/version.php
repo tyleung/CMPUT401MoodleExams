@@ -25,7 +25,7 @@
 
 $plugin->version = 2016012300;
 $plugin->requires = 2011033006;
-$plugin->component = 'local_demo';
+$plugin->component = 'local_memplugin';
 $plugin->maturity = MATURITY_ALPHA;
 
 ?>
