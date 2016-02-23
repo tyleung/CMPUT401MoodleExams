@@ -27,7 +27,7 @@
 
 $ADMIN->add('root', new admin_category('local_demo', get_string('menuoption', 'local_demo')));
 
-$ADMIN->add('local_demo', new admin_externalpage('demo', get_string('pluginname', 'demo'),
+$ADMIN->add('local_demo', new admin_externalpage('demo', get_string('pluginname', 'local_demo'),
         $CFG->wwwroot.'/local/demo/view.php', 'local/demo:add'));
 
 ?>
