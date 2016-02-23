@@ -42,7 +42,6 @@ $PAGE->set_heading(get_string('pluginname', 'local_demo'));
 $PAGE->set_url($CFG->wwwroot.'/local/demo/view.php');
 
 echo $OUTPUT->header();
-echo 'test page'
 echo $OUTPUT->footer();
 
 ?>
