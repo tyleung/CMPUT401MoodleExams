@@ -16,7 +16,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Initial page for the plug-in
+ * Creates the menu options for 'feedback_ec10'.  The access to the plug-in is managed by this file.
+ * The link is added to the left side bar of the Moodle website.
  *
  * @package     local
  * @subpackage  demo_plug-in
@@ -24,18 +25,9 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-global $PAGE, $CFG, $DB;
-require_once('../../config.php');
+$ADMIN->add('root', new admin_category('demo', get_string('menuoption', 'demo')));
 
-require_login();
-require_capability('local/demo_plug-in:add', context_system::instance());
-$PAGE->set_context(context_system::instance());
-$PAGE->set_pagelayout('standard');
-$PAGE->set_title(get_string('pluginname', 'local_demo_plug-in'));
-$PAGE->set_heading(get_string('pluginname', 'local_demo_plug-in'));
-$PAGE->set_url($CFG->wwwroot.'/local/demo_plug-in/view.php');
-
-//echo $OUTPUT->header();
-//echo $OUTPUT->footer();
+$ADMIN->add('local_feedback_form', new admin_externalpage('feedback_form', get_string('pluginname', 'demo'),
+        $CFG->wwwroot.'/local/demo/view.php', 'local/demo:add'));
 
 ?>

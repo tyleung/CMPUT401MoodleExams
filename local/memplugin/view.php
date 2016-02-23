@@ -28,7 +28,7 @@ global $PAGE, $CFG, $DB;
 require_once('../../config.php');
 
 require_login();
-require_capability('local/demo:add', context_system::instance());
+require_capability('local/memplugin:add', context_system::instance());
 require_once($CFG->dirroot.'/local/memplugin/upload_form.php');
 $PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('standard');
