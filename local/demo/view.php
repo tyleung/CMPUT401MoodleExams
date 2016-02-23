@@ -31,12 +31,12 @@ require_login();
 require_capability('local/demo:add', context_system::instance());
 $PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('standard');
-$PAGE->set_title(get_string('pluginname', 'demo'));
-$PAGE->set_heading(get_string('pluginname', 'demo'));
+$PAGE->set_title(get_string('pluginname', 'local_demo'));
+$PAGE->set_heading(get_string('pluginname', 'local_demo'));
 $PAGE->set_url($CFG->wwwroot.'/local/demo/view.php');
 
 echo $OUTPUT->header();
-echo '<a href=tyleung.php>'.get_string('username', 'demo').'</a>';
+echo '<a href=tyleung.php>'.get_string('username', 'local_demo').'</a>';
 echo $OUTPUT->footer();
 
 ?>

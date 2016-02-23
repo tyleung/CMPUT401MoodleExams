@@ -25,9 +25,9 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$ADMIN->add('root', new admin_category('demo', get_string('menuoption', 'demo')));
+$ADMIN->add('root', new admin_category('local_demo', get_string('menuoption', 'local_demo')));
 
-$ADMIN->add('local_feedback_form', new admin_externalpage('feedback_form', get_string('pluginname', 'demo'),
+$ADMIN->add('local_demo', new admin_externalpage('demo', get_string('pluginname', 'demo'),
         $CFG->wwwroot.'/local/demo/view.php', 'local/demo:add'));
 
 ?>

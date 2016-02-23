@@ -26,7 +26,7 @@
 
 $capabilities = array(
     
-    'local/demo_plug-in:add' => array(
+    'local/demo:add' => array(
         
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
