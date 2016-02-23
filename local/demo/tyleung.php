@@ -30,38 +30,19 @@
  */
 
 
-global $CFG, $PAGE, $DB;
- 
+global $PAGE, $CFG, $DB;
 require_once('../../config.php');
 
 require_login();
 require_capability('local/demo:add', context_system::instance());
-require_once($CFG->dirroot.'/local/demo/tyleung_form.php');
-
 $PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('standard');
-$PAGE->set_title(get_string('pluginname', 'demo'));
-$PAGE->set_heading(get_string('pluginname', 'demo'));
-$PAGE->set_url($CFG->wwwroot.'/local/demo/tyleung.php');
-$tyleung_form = new create_tyleung_instance();
+$PAGE->set_title(get_string('pluginname', 'local_demo'));
+$PAGE->set_heading(get_string('pluginname', 'local_demo'));
+$PAGE->set_url($CFG->wwwroot.'/local/demo/view.php');
 
-//echo $OUTPUT->header();
-//$kieran_form->display();
+echo $OUTPUT->header();
+echo 'test page'
+echo $OUTPUT->footer();
 
-/*
-* This code is for loading the kieran page and displaying the contents
-* and is responsible for  for redirecting and displaying the header and
-* the footer
-*  
-*/
-if ($kieran_form->is_cancelled()) {
-	redirect($CFG->wwwroot.'/local/demo/view.php');
-} elseif ($data = $kieran_form->get_data()) {
-	$check = $data->test1;
-	redirect($CFG->wwwroot.'/local/demo/view.php');//'/local/rubricrepo_kboyle/kieran.php?id='.$data->test1);
-} else {
-	echo $OUTPUT->header();
-	$kieran_form->display();
-	echo $OUTPUT->footer();
-}
 ?>
