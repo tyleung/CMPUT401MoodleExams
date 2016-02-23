@@ -34,7 +34,7 @@ class sample_form extends moodleform {
 		$mform = $this->_form; //Tell this object to initialize with the properties of the Moodle form.
 
 		//Add all your form elements here
-		$mform.addElement('header', 'food', get_string('food_heading', 'local_demo'));
+		$mform->addElement('header', 'food', get_string('food_heading', 'local_demo'));
 		$selection = array();
 		$selection[0] = "";
 		$selection[1] = get_string('food1', 'local_demo');
@@ -53,8 +53,7 @@ class sample_form extends moodleform {
 
 		//if ($data['data_name'] Some condition here)  {
 		//	$errors['element_to_display_error'] = get_string('error', 'local_demo_plug-in');
-		//}
+		}
 }
 
 ?>
-

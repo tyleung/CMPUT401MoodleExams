@@ -42,14 +42,13 @@ $PAGE->set_title(get_string('pluginname', 'local_demo'));
 $PAGE->set_heading(get_string('pluginname', 'local_demo'));
 $PAGE->set_url($CFG->wwwroot.'/local/demo/view.php');
 
-$form = new sample_form();
 
-if ($_POST['food_submit']) {
-	$data = $form->get_data();
-	redirect($CFG->wwwroot.'/local/demo/tyleung2.php?food='.$data->food_select);
+if ($_GET['food']) {
+	echo $OUTPUT->header();
+	echo $_GET['food'];
+	echo $OUTPUT->footer();
 } else {
 	echo $OUTPUT->header();
-	$form->display();
 	echo $OUTPUT->footer();
 }
 
