@@ -35,7 +35,10 @@ $PAGE->set_title(get_string('pluginname', 'local_demo'));
 $PAGE->set_heading(get_string('pluginname', 'local_demo'));
 $PAGE->set_url($CFG->wwwroot.'/local/demo/view.php');
 
+$form = new sample_form();
+
 echo $OUTPUT->header();
+$form->display();
 echo $OUTPUT->footer();
 
 
