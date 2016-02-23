@@ -38,7 +38,9 @@ $PAGE->set_url($CFG->wwwroot.'/local/memplugin/view.php');
 $mform = new upload_form();
 
 echo $OUTPUT->header();
-$mform->display()l;
+//$mform->display()l;
+
+echo '<a href=tyleung.php>'.get_string('username', 'memplugin').'</a>';
 echo $OUTPUT->footer();
 
 ?>
