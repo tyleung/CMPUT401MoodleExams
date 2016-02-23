@@ -34,7 +34,16 @@ class sample_form extends moodleform {
 		$mform = $this->_form; //Tell this object to initialize with the properties of the Moodle form.
 
 		//Add all your form elements here
-
+		$mform.addElement('header', 'food', get_string('food_heading', 'local_demo'));
+		$selection = array();
+		$selection[0] = "";
+		$selection[1] = get_string('food1', 'local_demo');
+		$selection[2] = get_string('food2', 'local_demo');
+		$selection[3] = get_string('food3', 'local_demo');
+		$select = array();
+		$select[] = $mform->createElement('select', 'food_select', get_string('favoritefood', 'local_demo'), $selection);
+		$select[] = $mform->createElement('submit', 'food_submit', get_string('food_selected', 'local_demo'));
+		$mform->addElement('group', 'food_selector', get_string('food_selection', 'local_demo'), $select, array(' '), false);
 	}
 	
 	//If you need to validate your form information, you can override  the parent's validation method and write your own.	

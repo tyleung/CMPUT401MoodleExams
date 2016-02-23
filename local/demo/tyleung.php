@@ -32,6 +32,7 @@
 
 global $PAGE, $CFG, $DB;
 require_once('../../config.php');
+require_once($CFG->dirroot.'/local/demo/sample_form.php');
 
 require_login();
 require_capability('local/demo:add', context_system::instance());
@@ -41,7 +42,10 @@ $PAGE->set_title(get_string('pluginname', 'local_demo'));
 $PAGE->set_heading(get_string('pluginname', 'local_demo'));
 $PAGE->set_url($CFG->wwwroot.'/local/demo/view.php');
 
+$form = new sample_form();
+
 echo $OUTPUT->header();
+$form->display();
 echo $OUTPUT->footer();
 
 ?>
