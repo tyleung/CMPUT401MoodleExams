@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -16,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'demo_plug-in', language 'en'
+ * Version control
  *
  * @package     local
  * @subpackage  demo_plug-in
@@ -24,15 +23,9 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-//$string['menuoption'] = 'Demo Plug-in';
-//$string['pluginname'] = 'CMPUT 401 Demo Plug-in';
-
-$string['menuoption'] = 'Mass Exam Marker Plugin';
-$string['pluginname'] = 'Mass Exam Marker Plugin';
-$string['buttonnext'] = 'Next';
-$string['buttonback'] = 'Back';
-$string['buttonupload'] = 'upload';
-$string['what_to_upload'] = 'PDF file to upload:';
-$string['filename'] = 'File name:';
+$plugin->version = 2016012300;
+$plugin->requires = 2011033006;
+$plugin->component = 'local_demo_plug-in';
+$plugin->maturity = MATURITY_ALPHA;
 
 ?>

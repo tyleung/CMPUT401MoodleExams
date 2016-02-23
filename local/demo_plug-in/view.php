@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'demo_plug-in', language 'en'
+ * Initial page for the plug-in
  *
  * @package     local
  * @subpackage  demo_plug-in
@@ -24,15 +24,18 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-//$string['menuoption'] = 'Demo Plug-in';
-//$string['pluginname'] = 'CMPUT 401 Demo Plug-in';
+global $PAGE, $CFG, $DB;
+require_once('../../config.php');
 
-$string['menuoption'] = 'Mass Exam Marker Plugin';
-$string['pluginname'] = 'Mass Exam Marker Plugin';
-$string['buttonnext'] = 'Next';
-$string['buttonback'] = 'Back';
-$string['buttonupload'] = 'upload';
-$string['what_to_upload'] = 'PDF file to upload:';
-$string['filename'] = 'File name:';
+require_login();
+require_capability('local/demo_plug-in:add', context_system::instance());
+$PAGE->set_context(context_system::instance());
+$PAGE->set_pagelayout('standard');
+$PAGE->set_title(get_string('pluginname', 'local_demo_plug-in'));
+$PAGE->set_heading(get_string('pluginname', 'local_demo_plug-in'));
+$PAGE->set_url($CFG->wwwroot.'/local/demo_plug-in/view.php');
+
+//echo $OUTPUT->header();
+//echo $OUTPUT->footer();
 
 ?>

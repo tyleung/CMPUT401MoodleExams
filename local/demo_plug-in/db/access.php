@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'demo_plug-in', language 'en'
+ * Defines the capabilities for the local plugin 'feedback_ec10'
  *
  * @package     local
  * @subpackage  demo_plug-in
@@ -24,15 +24,17 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-//$string['menuoption'] = 'Demo Plug-in';
-//$string['pluginname'] = 'CMPUT 401 Demo Plug-in';
-
-$string['menuoption'] = 'Mass Exam Marker Plugin';
-$string['pluginname'] = 'Mass Exam Marker Plugin';
-$string['buttonnext'] = 'Next';
-$string['buttonback'] = 'Back';
-$string['buttonupload'] = 'upload';
-$string['what_to_upload'] = 'PDF file to upload:';
-$string['filename'] = 'File name:';
+$capabilities = array(
+    
+    'local/demo_plug-in:add' => array(
+        
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_SYSTEM,
+        'archetypes' => array( // The roles that you want to allow
+            'teacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW
+        ),
+    ),
+);
 
 ?>

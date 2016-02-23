@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'demo_plug-in', language 'en'
+ * The form used by 'feedback_ec10'
  *
  * @package     local
  * @subpackage  demo_plug-in
@@ -24,15 +24,28 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-//$string['menuoption'] = 'Demo Plug-in';
-//$string['pluginname'] = 'CMPUT 401 Demo Plug-in';
+require_once '../../config.php';
+require_once $CFG->dirroot.'/lib/formslib.php';
+require_once $CFG->dirroot.'/lib/datalib.php';
 
-$string['menuoption'] = 'Mass Exam Marker Plugin';
-$string['pluginname'] = 'Mass Exam Marker Plugin';
-$string['buttonnext'] = 'Next';
-$string['buttonback'] = 'Back';
-$string['buttonupload'] = 'upload';
-$string['what_to_upload'] = 'PDF file to upload:';
-$string['filename'] = 'File name:';
+class sample_form extends moodleform {
+	function definition() {
+		global $CFG, $DB, $USER; //Declare our globals for use
+		$mform = $this->_form; //Tell this object to initialize with the properties of the Moodle form.
+
+		//Add all your form elements here
+
+	}
+	
+	//If you need to validate your form information, you can override  the parent's validation method and write your own.	
+	function validation($data, $files) {
+		$errors = parent::validation($data, $files);
+		global $DB, $CFG, $USER; //Declare them if you need them
+
+		//if ($data['data_name'] Some condition here)  {
+		//	$errors['element_to_display_error'] = get_string('error', 'local_demo_plug-in');
+		//}
+}
 
 ?>
+
