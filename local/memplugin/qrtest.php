@@ -29,16 +29,33 @@ require_once('../../config.php');
 
 require_login();
 require_capability('local/memplugin:add', context_system::instance());
+require_once($CFG->dirroot.'/local/memplugin/qrtest_class.php');
 $PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('pluginname', 'local_memplugin'));
 $PAGE->set_heading(get_string('pluginname', 'local_memplugin'));
-$PAGE->set_url($CFG->wwwroot.'/local/memplugin/view.php');
+$PAGE->set_url($CFG->wwwroot.'/local/memplugin/qrtest.php');
 
 echo $OUTPUT->header();
 
-echo "This page is our main page. Tests here?";
-echo '<a href=qrtest.php> QR test plz. </a>';
+	$qr = new MME_QRcode('testing','testing.png');
+
+	echo "<b>Some examples before we add unit tests later.</b></br>";
+	echo "<b>data = 'testing', path = 'test.png'.</b></br>";
+
+	echo "<b>Echo get_path()</b></br>";
+	echo $qr->get_path();
+	echo "</br><b>Echo get_data()</b></br>";
+	echo $qr->get_data();
+
+	echo "</br><b>Generate and display qr code</b></br>";
+	$qr->generate_QRcode();
+	echo "<img src='testing.png'></br>";
+
+	echo "<b>Echo data from QRcode</b></br>";
+	$qr->get_data_from_QRcode();
+	echo $qr->get_data();
+	
 
 echo $OUTPUT->footer();
 
