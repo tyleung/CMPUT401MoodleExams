@@ -31,24 +31,13 @@ require_login();
 require_capability('local/memplugin:add', context_system::instance());
 $PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('standard');
-$PAGE->set_title(get_string('pluginname', 'local_memplugin'));
-$PAGE->set_heading(get_string('pluginname', 'local_memplugin'));
+$PAGE->set_title(get_string('pluginname', 'lo	cal_demo'));
+$PAGE->set_heading(get_string('pluginname', 'local_demo'));
 $PAGE->set_url($CFG->wwwroot.'/local/memplugin/view.php');
-$PAGE->requires->js_init_call('M.local_memplugin.init', null, false, $jsmodule);
+$new_form = new create_form_instance();
 
 echo $OUTPUT->header();
-
-echo "This page is our main page. Tests here?";
-echo '<a href=qrtest.php> QR test plz. </a>';
-echo '<button class="censor" onclick = "javascript:addtext()"> testtest </button>';
-echo '<script type = "javascript">
-	funtion addtext() {
-		var elem = document.getElementByClassName("censor")[0];
-		var textElem = document.createElement("div");
-		textElem.textContent = "lalala";
-		elem.appendChild(textElem);
-	}</script>';
-
+$new_form->display()l;
 echo $OUTPUT->footer();
 
 ?>
