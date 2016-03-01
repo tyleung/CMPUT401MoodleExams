@@ -1,5 +1,5 @@
 <?php
-include '../../config.php';
+include '../../../config.php';
 include $CFG->dirroot.'/lib/graphlib.php';
 
 $line = new graph(400,240);

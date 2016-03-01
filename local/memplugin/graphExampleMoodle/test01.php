@@ -1,6 +1,7 @@
 <?php
-include '../../config.php';
-include $CFG->dirroot.'/lib/graphlib.php';
+global $CFG;
+require_once('../../../config.php');
+require_once($CFG->dirroot.'/lib/graphlib.php');
 
 $chart = new graph(400,240);
 $chart->parameter['title'] = 'Line and Point Chart';
