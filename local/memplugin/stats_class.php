@@ -1,6 +1,6 @@
 <?php
 	require_once '../../config.php';
-	include $CFG->dirroot.'/lib/graphlib.php';
+	require_once $CFG->dirroot.'/lib/graphlib.php';
 
 	class MME_QRcode {
 

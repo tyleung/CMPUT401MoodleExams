@@ -29,33 +29,20 @@ require_once('../../config.php');
 
 require_login();
 require_capability('local/memplugin:add', context_system::instance());
-require_once($CFG->dirroot.'/local/memplugin/qrtest_class.php');
+//require_once($CFG->dirroot.'/local/memplugin/graph_make_class.php');
 $PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('pluginname', 'local_memplugin'));
 $PAGE->set_heading(get_string('pluginname', 'local_memplugin'));
-$PAGE->set_url($CFG->wwwroot.'/local/memplugin/qrtest.php');
+$PAGE->set_url($CFG->wwwroot.'/local/memplugin/stats.php');
 
 echo $OUTPUT->header();
 
-	$qr = new MME_QRcode('testing','testing.png');
-
-	echo "<b>Some examples before we add unit tests later.</b></br>";
-	echo "<b>data = 'testing', path = 'test.png'.</b></br>";
-
-	echo "<b>Echo get_path()</b></br>";
-	echo $qr->get_path();
-	echo "</br><b>Echo get_data()</b></br>";
-	echo $qr->get_data();
-
-	echo "</br><b>Generate and display qr code</b></br>";
-	$qr->generate_QRcode();
-	echo "<img src='testing.png'></br>";
-
-	echo "<b>Echo data from QRcode</b></br>";
-	$qr->get_data_from_QRcode();
-	echo $qr->get_data();
-	
+$data = array(5.610, 15.940, 30.670, 40.940, 53.650, 39.561, 40.1635, 10.236, 15.2, 5.0);
+$datastr = serialize($data);
+$total_mark = 76;
+$interval = $total_mark/10;
+echo '<img src="graph_make_class.php?max_marks='.$total_mark.'&data='.$datastr.'&interval='.$interval.'" alt="Graph Results"></br>';
 
 echo $OUTPUT->footer();
 
