@@ -56,7 +56,7 @@ $data = array(5.610, 15.940, 30.670, 40.940, 53.650, 39.561, 40.1635, 10.236, 15
 $datastr = serialize($data);
 $total_mark = 76;
 $interval = $total_mark/10;
-echo '<img src="graph_make_class.php?max_marks='.$total_mark.'&data='.$datastr.'&interval='.$interval.'" alt="Graph Results"></br>';
+echo '<img src="graph_make_class.php?max_marks='.$total_mark.'&data='.$datastr.'&interval='.$interval.'" alt="ResultsGraph.PNG"></br>';
 
 echo $OUTPUT->footer();
 
