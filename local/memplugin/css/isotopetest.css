@@ -74,6 +74,13 @@ body {
 	font-weight: normal;
 }
 
+.grid-item .mark {
+	text-align: center;
+	font-size: 42px;
+	font-weight: bold;
+	color: white;
+}
+
 .grid-item .page {
 	position: absolute;
 	left: 10px;
