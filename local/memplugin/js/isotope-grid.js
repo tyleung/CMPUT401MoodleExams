@@ -2,6 +2,13 @@ $(window).load(function(){
     var $container = $('.grid');
     $container.isotope({
         filter: '*',
+		getSortData: {
+			bookletAsc: '.booklet parseInt',
+			bookletDec: '.booklet parseInt'
+		},
+		sortAscending: {
+			bookletDec: false
+		},
         animationOptions: {
             duration: 750,
             easing: 'linear',
@@ -27,6 +34,10 @@ $(window).load(function(){
                 queue: false
             }
          });
-         return false;
     }); 
+
+	$('.sort-group a').click(function(){ 
+		var sortValue = $(this).attr('data-sort');
+		$container.isotope({ sortBy: sortValue });
+	});
 });

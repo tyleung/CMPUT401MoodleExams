@@ -40,6 +40,12 @@ $grid_width = ($num_pages * 110) + 10;
  
 </div>
 
+<h3 class="sort-group-title">Sort</h3>
+<div class="sort-group">
+	<a href="#" data-sort="bookletAsc">Booklet Asc</a>
+	<a href="#" data-sort="bookletDec">Booklet Dec</a>
+</div>
+
 <div class="grid-outer">
 <div class="grid" style="width:<?php echo $grid_width; ?>px">
 	
