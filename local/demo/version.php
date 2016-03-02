@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -16,8 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Creates the menu options for 'feedback_ec10'.  The access to the plug-in is managed by this file.
- * The link is added to the left side bar of the Moodle website.
+ * Version control
  *
  * @package     local
  * @subpackage  demo_plug-in
@@ -25,9 +23,9 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$ADMIN->add('root', new admin_category('local_demo_plug-in', get_string('menuoption', 'local_demo_plug-in')));
-
-$ADMIN->add('local_feedback_form', new admin_externalpage('feedback_form', get_string('pluginname', 'local_demo_plug-in'),
-        $CFG->wwwroot.'/local/demo_plug-in/view.php', 'local/demo_plug-in:add'));
+$plugin->version = 2016012300;
+$plugin->requires = 2011033006;
+$plugin->component = 'local_demo';
+$plugin->maturity = MATURITY_ALPHA;
 
 ?>

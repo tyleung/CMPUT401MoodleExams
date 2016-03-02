@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Defines the capabilities for the local plugin 'feedback_ec10'
+ * Initial page for the plug-in
  *
  * @package     local
  * @subpackage  demo_plug-in
@@ -24,17 +24,19 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$capabilities = array(
-    
-    'local/demo_plug-in:add' => array(
-        
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_SYSTEM,
-        'archetypes' => array( // The roles that you want to allow
-            'teacher' => CAP_ALLOW,
-            'manager' => CAP_ALLOW
-        ),
-    ),
-);
+global $PAGE, $CFG, $DB;
+require_once('../../config.php');
+
+require_login();
+require_capability('local/demo:add', context_system::instance());
+$PAGE->set_context(context_system::instance());
+$PAGE->set_pagelayout('standard');
+$PAGE->set_title(get_string('pluginname', 'local_demo'));
+$PAGE->set_heading(get_string('pluginname', 'local_demo'));
+$PAGE->set_url($CFG->wwwroot.'/local/demo/view.php');
+
+echo $OUTPUT->header();
+echo '<a href=tyleung.php>'.get_string('username', 'local_demo').'</a>';
+echo $OUTPUT->footer();
 
 ?>

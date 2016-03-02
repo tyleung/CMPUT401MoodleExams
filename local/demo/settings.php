@@ -16,7 +16,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'demo_plug-in', language 'en'
+ * Creates the menu options for 'feedback_ec10'.  The access to the plug-in is managed by this file.
+ * The link is added to the left side bar of the Moodle website.
  *
  * @package     local
  * @subpackage  demo_plug-in
@@ -24,7 +25,9 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-//$string['menuoption'] = 'Demo Plug-in';
-$string['pluginname'] = 'CMPUT 401 Demo Plug-in';
+$ADMIN->add('root', new admin_category('local_demo', get_string('menuoption', 'local_demo')));
+
+$ADMIN->add('local_demo', new admin_externalpage('demo', get_string('pluginname', 'local_demo'),
+        $CFG->wwwroot.'/local/demo/view.php', 'local/demo:add'));
 
 ?>
