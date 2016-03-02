@@ -40,13 +40,17 @@ echo $OUTPUT->header();
 
 $calc = new stats();
 
-$test_dat1 = array(1,6,4,7); //1,4,6,7 Mean = 4.5, Median = 5
-$test_dat2 = array(1,4,6,7,3); //1,3,4,6,7 Mean = 4.2, Median = 4
+$test_dat1 = array(1,6,4,7); //1,4,6,7 Mean = 4.5, Median = 5, stdDev = 2.64575
+$test_dat2 = array(1,4,6,7,3); //1,3,4,6,7 Mean = 4.2, Median = 4, stdDev = 2.38747
 
-echo $calc->mean($test_dat1).'</br>';
-echo $calc->mean($test_dat2).'</br>';
-echo $calc->median($test_dat1).'</br>';
-echo $calc->median($test_dat2).'</br>';
+echo 'test data 1: 1,6,4,7</br>';
+echo 'test data 2: 1,4,6,7,3</br>';
+echo 'Mean test data1: '.$calc->mean($test_dat1).'</br>';
+echo 'Mean test data2: '.$calc->mean($test_dat2).'</br>';
+echo 'Median test data1: '.$calc->median($test_dat1).'</br>';
+echo 'Median test data2: '.$calc->median($test_dat2).'</br>';
+echo 'Spread/Standard Deviation test data1: '.$calc->spread($test_dat1).'</br>';
+echo 'Spread/Standard Deviation test data2: '.$calc->spread($test_dat2).'</br>';
 
 $data = array(5.610, 15.940, 30.670, 40.940, 53.650, 39.561, 40.1635, 10.236, 15.2, 5.0);
 $datastr = serialize($data);

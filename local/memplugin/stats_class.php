@@ -38,8 +38,14 @@
 			//s = sqrt((sum(i-mean)^2)/n-1)	where i is iteration, n is total.
 			$mean = $this->mean($data_array);
 			$total = count($data_array);
+			$sum = 0.0;
 			
-			$std_dev = 0;//sqrt();
+			for($i=0; $i<$total; $i++) {
+				$sum +=  pow(current($data_array) - $mean, 2);
+				next($data_array);
+			}
+			
+			$std_dev = sqrt($sum / ($total - 1));
 			return $std_dev;
 		}
 
