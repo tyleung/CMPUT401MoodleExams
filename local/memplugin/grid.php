@@ -14,8 +14,8 @@ $PAGE->set_url($CFG->wwwroot.'/local/memplugin/isotopetest.php');
 echo $OUTPUT->header();
 
 // TODO: Get the number of booklets and pages.
-$num_booklets = 15;
-$num_pages = 14;
+$num_booklets = 10;
+$num_pages = 5;
 
 // Each grid-item is 110px wide. Added 10px to account for the grid margins
 $grid_width = ($num_pages * 110) + 10;
@@ -46,8 +46,8 @@ $grid_width = ($num_pages * 110) + 10;
 	<a href="#" data-sort="bookletDec">Booklet Dec</a>
 </div>
 
-<div class="grid-outer">
-<div class="grid" style="width:<?php echo $grid_width; ?>px">
+<div class="grid-outer" style="width:<?php echo $grid_width; ?>px">
+<div class="grid" >
 	
 <?php
 
@@ -59,8 +59,8 @@ for ($i = 0; $i < $num_booklets; $i++) {
 		echo '<a href="markpage.php?booklet='.$i.'&page='.$j.'" class="grid-item-select">'."\n";
 		echo '<div class="grid-item '.$status.'">'."\n";
 		echo "\t".'<p class="mark">0</p>'."\n";
-		echo "\t".'<p class="booklet">'.'booklet '.$i.'</p>'."\n";
-		echo "\t".'<p class="page">'.'page '.$j.'</p>'."\n";
+		echo "\t".'<p class="booklet">booklet '.$i.'</p>'."\n";
+		echo "\t".'<p class="page">page '.$j.'</p>'."\n";
 		echo '</div>'."\n";
 		echo '</a>'."\n";
 	}

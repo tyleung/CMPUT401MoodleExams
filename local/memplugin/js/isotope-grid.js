@@ -1,19 +1,19 @@
 $(window).load(function(){	
     var $container = $('.grid');
     $container.isotope({
-        filter: '*',
+		filter: '*',
 		getSortData: {
-			bookletAsc: '.booklet parseInt',
-			bookletDec: '.booklet parseInt'
+			bookletAsc: '.booklet',
+			bookletDec: '.booklet'
 		},
 		sortAscending: {
 			bookletDec: false
 		},
-        animationOptions: {
-            duration: 750,
-            easing: 'linear',
-            queue: false
-        },
+		animationOptions: {
+			duration: 750,
+			easing: 'linear',
+			queue: false
+		},
 		//layoutMode: 'fitRows',
 		//layoutMode : 'fitColumns',
 		resizesContainer: false,
@@ -22,22 +22,29 @@ $(window).load(function(){
     });
 	
     $('.filter-group a').click(function(){
-        $('.filter-group .current').removeClass('current');
-        $(this).addClass('current');
- 
-        var selector = $(this).attr('data-filter');
-        $container.isotope({
-            filter: selector,
-            animationOptions: {
-                duration: 750,
-                easing: 'linear',
-                queue: false
-            }
-         });
+		$('.filter-group .current').removeClass('current');
+		$(this).addClass('current');
+
+		var selector = $(this).attr('data-filter');
+		$container.isotope({
+			filter: selector,
+			animationOptions: {
+				duration: 750,
+				easing: 'linear',
+				queue: false
+			}
+		 });
     }); 
 
 	$('.sort-group a').click(function(){ 
 		var sortValue = $(this).attr('data-sort');
-		$container.isotope({ sortBy: sortValue });
+		$container.isotope({
+			sortBy: sortValue,
+			animationOptions: {
+				duration: 750,
+				easing: 'linear',
+				queue: false
+			}
+		});
 	});
 });
