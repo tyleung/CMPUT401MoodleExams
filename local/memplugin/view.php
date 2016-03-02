@@ -38,7 +38,8 @@ $PAGE->set_url($CFG->wwwroot.'/local/memplugin/view.php');
 echo $OUTPUT->header();
 
 echo "This page is our main page. Tests here?";
-echo '<a href=qrtest.php> QR test plz. </a>';
+echo '<a href=qrtest.php> QR test plz. </a></br>';
+echo '<a href=stats.php>Statistics Page</a></br>';
 
 echo $OUTPUT->footer();
 

@@ -1,8 +1,9 @@
 <?php
 	require_once '../../config.php';
-	require_once $CFG->dirroot.'/lib/graphlib.php';
 
-	class MME_QRcode {
+	class stats {
+	
+	// what stats needed for a grades? http://www.astronomy.ohio-state.edu/~pogge/Ast162/Quizzes/curve.html
 
 		private $data = "";
 		private $path = "";
@@ -13,34 +14,33 @@
 			$this->path = $path;
 		}
 
-		#Generic Get/Setters
-		public function get_data(){
-			return $this->data;
+		public function mean($data_array){
+			$mean = array_sum($data_array) / count($data_array);
+			return $mean;
 		}
-
-		public function set_data($data){
-			$this->data = $data;
+		
+		public function median($data_array) {
+			$med = -1.0;
+			$sorted = $data_array;
+			asort($sorted);
+			$length = count($sorted);
+			if($length % 2 == 0) {
+				$midslice = array_slice($sorted, ($length / 2) - 1);
+				$med = (current($midslice) + next($midslice)) / 2;
+			} else {
+				$med = current(array_slice($sorted, $length / 2));
+			}
+			return $med;
 		}
-
-		public function get_path(){
-			return $this->path;
-		}
-
-		public function set_path($path){
-			$this->path = $path;
-		}
-
-		#Reads data from the qrcode and returns the value.
-		#TODO: Handle cases where image in the specified path doesn't exist
-		#TODO: Handle cases where the image is not a valid QR Code
-		public function get_data_from_QRcode(){
-			$qrcode = new QrReader($this->path);
-			$this->set_data($qrcode->text());
-		}
-
-		#Generates the QRcode containing $data to $path.png
-		public function generate_QRcode(){
-			QRcode::png($this->data,$this->path,'L',4,2);
+		
+		
+		public function spread($data_array) {
+			//s = sqrt((sum(i-mean)^2)/n-1)	where i is iteration, n is total.
+			$mean = $this->mean($data_array);
+			$total = count($data_array);
+			
+			$std_dev = 0;//sqrt();
+			return $std_dev;
 		}
 
 	}

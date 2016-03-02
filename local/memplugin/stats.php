@@ -29,7 +29,7 @@ require_once('../../config.php');
 
 require_login();
 require_capability('local/memplugin:add', context_system::instance());
-//require_once($CFG->dirroot.'/local/memplugin/graph_make_class.php');
+require_once($CFG->dirroot.'/local/memplugin/stats_class.php');
 $PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('pluginname', 'local_memplugin'));
@@ -37,6 +37,16 @@ $PAGE->set_heading(get_string('pluginname', 'local_memplugin'));
 $PAGE->set_url($CFG->wwwroot.'/local/memplugin/stats.php');
 
 echo $OUTPUT->header();
+
+$calc = new stats();
+
+$test_dat1 = array(1,6,4,7); //1,4,6,7 Mean = 4.5, Median = 5
+$test_dat2 = array(1,4,6,7,3); //1,3,4,6,7 Mean = 4.2, Median = 4
+
+echo $calc->mean($test_dat1).'</br>';
+echo $calc->mean($test_dat2).'</br>';
+echo $calc->median($test_dat1).'</br>';
+echo $calc->median($test_dat2).'</br>';
 
 $data = array(5.610, 15.940, 30.670, 40.940, 53.650, 39.561, 40.1635, 10.236, 15.2, 5.0);
 $datastr = serialize($data);
