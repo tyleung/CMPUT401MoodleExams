@@ -24,15 +24,13 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-//$string['menuoption'] = 'Demo Plug-in';
-//$string['pluginname'] = 'CMPUT 401 Demo Plug-in';
-
-$string['menuoption'] = 'Mass Exam Marker Plugin';
-$string['pluginname'] = 'Mass Exam Marker Plugin';
+$string['menuoption'] = 'Mass Exam Marker';
+$string['pluginname'] = 'Mass Exam Marker';
 $string['buttonnext'] = 'Next';
 $string['buttonback'] = 'Back';
 $string['buttonupload'] = 'upload';
 $string['what_to_upload'] = 'PDF file to upload:';
 $string['filename'] = 'File name:';
+
 
 ?>
