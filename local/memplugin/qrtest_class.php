@@ -1,6 +1,7 @@
 <?php
-	include_once "phpqrcode/qrlib.php";
-	include_once "php-qrcode-detector-decoder/QrReader.php";
+	require_once '../../config.php';
+	require_once "phpqrcode/qrlib.php";
+	require_once "php-qrcode-detector-decoder/QrReader.php";
 
 	class MME_QRcode {
 
@@ -44,24 +45,6 @@
 		}
 
 	}
-
-	$qr = new MME_QRcode('test','test.png');
-
-	echo "<b>Some examples before we add unit tests later.</b></br>";
-	echo "<b>data = 'test', path = 'test.png'.</b></br>";
-
-	echo "<b>Echo get_path()</b></br>";
-	echo $qr->get_path();
-	echo "</br><b>Echo get_data()</b></br>";
-	echo $qr->get_data();
-
-	echo "</br><b>Generate and display qr code</b></br>";
-	$qr->generate_QRcode();
-	echo "<img src='test.png'></br>";
-
-	echo "<b>Echo data from QRcode</b></br>";
-	$qr->get_data_from_QRcode();
-	echo $qr->get_data();
 
 ?>
 

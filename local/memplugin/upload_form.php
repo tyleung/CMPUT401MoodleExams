@@ -33,10 +33,10 @@ class sample_form extends moodleform {
 		global $CFG, $DB, $USER; //Declare our globals for use
 		$mform = $this->_form; //Tell this object to initialize with the properties of the Moodle form.
 		//Add all your form elements here
-                $mform->addElement('static', 'whatdo', null, get_string('what_to_upload', 'local_memplugin'));
+                //$mform->addElement('static', 'whatdo', null, get_string('what_to_upload', 'local_memplugin'));
                 $mform->addElement('filepicker', 'userfile', get_string('file'),null,array('maxbytes' => $maxbytes, 'accepted_types'=>'application/pdf'));
                 $attributes='size="12"';
-                $mform->addElement('text', 'filename_input', get_string('filename', 'local_memplugin), $attributes);
+                $mform->addElement('text', 'filename_input', get_string('filename', 'local_memplugin), $attributes));
 
                 $mform->addElement('button', 'backbutton', get_string('buttonback', 'local_memplugin'));
                 $mform->addElement('button', 'nextbutton', get_string('buttonnext',$'local_memplugin'));
@@ -50,6 +50,7 @@ class sample_form extends moodleform {
 		//if ($data['data_name'] Some condition here)  {
 		//	$errors['element_to_display_error'] = get_string('error', 'local_demo_plug-in');
 		//}
+	}
 }
 
 ?>

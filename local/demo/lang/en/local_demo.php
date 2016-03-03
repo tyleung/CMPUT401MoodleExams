@@ -16,36 +16,16 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'demo', language 'en'
+ * Strings for component 'demo_plug-in', language 'en'
  *
  * @package     local
- * @subpackage  demo
- * @copyright   Elyse Hill ehill@ualberta.ca
+ * @subpackage  demo_plug-in
+ * @copyright   Eric Cheng ec10@ualberta.ca
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 //$string['menuoption'] = 'Demo Plug-in';
-$string['pluginname']     = 'CMPUT 401 Demo Plug-in';
-$string['classselection'] = 'Please select a class section.';
-$string['genmakeheader']  = "General";
-$string['file']           = 'Upload';
-
-//Make Exams
-$string['createheader']   = 'Creating a new Exam';
-$string['makeexam']       = 'Name of Exam to Generate';
-$string['copyheader']     = 'Copy Options';
-$string['examcopies']     = 'How many booklets would you like generated?';
-$string['downloadheader'] = 'Download Options';
-$string['howtogenerate']  = 'How would you like to download your exam?';
-$string['multicopy']      = 'Individual Exam Files';
-$string['largecopy']      = 'One Large Exam File';
-$string['emergencypgs']   = 'How many blank pages would you like to include?';
-$string['generatebutton'] = 'Generate Exams';
-
-//Create Exam
-$string['markheader']     = 'Mark Exams';
-$string['sectionheader']  = 'Select course section(s)';
-$string['exambatch']      = 'Select Exam(s)';
-$string['markbutton']     = 'Mark Exams';
+$string['pluginname'] = 'CMPUT 401 Demo Plug-in';
+$string['username'] = 'tyleung';
 
 ?>
