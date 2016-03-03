@@ -49,14 +49,14 @@ $grid_width = ($num_pages * 110) + 10;
 
 $statuses = array('finished', 'unfinished');
 
-for ($i = 0; $i < $num_booklets; $i++) {
-	for ($j = 0; $j < $num_pages; $j++) {
+for ($i = 1; $i <= $num_booklets; $i++) {
+	for ($j = 1; $j <= $num_pages; $j++) {
 		$status = $statuses[array_rand($statuses)];
 		echo '<a href="markpage.php?booklet='.$i.'&page='.$j.'" class="grid-item-select">'."\n";
 		echo '<div class="grid-item '.$status.'">'."\n";
 		echo "\t".'<p class="mark">0</p>'."\n";
-		echo "\t".'<p class="booklet">booklet '.$i.'</p>'."\n";
-		echo "\t".'<p class="page">page '.$j.'</p>'."\n";
+		echo "\t".'<p class="booklet">booklet <span class="booklet-num"> '.$i.'</span></p>'."\n";
+		echo "\t".'<p class="page">page <span class="page-num">'.$j.'</span></p>'."\n";
 		echo '</div>'."\n";
 		echo '</a>'."\n";
 	}

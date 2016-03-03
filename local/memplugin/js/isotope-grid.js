@@ -3,10 +3,10 @@ $(window).load(function(){
     $container.isotope({
 		filter: '*',
 		getSortData: {
-			bookletAsc: '.booklet',
-			bookletDec: '.booklet',
-			pageAsc: '.page',
-			pageDec: '.page'
+			bookletAsc: '.booklet-num parseInt',
+			bookletDec: '.booklet-num parseInt',
+			pageAsc: '.page-num parseInt',
+			pageDec: '.page-num parseInt'
 		},
 		sortAscending: {
 			bookletDec: false,
