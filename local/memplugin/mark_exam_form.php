@@ -19,7 +19,7 @@
  * Handles the logic for the email template
  *
  * @package     local
- * @subpackage  demo
+ * @subpackage  memplugin
  * @copyright   Elyse Hill ehill@ualberta.ca
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -40,12 +40,12 @@ class create_mark_exam_instance extends moodleform{
     $attributes_radio_text = 'size="11"';	
 
 	//General
-	$mform->addElement('header', 'nameforyourheaderelement', get_string('genmakeheader', 'local_demo'));
-    $mform->addElement('select', 'type', get_string('sectionheader', 'local_demo'), $FORUM_TYPES, $attributes);
-	$mform->addElement('header', 'nameforyourheaderelement', get_string('file', 'local_demo'));
-	$mform->addElement('filemanager', 'files', get_string('exambatch', 'local_demo'), null, $options);
+	$mform->addElement('header', 'nameforyourheaderelement', get_string('genmakeheader', 'local_memplugin'));
+    $mform->addElement('select', 'type', get_string('sectionheader', 'local_memplugin'), $FORUM_TYPES, $attributes);
+	$mform->addElement('header', 'nameforyourheaderelement', get_string('file', 'local_memplugin'));
+	$mform->addElement('filemanager', 'files', get_string('exambatch', 'local_memplugin'), null, $options);
 	$mform->closeHeaderBefore('genbutton');
-	$mform->addElement('button', 'genbutton', get_string('markbutton','local_demo'));
+	$mform->addElement('button', 'genbutton', get_string('markbutton','local_memplugin'));
 
 
 	}

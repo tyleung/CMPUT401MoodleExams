@@ -34,8 +34,8 @@ require_once($CFG->dirroot.'/local/demo/generate_exam_form.php');
 
 $PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('standard');
-$PAGE->set_title(get_string('pluginname', 'local_demo'));
-$PAGE->set_heading(get_string('createheader', 'local_demo'));
+$PAGE->set_title(get_string('pluginname', 'local_memplugin'));
+$PAGE->set_heading(get_string('createheader', 'local_memplugin'));
 $PAGE->set_url($CFG->wwwroot.'/local/demo/generate_exam.php');
 $class_section_form = new create_generate_exam_instance();
 

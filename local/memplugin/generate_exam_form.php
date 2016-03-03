@@ -19,7 +19,7 @@
  * Handles the logic for the email template
  *
  * @package     local
- * @subpackage  demo
+ * @subpackage  memplugin
  * @copyright   Elyse Hill ehill@ualberta.ca
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

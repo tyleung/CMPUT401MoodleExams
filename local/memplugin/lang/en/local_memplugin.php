@@ -16,17 +16,24 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'demo', language 'en'
+ * Strings for component 'demo_plug-in', language 'en'
  *
  * @package     local
- * @subpackage  demo
- * @copyright   Elyse Hill ehill@ualberta.ca
+ * @subpackage  demo_plug-in
+ * @copyright   
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 //$string['menuoption'] = 'Demo Plug-in';
-$string['pluginname']     = 'CMPUT 401 Demo Plug-in';
-$string['classselection'] = 'Please select a class section.';
+//$string['pluginname'] = 'CMPUT 401 Demo Plug-in';
+
+$string['menuoption']     = 'Mass Exam Marker Plugin';
+$string['pluginname']     = 'Mass Exam Marker Plugin';
+$string['buttonnext']     = 'Next';
+$string['buttonback']     = 'Back';
+$string['buttonupload']   = 'Upload';
+$string['what_to_upload'] = 'PDF file to upload:';
+$string['filename']       = 'File name:';
 $string['genmakeheader']  = "General";
 $string['file']           = 'Upload';
 
@@ -43,6 +50,7 @@ $string['emergencypgs']   = 'How many blank pages would you like to include?';
 $string['generatebutton'] = 'Generate Exams';
 
 //Create Exam
+$string['classselection'] = 'Please select a class section.';
 $string['markheader']     = 'Mark Exams';
 $string['sectionheader']  = 'Select course section(s)';
 $string['exambatch']      = 'Select Exam(s)';
