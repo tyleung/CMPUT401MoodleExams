@@ -25,9 +25,11 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$ADMIN->add('root', new admin_category('local_demo', get_string('menuoption', 'local_demo')));
+//$mem_node = $PAGE->navigation->add('Mass Exam Marker', new moodle_url($CFG->wwwroot.'/local/memplugin/view.php'));
+//$mem_node->make_active();
+$ADMIN->add('root', new admin_category('local_memplugin', get_string('menuoption', 'local_memplugin')));
+$ADMIN->add('local_memplugin', new admin_externalpage('Massive Exam Marker', get_string('pluginname', 'local_memplugin'), $CFG->wwwroot.'/local/memplugin/view.php', 'local/memplugin:add'));
 
-$ADMIN->add('local_demo', new admin_externalpage('demo', get_string('pluginname', 'local_demo'),
-        $CFG->wwwroot.'/local/demo/view.php', 'local/demo:add'));
+
 
 ?>
