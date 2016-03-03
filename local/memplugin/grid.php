@@ -20,13 +20,7 @@ $num_pages = 5;
 $grid_width = ($num_pages * 110) + 10;
 ?>
 
-<!DOCTYPE html>
-<html>
-<head>
-<title>jQuery Isotope</title>
 <link rel="stylesheet" href="css/isotope-grid.css">
-</head>
-<body>
 
 <h3 class="filter-group-title">Filter</h3>
 <div class="filter-group">
@@ -76,8 +70,6 @@ for ($i = 0; $i < $num_booklets; $i++) {
 <script src="http://code.jquery.com/jquery-latest.js" type="text/javascript"></script>
 <script src="js/isotope.pkgd.min.js" type="text/javascript"></script> 
 <script src="js/isotope-grid.js" type="text/javascript"></script>
-</body>
-</html>
 
 <?php
 echo $OUTPUT->footer();
