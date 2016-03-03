@@ -26,18 +26,15 @@
 
 $capabilities = array(
     
-    'local/memplugin:add' => array(
+    'local/demo:add' => array(
         
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array( // The roles that you want to allow
-            'guest' => CAP_BLOCK,
-            'student' => CAP_BLOCK,
             'teacher' => CAP_ALLOW,
-            'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW
         ),
     ),
 );
-?>
 
+?>

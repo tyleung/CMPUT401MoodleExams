@@ -16,7 +16,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Defines the capabilities for the local plugin 'feedback_ec10'
+ * Creates the menu options for 'feedback_ec10'.  The access to the plug-in is managed by this file.
+ * The link is added to the left side bar of the Moodle website.
  *
  * @package     local
  * @subpackage  demo_plug-in
@@ -24,20 +25,9 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$capabilities = array(
-    
-    'local/memplugin:add' => array(
-        
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_SYSTEM,
-        'archetypes' => array( // The roles that you want to allow
-            'guest' => CAP_BLOCK,
-            'student' => CAP_BLOCK,
-            'teacher' => CAP_ALLOW,
-            'editingteacher' => CAP_ALLOW,
-            'manager' => CAP_ALLOW
-        ),
-    ),
-);
-?>
+$ADMIN->add('root', new admin_category('local_demo', get_string('menuoption', 'local_demo')));
 
+$ADMIN->add('local_demo', new admin_externalpage('demo', get_string('pluginname', 'local_demo'),
+        $CFG->wwwroot.'/local/demo/view.php', 'local/demo:add'));
+
+?>

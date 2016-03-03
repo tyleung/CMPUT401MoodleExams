@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Defines the capabilities for the local plugin 'feedback_ec10'
+ * Initial page for the plug-in
  *
  * @package     local
  * @subpackage  demo_plug-in
@@ -24,20 +24,25 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$capabilities = array(
-    
-    'local/memplugin:add' => array(
-        
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_SYSTEM,
-        'archetypes' => array( // The roles that you want to allow
-            'guest' => CAP_BLOCK,
-            'student' => CAP_BLOCK,
-            'teacher' => CAP_ALLOW,
-            'editingteacher' => CAP_ALLOW,
-            'manager' => CAP_ALLOW
-        ),
-    ),
-);
-?>
+global $PAGE, $CFG, $DB;
+require_once('../../config.php');
 
+require_login();
+require_capability('local/memplugin:add', context_system::instance());
+require_once($CFG->dirroot.'/local/memplugin/mme_exams.php');
+$PAGE->set_context(context_system::instance());
+$PAGE->set_pagelayout('standard');
+$PAGE->set_title(get_string('pluginname', 'local_memplugin'));
+$PAGE->set_heading(get_string('pluginname', 'local_memplugin'));
+$PAGE->set_url($CFG->wwwroot.'/local/memplugin/qrtest.php');
+
+echo $OUTPUT->header();
+
+	$exam = new MME_Exams("fnl2012.pdf","FALL2012FINAL");
+	$exam->generate_exam(100,2);
+	$exam->output_exam("D")
+	
+
+echo $OUTPUT->footer();
+
+?>
