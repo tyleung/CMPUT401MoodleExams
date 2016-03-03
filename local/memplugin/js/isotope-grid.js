@@ -4,21 +4,15 @@ $(window).load(function(){
 		filter: '*',
 		getSortData: {
 			bookletAsc: '.booklet',
-			bookletDec: '.booklet'
+			bookletDec: '.booklet',
+			pageAsc: '.page',
+			pageDec: '.page'
 		},
 		sortAscending: {
-			bookletDec: false
+			bookletDec: false,
+			pageDec: false
 		},
-		animationOptions: {
-			duration: 750,
-			easing: 'linear',
-			queue: false
-		},
-		//layoutMode: 'fitRows',
-		//layoutMode : 'fitColumns',
-		resizesContainer: false,
-		resizable: false
-		
+		isResizeBound: false		
     });
 	
     $('.filter-group a').click(function(){
@@ -27,24 +21,35 @@ $(window).load(function(){
 
 		var selector = $(this).attr('data-filter');
 		$container.isotope({
-			filter: selector,
-			animationOptions: {
-				duration: 750,
-				easing: 'linear',
-				queue: false
-			}
+			filter: selector
 		 });
     }); 
 
-	$('.sort-group a').click(function(){ 
+	$('.sort-group-booklet a').click(function(){ 
+		$('.sort-group-booklet .current').removeClass('current');
+		$(this).addClass('current');
+	
 		var sortValue = $(this).attr('data-sort');
 		$container.isotope({
-			sortBy: sortValue,
-			animationOptions: {
-				duration: 750,
-				easing: 'linear',
-				queue: false
+			sortBy: sortValue
+		});
+	});
+	
+	$('.sort-group-page a').click(function(){ 
+		$('.sort-group-page .current').removeClass('current');
+		$(this).addClass('current');
+	
+		var sortValue = $(this).attr('data-sort');
+		sortValue = sortValue.split(',');
+		if (sortValue.length > 1) {	
+			if ($('.sort-group-booklet a[data-sort="bookletAsc"]').is('[class="current"]')) {
+				sortValue[0] = "bookletAsc";
+			} else {
+				sortValue[0] = "bookletDec";
 			}
+		}
+		$container.isotope({
+			sortBy: sortValue
 		});
 	});
 });
