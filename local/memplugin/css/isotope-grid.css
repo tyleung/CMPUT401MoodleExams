@@ -3,24 +3,48 @@ body {
 }
 
 .filter-group-title {
-	display:inline-block;
+	display: inline-block;
 	font-size: 1rem;
 	margin: 0 10px 0 0;
 	font-weight: bold;
 }
 
 .filter-group {
-	display:inline-block;
+	display: inline-block;
 }
 
 .filter-group a {
 	margin-right: 10px; 
-	color:#666;
-	text-decoration:none;
+	color: #666;
+	text-decoration: none;
 }
  
 .filter-group a.current { 
-	font-weight:bold;
+	font-weight: bold;
+}
+
+.sort-group-title {
+	display: inline-block;
+	font-size: 1rem;
+	margin: 0 10px 0 0;
+	font-weight: bold;
+}
+
+.sort-group-booklet,
+.sort-group-page {
+	display: inline-block;
+}
+
+.sort-group-booklet a,
+.sort-group-page a {
+	margin-right: 10px;
+	color: #666;
+	text-decoration: none;
+}
+
+.sort-group-booklet a.current,
+.sort-group-page a.current {
+	font-weight: bold;
 }
 
 /* ---- .grid-item ---- */
@@ -72,6 +96,13 @@ body {
 	letter-spacing: 0;
 	font-size: 12px;
 	font-weight: normal;
+}
+
+.grid-item .mark {
+	text-align: center;
+	font-size: 42px;
+	font-weight: bold;
+	color: white;
 }
 
 .grid-item .page {
