@@ -40,6 +40,7 @@ echo $OUTPUT->header();
 
 $calc = new stats();
 
+/* //Test data to see if Mean, Median, Spread, Min, Max work as expected.
 $test_dat1 = array(1,6,4,7); //1,4,6,7 Mean = 4.5, Median = 5, stdDev = 2.64575
 $test_dat2 = array(1,4,6,7,3); //1,3,4,6,7 Mean = 4.2, Median = 4, stdDev = 2.38747
 
@@ -51,12 +52,21 @@ echo 'Median test data1: '.$calc->median($test_dat1).'</br>';
 echo 'Median test data2: '.$calc->median($test_dat2).'</br>';
 echo 'Spread/Standard Deviation test data1: '.$calc->spread($test_dat1).'</br>';
 echo 'Spread/Standard Deviation test data2: '.$calc->spread($test_dat2).'</br>';
+echo 'Max test data1: '.$calc->max($test_dat1).'</br>';
+echo 'Max test data2: '.$calc->max($test_dat2).'</br>';
+echo 'Min test data1: '.$calc->min($test_dat1).'</br>';
+echo 'Min test data2: '.$calc->min($test_dat2).'</br>';
+*/
 
-$data = array(5.610, 15.940, 30.670, 40.940, 53.650, 39.561, 40.1635, 10.236, 15.2, 5.0);
-$datastr = serialize($data);
-$total_mark = 76;
-$interval = $total_mark/10;
-echo '<img src="graph_make_class.php?max_marks='.$total_mark.'&data='.$datastr.'&interval='.$interval.'" alt="ResultsGraph.PNG"></br>';
+$raw_grades = array(19,15,12,13,13,12,14,7,5,16,17,13,14,12,11,8,20,3,10,17,18,15,12,9,10);
+$percentage_interval = 5;
+$total_mark = 20;
+
+echo $calc->graph($raw_grades, $percentage_interval, $total_mark);
+
+echo 'Mean: '.$calc->mean( $calc->to_percentage_array($raw_grades, $total_mark) ).'<br>';
+echo 'Median: '.$calc->median( $calc->to_percentage_array($raw_grades, $total_mark) ).'<br>';
+echo 'Spread: '.number_format($calc->spread( $calc->to_percentage_array($raw_grades, $total_mark) ), 2).'<br>';
 
 echo $OUTPUT->footer();
 

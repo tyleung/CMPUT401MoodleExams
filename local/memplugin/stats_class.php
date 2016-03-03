@@ -3,18 +3,40 @@
 
 	class stats {
 	
-	// what stats needed for a grades? http://www.astronomy.ohio-state.edu/~pogge/Ast162/Quizzes/curve.html
+		// what stats needed for a grades? http://www.astronomy.ohio-state.edu/~pogge/Ast162/Quizzes/curve.html
 
-		private $data = "";
-		private $path = "";
-
-		#Public Constructor. both parameters are optional.
-		public function __construct($str="",$path=""){
-			$this->data = $str;
-			$this->path = $path;
+		public function __construct(){
+		}
+		
+		public function to_percentage_array($raw_score_array, $max_marks) {
+			$percent = array();
+			
+			foreach($raw_score_array as $score) {
+				array_push($percent, ($score / $max_marks) * 100);
+			}
+			
+			return $percent;
+		}
+		
+		public function count_grades($marks_array, $marks_interval, $max_marks) {
+			$percentage = $this->to_percentage_array($marks_array, $max_marks);
+			asort($percentage);
+			$result = range(0, 100, $marks_interval);
+			$number = array_fill(0,count($result),0);
+			next($number);
+			foreach($result as $rkey => $rval) {
+				while(current($percentage) < $rval) {
+					$number[$rkey-1] += 1;			
+					if(!next($percentage)) {
+						break;
+					}
+				}
+			}
+			
+			return $number;
 		}
 
-		public function mean($data_array){
+		public function mean($data_array) {
 			$mean = array_sum($data_array) / count($data_array);
 			return $mean;
 		}
@@ -33,7 +55,6 @@
 			return $med;
 		}
 		
-		
 		public function spread($data_array) {
 			//s = sqrt((sum(i-mean)^2)/n-1)	where i is iteration, n is total.
 			$mean = $this->mean($data_array);
@@ -47,6 +68,24 @@
 			
 			$std_dev = sqrt($sum / ($total - 1));
 			return $std_dev;
+		}
+		
+		public function min($data_array) {
+			$sorted = $data_array;
+			asort($sorted);
+			return current($sorted);		
+		}
+		
+		public function max($data_array) {
+			$sorted = $data_array;
+			asort($sorted);
+			return end($sorted);
+		}
+
+		public function graph($raw_score, $percentage_interval, $total_mark) {
+			$data = $this->count_grades($raw_score, $percentage_interval, $total_mark);
+			$datastr = serialize($data);
+			return '<img src="stats_make_graph.php?data='.$datastr.'&interval='.$percentage_interval.'" alt="ResultsGraph.PNG"></br>';
 		}
 
 	}
