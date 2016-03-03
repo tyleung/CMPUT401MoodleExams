@@ -58,15 +58,17 @@ echo 'Min test data1: '.$calc->min($test_dat1).'</br>';
 echo 'Min test data2: '.$calc->min($test_dat2).'</br>';
 */
 
-$raw_grades = array(19,15,12,13,13,12,14,7,5,16,17,13,14,12,11,8,20,3,10,17,18,15,12,9,10);
+$raw_grades = array(1,2,5,5,0,0,0,0,23,23,20,23,20,11.5);
+$total_mark = 23;
+//$percentage_interval = floor(100/$total_mark);
 $percentage_interval = 5;
-$total_mark = 20;
-
 echo $calc->graph($raw_grades, $percentage_interval, $total_mark);
 
-echo 'Mean: '.$calc->mean( $calc->to_percentage_array($raw_grades, $total_mark) ).'<br>';
-echo 'Median: '.$calc->median( $calc->to_percentage_array($raw_grades, $total_mark) ).'<br>';
-echo 'Spread: '.number_format($calc->spread( $calc->to_percentage_array($raw_grades, $total_mark) ), 2).'<br>';
+echo 'Mean: '.$calc->mean( $calc->to_percentage_array($raw_grades, $total_mark) ).'%<br>';
+echo 'Median: '.$calc->median( $calc->to_percentage_array($raw_grades, $total_mark) ).'%<br>';
+echo 'Spread: '.number_format($calc->spread( $calc->to_percentage_array($raw_grades, $total_mark) ), 2).'%<br>';
+echo 'Minimum: '.$calc->max( $calc->to_percentage_array($raw_grades, $total_mark) ).'%<br>';
+echo 'Maximum: '.$calc->min( $calc->to_percentage_array($raw_grades, $total_mark) ).'%<br>';
 
 echo $OUTPUT->footer();
 

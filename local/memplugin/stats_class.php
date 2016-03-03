@@ -19,23 +19,15 @@
 		}
 		
 		public function count_grades($marks_array, $marks_interval, $max_marks) {
-			$percentage = $this->to_percentage_array($marks_array, $max_marks);
-			asort($percentage);
-			$result = range(0, 100, $marks_interval);
-			$number = array_fill(0,count($result),0);
-			next($number);
-			foreach($result as $rkey => $rval) {
-				while(current($percentage) < $rval) {
-					$number[$rkey-1] += 1;			
-					if(!next($percentage)) {
-						break;
-					}
-				}
+			$result = array_fill(0,floor(100/$marks_interval)+1,0);
+			foreach($marks_array as $marks){
+				$percentage = $marks/$max_marks*100;
+				$index = floor($percentage/$marks_interval);
+				$result[$index] = $result[$index]+1;
 			}
-			
-			return $number;
+			return $result;
 		}
-
+		
 		public function mean($data_array) {
 			$mean = array_sum($data_array) / count($data_array);
 			return $mean;
