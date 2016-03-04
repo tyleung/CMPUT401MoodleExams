@@ -84,16 +84,9 @@
             $dbman->create_table($table);
         }
 
-        // Memplugin savepoint reached.
-        upgrade_plugin_savepoint(true, 2016030410, 'local', 'memplugin');
-    }
-
 	/**
 	* Version 2016030410 renamed mem_exam_data table to more suitable name mem_booklet_data.
 	*/
-    
-    if ($oldversion < 2016030410) {
-
         // Define table mem_exam_data to be renamed to mem_booklet_data.
         $table = new xmldb_table('mem_exam_data');
 
