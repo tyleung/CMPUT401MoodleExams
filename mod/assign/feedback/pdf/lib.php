@@ -24,8 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-define('ASSIGNFEEDBACK_PDF_FA_IMAGE', 'feedback_pdf_image'); // Images generated from each page of the PDF
-define('ASSIGNFEEDBACK_PDF_FA_RESPONSE', 'feedback_pdf_response'); // Response generated once annotation is complete
+define('ASSIGNFEEDBACK_PDF_FA_IMAGE', 'feedback_pdf_image'); // Images generated from each page of the PDF.
+define('ASSIGNFEEDBACK_PDF_FA_RESPONSE', 'feedback_pdf_response'); // Response generated once annotation is complete.
 
 define('ASSIGNFEEDBACK_PDF_FILENAME', 'response.pdf');
 
@@ -43,15 +43,17 @@ function assignfeedback_pdf_pluginfile($course, $cm, context $context, $filearea
         return false; // Submission does not belong to this assignment.
     }
 
-    if ($USER->id == $submission->userid) {
-        // Own submission - check permission to submit.
+    if (!has_capability('mod/assign:grade', $context)) { // Graders can see all files.
         if (!has_capability('mod/assign:submit', $context)) {
-            return false;
+            return false; // Cannot grade or submit => cannot see any files.
         }
-    } else {
-        // Another user's submission - check permission to grade.
-        if (!has_capability('mod/assign:grade', $context)) {
-            return false;
+        // Can submit, but not grade => see if this file belongs to the user or their group.
+        if ($submission->groupid) {
+            if (!groups_is_member($submission->groupid)) {
+                return false; // Group submission for a group the user doesn't belong to.
+            }
+        } else if ($USER->id != $submission->userid) {
+            return false; // Individual submission for another user.
         }
     }
 
@@ -68,7 +70,7 @@ function assignfeedback_pdf_pluginfile($course, $cm, context $context, $filearea
         }
     } else if ($filearea == ASSIGNFEEDBACK_PDF_FA_RESPONSE) {
         if ($filename != ASSIGNFEEDBACK_PDF_FILENAME) {
-            return false; // Check filename
+            return false; // Check filename.
         }
         if ($submission->status != ASSIGN_SUBMISSION_STATUS_SUBMITTED) {
             return false; // Not submitted for marking.

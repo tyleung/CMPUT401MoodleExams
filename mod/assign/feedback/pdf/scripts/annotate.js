@@ -9,16 +9,10 @@ function uploadpdf_init(Y, server_config, userpreferences) {
         'scripts/raphael-min.js'],
         function () {
 
-            var YH, currentcomment, editbox, server, context_quicklist, context_comment, quicklist,
+            var currentcomment, editbox, server, context_quicklist, context_comment, quicklist,
                 pagelist, waitingforpage, pagestopreload, pagesremaining, pageunloading, lasthighlight, colourmenu, linecolourmenu,
                 nextbutton, prevbutton, choosedrawingtool, findcommentsmenu, stampmenu, resendtimeout, currentpaper, currentline,
                 linestartpos, freehandpoints, allannotations, LINEWIDTH, HIGHLIGHT_LINEWIDTH, $defined;
-
-            if (typeof YAHOO === 'undefined') {
-                YH = Y.YUI2;
-            } else {
-                YH = YAHOO;
-            }
 
             if (!String.prototype.trim) {
                 // Provide 'trim' function in IE8
@@ -121,17 +115,17 @@ function uploadpdf_init(Y, server_config, userpreferences) {
 
                 //Update the next/previous buttons
                 if (pageno === pagecount) {
-                    nextbutton.set('disabled', true);
+                    nextbutton.disable();
                     Y.one('#nextpage2').set('disabled', 'disabled');
                 } else {
-                    nextbutton.set('disabled', false);
+                    nextbutton.enable();
                     Y.one('#nextpage2').removeAttribute('disabled');
                 }
                 if (pageno === 1) {
-                    prevbutton.set('disabled', true);
+                    prevbutton.disable();
                     Y.one('#prevpage2').set('disabled', 'disabled');
                 } else {
-                    prevbutton.set('disabled', false);
+                    prevbutton.enable();
                     Y.one('#prevpage2').removeAttribute('disabled');
                 }
             }
@@ -189,59 +183,63 @@ function uploadpdf_init(Y, server_config, userpreferences) {
                     text = page + ': ' + text;
                 }
 
-                var value, menu, items, i, details, itempage, itemid;
+                var value, items, addeditem;
 
                 id = parseInt(id, 10);
                 page = parseInt(page, 10);
                 value = page + ':' + id;
-                menu = findcommentsmenu.getMenu();
-                items = menu.getItems();
-                for (i = 0; i < items.length; i += 1) {
-                    if ($defined(items[i].value)) {
-                        details = items[i].value.split(':');
+                items = findcommentsmenu.get_items();
+                addeditem = false;
+                items.each(function (node, idx, list) {
+                    if (addeditem) {
+                        return;
+                    }
+                    var itemvalue, details, itempage, itemid;
+                    itemvalue = node.getAttribute('value');
+                    if (itemvalue) {
+                        details = itemvalue.split(':');
                         itempage = parseInt(details[0], 10);
                         itemid = parseInt(details[1], 10);
-                        if (itemid === 0) { // 'No comments'
-                            items[i].value = page + ':' + id;
-                            items[i].cfg.setProperty('text', text);
-                            return;
-                        }
-                        if (itemid === id) {
-                            items[i].cfg.setProperty('text', text);
-                            return;
-                        }
-                        if (itempage > page) {
-                            menu.insertItem({text: text, value: value}, parseInt(i, 10));
-                            return;
+                        if (itemid === 0) { // 'No comments' entry.
+                            node.setAttribute('value', value);
+                            node.setContent(text);
+                            addeditem = true;
+                        } else if (itemid === id) { // Update existing entry.
+                            node.setContent(text);
+                            addeditem = true;
+                        } else if (itempage > page) {
+                            findcommentsmenu.add_item(text, value, node);
+                            addeditem = true;
                         }
                     }
+                });
+                if (!addeditem) {
+                    findcommentsmenu.add_item(text, value);
                 }
-                menu.addItem({text: text, value: value});
             }
 
             function removefromfindcomments(id) {
                 if (!server.editing) {
                     return;
                 }
-                var menu, items, i, itemid;
+                var items;
                 id = parseInt(id, 10);
-                menu = findcommentsmenu.getMenu();
-                items = menu.getItems();
-                for (i = 0; i < items.length; i += 1) {
-                    if ($defined(items[i].value)) {
-                        itemid = parseInt(items[i].value.split(':')[1], 10);
+                items = findcommentsmenu.get_items();
+                items.each(function (node, idx, list) {
+                    var value, itemid;
+                    value = node.getAttribute('value');
+                    if (value) {
+                        itemid = parseInt(value.split(':')[1], 10);
                         if (itemid === id) {
-                            if (items.length === 1) {
-                                // Only item in list - set it to 'no comments'
-                                items[i].cfg.setProperty('text', M.util.get_string('findcommentsempty', 'assignfeedback_pdf'));
-                                items[i].value = '0:0';
+                            if (list.size() === 1) {
+                                node.setContent(M.util.get_string('findcommentsempty', 'assignfeedback_pdf'));
+                                node.setAttribute('value', '0:0');
                             } else {
-                                menu.removeItem(items[i]);
+                                node.remove(true);
                             }
-                            return;
                         }
                     }
-                }
+                });
             }
 
             function setcolourclass(colour, comment) {
@@ -294,8 +292,8 @@ function uploadpdf_init(Y, server_config, userpreferences) {
                 if (colour !== 'red' && colour !== 'green' && colour !== 'blue' && colour !== 'white' && colour !== 'clear') {
                     colour = 'yellow';
                 }
-                colourmenu.set("label", '<img src="' + server_config.image_path + colour + '.gif" />');
-                colourmenu.set("value", colour);
+                colourmenu.set('src', server_config.image_path + colour + '.gif');
+                colourmenu.set('value', colour);
                 changecolour();
             }
 
@@ -399,6 +397,9 @@ function uploadpdf_init(Y, server_config, userpreferences) {
                             server.removecomment(id);
                         }
                         currentcomment.remove(true);
+                        if (lasthighlight === currentcomment) {
+                            lasthighlight = null;
+                        }
 
                     } else {
                         oldcolour = currentcomment.getData('oldcolour');
@@ -542,10 +543,15 @@ function uploadpdf_init(Y, server_config, userpreferences) {
             }
 
             function getcurrenttool() {
+                var btns;
                 if (!server.editing) {
                     return 'comment';
                 }
-                return choosedrawingtool.get("value").replace('icon', '');
+                btns = choosedrawingtool.getSelectedButtons();
+                if (btns.length >= 1) {
+                    return btns[0].get('value').replace('icon', '');
+                }
+                return 'comment';
             }
 
             function setcurrenttool(toolname) {
@@ -557,16 +563,13 @@ function uploadpdf_init(Y, server_config, userpreferences) {
                 updatelastcomment();
                 toolname += 'icon';
                 var btns, count, idx, i;
-                btns = choosedrawingtool.getButtons();
-                count = choosedrawingtool.getCount();
-                idx = 0;
-                for (i = 0; i < count; i += 1) {
-                    if (btns[i].get("value") === toolname) {
-                        idx = i;
+                btns = choosedrawingtool.getButtons().each(function (el) {
+                    if (el.get('value') === toolname) {
+                        el.addClass('yui3-button-selected');
+                    } else {
+                        el.removeClass('yui3-button-selected');
                     }
-                }
-                choosedrawingtool.check(idx);
-                choosedrawingtool.set('value', btns[idx].get('value'));
+                });
             }
 
             function getcurrentlinecolour() {
@@ -590,8 +593,8 @@ function uploadpdf_init(Y, server_config, userpreferences) {
                 if (colour !== 'yellow' && colour !== 'green' && colour !== 'blue' && colour !== 'white' && colour !== 'black') {
                     colour = 'red';
                 }
-                linecolourmenu.set("label", '<img src="' + server_config.image_path + 'line' + colour + '.gif" />');
-                linecolourmenu.set("value", colour);
+                linecolourmenu.set('src', server_config.image_path + 'line' + colour + '.gif');
+                linecolourmenu.set('value', colour);
                 changelinecolour();
             }
 
@@ -699,8 +702,8 @@ function uploadpdf_init(Y, server_config, userpreferences) {
                     return;
                 }
                 // Check valid stamp?
-                stampmenu.set("label", '<img width="32" height="32" src="' + getstampimage(stamp) + '" />');
-                stampmenu.set("value", stamp);
+                stampmenu.set('src', getstampimage(stamp));
+                stampmenu.set('value', stamp);
                 if (settool === undefined) {
                     settool = true;
                 }
@@ -1798,65 +1801,44 @@ function uploadpdf_init(Y, server_config, userpreferences) {
 
             function startjs() {
                 server.initialize(server_config);
+                server_config.deleteicon = M.util.image_url('t/delete', 'moodle');
 
-                var showPreviousMenu, colour, linecolour, stamp, tool, pageno, sel, selidx, selpage, btn, helppanel;
+                var showPreviousMenu, pageno, sel, selpage, btn, helppanel;
 
-                // TODO davo - remove YUI2 buttons
                 if (server.editing) {
                     if (document.getElementById('choosecolour')) {
-                        colourmenu = new YH.widget.Button("choosecolour", {
-                            type: "menu",
-                            menu: "choosecolourmenu",
-                            lazyloadmenu: false
+                        colourmenu = new M.assignfeedback_pdf.menubutton({
+                            button: '#choosecolour',
+                            menu: '#choosecolourmenu',
+                            isimage: true
                         });
-                        colourmenu.on("selectedMenuItemChange", function (e) {
-                            var menuitem, colour;
-                            menuitem = e.newValue;
-                            colour = (/choosecolour-([a-z]*)/i.exec(menuitem.element.className))[1];
-                            this.set("label", '<img src="' + server_config.image_path + colour + '.gif" />');
-                            this.set("value", colour);
-                            changecolour();
-                        });
+                        colourmenu.on('selectionChanged', changecolour);
                     }
                     if (document.getElementById('chooselinecolour')) {
-                        linecolourmenu = new YH.widget.Button("chooselinecolour", {
-                            type: "menu",
-                            menu: "chooselinecolourmenu",
-                            lazyloadmenu: false
+                        linecolourmenu = new M.assignfeedback_pdf.menubutton({
+                            button: '#chooselinecolour',
+                            menu: '#chooselinecolourmenu',
+                            isimage: true
                         });
-                        linecolourmenu.on("selectedMenuItemChange", function (e) {
-                            var menuitem, colour;
-                            menuitem = e.newValue;
-                            colour = (/choosecolour-([a-z]*)/i.exec(menuitem.element.className))[1];
-                            this.set("label", '<img src="' + server_config.image_path + 'line' + colour + '.gif" />');
-                            this.set("value", colour);
-                            changelinecolour();
-                        });
+                        linecolourmenu.on('selectionChanged', changelinecolour);
                     }
                     if (document.getElementById('choosestamp')) {
-                        stampmenu = new YH.widget.Button("choosestamp", {
-                            type: "menu",
-                            menu: "choosestampmenu",
-                            lazyloadmenu: false
+                        stampmenu = new M.assignfeedback_pdf.menubutton({
+                            button: '#choosestamp',
+                            menu: '#choosestampmenu',
+                            isimage: true
                         });
-                        stampmenu.on("selectedMenuItemChange", function (e) {
-                            var menuitem, stamp;
-                            menuitem = e.newValue;
-                            stamp = (/choosestamp-([a-z]*)/i.exec(menuitem.element.className))[1];
-                            this.set("label", '<img width="32" height="32" src="' + getstampimage(stamp) + '" />');
-                            this.set("value", stamp);
-                            changestamp();
-                        });
+                        stampmenu.on('selectionChanged', changestamp);
                     }
                     if (document.getElementById('showpreviousbutton')) {
-                        showPreviousMenu = new YH.widget.Button("showpreviousbutton", {
-                            type: "menu",
-                            menu: "showpreviousselect",
-                            lazyloadmenu: false
+                        showPreviousMenu = new M.assignfeedback_pdf.menubutton({
+                            button: "#showpreviousbutton",
+                            menu: "#showpreviousselect",
+                            isimage: false
                         });
-                        showPreviousMenu.on("selectedMenuItemChange", function (e) {
+                        showPreviousMenu.on("selectionChanged", function (e) {
                             var compareid, url;
-                            compareid = e.newValue.value;
+                            compareid = e.value;
                             url = 'editcomment.php?id=' + server.id + '&submissionid=' + server.submissionid + '&pageno=' + server.pageno;
                             if (compareid > -1) {
                                 url += '&topframe=1&showprevious=' + compareid;
@@ -1864,16 +1846,19 @@ function uploadpdf_init(Y, server_config, userpreferences) {
                             top.location = url;
                         });
                     }
-                    if (document.getElementById('savedraft')) {
-                        btn = new YH.widget.Button("savedraft");
+                    if (Y.one('#savedraft')) {
+                        btn = new Y.Plugin.Button.createNode('#savedraft');
                     }
-                    if (document.getElementById('generateresponse')) {
-                        btn = new YH.widget.Button("generateresponse");
+                    if (Y.one('#generateresponse')) {
+                        btn = new Y.Plugin.Button.createNode('#generateresponse');
                     }
-                    if (document.getElementById('choosetoolgroup')) {
-                        choosedrawingtool = new YH.widget.ButtonGroup("choosetoolgroup");
-                        choosedrawingtool.on("checkedButtonChange", function (e) {
-                            var newtool = e.newValue.get("value");
+                    if (Y.one('#choosetoolgroup')) {
+                        choosedrawingtool = new Y.ButtonGroup({
+                            srcNode: '#choosetoolgroup',
+                            type: 'radio'
+                        }).render();
+                        choosedrawingtool.after('selectionChange', function (e) {
+                            var newtool = e.originEvent.currentTarget.get('value');
                             newtool = newtool.substr(0, newtool.length - 4); // Strip off the 'icon' part
                             M.util.set_user_preference('assignfeedback_pdf_tool', newtool);
                             abortline();
@@ -1881,23 +1866,23 @@ function uploadpdf_init(Y, server_config, userpreferences) {
                         });
                     }
                 }
-                btn = new YH.widget.Button("downloadpdf");
-                prevbutton = new YH.widget.Button("prevpage");
-                prevbutton.on("click", gotoprevpage);
-                nextbutton = new YH.widget.Button("nextpage");
-                nextbutton.on("click", gotonextpage);
+                btn = new Y.Plugin.Button.createNode('#downloadpdf');
+                prevbutton = new Y.Button({ srcNode: '#prevpage' }).render();
+                prevbutton.on('click', gotoprevpage);
+                nextbutton = new Y.Button({ srcNode: '#nextpage' }).render();
+                nextbutton.on('click', gotonextpage);
                 Y.one('#selectpage').on('change', selectpage);
                 Y.one('#selectpage2').on('change', selectpage2);
                 Y.one('#prevpage2').on('click', gotoprevpage);
                 Y.one('#nextpage2').on('click', gotonextpage);
-                findcommentsmenu = new YH.widget.Button("findcommentsbutton", {
-                    type: "menu",
-                    menu: "findcommentsselect",
-                    lazyloadmenu: false
+                findcommentsmenu = new M.assignfeedback_pdf.menubutton({
+                    button: "#findcommentsbutton",
+                    menu: "#findcommentsselect",
+                    isimage: false
                 });
-                findcommentsmenu.on("selectedMenuItemChange", function (e) {
+                findcommentsmenu.on("selectionChanged", function (e) {
                     var menuval, pageno, commentid;
-                    menuval = e.newValue.value;
+                    menuval = e.value;
                     pageno = parseInt(menuval.split(':')[0], 10);
                     commentid = parseInt(menuval.split(':')[1], 10);
                     if (pageno > 0) {
@@ -1923,7 +1908,7 @@ function uploadpdf_init(Y, server_config, userpreferences) {
 
                     helppanel = new Y.Panel({
                         bodyContent: Y.one('#annotationhelp_text').getHTML(),
-                        headerContent: 'Help',
+                        headerContent: M.util.get_string('annotationhelp', 'assignfeedback_pdf'),
                         width: '90%',
                         zIndex: 300,
                         centered: false,
@@ -2095,6 +2080,9 @@ function uploadpdf_init(Y, server_config, userpreferences) {
                                 server.removecomment(id);
                             }
                             element.remove(true);
+                            if (element === lasthighlight) {
+                                lasthighlight = null;
+                            }
                         }
                     }
                 });
@@ -2113,7 +2101,41 @@ function uploadpdf_init(Y, server_config, userpreferences) {
                 }
             }
 
+            function add_behat_testing_form() {
+                var form = Y.Node.create('<form id="behat_add_comment_form">' +
+                    '<input type="text" id="behat_comment_at_x" value="" />' +
+                    '<input type="text" id="behat_comment_at_y" value="" />' +
+                    '<input type="text" id="behat_comment_content" value="" />' +
+                    '<input type="submit" value="Add comment" />' +
+                    '</form>');
+                Y.one('#everything').appendChild(form);
+                Y.one('#behat_add_comment_form').on('submit', function (e) {
+                    var x, y, content, pos, comment;
+                    e.preventDefault();
+                    e.stopPropagation();
+                    x = parseInt(e.currentTarget.one('#behat_comment_at_x').get('value'), 10);
+                    y = parseInt(e.currentTarget.one('#behat_comment_at_y').get('value'), 10);
+                    content = e.currentTarget.one('#behat_comment_content').get('value');
+                    pos = {
+                        x: x,
+                        y: y
+                    };
+                    comment = makecommentbox(pos, content, 'yellow');
+                    server.updatecomment(comment);
+                });
+                Y.one('#behat_add_comment_form').on('keydown', function (e) {
+                    e.stopPropagation(); // Make sure the 'page navigation' keyboard shortcuts aren't triggered.
+                });
+            }
+
             startjs();
             initcontextmenu();
+
+            if (server_config.behattest) {
+                add_behat_testing_form();
+            }
+
+            Y.one('#everythingspinner').remove(true);
+            Y.one('#everything').removeClass('hidden');
         });
 }

@@ -15,36 +15,35 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Handle AJAX requests for updating / viewing annotations
+ * Delete the response from the teacher + all comments
  *
- * @subpackage assignfeedback_pdf
- * @copyright 2012 Davo Smith
+ * @package   assignfeedback_pdf
+ * @copyright 2014 Davo Smith
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-define('AJAX_SCRIPT', true);
-
 require_once(dirname(__FILE__).'/../../../../config.php');
-global $CFG, $PAGE, $DB;
+global $DB, $PAGE, $CFG;
 require_once($CFG->dirroot.'/mod/assign/locallib.php');
 require_once($CFG->dirroot.'/mod/assign/submission/pdf/lib.php');
 
-$id   = required_param('id', PARAM_INT);
+$id = required_param('id', PARAM_INT);
 $submissionid = required_param('submissionid', PARAM_INT);
-$pageno = required_param('pageno', PARAM_INT);
+$returnparams = required_param('returnparams', PARAM_TEXT);
 
-$url = new moodle_url('/mod/assign/feedback/pdf/updatecomment.php', array('id' => $id,
-                                                                         'submissionid'=>$submissionid,
-                                                                         'pageno'=>$pageno));
 $cm = get_coursemodule_from_id('assign', $id, 0, false, MUST_EXIST);
 $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
 
+$url = new moodle_url('/mod/assign/feedback/pdf/delete.php', array('id' => $id, 'submissionid' => $submissionid,
+                                                                   'returnparams' => $returnparams));
 $PAGE->set_url($url);
 require_login($course, false, $cm);
 
 $context = context_module::instance($cm->id);
 
 $assignment = new assign($context, $cm, $course);
-$submissionpdf = new assign_feedback_pdf($assignment, 'feedback_pdf');
+$feedbackpdf = new assign_feedback_pdf($assignment, 'feedback_pdf');
+$submission = $DB->get_record('assign_submission', array('id' => $submissionid, 'assignment' => $assignment->get_instance()->id),
+                              '*', MUST_EXIST);
 
-$submissionpdf->update_comment_page($submissionid, $pageno);
+$feedbackpdf->delete_feedback($submission);
