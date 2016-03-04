@@ -72,8 +72,8 @@ echo get_string('stats_min', 'local_memplugin').$calc->min( $calc->to_percentage
 
 echo '<a href="csv_generate.php" alt="download csv">'.get_string('stats_download', 'local_memplugin').'</a></br>';
 
-$user = $DB->get_record_sql('DESCRIBE {mem_exam_data}', array(1));
-print_r($user);
+//$user = $DB->get_record_sql('DESCRIBE {mem_exam_data}', array(1));
+//print_r($user);
 
 $user = $DB->get_record_sql('DESCRIBE {mem_booklet_data}', array(1));
 print_r($user);

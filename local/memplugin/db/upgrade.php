@@ -8,7 +8,7 @@
 	* Version 2016030401 adds tables to store exam booklet data and related.
 	*/
     
-    if ($oldversion < 2016030401) {
+    if ($oldversion < 2016030410) {
 
         // Define table mem_exam_data to be created.
         $table = new xmldb_table('mem_exam_data');
@@ -85,7 +85,7 @@
         }
 
         // Memplugin savepoint reached.
-        upgrade_plugin_savepoint(true, 2016030401, 'local', 'memplugin');
+        upgrade_plugin_savepoint(true, 2016030410, 'local', 'memplugin');
     }
 
 	/**
