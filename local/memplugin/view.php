@@ -34,11 +34,21 @@ $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('pluginname', 'local_memplugin'));
 $PAGE->set_heading(get_string('pluginname', 'local_memplugin'));
 $PAGE->set_url($CFG->wwwroot.'/local/memplugin/view.php');
+$PAGE->requires->js_init_call('M.local_memplugin.init', null, false, $jsmodule);
 
 echo $OUTPUT->header();
 
 echo "This page is our main page. Tests here?";
+echo '<a href=stats.php>Statistics Page</a></br>';
 echo '<a href=qrtest.php> QR test plz. </a>';
+echo '<button class="censor" onclick = "javascript:addtext()"> testtest </button>';
+echo '<script type = "javascript">
+	funtion addtext() {
+		var elem = document.getElementByClassName("censor")[0];
+		var textElem = document.createElement("div");
+		textElem.textContent = "lalala";
+		elem.appendChild(textElem);
+	}</script>';
 
 echo $OUTPUT->footer();
 
