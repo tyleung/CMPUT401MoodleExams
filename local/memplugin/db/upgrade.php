@@ -8,7 +8,7 @@
 	* Version 2016030401 adds tables to store exam booklet data and related.
 	*/
     
-    if ($oldversion < 2016030401) {
+    if ($oldversion < 2016030410) {
 
         // Define table mem_exam_data to be created.
         $table = new xmldb_table('mem_exam_data');
@@ -85,8 +85,70 @@
         }
 
         // Memplugin savepoint reached.
-        upgrade_plugin_savepoint(true, 2016030401, 'local', 'memplugin');
+        upgrade_plugin_savepoint(true, 2016030410, 'local', 'memplugin');
     }
 
+	/**
+	* Version 2016030410 renamed mem_exam_data table to more suitable name mem_booklet_data.
+	*/
+    
+    if ($oldversion < 2016030410) {
+
+        // Define table mem_exam_data to be renamed to mem_booklet_data.
+        $table = new xmldb_table('mem_exam_data');
+
+        // Launch rename table for mem_booklet_data.
+        $dbman->rename_table($table, 'mem_booklet_data');
+		
+		// Drop old foreign keys
+		
+		// Define key foreign_key (foreign) to be dropped form mem_pdf_files.
+        $table = new xmldb_table('mem_pdf_files');
+        $key = new xmldb_key('foreign_key', XMLDB_KEY_FOREIGN, array('booklet_id'), 'mem_booklet_data', array('booklet_id'));
+
+        // Launch drop key foreign_key.
+        $dbman->drop_key($table, $key);
+		
+		// Define key foreign_key (foreign) to be dropped form mem_mark_stats.
+        $table = new xmldb_table('mem_mark_stats');
+        $key = new xmldb_key('foreign_key', XMLDB_KEY_FOREIGN, array('booklet_id'), 'mem_booklet_data', array('booklet_id'));
+
+        // Launch drop key foreign_key.
+        $dbman->drop_key($table, $key);
+		
+		// Define key foreign_key (foreign) to be dropped form mem_pages.
+        $table = new xmldb_table('mem_pages');
+        $key = new xmldb_key('foreign_key', XMLDB_KEY_FOREIGN, array('booklet_id'), 'mem_booklet_data', array('booklet_id'));
+
+        // Launch drop key foreign_key.
+        $dbman->drop_key($table, $key);
+		
+		// Add new foreign keys referencing renamed table.
+		
+		// Define key foreign_key (foreign-unique) to be added to mem_mark_stats.
+        $table = new xmldb_table('mem_mark_stats');
+        $key = new xmldb_key('foreign_key', XMLDB_KEY_FOREIGN_UNIQUE, array('booklet_id'), 'mem_booklet_data', array('booklet_id'));
+
+        // Launch add key foreign_key.
+        $dbman->add_key($table, $key);
+		
+        // Define key foreign_key (foreign-unique) to be added to mem_pdf_files.
+        $table = new xmldb_table('mem_pdf_files');
+        $key = new xmldb_key('foreign_key', XMLDB_KEY_FOREIGN_UNIQUE, array('booklet_id'), 'mem_booklet_data', array('booklet_id'));
+
+        // Launch add key foreign_key.
+        $dbman->add_key($table, $key);
+		
+		// Define key foreign_key (foreign) to be added to mem_pages.
+        $table = new xmldb_table('mem_pages');
+        $key = new xmldb_key('foreign_key', XMLDB_KEY_FOREIGN, array('booklet_id'), 'mem_booklet_data', array('booklet_id'));
+
+        // Launch add key foreign_key.
+        $dbman->add_key($table, $key);
+
+		
+        // Memplugin savepoint reached.
+        upgrade_plugin_savepoint(true, 2016030410, 'local', 'memplugin');
+    }
 
 ?>

@@ -4,7 +4,7 @@
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
   <TABLES>
-    <TABLE NAME="mem_exam_data" COMMENT="Contains the exam data for the massive examination marker plugin">
+    <TABLE NAME="mem_booklet_data" COMMENT="Contains the exam data for the massive examination marker plugin">
       <FIELDS>
         <FIELD NAME="booklet_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="student_id" TYPE="int" LENGTH="9" NOTNULL="true" SEQUENCE="false" COMMENT="the id of the booklet"/>
@@ -25,7 +25,7 @@
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="mark_stats_id"/>
-        <KEY NAME="foreign_key" TYPE="foreign" FIELDS="booklet_id" REFTABLE="mem_exam_data" REFFIELDS="booklet_id"/>
+        <KEY NAME="foreign_key" TYPE="foreign-unique" FIELDS="booklet_id" REFTABLE="mem_booklet_data" REFFIELDS="booklet_id"/>
       </KEYS>
     </TABLE>
     <TABLE NAME="mem_pdf_files" COMMENT="Stores the binary PDF files of the marked exams.">
@@ -36,7 +36,7 @@
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="pdf_file_id"/>
-        <KEY NAME="foreign_key" TYPE="foreign" FIELDS="booklet_id" REFTABLE="mem_exam_data" REFFIELDS="booklet_id"/>
+        <KEY NAME="foreign_key" TYPE="foreign-unique" FIELDS="booklet_id" REFTABLE="mem_booklet_data" REFFIELDS="booklet_id"/>
       </KEYS>
     </TABLE>
     <TABLE NAME="mem_pages" COMMENT="Contains the amount of marks per page for a booklet.">
@@ -48,7 +48,7 @@
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="page_id"/>
-        <KEY NAME="foreign_key" TYPE="foreign" FIELDS="booklet_id" REFTABLE="mem_exam_data" REFFIELDS="booklet_id"/>
+        <KEY NAME="foreign_key" TYPE="foreign" FIELDS="booklet_id" REFTABLE="mem_booklet_data" REFFIELDS="booklet_id"/>
       </KEYS>
     </TABLE>
   </TABLES>
