@@ -16,31 +16,37 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Initial page for the plug-in
+ * Handles the logic for the email template
  *
  * @package     local
- * @subpackage  demo_plug-in
- * @copyright   Eric Cheng ec10@ualberta.ca
+ * @subpackage  memplugin
+ * @copyright   Elyse Hill ehill@ualberta.ca
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-global $PAGE, $CFG, $DB;
+global $CFG, $PAGE, $DB;
+ 
 require_once('../../config.php');
 
 require_login();
-require_capability('local/demo:add', context_system::instance());
+require_capability('local/memplugin:add', context_system::instance());
+require_once($CFG->dirroot.'/local/memplugin/mark_exam_form.php');
+
 $PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('standard');
-$PAGE->set_title(get_string('pluginname', 'local_demo'));
-$PAGE->set_heading(get_string('pluginname', 'local_demo'));
-$PAGE->set_url($CFG->wwwroot.'/local/demo/view.php');
+$PAGE->set_title(get_string('pluginname', 'local_memplugin'));
+$PAGE->set_heading(get_string('markheader', 'local_memplugin'));
+$PAGE->set_url($CFG->wwwroot.'/local/memplugin/mark_exam.php');
+$class_section_form = new create_mark_exam_instance();
 
-
-echo $OUTPUT->header();
-
-echo '<a_href=sample_form.php'.get_string('username', 'local_demo').'</a>';
-
-echo $OUTPUT->footer();
-
-
+if ($class_section_form->is_cancelled()) {
+	redirect($CFG->wwwroot.'/local/memplugin/view.php');
+} elseif ($data = $class_section_form->get_data()) {
+	$check = $data->test1;
+	redirect($CFG->wwwroot.'/local/memplugin/view.php');
+} else {
+	echo $OUTPUT->header();
+	$class_section_form->display();
+	echo $OUTPUT->footer();
+}
 ?>

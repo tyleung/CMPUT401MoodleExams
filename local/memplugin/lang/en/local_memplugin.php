@@ -31,6 +31,14 @@ $string['buttonback'] = 'Back';
 $string['buttonupload'] = 'upload';
 $string['what_to_upload'] = 'PDF file to upload:';
 $string['filename'] = 'File name:';
+
 $string['grid'] = 'Grid';
+
+$string['stats_download'] = 'Download Statistics';
+$string['stats_spread'] = 'Spread: ';
+$string['stats_max'] = 'Maximum: ';
+$string['stats_min'] = 'Minimum: ';
+$string['stats_mean'] = 'Mean: ';
+$string['stats_median'] = 'Median: ';
 
 ?>
