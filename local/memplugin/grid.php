@@ -75,8 +75,8 @@ for ($i = 1; $i <= $num_booklets; $i++) {
 		echo '<a href="markpage.php?booklet='.$i.'&page='.$j.'" class="grid-item-select">'."\n";
 		echo '<div class="grid-item '.$status.'">'."\n";
 		echo "\t".'<p class="mark">0</p>'."\n";
-		echo "\t".'<p class="booklet">booklet <span class="booklet-num">'.$i.'</span></p>'."\n";
-		echo "\t".'<p class="page">page <span class="page-num">'.$j.'</span></p>'."\n";
+		echo "\t".'<p hidden class="booklet">B<span class="booklet-num">'.$i.'</span></p>'."\n";
+		echo "\t".'<p class="page">P<span class="page-num">'.$j.'</span></p>'."\n";
 		echo '</div>'."\n";
 		echo '</a>'."\n";
 	}
