@@ -64,11 +64,13 @@ $total_mark = 23;
 $percentage_interval = 5;
 echo $calc->graph($raw_grades, $percentage_interval, $total_mark);
 
-echo 'Mean: '.$calc->mean( $calc->to_percentage_array($raw_grades, $total_mark) ).'%<br>';
-echo 'Median: '.$calc->median( $calc->to_percentage_array($raw_grades, $total_mark) ).'%<br>';
-echo 'Spread: '.number_format($calc->spread( $calc->to_percentage_array($raw_grades, $total_mark) ), 2).'%<br>';
-echo 'Minimum: '.$calc->max( $calc->to_percentage_array($raw_grades, $total_mark) ).'%<br>';
-echo 'Maximum: '.$calc->min( $calc->to_percentage_array($raw_grades, $total_mark) ).'%<br>';
+echo get_string('stats_mean', 'local_memplugin').number_format($calc->mean($calc->to_percentage_array($raw_grades, $total_mark)),2).'%<br>';
+echo get_string('stats_median', 'local_memplugin').number_format($calc->median($calc->to_percentage_array($raw_grades, $total_mark)),2).'%<br>';
+echo get_string('stats_spread', 'local_memplugin').number_format($calc->spread($calc->to_percentage_array($raw_grades, $total_mark)), 2).'%<br>';
+echo get_string('stats_max', 'local_memplugin').$calc->max( $calc->to_percentage_array($raw_grades, $total_mark) ).'%<br>';
+echo get_string('stats_min', 'local_memplugin').$calc->min( $calc->to_percentage_array($raw_grades, $total_mark) ).'%<br>';
+
+echo '<a href="csv_generate.php" alt="download csv">'.get_string('stats_download', 'local_memplugin').'</a></br>';
 
 echo $OUTPUT->footer();
 
