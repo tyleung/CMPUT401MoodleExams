@@ -53,9 +53,37 @@ body {
 	overflow-x:scroll;
 }
 
+.grid-page-nums {
+	padding-left: 5px;
+}
+
 .grid {
 	padding: 5px;
 }
+
+.grid-item-page-nums,
+.grid-item-booklet-nums {
+	margin: 5px;
+	position: relative;
+	float: left;
+	width: 100px;
+	height: 100px;
+	background: #888;
+	color: #262524;
+}
+
+.grid-item-page-nums .page-nums,
+.grid-item-booklet-nums .booklet-nums {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translateX(-50%) translateY(-50%);
+	font-size: 40px;
+	font-weight: bold;
+	color: white;
+}
+
+
 
 .grid-item-select {
 	margin: 5px;
@@ -68,7 +96,7 @@ body {
 	height: 100px;
 	margin: 0px;
 	background: #888;
-	color: #262524;,
+	color: #262524;
 }
 
 .grid-item.finished {

@@ -31,6 +31,6 @@ $string['buttonback'] = 'Back';
 $string['buttonupload'] = 'upload';
 $string['what_to_upload'] = 'PDF file to upload:';
 $string['filename'] = 'File name:';
-
+$string['grid'] = 'Grid';
 
 ?>
