@@ -16,40 +16,41 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Initial page for the plug-in
+ * Handles the logic for the kieran template
  *
  * @package     local
- * @subpackage  demo_plug-in
- * @copyright   Eric Cheng ec10@ualberta.ca
+ * @subpackage  feedback_kboyle
+ * @copyright   Kieran Boyle kboyle@ualberta.ca
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+/**
+ * From http://stackoverflow.com/questions/24617350/how-to-create-a-custom-form-in-moodle
+ * Credit to: Hipjea
+ * Retrieved: Oct. 15, 2016
+ */
+
 
 global $PAGE, $CFG, $DB;
 require_once('../../config.php');
+require_once($CFG->dirroot.'//local/demo/sample_form.php');
 
 require_login();
-require_capability('local/memplugin:add', context_system::instance());
+require_capability('local/demo:add', context_system::instance());
 $PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('standard');
-$PAGE->set_title(get_string('pluginname', 'local_memplugin'));
-$PAGE->set_heading(get_string('pluginname', 'local_memplugin'));
-$PAGE->set_url($CFG->wwwroot.'/local/memplugin/view.php');
-$PAGE->requires->js_init_call('M.local_memplugin.init', null, false, $jsmodule);
+$PAGE->set_title(get_string('pluginname', 'local_demo'));
+$PAGE->set_heading(get_string('pluginname', 'local_demo'));
+$PAGE->set_url($CFG->wwwroot.'/local/demo/view.php');
 
-echo $OUTPUT->header();
+$form = new sample_form();
 
-echo "This page is our main page. Tests here?";
-echo '<a href=stats.php>Statistics Page</a></br>';
-echo '<a href=qrtest.php> QR test plz. </a>';
-echo '<button class="censor" onclick = "javascript:addtext()"> testtest </button>';
-echo '<script type = "javascript">
-	funtion addtext() {
-		var elem = document.getElementByClassName("censor")[0];
-		var textElem = document.createElement("div");
-		textElem.textContent = "lalala";
-		elem.appendChild(textElem);
-	}</script>';
-
-echo $OUTPUT->footer();
+if ($_POST['food_submit']) {
+	$data = $form->get_data();
+	redirect($CFG->wwwroot.'/local/demo/tyleung2.php?food='.$data->food_select);
+} else {
+	echo $OUTPUT->header();
+	$form->display();
+	echo $OUTPUT->footer();
+}
 
 ?>
