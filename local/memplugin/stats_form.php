@@ -18,7 +18,7 @@
 		array_push($selection, '');
 		
 		foreach($db_entry as $dbe) {
-			$selection[str_ireplace(" ","&nbsp;",$dbe)] = $dbe;
+			$selection[str_ireplace(" ","",$dbe)] = $dbe;
 		}
 		
 		$select = array();
