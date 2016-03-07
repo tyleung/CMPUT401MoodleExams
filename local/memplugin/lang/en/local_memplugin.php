@@ -32,6 +32,8 @@ $string['buttonupload'] = 'upload';
 $string['what_to_upload'] = 'PDF file to upload:';
 $string['filename'] = 'File name:';
 
+$string['grid'] = 'Grid';
+
 $string['stats_title'] = 'Statistics';
 $string['stats_download'] = 'Download Statistics';
 $string['stats_spread'] = 'Spread: ';
@@ -42,6 +44,5 @@ $string['stats_median'] = 'Median: ';
 $string['stats_select_title'] = 'Exam Statistics from Year & Semester';
 $string['stats_choice_submit'] = 'Get Statistics';
 $string['stats_grouping'] = 'Select Semester';
-
 
 ?>
