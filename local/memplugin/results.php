@@ -19,8 +19,8 @@
  * Initial page for the plug-in
  *
  * @package     local
- * @subpackage  demo_plug-in
- * @copyright   Eric Cheng ec10@ualberta.ca
+ * @subpackage  memplugin
+ * @copyright   
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -31,13 +31,13 @@ require_login();
 require_capability('local/memplugin:add', context_system::instance());
 $PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('standard');
-$PAGE->set_title(get_string('pluginname', 'lo	cal_demo'));
-$PAGE->set_heading(get_string('pluginname', 'local_demo'));
-$PAGE->set_url($CFG->wwwroot.'/local/memplugin/view.php');
-$new_form = new create_form_instance();
+$PAGE->set_title(get_string('pluginname', 'local_memplugin'));
+$PAGE->set_heading(get_string('pluginname', 'local_memplugin'));
+$PAGE->set_url($CFG->wwwroot.'/local/memplugin/stats.php');
 
 echo $OUTPUT->header();
-$new_form->display()l;
-echo $OUTPUT->footer();
 
-?>
+$users = $DB->get_records('user', array('id'=>27));
+print_r($users);
+
+echo $OUTPUT->footer();

@@ -15,6 +15,19 @@ $(window).load(function(){
 		isResizeBound: false		
     });
 	
+	var $pageContainer = $('.grid-page-nums');
+	$pageContainer.isotope({
+		filter: '*',
+		getSortData: {
+			pageAsc: '.page-num parseInt',
+			pageDec: '.page-num parseInt'
+		},
+		sortAscending: {
+			pageDec: false
+		},
+		isResizeBound: false
+	});
+	
     $('.filter-group a').click(function(){
 		$('.filter-group .current').removeClass('current');
 		$(this).addClass('current');
@@ -28,7 +41,7 @@ $(window).load(function(){
 	$('.sort-group-booklet a').click(function(){ 
 		$('.sort-group-booklet .current').removeClass('current');
 		$(this).addClass('current');
-	
+		
 		var sortValue = $(this).attr('data-sort');
 		$container.isotope({
 			sortBy: sortValue
@@ -50,6 +63,10 @@ $(window).load(function(){
 		}
 		$container.isotope({
 			sortBy: sortValue
+		});
+		
+		$pageContainer.isotope({
+			sortBy: sortValue[1]
 		});
 	});
 });

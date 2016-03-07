@@ -16,29 +16,37 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Initial page for the plug-in
+ * Handles the logic for the email template
  *
  * @package     local
- * @subpackage  demo_plug-in
- * @copyright   Eric Cheng ec10@ualberta.ca
+ * @subpackage  memplugin
+ * @copyright   Elyse Hill ehill@ualberta.ca
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-global $PAGE, $CFG, $DB;
-require_onc	e('../../config.php');
+global $CFG, $PAGE, $DB;
+ 
+require_once('../../config.php');
 
 require_login();
-require_capability('local/demo:add', context_system::instance());
+require_capability('local/memplugin:add', context_system::instance());
+require_once($CFG->dirroot.'/local/memplugin/generate_exam_form.php');
+
 $PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('standard');
-$PAGE->set_title(get_string('pluginname', 'local_demo'));
-$PAGE->set_heading(get_string('pluginname', 'local_demo'));
-$PAGE->set_url($CFG->wwwroot.'/local/memplugin/view.php');
-$new_form = new create_form_instance();
-$new_form->
+$PAGE->set_title(get_string('pluginname', 'local_memplugin'));
+$PAGE->set_heading(get_string('createheader', 'local_memplugin'));
+$PAGE->set_url($CFG->wwwroot.'/local/memplugin/generate_exam.php');
+$class_section_form = new create_generate_exam_instance();
 
-echo $OUTPUT->header();
-$new_form->display()l;
-echo $OUTPUT->footer();
-
+if ($generate_exam_form->is_cancelled()) {
+	redirect($CFG->wwwroot.'/local/memplugin/view.php');
+} elseif ($data = $generate_exam_form->get_data()) {
+	$check = $data->test1;
+	redirect($CFG->wwwroot.'/local/memplugin/view.php');
+} else {
+	echo $OUTPUT->header();
+	$generate_exam_form->display();
+	echo $OUTPUT->footer();
+}
 ?>
