@@ -45,6 +45,6 @@ $exam_name = "FALL2012FINAL"; //Get from database?
 
 $exam = new MME_Exams($exam_path,$exam_name);
 $exam->generate_exam($exam_count,$extra_count);
-$exam->output_exam("D");
+$exam->output_exam();
 
 ?>

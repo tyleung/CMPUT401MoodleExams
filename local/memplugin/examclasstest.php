@@ -43,7 +43,7 @@ $form = new mme_exam_form();
 
 if ($_POST['exam_submit']) {
 	$data = $form->get_data();
-	redirect($CFG->wwwroot.'/local/memplugin/examclasstestresult.php?exam_count='.$data->exam_count.'&extra_count'.$data->extra_count);
+	redirect($CFG->wwwroot.'/local/memplugin/examclasstestresult.php?exam_count='.$data->exam_count.'&extra_count='.$data->extra_count);
 } else {
 	echo $OUTPUT->header();
 	$form->display();
