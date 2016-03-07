@@ -16,19 +16,13 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Handles the logic for the kieran template
+ * Handles the logic for the email template
  *
  * @package     local
- * @subpackage  feedback_kboyle
- * @copyright   Kieran Boyle kboyle@ualberta.ca
+ * @subpackage  memplugin
+ * @copyright   Elyse Hill ehill@ualberta.ca
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-/**
- * From http://stackoverflow.com/questions/24617350/how-to-create-a-custom-form-in-moodle
- * Credit to: Hipjea
- * Retrieved: Oct. 15, 2016
- */
-
 
 global $CFG, $PAGE, $DB;
  
@@ -36,32 +30,23 @@ require_once('../../config.php');
 
 require_login();
 require_capability('local/memplugin:add', context_system::instance());
-require_once($CFG->dirroot.'/local/memplugin/tyleung_form.php');
+require_once($CFG->dirroot.'/local/memplugin/mark_exam_form.php');
 
 $PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('standard');
-$PAGE->set_title(get_string('pluginname', 'memplugin'));
-$PAGE->set_heading(get_string('pluginname', 'memplugin'));
-$PAGE->set_url($CFG->wwwroot.'/local/memplugin/tyleung.php');
-$tyleung_form = new create_tyleung_instance();
+$PAGE->set_title(get_string('pluginname', 'local_memplugin'));
+$PAGE->set_heading(get_string('markheader', 'local_memplugin'));
+$PAGE->set_url($CFG->wwwroot.'/local/memplugin/mark_exam.php');
+$class_section_form = new create_mark_exam_instance();
 
-//echo $OUTPUT->header();
-//$kieran_form->display();
-
-/*
-* This code is for loading the kieran page and displaying the contents
-* and is responsible for  for redirecting and displaying the header and
-* the footer
-*  
-*/
-if ($kieran_form->is_cancelled()) {
+if ($class_section_form->is_cancelled()) {
 	redirect($CFG->wwwroot.'/local/memplugin/view.php');
-} elseif ($data = $kieran_form->get_data()) {
+} elseif ($data = $class_section_form->get_data()) {
 	$check = $data->test1;
-	redirect($CFG->wwwroot.'/local/memplugin/view.php');//'/local/rubricrepo_kboyle/kieran.php?id='.$data->test1);
+	redirect($CFG->wwwroot.'/local/memplugin/view.php');
 } else {
 	echo $OUTPUT->header();
-	$kieran_form->display();
+	$class_section_form->display();
 	echo $OUTPUT->footer();
 }
 ?>
