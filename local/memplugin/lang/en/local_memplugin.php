@@ -41,7 +41,7 @@ $string['stats_mean'] = 'Mean: ';
 $string['stats_median'] = 'Median: ';
 $string['stats_select_title'] = 'Exam Statistics from Year & Semester';
 $string['stats_choice_submit'] = 'Get Statistics';
-$string['stats_grouping'] = 'Group';
+$string['stats_grouping'] = 'Select Semester';
 
 
 ?>
