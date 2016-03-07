@@ -1,15 +1,14 @@
 <?php
 
+	// proper upgrade.php ?? from https://github.com/moodle/moodle/blob/master/mod/assign/db/upgrade.php
 	global $CFG, $USER, $DB, $OUTPUT;
 	require_once($CFG->dirroot.'/lib/db/upgradelib.php');
 	$dbman = $DB->get_manager();
-	
-	/**
-	* Version 2016030401 adds tables to store exam booklet data and related.
-	*/
-    
-    if ($oldversion < 2016030410) {
-
+/*
+    if ($oldversion < 2016030401) {
+		
+		//Version 2016030401 adds tables to store exam booklet data and related.
+		
         // Define table mem_exam_data to be created.
         $table = new xmldb_table('mem_exam_data');
 
@@ -83,10 +82,18 @@
         if (!$dbman->table_exists($table)) {
             $dbman->create_table($table);
         }
-
-	/**
-	* Version 2016030410 renamed mem_exam_data table to more suitable name mem_booklet_data.
-	*/
+        
+        
+        // Memplugin savepoint reached.
+        upgrade_plugin_savepoint(true, 2016030401, 'local', 'memplugin');
+        
+	}
+    
+    if ($oldversion < 2016030410) {
+    
+		//Version 2016030410 renamed mem_exam_data table to more suitable name mem_booklet_data.
+		
+		
         // Define table mem_exam_data to be renamed to mem_booklet_data.
         $table = new xmldb_table('mem_exam_data');
 
@@ -138,10 +145,25 @@
 
         // Launch add key foreign_key.
         $dbman->add_key($table, $key);
-
-		
+            
         // Memplugin savepoint reached.
         upgrade_plugin_savepoint(true, 2016030410, 'local', 'memplugin');
-    }
+          
+	}
+*/
+    if ($oldversion < 2016030602) {
+    
+		//Version 2016030602 Added field: year-semester-origin. to contain the origin of exam, e.g. "2015 FALL"
+		
+		// Define field year_semester_origin to be added to mem_booklet_data.
+        $table = new xmldb_table('mem_booklet_data');
+        $field = new xmldb_field('year_semester_origin', XMLDB_TYPE_CHAR, '11', null, XMLDB_NOTNULL, null, null, 'course_id');
 
-?>
+        // Conditionally launch add field year_semester_origin.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+			
+        // Memplugin savepoint reached.
+        upgrade_plugin_savepoint(true, 2016030602, 'local', 'memplugin');
+    }
