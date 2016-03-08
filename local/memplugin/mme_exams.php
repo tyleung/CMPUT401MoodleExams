@@ -1,8 +1,7 @@
 <?php
 	require_once '../../config.php';
-	require_once "phpqrcode/qrlib.php";
 	require_once "php-qrcode-detector-decoder/QrReader.php";
-	require_once "FPDF/fpdf.php";
+	require_once "TCPDF/tcpdf.php";
 	require_once "FPDI/fpdi.php";
 	set_time_limit (0);
 
@@ -55,6 +54,15 @@
 		private $path = "";
 		private $name = "";
 		private $size = 0;
+		private $style = array(
+			'border' => 1,
+			'vpadding' => 'auto',
+			'hpadding' => 'auto',
+			'fgcolor' => array(0,0,0),
+			'bgcolor' => array(255,255,255),
+			'module_width' => 1,
+			'module_height' => 1
+		);
 
 		// Constructor. This takes in the file path and an optional name parameter.
 		public function __construct($path,$name=""){
@@ -67,26 +75,28 @@
 		private function setup_pdf(){
 			$this->pdf = new FPDI();
 			$this->size	= $this->pdf->setSourceFile($this->path);
-			$this->pdf->SetFont('Courier','',10);
+			$this->pdf->SetFont('Courier','',10,true);
 		}
 
 		// Generates the path leading to the temporary QRcode image.
+		/*
 		private function get_QRcode_path($page_number,$exam_number){
 			return '/qrcode/'.$this->name.'num'.$exam_number.'pg'.$page_number.'.png';
-		}
-
+		}*/
+		
 		// Generates the text string to be inserted along with the QRcode image.
 		public function get_QRcode_string($page_number,$exam_number){
 			return $this->name.":#".$exam_number." pg:".$page_number;
 		}
 
+		public function get_QRcode_data($page_number,$exam_number){
+			$data = array('page_number'=>$page_number,'exam_number'=>$exam_number,'name'=>$this->name);
+			return serialize($data);
+		}
+
 		// Generates a serialized associative array from which the page, exam number and the name can be accessed/
 		private function generate_QRcode($page_number,$exam_number){
-			//unlink($this->get_QRcode_path($page_number,$exam_number));
-			$data = array('page_number'=>$page_number,'exam_number'=>$exam_number,'name'=>$this->name);
-			$serialized = $this->get_QRcode_string($page_number,$exam_number);//serialize($data);
-			//echo $this->get_QRcode_path($page_number,$exam_number)
-			QRcode::png($serialized,$this->get_QRcode_path($page_number,$exam_number),'L',2,2);
+			$this->pdf->write2DBarcode($this->get_QRcode_string($page_number,$exam_number),'QRCODE,L',10,10,20,20,$this->style,'N');
 		}
 
 		// removes the QR code
@@ -109,19 +119,15 @@
 					$tplIdx = $this->pdf->importPage($curpage,'/MediaBox');
 					$this->pdf->AddPage();
 					$this->pdf->useTemplate($tplIdx, 0, 0, 0, 0, true); 
-					//$this->generate_QRcode($curpage,$i);
-					//$this->pdf->Image($this->get_QRcode_path($curpage,$i),10,12);
-					$this->pdf->Cell(20,0,$this->get_QRcode_string($curpage,$i),1);
-					//$this->remove_QRcode($curpage,$i); // Disable QR codes for now
+					$this->generate_QRcode($curpage,$i);
+					$this->pdf->Cell(50,0,$this->get_QRcode_string($curpage,$i),1);
 				}
 
 				//Generate extra "emergency" pages
 				for($curpage = 1; $curpage<=$extra_pages; $curpage++){
 					$this->pdf->AddPage();
-					//$this->generate_QRcode($curpage+$this->size,$i);
-					//$this->pdf->Image($this->get_QRcode_path($curpage+$this->size,$i),10,12);
+					$this->generate_QRcode($curpage+$this->size,$i);
 					$this->pdf->Cell(20,0,$this->get_QRcode_string($curpage+$this->size,$i),1);
-					//$this->remove_QRcode($curpage+$this->size,$i); // Disable QR codes for now
 				}
 			}
 		}
@@ -134,11 +140,12 @@
 		public function output_exam($dest="I",$name=""){
 			$name = $this->name;
 			if($name != "" and $name != NULL) {
-				$this->pdf->Output($dest,$name.".pdf");
+				$this->pdf->Output();
 			} else {
-				$this->pdf->Output($dest,"exams.pdf");
+				$this->pdf->Output();
 			}
 		}
 	}
 
 ?>
+
