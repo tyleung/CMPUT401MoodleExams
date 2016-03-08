@@ -70,7 +70,9 @@ function create_stats_page($got_req) {
 	$calc = new stats();
 	//$mform->addElement('header', 'year_sem', get_string('stats_title','local_memplugin'));
 	echo '<h1>Results for '.$got_req.'</h1><br>';
-
+	$db_entry = $DB->get_fieldset_sql('SELECT year_semester_origin FROM {mem_booklet_data}', array(1));
+	$DB->get_fieldset_sql('SELECT total_booklet_score, total_booklet_score_max FROM {mem_booklet_data}, {mem_mark_stats} WHERE {mem_booklet_data}.booklet_id={mem_mark_stats}.booklet_id', array(1));
+	
 	$raw_grades = array(1,2,5,5,0,0,0,0,23,23,20,23,20,11.5);
 	$total_mark = 23;
 	//$percentage_interval = floor(100/$total_mark);
