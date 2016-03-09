@@ -26,6 +26,7 @@
 
 global $PAGE, $CFG, $DB;
 require_once('../../config.php');
+require($CFG->dirroot.'/lib/tablelib.php');
 
 require_login();
 require_capability('local/memplugin:add', context_system::instance());
@@ -33,11 +34,59 @@ $PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('pluginname', 'local_memplugin'));
 $PAGE->set_heading(get_string('pluginname', 'local_memplugin'));
-$PAGE->set_url($CFG->wwwroot.'/local/memplugin/stats.php');
+$PAGE->set_url($CFG->wwwroot.'/local/memplugin/results.php');
 
+
+/*
 echo $OUTPUT->header();
 
-$users = $DB->get_records('user', array('id'=>27));
-print_r($users);
+echo '<table>';
+echo '<tr><th>Name</th><th>Student ID</th><th>Mark</th></tr>';
+
+$users_rs = $DB->get_recordset('user');
+
+foreach($users_rs as $user) {
+	echo '<tr>';
+	echo '<td>';
+	print_r($user->firstname . ' ' . $user->lastname);
+	//echo '<br><br>';
+	echo '</td>';
+	echo '</tr>';
+}
+
+$users_rs->close();
+
+echo '</table>';
+
 
 echo $OUTPUT->footer();
+
+*/
+
+$download = optional_param('download', '', PARAM_ALPHA);
+
+$table = new table_sql('uniqueid');
+$table->is_downloading($download, 'test', 'testing123');
+
+if (!$table->is_downloading()) {
+    // Only print headers if not asked to download data
+    // Print the page header
+    $PAGE->set_title('Results');
+    $PAGE->set_heading('Results');
+    $PAGE->navbar->add('Exam Results', new moodle_url($CFG->wwwroot.'/local/memplugin/results.php'));
+    echo $OUTPUT->header();
+}
+
+// Work out the sql for the table.
+$table->set_sql('firstname, lastname, idnumber', "{user}", '1');
+
+$table->define_baseurl($CFG->wwwroot.'/local/memplugin/results.php');
+
+$table->out(40, true);
+
+if (!$table->is_downloading()) {
+    echo $OUTPUT->footer();
+}
+
+
+?>
