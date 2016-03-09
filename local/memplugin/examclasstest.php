@@ -38,7 +38,6 @@ $PAGE->set_title(get_string('pluginname', 'local_memplugin'));
 $PAGE->set_heading(get_string('pluginname', 'local_memplugin'));
 $PAGE->set_url($CFG->wwwroot.'/local/memplugin/examclasstest.php');
 
-
 $form = new mme_exam_form();
 
 if ($_POST['exam_submit']) {

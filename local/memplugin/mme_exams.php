@@ -50,10 +50,12 @@
 	}
 
 	class MME_Exams	{
-		private $pdf = NULL;
-		private $path = "";
-		private $name = "";
-		private $size = 0;
+		private $pdf = NULL; // the pdf object that will be outputted.
+		private $path = ""; // path to pdf file.
+		private $name = ""; // optional name
+		private $size = 0; // # of pages in the pdf file
+
+		// QR code style
 		private $style = array(
 			'border' => 1,
 			'vpadding' => 'auto',
@@ -77,18 +79,13 @@
 			$this->size	= $this->pdf->setSourceFile($this->path);
 			$this->pdf->SetFont('Courier','',10,true);
 		}
-
-		// Generates the path leading to the temporary QRcode image.
-		/*
-		private function get_QRcode_path($page_number,$exam_number){
-			return '/qrcode/'.$this->name.'num'.$exam_number.'pg'.$page_number.'.png';
-		}*/
 		
 		// Generates the text string to be inserted along with the QRcode image.
 		public function get_QRcode_string($page_number,$exam_number){
 			return $this->name.":#".$exam_number." pg:".$page_number;
 		}
 
+		// Generates the serialized data to be inserted into the QRcode....?
 		public function get_QRcode_data($page_number,$exam_number){
 			$data = array('page_number'=>$page_number,'exam_number'=>$exam_number,'name'=>$this->name);
 			return serialize($data);
@@ -132,20 +129,13 @@
 			}
 		}
 
-
-		// outputs the PDF.
+		// outputs the PDF. This will fail if there's any non PDF output.
 		// This should be called after generating the exam. Otherwise it'll probably be a empty page.
 		// The $dest parameter is identical to the one in the FPDF docs.
 		// http://www.fpdf.org/en/doc/output.htm
 		public function output_exam($dest="I",$name=""){
-			$name = $this->name;
-			if($name != "" and $name != NULL) {
-				$this->pdf->Output();
-			} else {
-				$this->pdf->Output();
-			}
+			$this->pdf->Output($dest);
 		}
 	}
-
 ?>
 

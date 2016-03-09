@@ -37,6 +37,9 @@ $PAGE->set_title(get_string('pluginname', 'local_memplugin'));
 $PAGE->set_heading(get_string('pluginname', 'local_memplugin'));
 $PAGE->set_url($CFG->wwwroot.'/local/memplugin/examclasstest.php');
 
+
+ob_start(); //need this line for some reason
+
 // DO NOT OUTPUT ANYTHING IN THIS FILE, OTHERWISE FPDF OUTPUT FAILS.
 $exam_count = $_GET['exam_count'];
 $extra_count = $_GET['extra_count'];

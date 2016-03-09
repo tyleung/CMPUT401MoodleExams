@@ -43,7 +43,7 @@ class mme_exam_form extends moodleform {
 	function validation($data, $files) {
 		$errors = parent::validation($data, $files);
 		global $DB, $CFG, $USER;
-		}
+	}
 }
 
 ?>
