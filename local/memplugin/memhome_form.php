@@ -26,25 +26,28 @@
 
 require_once $CFG->dirroot.'/lib/formslib.php';
 require_login();
-
-class create_mark_exam_instance extends moodleform{
+/*
+* This function creates and displays the email form
+* It also fills out predefined feedback snippets for the user to enter
+* this functionality will be further refined
+*/
+class create_memhome_instance extends moodleform{
 	function definition(){
 		global $CFG, $DB, $USER;
 		$mform = $this ->_form;
     	$attributes_heading = 'size="24"';
     	$attributes_radio_text = 'size="11"';	
 
-		//General
 		$mform->addElement('header', 'general', get_string('genheader', 'local_memplugin'));
-	    $mform->addElement('select', 'coursesection', get_string('sectionheader', 'local_memplugin'), $FORUM_TYPES, $attributes);
-		$mform->addElement('header', 'nameforyourheaderelement', get_string('file', 'local_memplugin'));
-		$mform->addElement('filemanager', 'files', get_string('exambatch', 'local_memplugin'), null, $options);
-		$mform->closeHeaderBefore('buttonar');
-
 		$buttonarray   =  array();
-		$buttonarray[] =& $mform->createElement('submit','save', get_string('savebutton', 'local_memplugin'));
+		$buttonarray[] =& $mform->createElement('submit','create', get_string('createbutton', 'local_memplugin'));
 		$buttonarray[] =& $mform->createElement('submit','mark', get_string('markbutton', 'local_memplugin'));
-		$mform->addGroup($buttonarray, 'buttonar', '', array(' '), false);
+		$mform->addGroup($buttonarray, 'buttonar', 'What would you like to do?', array(' '), false);
+
+//html link tag PUT or POST for sending information. Put more secure but post can get from URL
+//Heading needs HTML justification. 
+//KEEP UNTIL DATA PICKER ADDED TO MARK EXAM PAGE. Needed for regulation storag
+
 
 	}
 }

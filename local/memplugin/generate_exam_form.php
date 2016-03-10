@@ -38,32 +38,30 @@ class create_generate_exam_instance extends moodleform{
 		//set size of the header
 	    $attributes_heading = 'size="24"';
 	    $attributes_radio_text = 'size="11"';	
-	
+
 		//General
-		$mform->addElement('header', 'nameforyourheaderelement', get_string('genmakeheader', 'local_memplugin'));
+		$mform->addElement('header', 'nameforyourheaderelement', get_string('genheader', 'local_memplugin'));
 	    $mform->addElement('textarea', 'introduction', get_string('makeexam', 'local_memplugin'),'wrap="virtual" rows="1" cols="120" resize="none" style="resize:none"');
-		$mform->addElement('filepicker', 'userfile', get_string('file','local_memplugin'), null, array('maxbytes' => $maxbytes, 'accepted_types' => '*'));
+		$mform->addElement('filepicker', 'userfile', get_string('file','local_memplugin'), null, array('maxbytes' => $maxbytes, 'accepted_types' => 'application/pdf'));
 
 		//Copy Options
-		$mform->addElement('header', 'nameforyourheaderelement', get_string('copyheader','local_memplugin'));
+		$mform->addElement('header', 'nameforyourheaderelement', get_string('copyheader', 'local_memplugin'));
 
-		$mform->addElement('html', '<b>'.get_string('examcopies', 'local_memplugin').'</b> <br> <input type="number" value="0"</input>');
+		$mform->addElement('html', '<b>'.get_string('examcopies', 'local_memplugin').'</b> <br> <input type="number" value="0" min="0"</input> <br> <br>');
+		$mform->addElement('html', '<b>'.get_string('emergencypgs', 'local_memplugin').'</b> <br> <input type="number" value="0" min="0"</input> <br>');
 		$howtogenerate = get_string('howtogenerate', 'local_memplugin');
 
 		//Generate Options
 		//Add option for "Emergency pages"
 		$downarray   =  array();
-		$downarray[] =& $mform->createElement('radio','yesno', '', get_string('multicopy','local_memplugin'));
-		$downarray[] =& $mform->createElement('radio','yesno', '', get_string('largecopy','local_memplugin'));
+		
+		//$downarray[] =& $mform->createElement('radio','yesno', '', get_string('multicopy', 'local_memplugin'), 'false');
+		$downarray[] =& $mform->createElement('radio','yesno', '', get_string('largecopy', 'local_memplugin'));
 		$mform->addGroup($downarray, 'downarray', 'How would you like to download?', array(' '), false);
 		$mform->closeHeaderBefore('genbutton');
-		$mform->addElement('button', 'genbutton', get_string('generatebutton','local_memplugin'));
-
+		$mform->addElement('button', 'genbutton', get_string('generatebutton', 'local_memplugin'));
 
 	}
-	
-
-
 }
 
 

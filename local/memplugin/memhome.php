@@ -30,20 +30,20 @@ require_once('../../config.php');
 
 require_login();
 require_capability('local/memplugin:add', context_system::instance());
-require_once($CFG->dirroot.'/local/memplugin/mark_exam_form.php');
+require_once($CFG->dirroot.'/local/memplugin/memhome_form.php');
 
 $PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('pluginname', 'local_memplugin'));
-$PAGE->set_heading(get_string('markheader', 'local_memplugin'));
-$PAGE->set_url($CFG->wwwroot.'/local/memplugin/mark_exam.php');
-$class_section_form = new create_mark_exam_instance();
+$PAGE->set_heading(get_string('Welcome', 'local_memplugin'));
+$PAGE->set_url($CFG->wwwroot.'/local/memplugin/memhome.php');
+$class_section_form = new create_memhome_instance();
 
 if ($class_section_form->is_cancelled()) {
-	redirect($CFG->wwwroot.'/local/memplugin/memhome.php');
+	redirect($CFG->wwwroot.'/local/memplugin/view.php');
 } elseif ($data = $class_section_form->get_data()) {
 	$check = $data->test1;
-	redirect($CFG->wwwroot.'/local/memplugin/memhome.php');
+	redirect($CFG->wwwroot.'/local/memplugin/view.php');
 } else {
 	echo $OUTPUT->header();
 	$class_section_form->display();
