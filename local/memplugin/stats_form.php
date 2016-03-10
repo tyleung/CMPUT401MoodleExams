@@ -18,8 +18,9 @@
 		array_push($selection, '');
 		
 		foreach($db_entry as $dbe) {
-			$selection[str_ireplace(" ","",$dbe)] = $dbe;
+			$selection[str_ireplace(" ","&nbsp;",$dbe)] = $dbe;
 		}
+		asort($selection);
 		
 		$select = array();
 		$select[] = $mform->createElement('select','year_choice_select', get_string('stats_select_title', 'local_memplugin'),$selection);

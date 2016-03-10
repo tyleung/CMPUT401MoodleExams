@@ -27,6 +27,7 @@
 --  | date_finalized       | bigint(10)  | YES  |     | NULL    |                |
 --  | course_id            | varchar(10) | YES  |     | NULL    |                |
 --  | year_semester_origin | varchar(11) | NO   |     |         |                |
+--  | max_pages            | smallint(3) | NO   |     |NULL     |                |
 --  +----------------------+-------------+------+-----+---------+----------------+
 -- describe mdl_mem_pdf_files;
 --  +-------------+------------+------+-----+---------+----------------+
@@ -44,6 +45,7 @@
 --  | booklet_id     | bigint(10)  | NO   | MUL | NULL    |                |
 --  | page_marks     | smallint(3) | NO   |     | NULL    |                |
 --  | page_marks_max | smallint(3) | NO   |     | NULL    |                |
+--  | page_num       | smallint(3) | NO   |     | NULL    |                |
 --  +----------------+-------------+------+-----+---------+----------------+
 -- describe mdl_mem_mark_stats;
 --  +-------------------------+-------------+------+-----+---------+----------------+
@@ -58,28 +60,35 @@
 
 import random
 
-bookletInsert = "insert into mdl_mem_booklet_data (student_id, prof_id, course_id, year_semester_origin) "
+bookletInsert = "insert into mdl_mem_booklet_data (student_id, prof_id, course_id, year_semester_origin, max_pages) "
 
 sqlVarSet = "SET @foreignkey=(select last_insert_id());"
 sqlVar = "(select @foreignkey)"
 
 markStatsInsert = "insert into mdl_mem_mark_stats (booklet_id, total_booklet_score, total_booklet_score_max)"
 
-pagesInsert = "insert into mdl_mem_pages (booklet_id, page_marks, page_marks_max)"#, qr_code)"
+pagesInsert = "insert into mdl_mem_pages (booklet_id, page_marks, page_marks_max, page_num)"#, qr_code)"
 
 yearList = ["2016","2015","2015","2014","2013","2012"]
 semList = ["FALL","WINTER", "SPRING", "SUMMER"]
 
-out = "-- To RUN: in terminal type mysql -u root --password=symmetricalSpoon moodledb < 401_memplugin_test_data.sql\n"
-maxMarks = 20;
-pages = 5;
+#---------can simple edit if you want:
+maxMarks = 20; # maximum marks booklet can get.
+pages = 5; # how many pages booklet has.
+#--------end simple edits
 
-for each in range(10):
+out = "-- To RUN: in terminal type mysql -u root --password=symmetricalSpoon moodledb < 401_memplugin_test_data.sql\n"
+
+
+for each in range(50):
     mark = random.randint(0,maxMarks)
+
     out += bookletInsert + \
         " values ( "+ str(random.randint(99999,9999999)) +", "+ \
         str(random.randint(0,3)) +", 'CMPUT469', '"+ \
-        yearList[random.randint(0,5)] +" "+ semList[random.randint(0,3)] +"' );\n\n"
+        yearList[0] +" "+ semList[0] +"', "+ str(pages) +" );\n\n"
+        #yearList[random.randint(0,5)] +" "+ semList[random.randint(0,3)] +"', "+ str(pages) +" );\n\n"
+	    #To limit data generated to a specific year and semester edit here above^.
 
     out += sqlVarSet + "\n"
     out += markStatsInsert + \
@@ -95,7 +104,8 @@ for each in range(10):
         
         out += " ( "+ sqlVar +", "+ \
             str(pgMark) +", "+ \
-            str(pageMarksCount)
+            str(pageMarksCount) +", "+ \
+            str(pg+1)
             
         if(pg == pageMarksCount):
             out += " );\n"

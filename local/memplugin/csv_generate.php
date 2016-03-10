@@ -13,17 +13,57 @@ Statistics
 
 	// Taken from http://code.stephenmorley.org/php/creating-downloadable-csv-files/
 	// output headers so that the file is downloaded rather than displayed
+	$year = $_GET['semester'];
 	header('Content-Type: text/csv; charset=utf-8');
-	header('Content-Disposition: attachment; filename=Statistics_'.$_GET['semester'].'.csv');
+	header('Content-Disposition: attachment; filename=Statistics_'.$year.'.csv');
+
+	$booklet_pg_sql = $GLOBALS['DB']->get_records_sql('SELECT page_id, {mem_pages}.booklet_id, max_pages, page_num, page_marks, page_marks_max FROM {mem_booklet_data}, {mem_pages} WHERE year_semester_origin=? and {mem_pages}.booklet_id={mem_booklet_data}.booklet_id', array($year));
+	
+	$max_pages = current($booklet_pg_sql)->max_pages;
+	$booklet_keys = array();
+	
+	foreach($booklet_pg_sql as $pg) {
+		array_push($booklet_keys, $pg->booklet_id);
+	}
+	$booklet_keys = array_unique($booklet_keys);
+
+	// Booklets array has an array which contains pages of marks.
+	$booklets = array_fill_keys($booklet_keys, array_fill(1,$max_pages,0));
+
+	// pagemarks has an array that has each mark per page.
+	$pagemarks = array_fill(1,$max_pages,array());
+
+	foreach($booklet_pg_sql as $o) {
+		$booklets[$o->booklet_id][$o->page_num] = $o->page_marks;
+		array_push($pagemarks[$o->page_num], $o->page_marks);
+	}
 
 	// create a file pointer connected to the output stream
 	$output = fopen('php://output', 'w');
 
-	// output the column headings
-	fputcsv($output, array('Student_ID', 'Page1', 'Page2', 'Total Mark'));
-	fputcsv($output, array('1234567', '5', '10', '76'));
+	$column_title = array('Booklet ID');
+	for($i=0;$i<$max_pages;$i++) {
+		$str = "Page ".strval($i+1);
+		array_push($column_title, $str);
+	}
+	array_push($column_title, 'Total Mark');
+
+	// debug test data:
+	//fputcsv($output, array($max_pages));
+	//fputcsv($output, array(print_r($booklets)));
+	//fputcsv($output, array(print_r($pagemarks)));
+
+	fputcsv($output, $column_title);
+	foreach($booklets as $k => $v) {
+		$out = array($k);
+		foreach($v as $mark) {
+			array_push($out, $mark);
+		}
+		array_push($out, array_sum($v));
+		fputcsv($output, $out);
+	}
+	
 	//--at end is 1 row mean of pages and everything, 2nd row is std-dev of pages and everything
-	fputcsv($output, array('N/A', '20', '15', '100'));
-	fputcsv($output, array('N/A', '2.0', '3.2', '16.2'));
+
 	fclose($output);
 ?>
