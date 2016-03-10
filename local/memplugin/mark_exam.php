@@ -40,10 +40,10 @@ $PAGE->set_url($CFG->wwwroot.'/local/memplugin/mark_exam.php');
 $class_section_form = new create_mark_exam_instance();
 
 if ($class_section_form->is_cancelled()) {
-	redirect($CFG->wwwroot.'/local/memplugin/view.php');
+	redirect($CFG->wwwroot.'/local/memplugin/memhome.php');
 } elseif ($data = $class_section_form->get_data()) {
 	$check = $data->test1;
-	redirect($CFG->wwwroot.'/local/memplugin/view.php');
+	redirect($CFG->wwwroot.'/local/memplugin/memhome.php');
 } else {
 	echo $OUTPUT->header();
 	$class_section_form->display();
