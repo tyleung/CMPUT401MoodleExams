@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -25,8 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-//$string['allowpdffeedback'] = 'Enabled';
 $string['addquicklist'] = 'Add to comment Quicklist';
+$string['allowpdffeedback'] = 'Enabled';
 $string['annotatesubmission'] = 'Annotate submission';
 $string['annotationhelp'] = 'Annotation help';
 $string['annotationhelp_text'] = '<table>
@@ -50,8 +49,15 @@ $string['annotationhelp_text'] = '<table>
  <tr><td>{$a->erase}</td><td>e</td><td>Click in or on an annotation (not a comment) to erase it</td></tr>
  <tr><td>Quicklist</td><td>&nbsp;</td><td>Right-click on the page to insert a comment previously saved to the \'quicklist\'. Use the \'x\' to delete unwanted quicklist items.</td></tr>
  </table>';
+$string['badaction'] = 'Invalid action \'{$a}\'';
+$string['badannotationid'] = 'Annotation id is for a different submission or page';
+$string['badcommentid'] = 'Comment id is for a different submission or page';
+$string['badcoordinate'] = 'Odd number of coordinates in line - should be 2 coordinates per point';
+$string['badpath'] = 'Path point is invalid';
+$string['badtype'] = 'Invalid type {$a}';
 $string['backtocommentlist'] = 'Back to comment list';
 $string['cancel'] = 'Cancel';
+$string['clearimagecache'] = 'Clear page image cache';
 $string['colourred'] = 'Red';
 $string['colouryellow'] = 'Yellow';
 $string['colourgreen'] = 'Green';
@@ -63,6 +69,8 @@ $string['comment'] = 'Comment';
 $string['commentcolour'] = '[,] - comment background colour';
 $string['commenticon'] = "c - add comments\nHold Ctrl to draw a line";
 $string['deletecomment'] = 'Delete comment';
+$string['deleteresponse'] = 'Delete response';
+$string['deleteresponseconfirm'] = 'Are you sure you want to delete the response for {$a->username} in assignment \'{$a->assignmentname}\'?';
 $string['downloadoriginal'] = 'Download original submission PDF';
 $string['downloadresponse'] = 'Download response';
 $string['draftsaved'] = 'Draft saved';
@@ -85,17 +93,24 @@ $string['gspath'] = 'Ghostscript path';
 $string['gspath2'] = 'On most Linux installs, this can be left as \'/usr/bin/gs\'. On Windows it will be something like \'c:\\gs\\bin\\gswin32c.exe\' (make sure there are no spaces in the path - if necessary copy the files \'gswin32c.exe\' and \'gsdll32.dll\' to a new folder without a space in the path)';
 $string['highlighticon'] = 'h - highlight text';
 $string['imagefor'] = 'Image files for {$a}';
+$string['jsrequired'] = 'Javascript must be enabled in your browser in order for PDF annotation to function';
 $string['keyboardnext'] = 'n - next page';
 $string['keyboardprev'] = 'p - previous page';
 $string['linecolour'] = '{,} - line colour';
 $string['lineicon'] = 'l - lines';
+$string['missingannotationdata'] = 'Missing annotation data';
+$string['missingcommentdata'] = 'Missing comment data';
+$string['missingquicklistdata'] = 'Missing quicklist data';
 $string['next'] = 'Next';
 $string['nocomments'] = 'No comments';
+$string['nogroup'] = 'No group';
 $string['okagain'] = 'Click OK to try again';
 $string['openlinknewwindow'] = 'Open links in new window';
 $string['opennewwindow'] = 'Open this page in a new window';
 $string['ovalicon'] = 'o - ovals';
 $string['pagenumber'] = 'Page number';
+$string['pagenumbertoobig'] = 'Requested page number is bigger than the page count ({$a->pageno} > {$a->pagecount})';
+$string['pagenumbertoosmall'] = 'Requested page number is too small (<1)';
 $string['pdf'] = 'PDF feedback';
 $string['pluginname'] = 'PDF feedback';
 $string['previousnone'] = 'None';

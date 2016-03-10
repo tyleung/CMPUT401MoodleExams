@@ -27,8 +27,9 @@ https://github.com/davosmith/moodle-assignfeedback_pdf/zipball/master
 
 ==Recent changes==
 
+* 2013-10-31 - Now able to create new submission from previous submission.
 * 2013-09-29 - Hide 'Download final submission' link when no files submitted.
-* 2013-08-07 - Fix compatibility issue introduced by MDL-39760
+* 2013-05-31 - Fix support for team submissions
 * 2013-03-25 - Plugin is disabled if the ghostscipt path is incorrect
 * 2013-02-22 - Now correctly handles 'landscape' pages in PDFs
 * 2013-01-30 - Updating to 'stable' as no known issues to fix
@@ -67,6 +68,11 @@ without the submission plugin).
 
 All being well, you should now be able to add submission and feedback
 type 'pdf' to assignments.
+
+If you get an 'Unrecoverable error' when attempting to annotate an assignment
+it may well be related to not having ghostscript fonts installed on your
+system. See https://moodle.org/mod/forum/discuss.php?d=218897#p1010615 for
+more details.
 
 ==How to use==
 

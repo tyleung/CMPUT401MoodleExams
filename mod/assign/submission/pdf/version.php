@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -23,10 +22,10 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$plugin->version   = 2013032502;
-$plugin->release   = "2.3+ (Build 2013032502)";
-$plugin->requires  = 2012062500;
+$plugin->version   = 2013103100;
+$plugin->release   = "2.5+ (Build 2013103100)";
+$plugin->requires  = 2013051400;
 $plugin->component = 'assignsubmission_pdf';
 $plugin->maturity  = MATURITY_STABLE;
 $plugin->cron      = 0;
-$plugin->dependencies = array('assignfeedback_pdf' => 2013032500);
+$plugin->dependencies = array('assignfeedback_pdf' => 2013061200);
