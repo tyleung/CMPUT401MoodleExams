@@ -39,14 +39,14 @@ $PAGE->set_heading(get_string('createheader', 'local_memplugin'));
 $PAGE->set_url($CFG->wwwroot.'/local/memplugin/generate_exam.php');
 $class_section_form = new create_generate_exam_instance();
 
-if ($generate_exam_form->is_cancelled()) {
+if ($class_section_form->is_cancelled()) {
 	redirect($CFG->wwwroot.'/local/memplugin/view.php');
-} elseif ($data = $generate_exam_form->get_data()) {
+} elseif ($data = $class_section_form->get_data()) {
 	$check = $data->test1;
 	redirect($CFG->wwwroot.'/local/memplugin/view.php');
 } else {
 	echo $OUTPUT->header();
-	$generate_exam_form->display();
+	$class_section_form->display();
 	echo $OUTPUT->footer();
 }
 ?>

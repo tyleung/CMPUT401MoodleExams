@@ -1,10 +1,11 @@
 <?php
+// proper upgrade.php ?? from https://github.com/moodle/moodle/blob/master/mod/assign/db/upgrade.php
+require_once($CFG->dirroot.'/lib/db/upgradelib.php');
 
-	// proper upgrade.php ?? from https://github.com/moodle/moodle/blob/master/mod/assign/db/upgrade.php
-	global $CFG, $USER, $DB, $OUTPUT;
-	require_once($CFG->dirroot.'/lib/db/upgradelib.php');
-	$dbman = $DB->get_manager();
-/*
+function xmldb_local_memplugin_upgrade($oldversion) {
+    global $CFG, $DB;
+    $dbman = $DB->get_manager();	
+
     if ($oldversion < 2016030401) {
 		
 		//Version 2016030401 adds tables to store exam booklet data and related.
@@ -150,7 +151,7 @@
         upgrade_plugin_savepoint(true, 2016030410, 'local', 'memplugin');
           
 	}
-*/
+
     if ($oldversion < 2016030602) {
     
 		//Version 2016030602 Added field: year-semester-origin. to contain the origin of exam, e.g. "2015 FALL"
@@ -167,3 +168,47 @@
         // Memplugin savepoint reached.
         upgrade_plugin_savepoint(true, 2016030602, 'local', 'memplugin');
     }
+    
+    if ($oldversion < 2016031002) {
+		//Version 2016031002 added max pages in mem_booklet_data and page_num in mem_pages.
+		
+        // Define field max_pages to be added to mem_booklet_data.
+        $table = new xmldb_table('mem_booklet_data');
+        $field = new xmldb_field('max_pages', XMLDB_TYPE_INTEGER, '3', null, XMLDB_NOTNULL, null, null, 'year_semester_origin');
+
+        // Conditionally launch add field max_pages.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+        
+        // Define field page_num to be added to mem_pages.
+        $table = new xmldb_table('mem_pages');
+        $field = new xmldb_field('page_num', XMLDB_TYPE_INTEGER, '3', null, XMLDB_NOTNULL, null, null, 'page_marks_max');
+
+        // Conditionally launch add field page_num.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Memplugin savepoint reached.
+        upgrade_plugin_savepoint(true, 2016031002, 'local', 'memplugin');
+    }
+
+    if ($oldversion < 2016031006) {
+	    // 2016031006 changes student_id to nullable. Because student ids are not immediately assigned.
+
+        // Changing nullability of field student_id on table mem_booklet_data to null.
+        $table = new xmldb_table('mem_booklet_data');
+        $field = new xmldb_field('student_id', XMLDB_TYPE_INTEGER, '9', null, null, null, null, 'booklet_id');
+
+        // Launch change of nullability for field student_id.
+        $dbman->change_field_notnull($table, $field);
+
+        // Memplugin savepoint reached.
+        upgrade_plugin_savepoint(true, 2016031006, 'local', 'memplugin');
+    }
+
+ 	return true;   
+}    
+    
+    

@@ -19,30 +19,52 @@
  * Strings for component 'demo_plug-in', language 'en'
  *
  * @package     local
- * @subpackage  demo_plug-in
- * @copyright   Eric Cheng ec10@ualberta.ca
+ * @subpackage  memplugin
+ * @copyright   
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['menuoption'] = 'Mass Exam Marker';
-$string['pluginname'] = 'Mass Exam Marker';
-$string['buttonnext'] = 'Next';
-$string['buttonback'] = 'Back';
-$string['buttonupload'] = 'upload';
+$string['menuoption']     = 'Mass Exam Marker Plugin';
+$string['pluginname']     = 'Mass Exam Marker Plugin';
+$string['buttonnext']     = 'Next';
+$string['buttonback']     = 'Back';
+$string['savebutton']     = 'Save';
+$string['buttonupload']   = 'Upload';
 $string['what_to_upload'] = 'PDF file to upload:';
-$string['filename'] = 'File name:';
-
-$string['grid'] = 'Grid';
-
-$string['stats_title'] = 'Statistics';
+$string['filename']       = 'File name:';
+$string['genheader']      = "General";
+$string['file']           = 'Upload a PDF';
+//MemHome
+$string['Welcome']        = 'Welcome to MEM!';
+$string['createbutton']   = 'Create Exam';
+//Make Exams
+$string['createheader']   = 'Creating a new Exam';
+$string['makeexam']       = 'Name of Exam to Generate';
+$string['copyheader']     = 'Copy Options';
+$string['examcopies']     = 'How many booklets would you like generated?';
+$string['downloadheader'] = 'Download Options';
+$string['howtogenerate']  = 'How would you like to download your exam?';
+$string['multicopy']      = 'Individual Exam Files';
+$string['largecopy']      = 'One Large Exam File';
+$string['emergencypgs']   = 'How many blank pages would you like to include?';
+$string['generatebutton'] = 'Generate Exams';
+//Create Exam
+$string['classselection'] = 'Please select a class section.';
+$string['markheader']     = 'Mark Exams';
+$string['sectionheader']  = 'Select course section(s)';
+$string['exambatch']      = 'Select Exam(s)';
+$string['markbutton']     = 'Mark';
+$string['grid'] 	  = 'Grid';
+$string['stats_title']    = 'Statistics';
 $string['stats_download'] = 'Download Statistics';
-$string['stats_spread'] = 'Spread: ';
-$string['stats_max'] = 'Maximum: ';
-$string['stats_min'] = 'Minimum: ';
-$string['stats_mean'] = 'Mean: ';
-$string['stats_median'] = 'Median: ';
+$string['stats_spread']   = 'Spread: ';
+$string['stats_max']      = 'Maximum: ';
+$string['stats_min']      = 'Minimum: ';
+$string['stats_mean']     = 'Mean: ';
+$string['stats_median']   = 'Median: ';
 $string['stats_select_title'] = 'Exam Statistics from Year & Semester';
 $string['stats_choice_submit'] = 'Get Statistics';
 $string['stats_grouping'] = 'Select Semester';
+
 
 ?>
