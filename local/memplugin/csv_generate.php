@@ -1,4 +1,7 @@
 <?php
+
+defined('MOODLE_INTERNAL') || die();
+
 require_once '../../config.php';
 require_once($CFG->dirroot.'/local/memplugin/stats_class.php');
 
