@@ -167,7 +167,6 @@
         // Memplugin savepoint reached.
         upgrade_plugin_savepoint(true, 2016030602, 'local', 'memplugin');
     }
-*/
     
     if ($oldversion < 2016031002) {
 		//Version 2016031002 added max pages in mem_booklet_data and page_num in mem_pages.
@@ -192,6 +191,20 @@
 
         // Memplugin savepoint reached.
         upgrade_plugin_savepoint(true, 2016031002, 'local', 'memplugin');
+    }
+*/
+    if ($oldversion < 2016031006) {
+	    // 2016031006 changes student_id to nullable. Because student ids are not immediately assigned.
+
+        // Changing nullability of field student_id on table mem_booklet_data to null.
+        $table = new xmldb_table('mem_booklet_data');
+        $field = new xmldb_field('student_id', XMLDB_TYPE_INTEGER, '9', null, null, null, null, 'booklet_id');
+
+        // Launch change of nullability for field student_id.
+        $dbman->change_field_notnull($table, $field);
+
+        // Memplugin savepoint reached.
+        upgrade_plugin_savepoint(true, 2016031006, 'local', 'memplugin');
     }
 
     

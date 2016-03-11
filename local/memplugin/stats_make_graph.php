@@ -1,6 +1,6 @@
 <?php
 
-defined('MOODLE_INTERNAL') || die();
+//defined('MOODLE_INTERNAL') || die();
 
 require_once '../../config.php';
 require_once $CFG->dirroot.'/lib/graphlib.php';
