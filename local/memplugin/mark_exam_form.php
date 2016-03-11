@@ -26,27 +26,25 @@
 
 require_once $CFG->dirroot.'/lib/formslib.php';
 require_login();
-/*
-* This function creates and displays the email form
-* It also fills out predefined feedback snippets for the user to enter
-* this functionality will be further refined
-*/
+
 class create_mark_exam_instance extends moodleform{
 	function definition(){
-	global $CFG, $DB, $USER;
-	$mform = $this ->_form;
-	//set size of the header
-    $attributes_heading = 'size="24"';
-    $attributes_radio_text = 'size="11"';	
+		global $CFG, $DB, $USER;
+		$mform = $this ->_form;
+    	$attributes_heading = 'size="24"';
+    	$attributes_radio_text = 'size="11"';	
 
-	//General
-	$mform->addElement('header', 'nameforyourheaderelement', get_string('genmakeheader', 'local_memplugin'));
-    $mform->addElement('select', 'type', get_string('sectionheader', 'local_memplugin'), $FORUM_TYPES, $attributes);
-	$mform->addElement('header', 'nameforyourheaderelement', get_string('file', 'local_memplugin'));
-	$mform->addElement('filemanager', 'files', get_string('exambatch', 'local_memplugin'), null, $options);
-	$mform->closeHeaderBefore('genbutton');
-	$mform->addElement('button', 'genbutton', get_string('markbutton','local_memplugin'));
+		//General
+		$mform->addElement('header', 'general', get_string('genheader', 'local_memplugin'));
+	    $mform->addElement('select', 'coursesection', get_string('sectionheader', 'local_memplugin'), $FORUM_TYPES, $attributes);
+		$mform->addElement('header', 'nameforyourheaderelement', get_string('file', 'local_memplugin'));
+		$mform->addElement('filemanager', 'files', get_string('exambatch', 'local_memplugin'), null, $options);
+		$mform->closeHeaderBefore('buttonar');
 
+		$buttonarray   =  array();
+		$buttonarray[] =& $mform->createElement('submit','save', get_string('savebutton', 'local_memplugin'));
+		$buttonarray[] =& $mform->createElement('submit','mark', get_string('markbutton', 'local_memplugin'));
+		$mform->addGroup($buttonarray, 'buttonar', '', array(' '), false);
 
 	}
 }
