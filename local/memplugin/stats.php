@@ -24,8 +24,10 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-global $PAGE, $CFG, $DB;
+defined('MOODLE_INTERNAL') || die();
+
 require_once('../../config.php');
+global $PAGE, $CFG, $DB;
 
 require_login();
 require_capability('local/memplugin:add', context_system::instance());
@@ -43,10 +45,13 @@ $form = new stats_form();
 if($_GET['exam_year_sem_choice']) {
 	
 	$data = $form->get_data();
+	$db_date = $_GET['exam_year_sem_choice'];
+	// &nbsp;
+	
 
 	echo $OUTPUT->header();
 
-	create_stats_page($_GET['exam_year_sem_choice']);
+	create_stats_page($db_date);
 
 	echo $OUTPUT->footer();
 	
@@ -71,17 +76,24 @@ function create_stats_page($got_req) {
 	//$mform->addElement('header', 'year_sem', get_string('stats_title','local_memplugin'));
 	echo '<h1>Results for '.$got_req.'</h1><br>';
 
-	$raw_grades = array(1,2,5,5,0,0,0,0,23,23,20,23,20,11.5);
-	$total_mark = 23;
+	$mark_sql = $GLOBALS['DB']->get_records_sql('SELECT {mem_mark_stats}.booklet_id, total_booklet_score, total_booklet_score_max FROM {mem_booklet_data}, {mem_mark_stats} WHERE year_semester_origin=? and {mem_mark_stats}.booklet_id={mem_booklet_data}.booklet_id', array($got_req));
+	
+	$total_mark = current($mark_sql)->total_booklet_score_max;
+	$raw_marks = array();
+	
+	foreach($mark_sql as $i) {
+		array_push($raw_marks, $i->total_booklet_score);
+	}
+
 	//$percentage_interval = floor(100/$total_mark);
 	$percentage_interval = 5;
-	echo $calc->graph($raw_grades, $percentage_interval, $total_mark);
+	echo $calc->graph($raw_marks, $percentage_interval, $total_mark);
 
-	echo get_string('stats_mean', 'local_memplugin').number_format($calc->mean($calc->to_percentage_array($raw_grades, $total_mark)),2).'%<br>';
-	echo get_string('stats_median', 'local_memplugin').number_format($calc->median($calc->to_percentage_array($raw_grades, $total_mark)),2).'%<br>';
-	echo get_string('stats_spread', 'local_memplugin').number_format($calc->spread($calc->to_percentage_array($raw_grades, $total_mark)), 2).'%<br>';
-	echo get_string('stats_max', 'local_memplugin').$calc->max( $calc->to_percentage_array($raw_grades, $total_mark) ).'%<br>';
-	echo get_string('stats_min', 'local_memplugin').$calc->min( $calc->to_percentage_array($raw_grades, $total_mark) ).'%<br>';
+	echo get_string('stats_mean', 'local_memplugin').number_format($calc->mean($calc->to_percentage_array($raw_marks, $total_mark)),2).'%<br>';
+	echo get_string('stats_median', 'local_memplugin').number_format($calc->median($calc->to_percentage_array($raw_marks, $total_mark)),2).'%<br>';
+	echo get_string('stats_spread', 'local_memplugin').number_format($calc->spread($calc->to_percentage_array($raw_marks, $total_mark)), 2).'%<br>';
+	echo get_string('stats_max', 'local_memplugin').$calc->max( $calc->to_percentage_array($raw_marks, $total_mark) ).'%<br>';
+	echo get_string('stats_min', 'local_memplugin').$calc->min( $calc->to_percentage_array($raw_marks, $total_mark) ).'%<br>';
 
 	echo '<a href="csv_generate.php?semester='.$got_req.'" alt="download csv">'.get_string('stats_download', 'local_memplugin').'</a></br>';
 }
