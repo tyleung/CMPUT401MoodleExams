@@ -1,5 +1,6 @@
 <?php
 require_once '../../config.php';
+require_once($CFG->dirroot.'/local/memplugin/stats_class.php');
 
 /*
 Statistics
@@ -11,9 +12,11 @@ Statistics
 	-Total score: per student/per row
 */
 
-	// Taken from http://code.stephenmorley.org/php/creating-downloadable-csv-files/
-	// output headers so that the file is downloaded rather than displayed
 	$year = $_GET['semester'];
+	$calc = new stats();
+
+	// Taken from http://code.stephenmorley.org/php/creating-downloadable-csv-files/
+	// output headers so that the file is downloaded rather than displayed	
 	header('Content-Type: text/csv; charset=utf-8');
 	header('Content-Disposition: attachment; filename=Statistics_'.$year.'.csv');
 
@@ -32,10 +35,14 @@ Statistics
 
 	// pagemarks has an array that has each mark per page.
 	$pagemarks = array_fill(1,$max_pages,array());
+	$pagemarks_max = array_fill(1,$max_pages,-1);
 
 	foreach($booklet_pg_sql as $o) {
 		$booklets[$o->booklet_id][$o->page_num] = $o->page_marks;
 		array_push($pagemarks[$o->page_num], $o->page_marks);
+		if($pagemarks_max[$o->page_num] == -1) {
+			$pagemarks_max[$o->page_num] = $o->page_marks_max;
+		}
 	}
 
 	// create a file pointer connected to the output stream
@@ -51,6 +58,7 @@ Statistics
 	// debug test data:
 	//fputcsv($output, array($max_pages));
 	//fputcsv($output, array(print_r($booklets)));
+	//fputcsv($output, array(print_r($pagemarks_max)));
 	//fputcsv($output, array(print_r($pagemarks)));
 
 	fputcsv($output, $column_title);
@@ -64,6 +72,23 @@ Statistics
 	}
 	
 	//--at end is 1 row mean of pages and everything, 2nd row is std-dev of pages and everything
-
+	// more specifically, use the booklet_id as row name e.g. this row is "mean" thus 5 rows in total:
+	// Mean, Median, Spread, Maximum, Minimum
+	
+	$stats = array( "mean" => array("Mean"), "median" => array("Median"), "spread" => array("Spread"), "max" => array("Maximum"), "min" => array("Minimum"));
+		
+	foreach($pagemarks as $each) {
+		array_push($stats["mean"], $calc->mean($each));
+		array_push($stats["median"], $calc->median($each));
+		array_push($stats["spread"], $calc->spread($each));
+		array_push($stats["max"], $calc->max($each));
+		array_push($stats["min"], $calc->min($each));
+	}
+	
+	foreach($stats as $s) {
+		fputcsv($output, $s);
+	}
+	
 	fclose($output);
 ?>
+
