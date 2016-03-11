@@ -1,10 +1,11 @@
 <?php
+// proper upgrade.php ?? from https://github.com/moodle/moodle/blob/master/mod/assign/db/upgrade.php
+require_once($CFG->dirroot.'/lib/db/upgradelib.php');
 
-	// proper upgrade.php ?? from https://github.com/moodle/moodle/blob/master/mod/assign/db/upgrade.php
-	global $CFG, $USER, $DB, $OUTPUT;
-	require_once($CFG->dirroot.'/lib/db/upgradelib.php');
-	$dbman = $DB->get_manager();
-/*
+function xmldb_local_memplugin_upgrade($oldversion) {
+    global $CFG, $DB;
+    $dbman = $DB->get_manager();	
+
     if ($oldversion < 2016030401) {
 		
 		//Version 2016030401 adds tables to store exam booklet data and related.
@@ -192,7 +193,7 @@
         // Memplugin savepoint reached.
         upgrade_plugin_savepoint(true, 2016031002, 'local', 'memplugin');
     }
-*/
+
     if ($oldversion < 2016031006) {
 	    // 2016031006 changes student_id to nullable. Because student ids are not immediately assigned.
 
@@ -207,7 +208,7 @@
         upgrade_plugin_savepoint(true, 2016031006, 'local', 'memplugin');
     }
 
-    
-    
+ 	return true;   
+}    
     
     
