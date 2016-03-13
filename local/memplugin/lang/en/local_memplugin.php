@@ -48,12 +48,14 @@ $string['multicopy']      = 'Individual Exam Files';
 $string['largecopy']      = 'One Large Exam File';
 $string['emergencypgs']   = 'How many blank pages would you like to include?';
 $string['generatebutton'] = 'Generate Exams';
-//Create Exam
+//Mark Exam
 $string['classselection'] = 'Please select a class section.';
 $string['markheader']     = 'Mark Exams';
 $string['sectionheader']  = 'Select course section(s)';
 $string['exambatch']      = 'Select Exam(s)';
 $string['markbutton']     = 'Mark';
+$string['addsection']     = 'Add additional section';
+
 $string['grid'] 	  = 'Grid';
 $string['stats_title']    = 'Statistics';
 $string['stats_download'] = 'Download Statistics';
