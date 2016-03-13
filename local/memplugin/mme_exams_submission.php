@@ -26,13 +26,13 @@
 
 		public function get_data(){
 			if($this->qrtext == ""){
-				return "nooone";
+				return "Could not read QRcode";
 			} else {
 				return $this->qrtext;
 			}
 		}
 
-		public function get_image_blob(){
+		private function get_image_blob(){
 			return $this->img->getImageBlob();
 		}
 
