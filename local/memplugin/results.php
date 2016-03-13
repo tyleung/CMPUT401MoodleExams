@@ -62,7 +62,7 @@ echo '</table>';
 echo $OUTPUT->footer();
 
 */
-
+/*
 $download = optional_param('download', '', PARAM_ALPHA);
 
 $table = new table_sql('uniqueid');
@@ -87,6 +87,43 @@ $table->out(40, true);
 if (!$table->is_downloading()) {
     echo $OUTPUT->footer();
 }
+*/
 
+echo $OUTPUT->header();
+
+?>
+<link rel="stylesheet" type="text/css" href="css/jquery.dataTables.min.css">
+<script src="http://code.jquery.com/jquery-latest.js" type="text/javascript"></script>
+<script type="text/javascript" charset="utf8" src="js/jquery.dataTables.min.js"></script>
+
+<table id="table_id" class="display">
+    <thead>
+        <tr>
+            <th>Column 1</th>
+            <th>Column 2</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Row 1 Data 1</td>
+            <td>Row 1 Data 2</td>
+        </tr>
+        <tr>
+            <td>Row 2 Data 1</td>
+            <td>Row 2 Data 2</td>
+        </tr>
+    </tbody>
+</table>
+
+<script>
+$(document).ready( function () {
+    $('#table_id').DataTable();
+} );
+</script>
+
+
+<?php
+
+echo $OUTPUT->footer();
 
 ?>
