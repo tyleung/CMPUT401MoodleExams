@@ -37,7 +37,16 @@ class create_mark_exam_instance extends moodleform{
 		//General
 		$mform->addElement('header', 'general', get_string('genheader', 'local_memplugin'));
 	    $mform->addElement('select', 'coursesection', get_string('sectionheader', 'local_memplugin'), $FORUM_TYPES, $attributes);
-		$mform->addElement('header', 'nameforyourheaderelement', get_string('file', 'local_memplugin'));
+		$mform->addElement('button', 'intro', get_string('addsection','local_memplugin'));
+
+//check boxes for multiple courses
+
+
+//$mform->addElement('html', '<b>'.get_string('emergencypgs', 'local_memplugin').'</b> <br> <input type="number" value="0" min="0"</input> <br>');
+
+
+		//upload
+		$mform->addElement('header', 'fileheader', get_string('file', 'local_memplugin'));
 		$mform->addElement('filemanager', 'files', get_string('exambatch', 'local_memplugin'), null, $options);
 		$mform->closeHeaderBefore('buttonar');
 
