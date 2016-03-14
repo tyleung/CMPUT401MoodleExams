@@ -61,6 +61,7 @@
 import random
 
 bookletInsert = "insert into mdl_mem_booklet_data (student_id, prof_id, course_id, year_semester_origin, max_pages) "
+studentInsert = "insert into mdl_user (firstname, lastname, username, password 
 
 sqlVarSet = "SET @foreignkey=(select last_insert_id());"
 sqlVar = "(select @foreignkey)"
