@@ -60,61 +60,108 @@
 
 import random
 
-bookletInsert = "insert into mdl_mem_booklet_data (student_id, prof_id, course_id, year_semester_origin, max_pages) "
-studentInsert = "insert into mdl_user (firstname, lastname, username, password 
+class User:
+	"""Defines a user with (firstname, lastname, username, password, email, idnumber) values.
+	
+	All generated test users will have the following values:
+	firstname: "Student<#>"
+	lastname: "StudentLastName<#>"
+	username: "student<#>"
+	password: "symmetricalSpoon#1"
+	email: "student<#>@cmput401.ca"
+	idnumber: random generated number that will be the same as the student_id
+		field in mdl_mem_booklet_data
+	"""
+	def __init__(self, student_num):
+		self.firstname = self.get_firstname(student_num)
+		self.lastname = self.get_lastname(student_num)
+		self.username = self.get_username(self.firstname)
+		self.password = self.get_password()
+		self.email = self.get_email(self.firstname)
+		
+	def get_firstname(self, student_num):
+		return "Student" + str(student_num)
+		
+	def get_lastname(self, student_num):
+		return "StudentLastName" + str(student_num)
+		
+	def get_username(self, first):
+		return first.lower()
+		
+	def get_password(self):
+		return "symmetricalSpoon#1"
+		
+	def get_email(self, first):
+		return first.lower() + "@cmput401.ca"
+		
 
-sqlVarSet = "SET @foreignkey=(select last_insert_id());"
-sqlVar = "(select @foreignkey)"
+def main():
+	userInsert = "insert into mdl_user (firstname, lastname, username, password, email, idnumber) "
+	bookletInsert = "insert into mdl_mem_booklet_data (student_id, prof_id, course_id, year_semester_origin, max_pages) "
 
-markStatsInsert = "insert into mdl_mem_mark_stats (booklet_id, total_booklet_score, total_booklet_score_max)"
+	sqlVarSet = "SET @foreignkey=(select last_insert_id());"
+	sqlVar = "(select @foreignkey)"
 
-pagesInsert = "insert into mdl_mem_pages (booklet_id, page_marks, page_marks_max, page_num)"#, qr_code)"
+	markStatsInsert = "insert into mdl_mem_mark_stats (booklet_id, total_booklet_score, total_booklet_score_max)"
 
-yearList = ["2016","2015","2015","2014","2013","2012"]
-semList = ["FALL","WINTER", "SPRING", "SUMMER"]
+	pagesInsert = "insert into mdl_mem_pages (booklet_id, page_marks, page_marks_max, page_num)"#, qr_code)"
 
-#---------can simple edit if you want:
-maxMarks = 20; # maximum marks booklet can get.
-pages = 5; # how many pages booklet has.
-#--------end simple edits
+	yearList = ["2016","2015","2015","2014","2013","2012"]
+	semList = ["FALL","WINTER", "SPRING", "SUMMER"]
 
-out = "-- To RUN: in terminal type mysql -u root --password=symmetricalSpoon moodledb < 401_memplugin_test_data.sql\n"
+	#---------can simple edit if you want:
+	maxMarks = 20; # maximum marks booklet can get.
+	pages = 5; # how many pages booklet has.
+	num_inserts = 50
+	#--------end simple edits
 
+	userid = random.sample(range(99999,9999999), num_inserts)
+	out = "-- To RUN: in terminal type mysql -u root --password=symmetricalSpoon moodledb < 401_memplugin_test_data.sql\n"
 
-for each in range(50):
-    mark = random.randint(0,maxMarks)
+	for each in range(num_inserts):
+		user = User(each)
+		mark = random.randint(0,maxMarks)
 
-    out += bookletInsert + \
-        " values ( "+ str(random.randint(99999,9999999)) +", "+ \
-        str(random.randint(0,3)) +", 'CMPUT469', '"+ \
-        yearList[0] +" "+ semList[0] +"', "+ str(pages) +" );\n\n"
-        #yearList[random.randint(0,5)] +" "+ semList[random.randint(0,3)] +"', "+ str(pages) +" );\n\n"
-	    #To limit data generated to a specific year and semester edit here above^.
+		out += userInsert + \
+			" values ( '"+ user.firstname + "', '" + user.lastname + "', '" + \
+			user.username + "', '" + user.password + "', '" + \
+			user.email + "', '" + str(userid[each]) + "' );\n\n"
+		
+		out += bookletInsert + \
+			" values ( '"+ str(userid[each]) +"', "+ \
+			str(random.randint(0,3)) +", 'CMPUT469', '"+ \
+			yearList[0] +" "+ semList[0] +"', "+ str(pages) +" );\n\n"
+			#yearList[random.randint(0,5)] +" "+ semList[random.randint(0,3)] +"', "+ str(pages) +" );\n\n"
+			#To limit data generated to a specific year and semester edit here above^.
 
-    out += sqlVarSet + "\n"
-    out += markStatsInsert + \
-    " values ( "+ sqlVar +", "+ \
-        str(mark) +", "+ \
-        str(maxMarks) +" );\n\n"
-    
-    out += pagesInsert + " values"
-        
-    pageMarksCount = int(maxMarks/pages)
-    for pg in range(pageMarksCount+1):
-        pgMark = int(mark/pageMarksCount);
-        
-        out += " ( "+ sqlVar +", "+ \
-            str(pgMark) +", "+ \
-            str(pageMarksCount) +", "+ \
-            str(pg+1)
-            
-        if(pg == pageMarksCount):
-            out += " );\n"
-        else:
-            out += " ), "
-    out += "\n\n\n"
-        
-print("Making mock data MoodleDB MEM_PLUGIN");
+		out += sqlVarSet + "\n"
+		out += markStatsInsert + \
+		" values ( "+ sqlVar +", "+ \
+			str(mark) +", "+ \
+			str(maxMarks) +" );\n\n"
+		
+		out += pagesInsert + " values"
+			
+		pageMarksCount = int(maxMarks/pages)
+		for pg in range(pageMarksCount+1):
+			pgMark = int(mark/pageMarksCount);
+			
+			out += " ( "+ sqlVar +", "+ \
+				str(pgMark) +", "+ \
+				str(pageMarksCount) +", "+ \
+				str(pg+1)
+				
+			if(pg == pageMarksCount):
+				out += " );\n"
+			else:
+				out += " ), "
+		out += "\n\n\n"
+			
+	print("Making mock data MoodleDB MEM_PLUGIN");
 
-with open("401_memplugin_test_data.sql", "wt") as outFile:
-    outFile.write(out)
+	with open("401_memplugin_test_data.sql", "wt") as outFile:
+		outFile.write(out)
+		
+
+if __name__=="__main__":
+	main()
