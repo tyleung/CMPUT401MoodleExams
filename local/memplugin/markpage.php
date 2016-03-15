@@ -1,12 +1,9 @@
 <?php
-defined('MOODLE_INTERNAL') || die('unable to connect');
-
 global $PAGE, $CFG, $DB;
 require_once('../../config.php');
 
 require_login();
 require_capability('local/memplugin:add', context_system::instance());
-
 $PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('pluginname', 'local_memplugin'));

@@ -26,6 +26,8 @@
 global $PAGE, $CFG, $DB;
 require_once('../../config.php');
 
+//defined('MOODLE_INTERNAL') || die();
+
 require_login();
 require_capability('local/memplugin:add', context_system::instance());
 $PAGE->set_context(context_system::instance());
@@ -69,14 +71,14 @@ echo $OUTPUT->footer();
 function create_results_table() {
 	//if($_GET['course_id']) {	
 		//$course_id = $_GET['course_id'];
-		//$sql = "SELECT u.firstname, u.lastname, u.idnumber, mms.total_booklet_score 
-		//		FROM {user} u, {mem_mark_stats} mms,  {mem_booklet_data} mbd 
-		//		WHERE mbd.course_id = " . course_id . " 
-		//		AND mbd.student_id = u.idnumber 
-		//		AND mbd.booklet_id = mms.booklet_id";
-		//$marks_rs = $GLOBALS['DB']->get_recordset_sql($sql);
+		$course_id = 2;
+		$sql = "SELECT u.firstname, u.lastname, u.idnumber, mms.total_booklet_score 
+				FROM {user} u, {mem_mark_stats} mms,  {mem_booklet_data} mbd 
+				WHERE mbd.course_id = " . $course_id . " 
+				AND mbd.student_id = u.idnumber 
+				AND mbd.booklet_id = mms.booklet_id";
+		$marks_rs = $GLOBALS['DB']->get_recordset_sql($sql);
 	//}
-	$marks_rs = $GLOBALS['DB']->get_recordset('user');
 	
 	foreach($marks_rs as $mark) {
 		echo '<tr>';
@@ -90,7 +92,7 @@ function create_results_table() {
 		print_r($mark->idnumber);
 		echo '</td>';
 		echo '<td>';
-		print_r($mark->firstname);
+		print_r($mark->total_booklet_score);
 		echo '</td>';
 		echo '</tr>';
 	}
