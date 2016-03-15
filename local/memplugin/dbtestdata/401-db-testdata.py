@@ -116,6 +116,7 @@ def main():
 	#--------end simple edits
 
 	userid = random.sample(range(99999,9999999), num_inserts)
+	courseid = "2" # This corresponds to the first course you create.
 	out = "-- To RUN: in terminal type mysql -u root --password=symmetricalSpoon moodledb < 401_memplugin_test_data.sql\n"
 
 	for each in range(num_inserts):
@@ -129,7 +130,7 @@ def main():
 		
 		out += bookletInsert + \
 			" values ( '"+ str(userid[each]) +"', "+ \
-			str(random.randint(0,3)) +", 'CMPUT469', '"+ \
+			str(random.randint(0,3)) +", '" + courseid + "', '"+ \
 			yearList[0] +" "+ semList[0] +"', "+ str(pages) +" );\n\n"
 			#yearList[random.randint(0,5)] +" "+ semList[random.randint(0,3)] +"', "+ str(pages) +" );\n\n"
 			#To limit data generated to a specific year and semester edit here above^.
