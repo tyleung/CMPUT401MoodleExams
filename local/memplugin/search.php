@@ -36,14 +36,32 @@ $PAGE->set_title(get_string('pluginname', 'local_memplugin'));
 $PAGE->set_heading(get_string('pluginname', 'local_memplugin'));
 $PAGE->set_url($CFG->wwwroot.'/local/memplugin/search.php');
 
+$datstudents = array();
+$enrolled = enrol_get_users_courses($USER->id, true,'*', 'visible DESC, sortorder ASC');
+foreach($enrolled as $course) {
+	//https://docs.moodle.org/dev/Enrolment_API
+	//get_enrolled_users(context $context, $withcapability = '', $groupid = 0, $userfields = 'u.*', $orderby = '', $limitfrom = 0, $limitnum = 0)
+	//id is also key. so array_merge overrides is ok.
+	$tmp = get_enrolled_users(context_course::instance($course->id),'', 0, 'u.*');
+	$datstudents = array_merge($datstudents, $tmp);
+}
 $js = '<script>
+var data = '.json_encode($datstudents).';
+window.onload = init;
+
+function init() {
+	aside = document.getElementById("aside");
+	//aside.innerHTML = JSON.stringify(data);
+	aside.innerHTML = "No search performed yet.";
+}
+
 function getSearch() {
 	var a = document.getElementById("inputid").value;
-	return a;
+	return a.toLowerCase();
 }
-function doodo(){
+function doodo() {
+	/* PHP hotloading here.
 	// taken from http://stackoverflow.com/questions/17391538/plain-javascript-no-jquery-to-load-a-php-file-into-a-div
-	aside = document.getElementById("aside");
 	var searchphp="searchresult.php?search=";
 	searchphp = searchphp.concat(getSearch());
 	aside.innerHTML="Searching...";
@@ -57,17 +75,33 @@ function doodo(){
 		    else aside.innerHTML = "Error searching";
 		    }
 		}
+	End of PHP hotloading */
+
+	var found = new Array();
+	var find = getSearch();
+	// id is the unique key in the DB, thus not included here.
+	var toCheck = new Array("firstname", "middlename", "alternatename", "lastname", "email", "idnumber", "username");
+	
+	for(i=0;i<data.length;i++) {
+		for(k=0;k<toCheck.length;k++) {
+			if(JSON.stringify(data[i][toCheck[k]]).toLowerCase().includes(getSearch())) {
+				found.push(data[i]);
+				continue;
+			}
+		}
+	}
+
+	aside.innerHTML = JSON.stringify(found);
+		
 }
+
 </script>
 <input id="inputid" name="selectname" onchange="doodo()"></input>';
 
 echo $OUTPUT->header();
-echo "This page is our main page. Tests here?";
-echo '<a href=stats.php>Statistics Page</a></br>';
-echo '<a href=qrtest.php> QR test plz. </a>';
-echo '<button class="censor" onclick = "javascript:addtext()"> testtest </button>';
+echo "Search plz. Thank u.";
 echo $js;
-echo '<div id="aside">Empty</div>';
+echo '<div id="aside"></div>';
 
 
 echo $OUTPUT->footer();
