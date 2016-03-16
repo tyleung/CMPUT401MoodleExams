@@ -19,8 +19,8 @@
  * Initial page for the plug-in
  *
  * @package     local
- * @subpackage  demo_plug-in
- * @copyright   Eric Cheng ec10@ualberta.ca
+ * @subpackage  memplugin
+ * @copyright   
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -45,63 +45,16 @@ foreach($enrolled as $course) {
 	$tmp = get_enrolled_users(context_course::instance($course->id),'', 0, 'u.*');
 	$datstudents = array_merge($datstudents, $tmp);
 }
-$js = '<script>
-var data = '.json_encode($datstudents).';
-window.onload = init;
 
-function init() {
-	aside = document.getElementById("aside");
-	//aside.innerHTML = JSON.stringify(data);
-	aside.innerHTML = "No search performed yet.";
-}
-
-function getSearch() {
-	var a = document.getElementById("inputid").value;
-	return a.toLowerCase();
-}
-function doodo() {
-	var found = new Array();
-	var find = getSearch();
-	// id is the unique key in the DB, thus not included here.
-	var toCheck = new Array("firstname", "middlename", "alternatename", "lastname", "email", "idnumber", "username");
-	
-	for(i=0;i<data.length;i++) {
-		for(k=0;k<toCheck.length;k++) {
-			if(JSON.stringify(data[i][toCheck[k]]).toLowerCase().includes(getSearch())) {
-				found.push(data[i]);
-				break;
-			}
-		}
-		
-		// if already found go to next data.
-		if(found.lastIndexOf(data[i]) != -1) {
-			continue;
-		}
-		
-		// Special case, first name AND last name
-		var strFirstName = JSON.stringify(data[i][toCheck[0]]).toLowerCase();
-		var strLastName = JSON.stringify(data[i][toCheck[3]]).toLowerCase();
-		var fullName = strFirstName + " " + strLastName;
-		// Removes the "s from the string. 
-		fullName = fullName.replace(/\"/g, "");
-		if(fullName.includes(getSearch())) {
-			found.push(data[i]);
-		}
-	}
-
-	aside.innerHTML = JSON.stringify(found);
-		
-}
-
-</script>
-<input id="inputid" name="selectname" onchange="doodo()"></input>';
+$js = '<script>var data = '.json_encode($datstudents).';
+		window.onload = init(data); </script>';
 
 echo $OUTPUT->header();
+echo '<script src="js/search.js" type="text/javascript"></script>';
 echo "Search plz. Thank u.";
-echo $js;
+echo '<input id="inputid" name="selectname" onchange="newSearch()"></input>';
 echo '<div id="aside"></div>';
-
-
+echo $js;
 echo $OUTPUT->footer();
 
 ?>
