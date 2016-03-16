@@ -60,23 +60,6 @@ function getSearch() {
 	return a.toLowerCase();
 }
 function doodo() {
-	/* PHP hotloading here.
-	// taken from http://stackoverflow.com/questions/17391538/plain-javascript-no-jquery-to-load-a-php-file-into-a-div
-	var searchphp="searchresult.php?search=";
-	searchphp = searchphp.concat(getSearch());
-	aside.innerHTML="Searching...";
-	if(XMLHttpRequest) var x = new XMLHttpRequest();
-	else var x = new ActiveXObject("Microsoft.XMLHTTP");
-	x.open("GET", searchphp, true);
-	x.send("");
-	x.onreadystatechange = function(){
-		if(x.readyState == 4){
-		    if(x.status == 200) aside.innerHTML = x.responseText;
-		    else aside.innerHTML = "Error searching";
-		    }
-		}
-	End of PHP hotloading */
-
 	var found = new Array();
 	var find = getSearch();
 	// id is the unique key in the DB, thus not included here.
@@ -86,8 +69,23 @@ function doodo() {
 		for(k=0;k<toCheck.length;k++) {
 			if(JSON.stringify(data[i][toCheck[k]]).toLowerCase().includes(getSearch())) {
 				found.push(data[i]);
-				continue;
+				break;
 			}
+		}
+		
+		// if already found go to next data.
+		if(found.lastIndexOf(data[i]) != -1) {
+			continue;
+		}
+		
+		// Special case, first name AND last name
+		var strFirstName = JSON.stringify(data[i][toCheck[0]]).toLowerCase();
+		var strLastName = JSON.stringify(data[i][toCheck[3]]).toLowerCase();
+		var fullName = strFirstName + " " + strLastName;
+		// Removes the "s from the string. 
+		fullName = fullName.replace(/\"/g, "");
+		if(fullName.includes(getSearch())) {
+			found.push(data[i]);
 		}
 	}
 
