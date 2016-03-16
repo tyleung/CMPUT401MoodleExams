@@ -222,6 +222,20 @@ function xmldb_local_memplugin_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2016031401, 'local', 'memplugin');
 	}
 
+	if ($oldversion < 2016031402) {
+		// 2016031402 changes course_id type from varchar to int to match the id field in the mdl_course table.
+		
+        // Changing type of field course_id on table mem_booklet_data to int.
+        $table = new xmldb_table('mem_booklet_data');
+        $field = new xmldb_field('course_id', XMLDB_TYPE_INTEGER, '10', null, null, null, null, 'date_finalized');
+
+        // Launch change of type for field course_id.
+        $dbman->change_field_type($table, $field);
+
+        // Memplugin savepoint reached.
+        upgrade_plugin_savepoint(true, 2016031402, 'local', 'memplugin');
+	}
+
 
  	return true;   
 }    

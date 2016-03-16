@@ -96,6 +96,23 @@ class User:
 		
 
 def main():
+	out = "-- To RUN: in terminal type mysql -u root --password=symmetricalSpoon moodledb < 401_memplugin_test_data.sql\n\n"
+
+	# Delete/truncate tables before inserting the test data.
+	out += "-- Delete/truncate tables before inserting the test data.\n"
+	userDelete = "delete from mdl_user where username like 'student%';\n\n"
+	bookletDelete = "truncate mdl_mem_booklet_data;\n\n"
+	markStatsDelete = "truncate mdl_mem_mark_stats;\n\n"
+	pagesDelete = "truncate mdl_mem_pages;\n\n\n"
+	
+	out += userDelete
+	out += bookletDelete
+	out += markStatsDelete
+	out += pagesDelete
+
+	# Insert test data.
+	out += "-- Insert test data.\n"
+	courseInsert = "insert into mdl_course (category, sortorder, fullname, shortname, summary, format) "
 	userInsert = "insert into mdl_user (firstname, lastname, username, password, email, idnumber) "
 	bookletInsert = "insert into mdl_mem_booklet_data (student_id, prof_id, course_id, year_semester_origin, max_pages) "
 
@@ -116,8 +133,12 @@ def main():
 	#--------end simple edits
 
 	userid = random.sample(range(99999,9999999), num_inserts)
-	out = "-- To RUN: in terminal type mysql -u root --password=symmetricalSpoon moodledb < 401_memplugin_test_data.sql\n"
+	courseid = "2" # This corresponds to the first course you create.
+	
 
+	out += courseInsert + \
+			" values ('1', '10000', 'CMPUT401 Test Course', 'C401', 'This is a test course.', 'weeks');\n\n"
+		
 	for each in range(num_inserts):
 		user = User(each)
 		mark = random.randint(0,maxMarks)
@@ -129,7 +150,7 @@ def main():
 		
 		out += bookletInsert + \
 			" values ( '"+ str(userid[each]) +"', "+ \
-			str(random.randint(0,3)) +", 'CMPUT469', '"+ \
+			str(random.randint(0,3)) +", '" + courseid + "', '"+ \
 			yearList[0] +" "+ semList[0] +"', "+ str(pages) +" );\n\n"
 			#yearList[random.randint(0,5)] +" "+ semList[random.randint(0,3)] +"', "+ str(pages) +" );\n\n"
 			#To limit data generated to a specific year and semester edit here above^.
