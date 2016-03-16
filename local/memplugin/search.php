@@ -53,6 +53,7 @@ echo $OUTPUT->header();
 echo '<script src="js/search.js" type="text/javascript"></script>';
 echo "Search plz. Thank u.";
 echo '<input id="inputid" name="selectname" onchange="newSearch()"></input>';
+echo '<button type="button" id="search_btn_id" onclick="newSearch()">Search</button>';
 echo '<div id="aside"></div>';
 echo $js;
 echo $OUTPUT->footer();

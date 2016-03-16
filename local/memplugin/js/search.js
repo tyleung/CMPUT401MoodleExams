@@ -1,7 +1,7 @@
 var data;
 var aside;
-// id is the unique key in the DB, thus not included here.
-var toCheck = new Array("firstname", "middlename", "alternatename", "lastname", "email", "idnumber", "username");
+// id is the unique key in the DB, thus not included here? or use idnumber? not sure which one to use.
+var toCheck = new Array("firstname", "middlename", "alternatename", "lastname", "email", "id", "username");
 	
 function init(dat) {
 	aside = document.getElementById("aside");
@@ -37,7 +37,7 @@ function newSearch() {
 		var strLastName = JSON.stringify(data[i][toCheck[3]]).toLowerCase();
 		var fullName = strFirstName + " " + strLastName;
 		// Removes the "s from the string. 
-		fullName = fullName.replace(/\"/g, "");
+		fullName = cleanText(fullName);
 		if(fullName.includes(getSearch())) {
 			found.push(data[i]);
 		}
@@ -46,14 +46,22 @@ function newSearch() {
 }
 
 function buildTables(data) {
-	var tmp = "<table id='students'  border='1' cellpadding='2'>";
+	var tmp = "<table id='students'  border='0' cellpadding='2' >";
 	tmp += "<tr><td>ID-Number</td><td>First Name</td><td>Last Name</td><td>Email Address</td></tr>";
 	for(i=0;i<data.length;i++) {
-	//	id-number, first name, last name, email
-		tmp += "<tr><td>"+ JSON.stringify(data[i][toCheck[5]]) +"</td><td>"+ JSON.stringify(data[i][toCheck[0]]) +"</td><td>"+ JSON.stringify(data[i][toCheck[3]]) +"</td><td>"+ JSON.stringify(data[i][toCheck[4]]) +"</td></tr>";
-		
+		//	id-number, first name, last name, email
+		var id = cleanText(JSON.stringify(data[i][toCheck[5]]));
+		var first = cleanText(JSON.stringify(data[i][toCheck[0]]));
+		var last = cleanText(JSON.stringify(data[i][toCheck[3]]));
+		var email = cleanText(JSON.stringify(data[i][toCheck[4]]));
+		var btn = "<a href='search_add_to_db.php?sid="+id+"'>Add</a>";
+		tmp += "<tr><td>"+ id +"</td><td>"+ first +"</td><td>"+ last +"</td><td>"+ email +"</td><td>"+ btn +"</td></tr>";		
 	}	
 	tmp += "</table>";
 	return tmp;
+}
+
+function cleanText(txt) {
+	return txt.replace(/\"/g, "");
 }
 
