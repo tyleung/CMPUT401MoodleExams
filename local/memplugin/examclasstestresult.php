@@ -25,7 +25,7 @@
  */
 
 global $PAGE, $CFG, $DB;
-require_once('../../config.php');
+//require_once('../../config.php');
 
 require_login();
 require_capability('local/memplugin:add', context_system::instance());
