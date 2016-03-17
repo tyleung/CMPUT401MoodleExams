@@ -49,10 +49,11 @@ foreach($enrolled as $course) {
 $js = '<script>var data = '.json_encode($datstudents).';
 		window.onload = init(data); </script>';
 
+// todo get booklet id as well, and parse it into search_add_to_db
+
 echo $OUTPUT->header();
 echo '<script src="js/search.js" type="text/javascript"></script>';
-echo "Search plz. Thank u.";
-echo '<input id="inputid" name="selectname" onchange="newSearch()"></input>';
+echo 'Find student: <input id="inputid" name="selectname" onchange="newSearch()"></input>';
 echo '<button type="button" id="search_btn_id" onclick="newSearch()">Search</button>';
 echo '<div id="aside"></div>';
 echo $js;

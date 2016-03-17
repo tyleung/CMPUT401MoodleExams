@@ -57,8 +57,11 @@
 				$sum +=  pow(current($data_array) - $mean, 2);
 				next($data_array);
 			}
-			
-			$std_dev = sqrt($sum / ($total - 1));
+			$divide = $total - 1;
+			if($divide <= 0) {
+				$divide = 1;
+			}
+			$std_dev = sqrt($sum / ($divide));
 			return $std_dev;
 		}
 		
