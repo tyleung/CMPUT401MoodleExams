@@ -64,13 +64,17 @@ Statistics
 	//fputcsv($output, array(print_r($pagemarks_max)));
 	//fputcsv($output, array(print_r($pagemarks)));
 
+	$totalScore = array();
+
 	fputcsv($output, $column_title);
 	foreach($booklets as $k => $v) {
 		$out = array($k);
 		foreach($v as $mark) {
 			array_push($out, $mark);
 		}
-		array_push($out, array_sum($v));
+		$sumPgMark = array_sum($v);
+		array_push($out, $sumPgMark);
+		array_push($totalScore, $sumPgMark);
 		fputcsv($output, $out);
 	}
 	
@@ -87,6 +91,13 @@ Statistics
 		array_push($stats["max"], $calc->max($each));
 		array_push($stats["min"], $calc->min($each));
 	}
+	
+	// Stats for total marks of entire class.
+	array_push($stats["mean"], $calc->mean($totalScore));
+	array_push($stats["median"], $calc->median($totalScore));
+	array_push($stats["spread"], $calc->spread($totalScore));
+	array_push($stats["max"], $calc->max($totalScore));
+	array_push($stats["min"], $calc->min($totalScore));
 	
 	foreach($stats as $s) {
 		fputcsv($output, $s);
