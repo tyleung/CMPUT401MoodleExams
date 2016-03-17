@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -26,7 +25,6 @@
 
 global $PAGE, $CFG, $DB;
 require_once('../../config.php');
-require($CFG->dirroot.'/lib/tablelib.php');
 
 require_login();
 require_capability('local/memplugin:add', context_system::instance());
@@ -36,94 +34,67 @@ $PAGE->set_title(get_string('pluginname', 'local_memplugin'));
 $PAGE->set_heading(get_string('pluginname', 'local_memplugin'));
 $PAGE->set_url($CFG->wwwroot.'/local/memplugin/results.php');
 
-
-/*
 echo $OUTPUT->header();
-
-echo '<table>';
-echo '<tr><th>Name</th><th>Student ID</th><th>Mark</th></tr>';
-
-$users_rs = $DB->get_recordset('user');
-
-foreach($users_rs as $user) {
-	echo '<tr>';
-	echo '<td>';
-	print_r($user->firstname . ' ' . $user->lastname);
-	//echo '<br><br>';
-	echo '</td>';
-	echo '</tr>';
-}
-
-$users_rs->close();
-
-echo '</table>';
-
-
-echo $OUTPUT->footer();
-
-*/
-/*
-$download = optional_param('download', '', PARAM_ALPHA);
-
-$table = new table_sql('uniqueid');
-$table->is_downloading($download, 'test', 'testing123');
-
-if (!$table->is_downloading()) {
-    // Only print headers if not asked to download data
-    // Print the page header
-    $PAGE->set_title('Results');
-    $PAGE->set_heading('Results');
-    $PAGE->navbar->add('Exam Results', new moodle_url($CFG->wwwroot.'/local/memplugin/results.php'));
-    echo $OUTPUT->header();
-}
-
-// Work out the sql for the table.
-$table->set_sql('firstname, lastname, idnumber', "{user}", '1');
-
-$table->define_baseurl($CFG->wwwroot.'/local/memplugin/results.php');
-
-$table->out(40, true);
-
-if (!$table->is_downloading()) {
-    echo $OUTPUT->footer();
-}
-*/
-
-echo $OUTPUT->header();
-
 ?>
+
 <link rel="stylesheet" type="text/css" href="css/jquery.dataTables.min.css">
 <script src="http://code.jquery.com/jquery-latest.js" type="text/javascript"></script>
 <script type="text/javascript" charset="utf8" src="js/jquery.dataTables.min.js"></script>
 
-<table id="table_id" class="display">
+<table id="results_table" class="display">
     <thead>
         <tr>
-            <th>Column 1</th>
-            <th>Column 2</th>
+            <th>First name</th>
+            <th>Last name</th>
+			<th>Student ID</th>
+			<th>Mark</th>
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>Row 1 Data 1</td>
-            <td>Row 1 Data 2</td>
-        </tr>
-        <tr>
-            <td>Row 2 Data 1</td>
-            <td>Row 2 Data 2</td>
-        </tr>
+		<?php
+		create_results_table();
+		?>
     </tbody>
 </table>
 
 <script>
 $(document).ready( function () {
-    $('#table_id').DataTable();
+    $('#results_table').DataTable();
 } );
 </script>
 
-
 <?php
-
 echo $OUTPUT->footer();
 
+function create_results_table() {
+	//if($_GET['course_id']) {	
+		//$course_id = $_GET['course_id'];
+		//$sql = "SELECT u.firstname, u.lastname, u.idnumber, mms.total_booklet_score 
+		//		FROM {user} u, {mem_mark_stats} mms,  {mem_booklet_data} mbd 
+		//		WHERE mbd.course_id = " . course_id . " 
+		//		AND mbd.student_id = u.idnumber 
+		//		AND mbd.booklet_id = mms.booklet_id";
+		//$marks_rs = $GLOBALS['DB']->get_recordset_sql($sql);
+	//}
+	$marks_rs = $GLOBALS['DB']->get_recordset('user');
+	
+	foreach($marks_rs as $mark) {
+		echo '<tr>';
+		echo '<td>';
+		print_r($mark->firstname);
+		echo '</td>';
+		echo '<td>';
+		print_r($mark->lastname);
+		echo '</td>';
+		echo '<td>';
+		print_r($mark->idnumber);
+		echo '</td>';
+		echo '<td>';
+		print_r($mark->firstname);
+		echo '</td>';
+		echo '</tr>';
+	}
+	
+	$marks_rs->close();
+}
 ?>

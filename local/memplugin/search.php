@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 // This file is part of Moodle - http://moodle.org/
 //
@@ -19,34 +19,43 @@
  * Initial page for the plug-in
  *
  * @package     local
- * @subpackage  demo_plug-in
- * @copyright   Eric Cheng ec10@ualberta.ca
+ * @subpackage  memplugin
+ * @copyright   
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 global $PAGE, $CFG, $DB;
 require_once('../../config.php');
+require_once($CFG->dirroot.'/local/memplugin/search_form.php');
 
 require_login();
 require_capability('local/memplugin:add', context_system::instance());
-require_once($CFG->dirroot.'/local/memplugin/mme_exams.php');
-require_once($CFG->dirroot.'/local/memplugin/exam_form.php');
-
 $PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('pluginname', 'local_memplugin'));
 $PAGE->set_heading(get_string('pluginname', 'local_memplugin'));
-$PAGE->set_url($CFG->wwwroot.'/local/memplugin/examclasstest.php');
+$PAGE->set_url($CFG->wwwroot.'/local/memplugin/search.php');
 
-$form = new mme_exam_form();
-
-if ($_POST['exam_submit']) {
-	$data = $form->get_data();
-	redirect($CFG->wwwroot.'/local/memplugin/examclasstestresult.php?exam_count='.$data->exam_count.'&extra_count='.$data->extra_count);
-} else {
-	echo $OUTPUT->header();
-	$form->display();
-	echo $OUTPUT->footer();
+$datstudents = array();
+$enrolled = enrol_get_users_courses($USER->id, true,'*', 'visible DESC, sortorder ASC');
+foreach($enrolled as $course) {
+	//https://docs.moodle.org/dev/Enrolment_API
+	//get_enrolled_users(context $context, $withcapability = '', $groupid = 0, $userfields = 'u.*', $orderby = '', $limitfrom = 0, $limitnum = 0)
+	//id is also key. so array_merge overrides is ok.
+	$tmp = get_enrolled_users(context_course::instance($course->id),'', 0, 'u.*');
+	$datstudents = array_merge($datstudents, $tmp);
 }
+
+$js = '<script>var data = '.json_encode($datstudents).';
+		window.onload = init(data); </script>';
+
+echo $OUTPUT->header();
+echo '<script src="js/search.js" type="text/javascript"></script>';
+echo "Search plz. Thank u.";
+echo '<input id="inputid" name="selectname" onchange="newSearch()"></input>';
+echo '<button type="button" id="search_btn_id" onclick="newSearch()">Search</button>';
+echo '<div id="aside"></div>';
+echo $js;
+echo $OUTPUT->footer();
 
 ?>
