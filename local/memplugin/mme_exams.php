@@ -133,8 +133,8 @@
 		// This should be called after generating the exam. Otherwise it'll probably be a empty page.
 		// The $dest parameter is identical to the one in the FPDF docs.
 		// http://www.fpdf.org/en/doc/output.htm
-		public function output_exam($dest="I",$name=""){
-			$this->pdf->Output($dest);
+		public function output_exam($name="output"){
+			$this->pdf->Output($name.".pdf","D");
 		}
 	}
 ?>
