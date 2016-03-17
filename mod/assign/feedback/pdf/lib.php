@@ -37,7 +37,7 @@ function assignfeedback_pdf_pluginfile($course, $cm, context $context, $filearea
     }
 
     $submissionid = array_shift($args);
-    $submission = $DB->get_record('assign_submission', array('id' => $submissionid));
+    $submission = $DB->frecord('assign_submission', array('id' => $submissionid));
 
     if ($submission->assignment != $cm->instance) {
         return false; // Submission does not belong to this assignment.

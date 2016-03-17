@@ -5,6 +5,9 @@
 	
 		// what stats needed for a grades? http://www.astronomy.ohio-state.edu/~pogge/Ast162/Quizzes/curve.html
 		
+		/**
+		Converts the given array into percentage.
+		*/
 		public function to_percentage_array($raw_score_array, $max_marks) {
 			$percent = array();
 			
