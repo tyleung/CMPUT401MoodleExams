@@ -1,5 +1,7 @@
 <?php
-require_once("../mme_exams.php");
+
+global $CFG;
+require_once($CFG->dirroot.'/local/memplugin/mme_exams.php');
 
 class local_memplugin_mme_exams_testcase extends basic_testcase {
      public function test_adding() {
