@@ -37,16 +37,20 @@ $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('pluginname', 'local_memplugin'));
 $PAGE->set_heading(get_string('Welcome', 'local_memplugin'));
 $PAGE->set_url($CFG->wwwroot.'/local/memplugin/memhome.php');
-$class_section_form = new create_memhome_instance();
+$form = new create_memhome_instance();
 
-if ($class_section_form->is_cancelled()) {
+if ($_POST['create']) {
+	redirect($CFG->wwwroot.'/local/memplugin/generate_exam.php');
+} else if($_POST['mark']) {
+	redirect($CFG->wwwroot.'/local/memplugin/mark_exam.php');
+} elseif ($form->is_cancelled()) {
 	redirect($CFG->wwwroot.'/local/memplugin/view.php');
-} elseif ($data = $class_section_form->get_data()) {
+} elseif ($data = $form->get_data()) {
 	$check = $data->test1;
 	redirect($CFG->wwwroot.'/local/memplugin/view.php');
 } else {
 	echo $OUTPUT->header();
-	$class_section_form->display();
+	$form->display();
 	echo $OUTPUT->footer();
 }
 ?>

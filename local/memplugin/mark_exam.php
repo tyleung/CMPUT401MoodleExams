@@ -37,8 +37,12 @@ $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('pluginname', 'local_memplugin'));
 $PAGE->set_heading(get_string('markheader', 'local_memplugin'));
 $PAGE->set_url($CFG->wwwroot.'/local/memplugin/mark_exam.php');
+
 $class_section_form = new create_mark_exam_instance();
 
+//get course id somehow from other form GET
+//append to redirect name with question mark 
+//http://stackoverflow.com/questions/5479940/handling-a-dynamic-amount-of-checkboxes-with-php
 if ($class_section_form->is_cancelled()) {
 	redirect($CFG->wwwroot.'/local/memplugin/memhome.php');
 } elseif ($data = $class_section_form->get_data()) {

@@ -31,6 +31,8 @@ require_login();
 * It also fills out predefined feedback snippets for the user to enter
 * this functionality will be further refined
 */
+
+
 class create_memhome_instance extends moodleform{
 	function definition(){
 		global $CFG, $DB, $USER;
@@ -41,7 +43,7 @@ class create_memhome_instance extends moodleform{
 		$mform->addElement('header', 'general', get_string('genheader', 'local_memplugin'));
 		$buttonarray   =  array();
 		$buttonarray[] =& $mform->createElement('submit','create', get_string('createbutton', 'local_memplugin'));
-		$buttonarray[] =& $mform->createElement('submit','mark', get_string('markbutton', 'local_memplugin'));
+		$buttonarray[] =& $mform->createElement('submit','mark', get_string('markbuttonhome', 'local_memplugin'));
 		$mform->addGroup($buttonarray, 'buttonar', 'What would you like to do?', array(' '), false);
 
 //html link tag PUT or POST for sending information. Put more secure but post can get from URL

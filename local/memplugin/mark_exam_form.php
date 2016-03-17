@@ -36,14 +36,19 @@ class create_mark_exam_instance extends moodleform{
 
 		//General
 		$mform->addElement('header', 'general', get_string('genheader', 'local_memplugin'));
-	    $mform->addElement('select', 'coursesection', get_string('sectionheader', 'local_memplugin'), $FORUM_TYPES, $attributes);
-		$mform->addElement('button', 'intro', get_string('addsection','local_memplugin'));
 
-//check boxes for multiple courses
+		//Get list of logged in user's enrolled courses.
+		$user_courses = enrol_get_users_courses($USER->id, true, '*', 'visible DESC,sortorder ASC');
+        $select_course_array=array();
+        $selectgroup = array();
+        foreach ($user_courses as $uc){
+            $select_course_array[$uc->id] = $uc->fullname;
+        }
 
-
-//$mform->addElement('html', '<b>'.get_string('emergencypgs', 'local_memplugin').'</b> <br> <input type="number" value="0" min="0"</input> <br>');
-
+		foreach($select_course_array as $course){
+			$selectgroup[] =& $mform->createElement('advcheckbox', $course->id, null, $course."<br>", array('group'=>0),array(0,1));
+		}
+        $mform->addElement('group', 'courseselect', get_string('courses', 'local_memplugin'), $selectgroup, array('  '), false);
 
 		//upload
 		$mform->addElement('header', 'fileheader', get_string('file', 'local_memplugin'));
