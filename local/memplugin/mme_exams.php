@@ -1,8 +1,8 @@
 <?php
-	require_once '../../config.php';
-	require_once "php-qrcode-detector-decoder/QrReader.php";
-	require_once "TCPDF/tcpdf.php";
-	require_once "FPDI/fpdi.php";
+	if (!class_exists('TCPDF')){
+		require_once "TCPDF/tcpdf.php";
+		require_once "FPDI/fpdi.php";
+	}
 	set_time_limit (0);
 
 	class MME_QRcode {
