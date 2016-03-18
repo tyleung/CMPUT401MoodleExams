@@ -16,6 +16,7 @@ Statistics
 */
 
 	$year = $_GET['semester'];
+	$course = $_GET['course'];
 	$calc = new stats();
 
 	// Taken from http://code.stephenmorley.org/php/creating-downloadable-csv-files/
@@ -23,7 +24,7 @@ Statistics
 	header('Content-Type: text/csv; charset=utf-8');
 	header('Content-Disposition: attachment; filename=Statistics_'.$year.'.csv');
 
-	$booklet_pg_sql = $GLOBALS['DB']->get_records_sql('SELECT page_id, {mem_pages}.booklet_id, max_pages, page_num, page_marks, page_marks_max FROM {mem_booklet_data}, {mem_pages} WHERE year_semester_origin=? and {mem_pages}.booklet_id={mem_booklet_data}.booklet_id', array($year));
+	$booklet_pg_sql = $GLOBALS['DB']->get_records_sql('SELECT page_id, {mem_pages}.booklet_id, max_pages, page_num, page_marks, page_marks_max FROM {mem_booklet_data}, {mem_pages} WHERE course_id=? and year_semester_origin=? and {mem_pages}.booklet_id={mem_booklet_data}.booklet_id', array($course, $year));
 	
 	$max_pages = current($booklet_pg_sql)->max_pages;
 	$booklet_keys = array();

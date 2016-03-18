@@ -26,7 +26,6 @@
 
 global $PAGE, $CFG, $DB;
 require_once('../../config.php');
-require_once($CFG->dirroot.'/local/memplugin/search_form.php');
 
 require_login();
 require_capability('local/memplugin:add', context_system::instance());
@@ -37,6 +36,7 @@ $PAGE->set_heading(get_string('pluginname', 'local_memplugin'));
 $PAGE->set_url($CFG->wwwroot.'/local/memplugin/search.php');
 
 $datstudents = array();
+// enrolled, with no role. this is too generic, later make this so it retrieves only where user has teacher+ privilige.
 $enrolled = enrol_get_users_courses($USER->id, true,'*', 'visible DESC, sortorder ASC');
 foreach($enrolled as $course) {
 	//https://docs.moodle.org/dev/Enrolment_API
