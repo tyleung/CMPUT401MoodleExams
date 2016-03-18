@@ -42,8 +42,15 @@ $PAGE->set_url($CFG->wwwroot.'/local/memplugin/stats.php');
 //error_log(print_r($db_entry));
 $form = new stats_sem_form();
 $formcourse = new stats_course_form();
+	
+if ($_GET['course_choice']){
+	echo $OUTPUT->header();
+	//$form->custom_display($_GET['course_choice']);
+	$form->display();
+	echo $OUTPUT->footer();	
+	
 
-if($_GET['exam_year_sem_choice']) {
+} else if($_GET['exam_year_sem_choice']) {
 	
 	//$data = $form->get_data();
 	$db_date = $_GET['exam_year_sem_choice'];
@@ -51,7 +58,9 @@ if($_GET['exam_year_sem_choice']) {
 	$courseid = strtok($db_date, "_");
 
 	print_r($courseid."-courseid<br>");
+	
 	$sem = strtok("_");
+	
 	print_r($sem."-sem<br>");
 
 	echo $OUTPUT->header();
@@ -59,11 +68,7 @@ if($_GET['exam_year_sem_choice']) {
 	create_stats_page($courseid, $sem);
 
 	echo $OUTPUT->footer();
-} else if ($_GET['course_choice']){
-	echo $OUTPUT->header();
-	$form->display();
-	echo $OUTPUT->footer();	
-} 
+}
 
 if ($_POST['year_choice_submit']) {
 	$data = $form->get_data();

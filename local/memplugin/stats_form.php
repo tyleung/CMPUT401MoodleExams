@@ -4,16 +4,20 @@
 	require_once $CFG->dirroot.'/lib/datalib.php'; // database library
 
 	class stats_sem_form extends moodleform {
-	
+		/*public $courseid = -1;
+		public function custom_display($i) {
+			$courseid = $i;
+		}
+		*/
 		//definition is the constructor that moodle will look for to create it.
 		function definition() {
 			global $CFG, $DB, $USER; //Declare our globals for use
-			$mform = $this->_form; //Tell this object to initialize with the properties of the Moodle form.
+			$nform = $this->_form; //Tell this object to initialize with the properties of the Moodle form.
 		
 			$courseid = $_GET['course_choice'];
 
 			//Add all your form elements here
-			$mform->addElement('header', 'year_sem', get_string('stats_title','local_memplugin'));
+			$nform->addElement('header', 'year_sem', get_string('stats_title','local_memplugin'));
 			//$db_entry = $DB->get_fieldset_sql('SELECT year_semester_origin FROM {mem_booklet_data}', array(1));
 			$db_entry = $DB->get_records_sql('SELECT booklet_id, year_semester_origin, course_id FROM {mem_booklet_data} WHERE course_id=?', array($courseid));
 
@@ -27,14 +31,18 @@
 				$selection[$str] = $strname;
 			}
 			asort($selection);
-		
+			
+			//http://192.168.56.101/moodle/local/memplugin/stats.php?course_choice=CMPUT469
+			// BUG: FOR SOME REASON post here only posts the submit button & it's value...
+			// object(stdClass)#679 (1) { ["year_choice_submit"]=> string(14) "Get Statistics" } 
+			// instead of the selection array.
+			
 			$select = array();
-			$select[] = $mform->createElement('select','year_choice_select', get_string('stats_select_title', 'local_memplugin'),$selection);
+			$select[] = $nform->createElement('select','year_choice_select', get_string('stats_select_title', 'local_memplugin'),$selection);
 			// groups submit button with the dropdown menu
-			$select[] = $mform->createElement('submit', 'year_choice_submit', get_string('stats_choice_submit', 'local_memplugin'));
+			$select[] = $nform->createElement('submit', 'year_choice_submit', get_string('stats_choice_submit', 'local_memplugin'));
 			// array(' ') makes empty space so formatting is easier to read.
-			$mform->addElement('group', 'year_sem_selection', get_string('stats_grouping', 'local_memplugin'), $select, array(' '),false);
-				
+			$nform->addElement('group', 'year_sem_selection', get_string('stats_grouping', 'local_memplugin'), $select, array(' '),false);
 		}
 	
 		//If you need to validate your form information, you can override  the parent's validation method and write your own.	
@@ -70,7 +78,7 @@
 			// groups submit button with the dropdown menu
 			$select[] = $mform->createElement('submit', 'course_choice_submit', get_string('stats_choice_submit', 'local_memplugin'));
 			// array(' ') makes empty space so formatting is easier to read.
-			$mform->addElement('group', 'year_sem_selection', get_string('stats_grouping', 'local_memplugin'), $select, array(' '),false);
+			$mform->addElement('group', 'course_sem_selection', get_string('stats_grouping', 'local_memplugin'), $select, array(' '),false);
 				
 		}
 	
