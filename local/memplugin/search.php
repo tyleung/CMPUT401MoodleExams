@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Initial page for the plug-in
+ * This page is for the partial search of students, who you then can assign a booklet-id.
  *
  * @package     local
  * @subpackage  memplugin
@@ -36,8 +36,11 @@ $PAGE->set_heading(get_string('pluginname', 'local_memplugin'));
 $PAGE->set_url($CFG->wwwroot.'/local/memplugin/search.php');
 
 $datstudents = array();
-// enrolled, with no role. this is too generic, later make this so it retrieves only where user has teacher+ privilige.
+/** Retrieve Teacher's courses.
+Note: enrolled, with no role. this is too generic, later make this so it retrieves only where user has teacher+ privilige.*/
 $enrolled = enrol_get_users_courses($USER->id, true,'*', 'visible DESC, sortorder ASC');
+
+/** Retrieves each student enrolled in the list of all courses the teacher is enrolled in. */
 foreach($enrolled as $course) {
 	//https://docs.moodle.org/dev/Enrolment_API
 	//get_enrolled_users(context $context, $withcapability = '', $groupid = 0, $userfields = 'u.*', $orderby = '', $limitfrom = 0, $limitnum = 0)
@@ -45,18 +48,22 @@ foreach($enrolled as $course) {
 	$tmp = get_enrolled_users(context_course::instance($course->id),'', 0, 'u.*');
 	$datstudents = array_merge($datstudents, $tmp);
 }
-
-$js = '<script>var data = '.json_encode($datstudents).';
-		window.onload = init(data); </script>';
-
 // todo get booklet id as well, and parse it into search_add_to_db
+$searchable_students = '<script>var data = '.json_encode($datstudents).'; window.onload = init(data); </script>';
 
-echo $OUTPUT->header();
-echo '<script src="js/search.js" type="text/javascript"></script>';
-echo 'Find student: <input id="inputid" name="selectname" onchange="newSearch()"></input>';
-echo '<button type="button" id="search_btn_id" onclick="newSearch()">Search</button>';
-echo '<div id="aside"></div>';
-echo $js;
-echo $OUTPUT->footer();
+display_search($searchable_students);
 
+/**
+Display search method prints everything on screen to actually display everything, and links the Javascript file.
+*/
+function display_search($js) {
+	global $OUTPUT;
+	echo $OUTPUT->header();
+	echo '<script src="js/search.js" type="text/javascript"></script>';
+	echo 'Find student: <input id="inputid" name="selectname" onchange="newSearch()"></input>';
+	echo '<button type="button" id="search_btn_id" onclick="newSearch()">Search</button>';
+	echo '<div id="aside"></div>';
+	echo $js;
+	echo $OUTPUT->footer();
+}
 ?>

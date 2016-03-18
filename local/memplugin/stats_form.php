@@ -3,13 +3,16 @@
 	require_once $CFG->dirroot.'/lib/formslib.php';
 	require_once $CFG->dirroot.'/lib/datalib.php'; // database library
 
+	/**
+	this class is responsible for the form of choosing semesters for the statistics selection. E.g. 2014 FALL.
+	*/
 	class stats_sem_form extends moodleform {
 		/*public $courseid = -1;
 		public function custom_display($i) {
 			$courseid = $i;
 		}
 		*/
-		//definition is the constructor that moodle will look for to create it.
+		/** definition is the constructor that moodle will look for to create it. */
 		function definition() {
 			global $CFG, $DB, $USER; //Declare our globals for use
 			$nform = $this->_form; //Tell this object to initialize with the properties of the Moodle form.
@@ -55,9 +58,12 @@
 		}	
 	}
 	
+	/**
+	this class is responsible for the form of choosing the course for the statistics selection.
+	*/
 	class stats_course_form extends moodleform {
 	
-		//definition is the constructor that moodle will look for to create it.
+		/** definition is the constructor that moodle will look for to create it. */
 		function definition() {
 			global $CFG, $DB, $USER; //Declare our globals for use
 			$mform = $this->_form; //Tell this object to initialize with the properties of the Moodle form.
