@@ -1,5 +1,4 @@
 <?php
-	require_once '../../config.php';
 	require_once "php-qrcode-detector-decoder/QrReader.php";
 
 
