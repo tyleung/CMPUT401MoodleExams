@@ -96,7 +96,7 @@ function create_stats_page($crs, $yr) {
 
 	$calc = new stats();
 	//$mform->addElement('header', 'year_sem', get_string('stats_title','local_memplugin'));
-	echo '<h1>Results for '.$got_req.'</h1><br>';
+	echo '<h1>Results for '.$yr.'</h1><br>';
 
 	/** The SQL query to retrieve all the totatl marks for each booklet for a specific year and course. */
 	$mark_sql = $GLOBALS['DB']->get_records_sql('SELECT {mem_mark_stats}.booklet_id, total_booklet_score, total_booklet_score_max FROM {mem_booklet_data}, {mem_mark_stats} WHERE course_id=? and year_semester_origin=? and {mem_mark_stats}.booklet_id={mem_booklet_data}.booklet_id', array($crs, $yr));
