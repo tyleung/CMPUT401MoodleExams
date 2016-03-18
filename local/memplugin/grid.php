@@ -38,7 +38,8 @@ $gridnode->make_active();
 
 echo $OUTPUT->header();
 
-// TODO: Get the number of booklets and pages.
+// TODO: Get the course id, number of booklets and pages.
+$course_id = 2;
 $num_booklets = 15;
 $num_pages = 5;
 
@@ -50,54 +51,19 @@ $grid_width = (($num_pages + 1) * 110) + 10;
 
 <h3 class="sort-group-title">Sort</h3>
 <div class="sort-group-booklet">
-	<a href="#" data-sort="bookletAsc" class="current">Booklet Asc</a>
-	<a href="#" data-sort="bookletDec">Booklet Dec</a>
+	<a href="javascript:void(0);" data-sort="bookletAsc" class="current">Booklet Asc</a>
+	<a href="javascript:void(0);" data-sort="bookletDec">Booklet Dec</a>
 </div>
 <div class="sort-group-page">
-	<a href="#" data-sort="booklet,pageAsc" class="current">Page Asc</a>
-	<a href="#" data-sort="booklet,pageDec">Page Dec</a>
+	<a href="javascript:void(0);" data-sort="booklet,pageAsc" class="current">Page Asc</a>
+	<a href="javascript:void(0);" data-sort="booklet,pageDec">Page Dec</a>
 </div>
-
 
 <div class="grid-outer" style="width:<?php echo $grid_width; ?>px">
-<div class="grid-page-nums">
 <?php
-// Create the top page row
-echo '<div class="grid-item-page-nums"></div>'."\n";
-for ($i = 1; $i <= $num_pages; $i++) {
-	echo '<div class="grid-item-page-nums">'."\n";
-	echo "\t".'<p class="booklet-num"></p>'."\n";
-	echo "\t".'<p class="page-nums">P<span class="page-num">'.$i.'</span></p>'."\n";
-	echo '</div>'."\n";
-}
+create_grid_headers($num_pages);
+create_grid($course_id, $num_booklets, $num_pages);
 ?>
-</div>
-
-<div class="grid" >
-	
-<?php
-
-$statuses = array('finished', 'unfinished');
-
-for ($i = 1; $i <= $num_booklets; $i++) {
-	echo '<div class="grid-item-booklet-nums">'."\n";
-	echo "\t".'<p class="booklet-nums">B<span class="booklet-num">'.$i.'</span></p>'."\n";
-	echo '</div>'."\n";
-	for ($j = 1; $j <= $num_pages; $j++) {
-		$status = $statuses[array_rand($statuses)];
-		echo '<a href="markpage.php?booklet='.$i.'&page='.$j.'" class="grid-item-select">'."\n";
-		echo '<div class="grid-item '.$status.'">'."\n";
-		echo "\t".'<p class="mark">0</p>'."\n";
-		echo "\t".'<p hidden class="booklet">B<span class="booklet-num">'.$i.'</span></p>'."\n";
-		echo "\t".'<p class="page">P<span class="page-num">'.$j.'</span></p>'."\n";
-		echo '</div>'."\n";
-		echo '</a>'."\n";
-	}
-}
-
-?>
-
-</div>
 </div>
 
 <script src="http://code.jquery.com/jquery-latest.js" type="text/javascript"></script>
@@ -106,4 +72,56 @@ for ($i = 1; $i <= $num_booklets; $i++) {
 
 <?php
 echo $OUTPUT->footer();
+
+/**
+ * Creates the grid header indicating page numbers.
+ *
+ * @param int $num_pages The number of pages in the exam.
+ *
+ * @return void
+ */
+function create_grid_headers($num_pages) {
+	echo '<div class="grid-page-nums">'."\n";
+	echo '<div class="grid-item-page-nums"></div>'."\n";
+	for ($i = 1; $i <= $num_pages; $i++) {
+		echo '<div class="grid-item-page-nums">'."\n";
+		echo "\t".'<p class="booklet-num"></p>'."\n";
+		echo "\t".'<p class="page-nums">P<span class="page-num">'.$i.'</span></p>'."\n";
+		echo '</div>'."\n";
+	}
+	
+	echo '</div>'."\n";
+}
+
+/**
+ * Creates the grid with exam booklets running row-wise and pages column-wise.
+ *
+ * @param int $course_id The course id.
+ * @param int $num_booklets The number of exam booklets in the course.
+ * @param int $num_pages The number of pages in the exam.
+ *
+ * @return void
+ */
+function create_grid($course_id, $num_booklets, $num_pages) {
+	echo '<div class="grid">'."\n";
+	$statuses = array('finished', 'unfinished');
+
+	for ($i = 1; $i <= $num_booklets; $i++) {
+		echo '<div class="grid-item-booklet-nums">'."\n";
+		echo "\t".'<p class="booklet-nums">B<span class="booklet-num">'.$i.'</span></p>'."\n";
+		echo '</div>'."\n";
+		for ($j = 1; $j <= $num_pages; $j++) {
+			$status = $statuses[array_rand($statuses)];
+			echo '<a href="markpage.php?course_id='.$course_id.'&booklet='.$i.'&page='.$j.'" class="grid-item-select">'."\n";
+			echo '<div class="grid-item '.$status.'">'."\n";
+			echo "\t".'<p class="mark">0</p>'."\n";
+			echo "\t".'<p hidden class="booklet">B<span class="booklet-num">'.$i.'</span></p>'."\n";
+			echo "\t".'<p class="page">P<span class="page-num">'.$j.'</span></p>'."\n";
+			echo '</div>'."\n";
+			echo '</a>'."\n";
+		}
+	}
+	
+	echo '</div>'."\n";
+}
 ?>

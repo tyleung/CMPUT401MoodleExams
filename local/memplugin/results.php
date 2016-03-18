@@ -69,19 +69,19 @@ $(document).ready( function () {
 echo $OUTPUT->footer();
 
 /**
-Populates the results table with data from the database.
-*/
+ * Populates the results table with data from the database.
+ */
 function populate_results_table() {
-	//if($_GET['course_id']) {	
-		//$course_id = $_GET['course_id'];
-		$course_id = 2;
+	if($_GET['course_id']) {	
+		$course_id = $_GET['course_id'];
+		#$course_id = 2;
 		$sql = "SELECT u.firstname, u.lastname, u.idnumber, mms.total_booklet_score 
 				FROM {user} u, {mem_mark_stats} mms,  {mem_booklet_data} mbd 
 				WHERE mbd.course_id = " . $course_id . " 
 				AND mbd.student_id = u.idnumber 
 				AND mbd.booklet_id = mms.booklet_id";
 		$marks_rs = $GLOBALS['DB']->get_recordset_sql($sql);
-	//}
+	}
 	
 	foreach($marks_rs as $mark) {
 		echo '<tr>';

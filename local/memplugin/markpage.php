@@ -19,7 +19,7 @@
  *
  * @package   mod_assign
  * @subpackage assignsubmission_pdf
- * @copyright 2012 Davo Smith
+ * @copyright 
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -35,7 +35,7 @@ $action = optional_param('action', null, PARAM_TEXT);
 $rownum = optional_param('rownum', null, PARAM_INT);
 $returnparams = optional_param('returnparams', null, PARAM_TEXT);
 
-$url = new moodle_url('moodle/local/memplugin/markpage.php');
+$url = new moodle_url($CFG->wwwroot.'/local/memplugin/markpage.php');
 if (!is_null($rownum)) {
     $url->param('rownum', $rownum);
 }
