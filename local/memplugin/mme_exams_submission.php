@@ -60,13 +60,5 @@
 
 	}
 
-if (!extension_loaded('imagick'))
-	echo "NO IMAGICK LIBRARY LOADED";
-
-$scan_path = 'fnl2012qr.pdf';
-$scan = new MME_exam_submission($scan_path);
-echo $scan->get_data();
-echo '<img src="data:image/png;base64,'.base64_encode($scan->get_image_blob()).'"/>';
-
 ?>
 
