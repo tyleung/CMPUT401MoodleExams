@@ -45,7 +45,7 @@ $formcourse = new stats_course_form();
 
 if($_GET['exam_year_sem_choice']) {
 	
-	$data = $form->get_data();
+	//$data = $form->get_data();
 	$db_date = $_GET['exam_year_sem_choice'];
 	// &nbsp;
 	$courseid = strtok($db_date, "_");
@@ -59,11 +59,13 @@ if($_GET['exam_year_sem_choice']) {
 	create_stats_page($courseid, $sem);
 
 	echo $OUTPUT->footer();
-}else if ($_GET['course_choice']){
+} else if ($_GET['course_choice']){
 	echo $OUTPUT->header();
 	$form->display();
 	echo $OUTPUT->footer();	
-} else if ($_POST['year_choice_submit']) {
+} 
+
+if ($_POST['year_choice_submit']) {
 	$data = $form->get_data();
 	var_dump($data);
 	// put custom put or post methods or variables into our html header, put ? in the end at the page.
@@ -75,10 +77,13 @@ if($_GET['exam_year_sem_choice']) {
 	$data = $formcourse->get_data();
 	redirect($CFG->wwwroot.'/local/memplugin/stats.php?course_choice='.$data->course_choice_select);
 } else {
-	echo $OUTPUT->header();
-	$formcourse->display();
-	echo $OUTPUT->footer();
+	if(!$_GET['exam_year_sem_choice'] && !$_GET['course_choice']) {
+		echo $OUTPUT->header();
+		$formcourse->display();
+		echo $OUTPUT->footer();
+	}
 }
+
 
 function create_stats_page($crs, $yr) {
 
