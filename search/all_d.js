@@ -1,16 +1,7 @@
 var searchData=
 [
-  ['search_2ephp',['search.php',['../search_8php.html',1,'']]],
-  ['search_5fadd_5fto_5fdb_2ephp',['search_add_to_db.php',['../search__add__to__db_8php.html',1,'']]],
-  ['search_5fform_2ephp',['search_form.php',['../search__form_8php.html',1,'']]],
-  ['set_5fdata',['set_data',['../class_m_m_e___q_rcode.html#ac896dcdd1535057e14cd62090a252f8f',1,'MME_QRcode']]],
-  ['set_5fpath',['set_path',['../class_m_m_e___q_rcode.html#aeec83277daee78731b7402c3932090fc',1,'MME_QRcode']]],
-  ['settings_2ephp',['settings.php',['../settings_8php.html',1,'']]],
-  ['spread',['spread',['../classstats.html#a8463c0572e33b83e46eca9a563b8a4b6',1,'stats']]],
-  ['stats',['stats',['../classstats.html',1,'']]],
-  ['stats_2ephp',['stats.php',['../stats_8php.html',1,'']]],
-  ['stats_5fclass_2ephp',['stats_class.php',['../stats__class_8php.html',1,'']]],
-  ['stats_5fform',['stats_form',['../classstats__form.html',1,'']]],
-  ['stats_5fform_2ephp',['stats_form.php',['../stats__form_8php.html',1,'']]],
-  ['stats_5fmake_5fgraph_2ephp',['stats_make_graph.php',['../stats__make__graph_8php.html',1,'']]]
+  ['requires',['requires',['../version_8php.html#a9c9f657b2cd3e37b286e8b1f70d99bda',1,'version.php']]],
+  ['response_5flink',['response_link',['../classassign__feedback__pdf.html#a94aaba0e432220378aa6e7050b66a42d',1,'assign_feedback_pdf']]],
+  ['results_2ephp',['results.php',['../results_8php.html',1,'']]],
+  ['return_5furl',['return_url',['../classassign__feedback__pdf.html#a25625eb2352c56b13f3ad7af1e0c929d',1,'assign_feedback_pdf']]]
 ];

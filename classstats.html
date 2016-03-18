@@ -117,8 +117,6 @@ $(document).ready(function(){initNavTree('classstats.html','');});
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a281352f0a90f11ee7c0d348d7dafe326"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstats.html#a281352f0a90f11ee7c0d348d7dafe326">to_percentage_array</a> ($raw_score_array, $max_marks)</td></tr>
 <tr class="separator:a281352f0a90f11ee7c0d348d7dafe326"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9695dcc1ee22f4aed7318810a7b10173"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstats.html#a9695dcc1ee22f4aed7318810a7b10173">count_grades</a> ($marks_array, $marks_interval, $max_marks)</td></tr>
-<tr class="separator:a9695dcc1ee22f4aed7318810a7b10173"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a624cf305b71a6e2a7b1d89d747067956"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstats.html#a624cf305b71a6e2a7b1d89d747067956">mean</a> ($data_array)</td></tr>
 <tr class="separator:a624cf305b71a6e2a7b1d89d747067956"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8b76f3a8677ff9b76c87bd56bee4d877"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstats.html#a8b76f3a8677ff9b76c87bd56bee4d877">median</a> ($data_array)</td></tr>
@@ -132,39 +130,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ae16234023fbee2bcfe75cf60a5ee8498"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstats.html#ae16234023fbee2bcfe75cf60a5ee8498">graph</a> ($raw_score, $percentage_interval, $total_mark)</td></tr>
 <tr class="separator:ae16234023fbee2bcfe75cf60a5ee8498"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a9695dcc1ee22f4aed7318810a7b10173"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">count_grades </td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>$marks_array</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>$marks_interval</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>$max_marks</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>This class contains methods to do statistical calculations for the graph and associated data. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="ae16234023fbee2bcfe75cf60a5ee8498"></a>
 <div class="memitem">
 <div class="memproto">
@@ -194,6 +162,7 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Method to generate the graph PNG image. Calls upon <a class="el" href="stats__make__graph_8php.html">stats_make_graph.php</a> </p>
 
 </div>
 </div>
@@ -210,6 +179,7 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Method to calculate the maximum of a given array. </p>
 
 </div>
 </div>
@@ -226,6 +196,7 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Method to calculate the mean of a given array. </p>
 
 </div>
 </div>
@@ -242,6 +213,7 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Method to calculate the median of a given array. </p>
 
 </div>
 </div>
@@ -258,6 +230,7 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Method to calculate the minimum of a given array. </p>
 
 </div>
 </div>
@@ -274,6 +247,7 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Method to calculate the spread of a given array. </p>
 
 </div>
 </div>
@@ -313,7 +287,7 @@ Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classstats.html">stats</a></li>
-    <li class="footer">Generated on Wed Mar 16 2016 22:45:54 for Mass Exam Marker Plugin by
+    <li class="footer">Generated on Fri Mar 18 2016 09:16:35 for Mass Exam Marker Plugin by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

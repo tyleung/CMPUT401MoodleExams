@@ -126,7 +126,11 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a38fa7a64105c1037cbb79ded34cfbf6d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_m_e___exams.html#a38fa7a64105c1037cbb79ded34cfbf6d">output_exam</a> ($name=&quot;output&quot;)</td></tr>
 <tr class="separator:a38fa7a64105c1037cbb79ded34cfbf6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Class for handling exam generation. </p><dl class="section author"><dt>Author</dt><dd>Jaeyoon Kim </dd></dl>
+<dl class="section version"><dt>Version</dt><dd>0.0.1 </dd></dl>
+<dl class="section since"><dt>Since</dt><dd>2016-03-18 </dd></dl>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="ad4a557a14d25eba5b190130c6b09653a"></a>
 <div class="memitem">
 <div class="memproto">
@@ -150,6 +154,13 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>The constuctor. The constructor takes 2 arguments, $path and the optional $name. The constructor will then setup a new pdf object based on the given arguments. This constructor will be changed to use database parameters instead at a later time. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">str</td><td class="paramname">$path</td><td>The path to the exam file. </td></tr>
+    <tr><td class="paramtype">str</td><td class="paramname">$name,=""</td><td>Optional name of the exam. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -177,6 +188,14 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Public method. This method takes 2 integer arguments. $exam_count and $extra_pages This method will generate a exam each with a unique QRcode placed on the top left corner. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$exam_count</td><td>Number of exams to be generated. </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$extra_pages</td><td>Number of extra "emergency" pages to generate for each exam. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
 
 </div>
 </div>
@@ -203,6 +222,14 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Public method. The method takes 2 integer arguments for the current page and exam number. This method will return a string of the serialized array data for use in the QRcode. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$page_number</td><td>Current page number. </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$exam_number</td><td>Current exam booklet number. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>str String of the serialized array data for use in the QRcode. </dd></dl>
 
 </div>
 </div>
@@ -229,6 +256,14 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Public method. The method takes 2 integer arguments for the current page and exam number. The method will return a string that will be displayed under the QRcode. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$page_number</td><td>Current page number </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$exam_number</td><td>Current exam booklet number </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>str String that will be displayed under the QRcode. </dd></dl>
 
 </div>
 </div>
@@ -245,6 +280,13 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Public method. This method will output the generated .pdf file. Thus should only be called after <a class="el" href="class_m_m_e___exams.html#a78660043d62db56946c8427ce4c47085">generate_exam()</a> method has been called. The PDF output will fail if there are any non PDF output made beforehand. An optional filename can be specified as the $name which will be used for the name in the download prompt. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">str</td><td class="paramname">$name,="output"</td><td>Optional filename. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
 
 </div>
 </div>
@@ -257,7 +299,7 @@ Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_m_m_e___exams.html">MME_Exams</a></li>
-    <li class="footer">Generated on Wed Mar 16 2016 22:45:54 for Mass Exam Marker Plugin by
+    <li class="footer">Generated on Fri Mar 18 2016 09:16:35 for Mass Exam Marker Plugin by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

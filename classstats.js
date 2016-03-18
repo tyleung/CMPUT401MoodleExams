@@ -1,6 +1,5 @@
 var classstats =
 [
-    [ "count_grades", "classstats.html#a9695dcc1ee22f4aed7318810a7b10173", null ],
     [ "graph", "classstats.html#ae16234023fbee2bcfe75cf60a5ee8498", null ],
     [ "max", "classstats.html#ab5d9f7884372ca8ac58ac07ed0b64f62", null ],
     [ "mean", "classstats.html#a624cf305b71a6e2a7b1d89d747067956", null ],

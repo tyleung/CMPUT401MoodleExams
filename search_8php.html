@@ -106,6 +106,7 @@ $(document).ready(function(){initNavTree('search_8php.html','');});
 <div class="header">
   <div class="summary">
 <a href="#namespaces">Namespaces</a> &#124;
+<a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">search.php File Reference</div>  </div>
@@ -116,6 +117,11 @@ $(document).ready(function(){initNavTree('search_8php.html','');});
 Namespaces</h2></td></tr>
 <tr class="memitem:namespacelocal"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacelocal.html">local</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a50d5016f0cb64bfd0a266f634faf28d1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="search_8php.html#a50d5016f0cb64bfd0a266f634faf28d1">display_search</a> ($js)</td></tr>
+<tr class="separator:a50d5016f0cb64bfd0a266f634faf28d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
@@ -129,9 +135,27 @@ Variables</h2></td></tr>
 <tr class="separator:ac035ac041ab97392cdebf4c81161453c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a723f26ad56347f01620d9965749fa31e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="search_8php.html#a723f26ad56347f01620d9965749fa31e">$enrolled</a> = enrol_get_users_courses($USER-&gt;id, true,'*', 'visible DESC, sortorder ASC')</td></tr>
 <tr class="separator:a723f26ad56347f01620d9965749fa31e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a023589c89c27e38808571a60379dafaf"><td class="memItemLeft" align="right" valign="top">foreach($enrolled as $course)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="search_8php.html#a023589c89c27e38808571a60379dafaf">$js</a></td></tr>
-<tr class="separator:a023589c89c27e38808571a60379dafaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e57a1b4f675c2ff56096dcd340a5101"><td class="memItemLeft" align="right" valign="top">foreach($enrolled as $course)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="search_8php.html#a4e57a1b4f675c2ff56096dcd340a5101">$searchable_students</a> = '&lt;script&gt;var data = '.json_encode($datstudents).'; window.onload = init(data); &lt;/script&gt;'</td></tr>
+<tr class="separator:a4e57a1b4f675c2ff56096dcd340a5101"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="a50d5016f0cb64bfd0a266f634faf28d1"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">display_search </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$js</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Display search method prints everything on screen to actually display everything, and links the Javascript file. </p>
+
+</div>
+</div>
 <h2 class="groupheader">Variable Documentation</h2>
 <a class="anchor" id="ac5c2b68f4b60dac62c056953264d53aa"></a>
 <div class="memitem">
@@ -178,20 +202,8 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Retrieve Teacher's courses. Note: enrolled, with no role. this is too generic, later make this so it retrieves only where user has teacher+ privilige. </p>
 
-</div>
-</div>
-<a class="anchor" id="a023589c89c27e38808571a60379dafaf"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">foreach ($enrolled as $course) $js</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= <span class="stringliteral">&#39;&lt;script&gt;var data = &#39;</span>.json_encode(<a class="code" href="search_8php.html#ac035ac041ab97392cdebf4c81161453c">$datstudents</a>).<span class="stringliteral">&#39;;</span></div><div class="line"><span class="stringliteral">        window.onload = init(data); &lt;/script&gt;&#39;</span></div><div class="ttc" id="search_8php_html_ac035ac041ab97392cdebf4c81161453c"><div class="ttname"><a href="search_8php.html#ac035ac041ab97392cdebf4c81161453c">$datstudents</a></div><div class="ttdeci">$datstudents</div><div class="ttdef"><b>Definition:</b> search.php:39</div></div>
-</div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a459b867ee1cb390598852bc0807e1dff"></a>
@@ -206,13 +218,26 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a4e57a1b4f675c2ff56096dcd340a5101"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">foreach ($enrolled as $course) $searchable_students = '&lt;script&gt;var data = '.json_encode($datstudents).'; window.onload = init(data); &lt;/script&gt;'</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Retrieves each student enrolled in the list of all courses the teacher is enrolled in. </p>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_0bca257b6f7866ff5362718e8319fe13.html">local</a></li><li class="navelem"><a class="el" href="dir_3eb7550d378a1f9da5ace392124b4034.html">memplugin</a></li><li class="navelem"><a class="el" href="search_8php.html">search.php</a></li>
-    <li class="footer">Generated on Wed Mar 16 2016 22:45:54 for Mass Exam Marker Plugin by
+    <li class="footer">Generated on Fri Mar 18 2016 09:16:35 for Mass Exam Marker Plugin by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

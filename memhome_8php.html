@@ -125,10 +125,10 @@ Variables</h2></td></tr>
 <tr class="separator:a459b867ee1cb390598852bc0807e1dff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a56f6c6070edb21a35cfa9e1df79ba61c"><td class="memItemLeft" align="right" valign="top">global&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memhome_8php.html#a56f6c6070edb21a35cfa9e1df79ba61c">$DB</a></td></tr>
 <tr class="separator:a56f6c6070edb21a35cfa9e1df79ba61c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a281b550c000b54619e08d700811b2ba5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memhome_8php.html#a281b550c000b54619e08d700811b2ba5">$class_section_form</a> = new <a class="el" href="classcreate__memhome__instance.html">create_memhome_instance</a>()</td></tr>
-<tr class="separator:a281b550c000b54619e08d700811b2ba5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adf82c06a94dfac4afce34a21087b21f6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="markpage_8php.html#a8f6f47a105fa7a3658ca00c2780a394b">if</a>($class_section_form-&gt;is_cancelled()) elseif($data=$class_section_form-&gt;get_data())&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memhome_8php.html#adf82c06a94dfac4afce34a21087b21f6">else</a></td></tr>
-<tr class="separator:adf82c06a94dfac4afce34a21087b21f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a4fda4c28a9ee5f91102c023b9501f4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memhome_8php.html#a1a4fda4c28a9ee5f91102c023b9501f4">$form</a> = new <a class="el" href="classcreate__memhome__instance.html">create_memhome_instance</a>()</td></tr>
+<tr class="separator:a1a4fda4c28a9ee5f91102c023b9501f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d3e1e1ddd51064d803655648fdac9dc"><td class="memItemLeft" align="right" valign="top">if($_POST['create']) elseif($_POST['mark']) elseif($form-&gt;is_cancelled()) elseif($data=$form-&gt;get_data())&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memhome_8php.html#a5d3e1e1ddd51064d803655648fdac9dc">else</a></td></tr>
+<tr class="separator:a5d3e1e1ddd51064d803655648fdac9dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Variable Documentation</h2>
 <a class="anchor" id="ac5c2b68f4b60dac62c056953264d53aa"></a>
@@ -137,18 +137,6 @@ Variables</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">global $CFG</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a281b550c000b54619e08d700811b2ba5"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">$class_section_form = new <a class="el" href="classcreate__memhome__instance.html">create_memhome_instance</a>()</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -167,6 +155,18 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a1a4fda4c28a9ee5f91102c023b9501f4"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">$form = new <a class="el" href="classcreate__memhome__instance.html">create_memhome_instance</a>()</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="a459b867ee1cb390598852bc0807e1dff"></a>
 <div class="memitem">
 <div class="memproto">
@@ -179,12 +179,12 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="adf82c06a94dfac4afce34a21087b21f6"></a>
+<a class="anchor" id="a5d3e1e1ddd51064d803655648fdac9dc"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="markpage_8php.html#a8f6f47a105fa7a3658ca00c2780a394b">if</a> ($class_section_form-&gt;is_cancelled()) elseif ($data=$class_section_form-&gt;get_data()) else</td>
+          <td class="memname">if ($_POST['create']) elseif ($_POST['mark']) elseif ($form-&gt;is_cancelled()) elseif ($data=$form-&gt;get_data()) else</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -197,7 +197,7 @@ Variables</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_0bca257b6f7866ff5362718e8319fe13.html">local</a></li><li class="navelem"><a class="el" href="dir_3eb7550d378a1f9da5ace392124b4034.html">memplugin</a></li><li class="navelem"><a class="el" href="memhome_8php.html">memhome.php</a></li>
-    <li class="footer">Generated on Wed Mar 16 2016 22:45:54 for Mass Exam Marker Plugin by
+    <li class="footer">Generated on Fri Mar 18 2016 09:16:35 for Mass Exam Marker Plugin by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

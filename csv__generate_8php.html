@@ -115,9 +115,11 @@ $(document).ready(function(){initNavTree('csv__generate_8php.html','');});
 Variables</h2></td></tr>
 <tr class="memitem:a8e992d901ac2312b3be2021ddbb7d11e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="csv__generate_8php.html#a8e992d901ac2312b3be2021ddbb7d11e">$year</a> = $_GET['semester']</td></tr>
 <tr class="separator:a8e992d901ac2312b3be2021ddbb7d11e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0cbf208c448812ce49f3fe3b7de082be"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="csv__generate_8php.html#a0cbf208c448812ce49f3fe3b7de082be">$course</a> = $_GET['course']</td></tr>
+<tr class="separator:a0cbf208c448812ce49f3fe3b7de082be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aac2901e2f905bd8b215ea0e215afb44e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="csv__generate_8php.html#aac2901e2f905bd8b215ea0e215afb44e">$calc</a> = new <a class="el" href="classstats.html">stats</a>()</td></tr>
 <tr class="separator:aac2901e2f905bd8b215ea0e215afb44e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aecad1cb9bb2c5720e28a933ec4a8b962"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="csv__generate_8php.html#aecad1cb9bb2c5720e28a933ec4a8b962">$booklet_pg_sql</a> = $GLOBALS['DB']-&gt;get_records_sql('SELECT page_id, {mem_pages}.booklet_id, max_pages, page_num, page_marks, page_marks_max FROM {mem_booklet_data}, {mem_pages} WHERE year_semester_origin=? and {mem_pages}.booklet_id={mem_booklet_data}.booklet_id', array($year))</td></tr>
+<tr class="memitem:aecad1cb9bb2c5720e28a933ec4a8b962"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="csv__generate_8php.html#aecad1cb9bb2c5720e28a933ec4a8b962">$booklet_pg_sql</a> = $GLOBALS['DB']-&gt;get_records_sql('SELECT page_id, {mem_pages}.booklet_id, max_pages, page_num, page_marks, page_marks_max FROM {mem_booklet_data}, {mem_pages} WHERE course_id=? and year_semester_origin=? and {mem_pages}.booklet_id={mem_booklet_data}.booklet_id', array($course, $year))</td></tr>
 <tr class="separator:aecad1cb9bb2c5720e28a933ec4a8b962"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2a5ee14ea8de4da4d4a6edb028ef5bb6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="csv__generate_8php.html#a2a5ee14ea8de4da4d4a6edb028ef5bb6">$max_pages</a> = current($booklet_pg_sql)-&gt;max_pages</td></tr>
 <tr class="separator:a2a5ee14ea8de4da4d4a6edb028ef5bb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -156,10 +158,11 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">$booklet_pg_sql = $GLOBALS['DB']-&gt;get_records_sql('SELECT page_id, {mem_pages}.booklet_id, max_pages, page_num, page_marks, page_marks_max FROM {mem_booklet_data}, {mem_pages} WHERE year_semester_origin=? and {mem_pages}.booklet_id={mem_booklet_data}.booklet_id', array($year))</td>
+          <td class="memname">$booklet_pg_sql = $GLOBALS['DB']-&gt;get_records_sql('SELECT page_id, {mem_pages}.booklet_id, max_pages, page_num, page_marks, page_marks_max FROM {mem_booklet_data}, {mem_pages} WHERE course_id=? and year_semester_origin=? and {mem_pages}.booklet_id={mem_booklet_data}.booklet_id', array($course, $year))</td>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>SQL query to retrieve all pages data and relevant booklet data. </p>
 
 </div>
 </div>
@@ -172,6 +175,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Booklets array has an array which contains pages of marks. </p>
 
 </div>
 </div>
@@ -184,6 +188,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>initializes class whoese methods relate to statistical calculations </p>
 
 </div>
 </div>
@@ -196,6 +201,20 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Names of the Columns of the CSV, the first row to be put into the CSV </p>
+
+</div>
+</div>
+<a class="anchor" id="a0cbf208c448812ce49f3fe3b7de082be"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">$course = $_GET['course']</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>course holds the course-id. </p>
 
 </div>
 </div>
@@ -220,6 +239,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Populate the booklets with an associated array of page_numbers containing the page marks and then if not already defined, assigned the maximum score that page can achieve. Create a file pointer connected to the output stream. </p>
 
 </div>
 </div>
@@ -232,6 +252,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Pagemarks has an array that has each mark per page. </p>
 
 </div>
 </div>
@@ -256,6 +277,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Output into CSV all the booklet pages' marks, and total. Statistics array. At end is 1 row mean of pages and everything, 2nd row is std-dev of pages and everything more specifically, use the booklet_id as row name e.g. this row is "mean" thus 5 rows in total: Mean, Median, Spread, Maximum, Minimum. </p>
 
 </div>
 </div>
@@ -280,6 +302,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>year holds the semester of the course, e.g. 2014 FALL </p>
 
 </div>
 </div>
@@ -289,7 +312,7 @@ Variables</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_0bca257b6f7866ff5362718e8319fe13.html">local</a></li><li class="navelem"><a class="el" href="dir_3eb7550d378a1f9da5ace392124b4034.html">memplugin</a></li><li class="navelem"><a class="el" href="csv__generate_8php.html">csv_generate.php</a></li>
-    <li class="footer">Generated on Wed Mar 16 2016 22:45:54 for Mass Exam Marker Plugin by
+    <li class="footer">Generated on Fri Mar 18 2016 09:16:35 for Mass Exam Marker Plugin by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

@@ -5,6 +5,7 @@ var csv__generate_8php =
     [ "$booklets", "csv__generate_8php.html#a1e3a07205929c058a68a910fdebf9db8", null ],
     [ "$calc", "csv__generate_8php.html#aac2901e2f905bd8b215ea0e215afb44e", null ],
     [ "$column_title", "csv__generate_8php.html#a1cf1009df2d530f36069684938e9fa77", null ],
+    [ "$course", "csv__generate_8php.html#a0cbf208c448812ce49f3fe3b7de082be", null ],
     [ "$max_pages", "csv__generate_8php.html#a2a5ee14ea8de4da4d4a6edb028ef5bb6", null ],
     [ "$output", "csv__generate_8php.html#a9808c778230d5a1304aadb2241d724bf", null ],
     [ "$pagemarks", "csv__generate_8php.html#a72664da501466aae0ed808253c190c51", null ],
