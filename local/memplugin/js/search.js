@@ -1,8 +1,10 @@
 var data;
 var aside;
-// id is the unique key in the DB, thus not included here? or use idnumber? not sure which one to use.
+/** This variable checks the following fields for the student, thus these are the searchable terms.
+Note: id is the unique key in the DB, thus not included here? or use idnumber? not sure which one to use.*/
 var toCheck = new Array("firstname", "middlename", "alternatename", "lastname", "email", "id", "username");
 	
+/** Sets up the inner <div> and assigns student data array to a variable that will be used by other functions in this file. */
 function init(dat) {
 	aside = document.getElementById("aside");
 	//aside.innerHTML = JSON.stringify(data);
@@ -10,11 +12,13 @@ function init(dat) {
 	data = dat;
 }
 
+/** Retrieves the input from the input field and lower cases everything. */
 function getSearch() {
 	var a = document.getElementById("inputid").value;
 	return a.toLowerCase();
 }
 
+/** Searches through the array for a student with input. */
 function newSearch() {
 	var found = new Array();
 	var find = getSearch();
@@ -45,6 +49,7 @@ function newSearch() {
 	aside.innerHTML = buildTables(found);
 }
 
+/** This function builds the result tables to be displayed of the searched people. */
 function buildTables(data) {
 	var tmp = "<table id='students'  border='0' cellpadding='2' >";
 	tmp += "<tr><td>ID-Number</td><td>First Name</td><td>Last Name</td><td>Email Address</td></tr>";
@@ -61,6 +66,7 @@ function buildTables(data) {
 	return tmp;
 }
 
+/** Rids the given string of " characters. */
 function cleanText(txt) {
 	return txt.replace(/\"/g, "");
 }
