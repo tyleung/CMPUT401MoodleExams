@@ -12,6 +12,9 @@
 		 *Converts the given array into percentage.
 		 */
 		public function to_percentage_array($raw_score_array, $max_marks) {
+			if(count($raw_score_array) == 0) {
+				return 0;
+			}
 			$percent = array();
 			
 			foreach($raw_score_array as $score) {
@@ -38,6 +41,9 @@
 		Method to calculate the mean of a given array.
 		*/
 		public function mean($data_array) {
+			if(count($data_array) == 0) {
+				return 0;
+			}
 			$mean = array_sum($data_array) / count($data_array);
 			return $mean;
 		}
@@ -46,6 +52,9 @@
 		Method to calculate the median of a given array.
 		*/
 		public function median($data_array) {
+			if(count($data_array) == 0) {
+				return 0;
+			}
 			$med = -1.0;
 			$sorted = $data_array;
 			asort($sorted);
@@ -63,6 +72,9 @@
 		Method to calculate the spread of a given array.
 		*/
 		public function spread($data_array) {
+			if(count($data_array) == 0) {
+				return 0;
+			}
 			//s = sqrt((sum(i-mean)^2)/n-1)	where i is iteration, n is total.
 			$mean = $this->mean($data_array);
 			$total = count($data_array);
@@ -84,6 +96,9 @@
 		Method to calculate the minimum of a given array.
 		*/
 		public function min($data_array) {
+			if(count($data_array) == 0) {
+				return 0;
+			}
 			$sorted = $data_array;
 			asort($sorted);
 			return current($sorted);		
@@ -93,6 +108,9 @@
 		Method to calculate the maximum of a given array.
 		*/
 		public function max($data_array) {
+			if(count($data_array) == 0) {
+				return 0;
+			}
 			$sorted = $data_array;
 			asort($sorted);
 			return end($sorted);
