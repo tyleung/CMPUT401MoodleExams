@@ -16,13 +16,16 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'demo_plug-in', language 'en'
+ * Strings for component 'local_memplugin', language 'en'
  *
  * @package     local
  * @subpackage  memplugin
  * @copyright   
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+$string['test'] = 'Testing';
+
 
 $string['menuoption']     = 'Mass Exam Marker Plugin';
 $string['pluginname']     = 'Mass Exam Marker Plugin';
@@ -37,6 +40,7 @@ $string['file']           = 'Upload a PDF';
 //MemHome
 $string['Welcome']        = 'Welcome to MEM!';
 $string['createbutton']   = 'Create Exam';
+$string['markbuttonhome'] = 'Upload an Exam to Mark';
 //Make Exams
 $string['createheader']   = 'Creating a new Exam';
 $string['makeexam']       = 'Name of Exam to Generate';
@@ -55,7 +59,9 @@ $string['sectionheader']  = 'Select course section(s)';
 $string['exambatch']      = 'Select Exam(s)';
 $string['markbutton']     = 'Mark';
 $string['addsection']     = 'Add additional section';
-
+$string['courses']        = 'Select Course(s)';
+$string['finishheader']   = 'Finish';
+//Statistics
 $string['grid'] 	  = 'Grid';
 $string['stats_title']    = 'Statistics';
 $string['stats_download'] = 'Download Statistics';

@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Handles the logic for the email template
+ * Handles the logic for generating a new exam.  
  *
  * @package     local
  * @subpackage  memplugin
