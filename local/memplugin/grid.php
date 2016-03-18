@@ -1,4 +1,28 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
+/**
+ * Grid view for an exam.
+ *
+ * @package     local
+ * @subpackage  memplugin
+ * @copyright   Terence Leung tyleung@ualberta.ca
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+ 
 global $PAGE, $CFG, $DB;
 require_once('../../config.php');
 
@@ -15,7 +39,7 @@ $gridnode->make_active();
 echo $OUTPUT->header();
 
 // TODO: Get the number of booklets and pages.
-$num_booklets = 100;
+$num_booklets = 15;
 $num_pages = 5;
 
 // Each grid-item is 110px wide. Added 10px to account for the grid margins
@@ -23,17 +47,6 @@ $grid_width = (($num_pages + 1) * 110) + 10;
 ?>
 
 <link rel="stylesheet" href="css/isotope-grid.css">
-
-<!--
-<h3 class="filter-group-title">Filter</h3>
-<div class="filter-group">
-	<a href="#" data-filter="*" class="current">All Categories</a>
-	<a href="#" data-filter=".people">People</a>
-	<a href="#" data-filter=".places">Places</a>
-	<a href="#" data-filter=".food">Food</a>
-	<a href="#" data-filter=".objects">Objects</a>
-</div>
--->
 
 <h3 class="sort-group-title">Sort</h3>
 <div class="sort-group-booklet">

@@ -15,11 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Initial page for the plug-in
+ * Exam results page for a course.
  *
  * @package     local
  * @subpackage  memplugin
- * @copyright   
+ * @copyright   Terence Leung tyleung@ualberta.ca
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -54,7 +54,7 @@ echo $OUTPUT->header();
     </thead>
     <tbody>
 		<?php
-		create_results_table();
+		populate_results_table();
 		?>
     </tbody>
 </table>
@@ -68,7 +68,10 @@ $(document).ready( function () {
 <?php
 echo $OUTPUT->footer();
 
-function create_results_table() {
+/**
+Populates the results table with data from the database.
+*/
+function populate_results_table() {
 	//if($_GET['course_id']) {	
 		//$course_id = $_GET['course_id'];
 		$course_id = 2;
