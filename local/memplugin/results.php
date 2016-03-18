@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -33,11 +32,69 @@ $PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('pluginname', 'local_memplugin'));
 $PAGE->set_heading(get_string('pluginname', 'local_memplugin'));
-$PAGE->set_url($CFG->wwwroot.'/local/memplugin/stats.php');
+$PAGE->set_url($CFG->wwwroot.'/local/memplugin/results.php');
 
 echo $OUTPUT->header();
+?>
 
-$users = $DB->get_records('user', array('id'=>27));
-print_r($users);
+<link rel="stylesheet" type="text/css" href="css/jquery.dataTables.min.css">
+<script src="http://code.jquery.com/jquery-latest.js" type="text/javascript"></script>
+<script type="text/javascript" charset="utf8" src="js/jquery.dataTables.min.js"></script>
 
+<table id="results_table" class="display">
+    <thead>
+        <tr>
+            <th>First name</th>
+            <th>Last name</th>
+			<th>Student ID</th>
+			<th>Mark</th>
+        </tr>
+    </thead>
+    <tbody>
+		<?php
+		create_results_table();
+		?>
+    </tbody>
+</table>
+
+<script>
+$(document).ready( function () {
+    $('#results_table').DataTable();
+} );
+</script>
+
+<?php
 echo $OUTPUT->footer();
+
+function create_results_table() {
+	//if($_GET['course_id']) {	
+		//$course_id = $_GET['course_id'];
+		//$sql = "SELECT u.firstname, u.lastname, u.idnumber, mms.total_booklet_score 
+		//		FROM {user} u, {mem_mark_stats} mms,  {mem_booklet_data} mbd 
+		//		WHERE mbd.course_id = " . course_id . " 
+		//		AND mbd.student_id = u.idnumber 
+		//		AND mbd.booklet_id = mms.booklet_id";
+		//$marks_rs = $GLOBALS['DB']->get_recordset_sql($sql);
+	//}
+	$marks_rs = $GLOBALS['DB']->get_recordset('user');
+	
+	foreach($marks_rs as $mark) {
+		echo '<tr>';
+		echo '<td>';
+		print_r($mark->firstname);
+		echo '</td>';
+		echo '<td>';
+		print_r($mark->lastname);
+		echo '</td>';
+		echo '<td>';
+		print_r($mark->idnumber);
+		echo '</td>';
+		echo '<td>';
+		print_r($mark->firstname);
+		echo '</td>';
+		echo '</tr>';
+	}
+	
+	$marks_rs->close();
+}
+?>

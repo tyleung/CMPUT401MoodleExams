@@ -1,8 +1,8 @@
 <?php
-	require_once '../../config.php';
-	require_once "php-qrcode-detector-decoder/QrReader.php";
-	require_once "TCPDF/tcpdf.php";
-	require_once "FPDI/fpdi.php";
+	if (!class_exists('TCPDF')){
+		require_once "TCPDF/tcpdf.php";
+		require_once "FPDI/fpdi.php";
+	}
 	set_time_limit (0);
 
 	class MME_QRcode {
@@ -93,7 +93,7 @@
 
 		// Generates a serialized associative array from which the page, exam number and the name can be accessed/
 		private function generate_QRcode($page_number,$exam_number){
-			$this->pdf->write2DBarcode($this->get_QRcode_string($page_number,$exam_number),'QRCODE,L',10,10,20,20,$this->style,'N');
+			$this->pdf->write2DBarcode($this->get_QRcode_string($page_number,$exam_number),'QRCODE,L',10,10,50,50,$this->style,'N');
 		}
 
 		// removes the QR code
@@ -124,7 +124,7 @@
 				for($curpage = 1; $curpage<=$extra_pages; $curpage++){
 					$this->pdf->AddPage();
 					$this->generate_QRcode($curpage+$this->size,$i);
-					$this->pdf->Cell(20,0,$this->get_QRcode_string($curpage+$this->size,$i),1);
+					$this->pdf->Cell(50,0,$this->get_QRcode_string($curpage+$this->size,$i),1);
 				}
 			}
 		}
@@ -133,8 +133,8 @@
 		// This should be called after generating the exam. Otherwise it'll probably be a empty page.
 		// The $dest parameter is identical to the one in the FPDF docs.
 		// http://www.fpdf.org/en/doc/output.htm
-		public function output_exam($dest="I",$name=""){
-			$this->pdf->Output($dest);
+		public function output_exam($name="output"){
+			$this->pdf->Output($name.".pdf","D");
 		}
 	}
 ?>
