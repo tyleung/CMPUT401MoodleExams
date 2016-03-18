@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['validation',['validation',['../classmme__exam__form.html#adef283fbff4804cbfd0da2736305a35a',1,'mme_exam_form\validation()'],['../classstats__sem__form.html#adef283fbff4804cbfd0da2736305a35a',1,'stats_sem_form\validation()'],['../classstats__course__form.html#adef283fbff4804cbfd0da2736305a35a',1,'stats_course_form\validation()']]],
-  ['view',['view',['../classassign__feedback__pdf.html#ac19dd611a0dd7b1bc0c6ab7cdd07e9de',1,'assign_feedback_pdf']]],
-  ['view_5fsummary',['view_summary',['../classassign__feedback__pdf.html#a3ef7f19cc151dd0897797eae4524fa3e',1,'assign_feedback_pdf']]]
+  ['show_5fprevious_5fcomments',['show_previous_comments',['../classassign__feedback__pdf.html#a554a2391409be5b81affb2510b24efe7',1,'assign_feedback_pdf']]],
+  ['spread',['spread',['../classstats.html#a8463c0572e33b83e46eca9a563b8a4b6',1,'stats']]],
+  ['supports_5fquickgrading',['supports_quickgrading',['../classassign__feedback__pdf.html#ad1d3c06ef9d05df094889a610c94e7df',1,'assign_feedback_pdf']]]
 ];

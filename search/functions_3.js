@@ -1,9 +1,5 @@
 var searchData=
 [
-  ['can_5fupgrade',['can_upgrade',['../classassign__feedback__pdf.html#a989d0c5ea2d4db25549eaaabf37c140f',1,'assign_feedback_pdf']]],
-  ['clear_5fimage_5fcache',['clear_image_cache',['../classassign__feedback__pdf.html#a1b27b19e6b19a7331acb6c2f2984f2e4',1,'assign_feedback_pdf']]],
-  ['create_5fgrid',['create_grid',['../grid_8php.html#a870e542e6619e06945b3b027d1f98787',1,'grid.php']]],
-  ['create_5fgrid_5fheaders',['create_grid_headers',['../grid_8php.html#a2d3ce70b5e6c37137cb56ede00aafb70',1,'grid.php']]],
-  ['create_5fresponse_5fpdf',['create_response_pdf',['../classassign__feedback__pdf.html#af56c6e50396281689190b92ca4e159cb',1,'assign_feedback_pdf']]],
-  ['cron',['cron',['../classassign__feedback__pdf.html#a1364f59605e5bc5a436fb63eeb9020a8',1,'assign_feedback_pdf']]]
+  ['browse_5fimages',['browse_images',['../classassign__feedback__pdf.html#a75e1d7b0c48d40f73e8e2281b72a7a2e',1,'assign_feedback_pdf']]],
+  ['buildtables',['buildTables',['../search_8js.html#a6afccb21984250b5dd3e4ae238209b1b',1,'search.js']]]
 ];

@@ -1,7 +1,16 @@
 var searchData=
 [
-  ['definition',['definition',['../classcreate__assign__books__instance.html#a6c4fc01ab54e187fee93cb01cd5f9849',1,'create_assign_books_instance\definition()'],['../classmme__exam__form.html#a6c4fc01ab54e187fee93cb01cd5f9849',1,'mme_exam_form\definition()'],['../classcreate__generate__exam__instance.html#a6c4fc01ab54e187fee93cb01cd5f9849',1,'create_generate_exam_instance\definition()'],['../classcreate__mark__exam__instance.html#a6c4fc01ab54e187fee93cb01cd5f9849',1,'create_mark_exam_instance\definition()'],['../classcreate__memhome__instance.html#a6c4fc01ab54e187fee93cb01cd5f9849',1,'create_memhome_instance\definition()'],['../classstats__sem__form.html#a6c4fc01ab54e187fee93cb01cd5f9849',1,'stats_sem_form\definition()'],['../classstats__course__form.html#a6c4fc01ab54e187fee93cb01cd5f9849',1,'stats_course_form\definition()']]],
-  ['delete_5ffeedback',['delete_feedback',['../classassign__feedback__pdf.html#af6f89253725210b5a98cf1c420513bf7',1,'assign_feedback_pdf']]],
-  ['delete_5finstance',['delete_instance',['../classassign__feedback__pdf.html#af65a39cc79d263e86a0c0453a1162eb6',1,'assign_feedback_pdf']]],
-  ['display_5fsearch',['display_search',['../search_8php.html#a50d5016f0cb64bfd0a266f634faf28d1',1,'search.php']]]
+  ['can_5fupgrade',['can_upgrade',['../classassign__feedback__pdf.html#a989d0c5ea2d4db25549eaaabf37c140f',1,'assign_feedback_pdf']]],
+  ['cleantext',['cleanText',['../search_8js.html#ad4dabd051fc2c4f0727b88da42a8f5aa',1,'search.js']]],
+  ['clear_5fimage_5fcache',['clear_image_cache',['../classassign__feedback__pdf.html#a1b27b19e6b19a7331acb6c2f2984f2e4',1,'assign_feedback_pdf']]],
+  ['component',['component',['../version_8php.html#a27dc7e2c13f48a05e56e0d3138fe3c82',1,'version.php']]],
+  ['create_5fassign_5fbooks_5finstance',['create_assign_books_instance',['../classcreate__assign__books__instance.html',1,'']]],
+  ['create_5fgenerate_5fexam_5finstance',['create_generate_exam_instance',['../classcreate__generate__exam__instance.html',1,'']]],
+  ['create_5fgrid',['create_grid',['../grid_8php.html#a870e542e6619e06945b3b027d1f98787',1,'grid.php']]],
+  ['create_5fgrid_5fheaders',['create_grid_headers',['../grid_8php.html#a2d3ce70b5e6c37137cb56ede00aafb70',1,'grid.php']]],
+  ['create_5fmark_5fexam_5finstance',['create_mark_exam_instance',['../classcreate__mark__exam__instance.html',1,'']]],
+  ['create_5fmemhome_5finstance',['create_memhome_instance',['../classcreate__memhome__instance.html',1,'']]],
+  ['create_5fresponse_5fpdf',['create_response_pdf',['../classassign__feedback__pdf.html#af56c6e50396281689190b92ca4e159cb',1,'assign_feedback_pdf']]],
+  ['cron',['cron',['../classassign__feedback__pdf.html#a1364f59605e5bc5a436fb63eeb9020a8',1,'assign_feedback_pdf']]],
+  ['csv_5fgenerate_2ephp',['csv_generate.php',['../csv__generate_8php.html',1,'']]]
 ];

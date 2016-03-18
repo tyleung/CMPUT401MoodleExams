@@ -1,6 +1,7 @@
 var annotated_dup =
 [
     [ "assign_feedback_pdf", "classassign__feedback__pdf.html", "classassign__feedback__pdf" ],
+    [ "block_mass_exam_marker_link", "classblock__mass__exam__marker__link.html", "classblock__mass__exam__marker__link" ],
     [ "create_assign_books_instance", "classcreate__assign__books__instance.html", "classcreate__assign__books__instance" ],
     [ "create_generate_exam_instance", "classcreate__generate__exam__instance.html", "classcreate__generate__exam__instance" ],
     [ "create_mark_exam_instance", "classcreate__mark__exam__instance.html", "classcreate__mark__exam__instance" ],

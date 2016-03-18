@@ -3,6 +3,9 @@ var hierarchy =
     [ "assign_feedback_plugin", null, [
       [ "assign_feedback_pdf", "classassign__feedback__pdf.html", null ]
     ] ],
+    [ "block_base", null, [
+      [ "block_mass_exam_marker_link", "classblock__mass__exam__marker__link.html", null ]
+    ] ],
     [ "MME_exam_submission", "class_m_m_e__exam__submission.html", null ],
     [ "MME_Exams", "class_m_m_e___exams.html", null ],
     [ "moodleform", null, [

@@ -1,8 +1,9 @@
 var searchData=
 [
-  ['edit_5fcomment_5fpage',['edit_comment_page',['../classassign__feedback__pdf.html#afb706977a639b3d1bed246dbfc8f7b8b',1,'assign_feedback_pdf']]],
-  ['else',['else',['../assign__books_8php.html#afac590105dac688e7d2ed39f02b20187',1,'else():&#160;assign_books.php'],['../generate__exam_8php.html#a6c1554dfa99cde588a966de20e01f668',1,'else():&#160;generate_exam.php'],['../markpage_8php.html#adf6ce306662c17f987ff83b78b20263e',1,'else():&#160;markpage.php'],['../memhome_8php.html#a5d3e1e1ddd51064d803655648fdac9dc',1,'else():&#160;memhome.php']]],
-  ['encode_5freturn_5fparams',['encode_return_params',['../classassign__feedback__pdf.html#a93fb6149cf8793dc51a8c7e7936ae1d6',1,'assign_feedback_pdf']]],
-  ['exam_5fform_2ephp',['exam_form.php',['../exam__form_8php.html',1,'']]],
-  ['examclasstestresult_2ephp',['examclasstestresult.php',['../examclasstestresult_8php.html',1,'']]]
+  ['d',['d',['../isotope_8pkgd_8min_8js.html#af857abfbe99fccd50e108c19182d79d7',1,'isotope.pkgd.min.js']]],
+  ['data',['data',['../search_8js.html#a606a87425a3a6c440c6fdcbfb72c9b68',1,'search.js']]],
+  ['definition',['definition',['../classcreate__assign__books__instance.html#a6c4fc01ab54e187fee93cb01cd5f9849',1,'create_assign_books_instance\definition()'],['../classmme__exam__form.html#a6c4fc01ab54e187fee93cb01cd5f9849',1,'mme_exam_form\definition()'],['../classcreate__generate__exam__instance.html#a6c4fc01ab54e187fee93cb01cd5f9849',1,'create_generate_exam_instance\definition()'],['../classcreate__mark__exam__instance.html#a6c4fc01ab54e187fee93cb01cd5f9849',1,'create_mark_exam_instance\definition()'],['../classcreate__memhome__instance.html#a6c4fc01ab54e187fee93cb01cd5f9849',1,'create_memhome_instance\definition()'],['../classstats__sem__form.html#a6c4fc01ab54e187fee93cb01cd5f9849',1,'stats_sem_form\definition()'],['../classstats__course__form.html#a6c4fc01ab54e187fee93cb01cd5f9849',1,'stats_course_form\definition()']]],
+  ['delete_5ffeedback',['delete_feedback',['../classassign__feedback__pdf.html#af6f89253725210b5a98cf1c420513bf7',1,'assign_feedback_pdf']]],
+  ['delete_5finstance',['delete_instance',['../classassign__feedback__pdf.html#af65a39cc79d263e86a0c0453a1162eb6',1,'assign_feedback_pdf']]],
+  ['display_5fsearch',['display_search',['../search_8php.html#a50d5016f0cb64bfd0a266f634faf28d1',1,'search.php']]]
 ];

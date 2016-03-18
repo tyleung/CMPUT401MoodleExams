@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['to_5fpercentage_5farray',['to_percentage_array',['../classstats.html#a281352f0a90f11ee7c0d348d7dafe326',1,'stats']]]
+  ['populate_5fresults_5ftable',['populate_results_table',['../results_8php.html#a021957e0aeb49bbe199d7d36ed8ab1c8',1,'results.php']]]
 ];

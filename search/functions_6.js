@@ -1,20 +1,5 @@
 var searchData=
 [
-  ['generate_5fexam',['generate_exam',['../class_m_m_e___exams.html#a78660043d62db56946c8427ce4c47085',1,'MME_Exams']]],
-  ['get_5fdata',['get_data',['../class_m_m_e__exam__submission.html#ab5976d1ba325a739761c2eb6662f58a9',1,'MME_exam_submission']]],
-  ['get_5ffile_5fareas',['get_file_areas',['../classassign__feedback__pdf.html#ad28c73b87a6222138e3e1f7ef8062b8b',1,'assign_feedback_pdf']]],
-  ['get_5fform_5felements',['get_form_elements',['../classassign__feedback__pdf.html#acebd940862f38ff490db0e8702958d0a',1,'assign_feedback_pdf']]],
-  ['get_5fform_5felements_5ffor_5fuser',['get_form_elements_for_user',['../classassign__feedback__pdf.html#a8292e98bcb8fb180c251614a8999e58c',1,'assign_feedback_pdf']]],
-  ['get_5fimage_5fdetails',['get_image_details',['../classassign__feedback__pdf.html#aad10f01f121f586fd5dcd4b254d54d5c',1,'assign_feedback_pdf']]],
-  ['get_5fname',['get_name',['../classassign__feedback__pdf.html#a4f1149ccbd69d1ac4225b7bc2dd871bb',1,'assign_feedback_pdf']]],
-  ['get_5fpage_5fimage',['get_page_image',['../classassign__feedback__pdf.html#a26e1b303242223118147e66e1c6d4a92',1,'assign_feedback_pdf']]],
-  ['get_5fqrcode_5fdata',['get_QRcode_data',['../class_m_m_e___exams.html#a3ad8af4ddc4c486a9b9956b0b9efeb70',1,'MME_Exams']]],
-  ['get_5fqrcode_5fstring',['get_QRcode_string',['../class_m_m_e___exams.html#ac7bda7167c3c40ca8655452f23ce7abe',1,'MME_Exams']]],
-  ['get_5fquickgrading_5fhtml',['get_quickgrading_html',['../classassign__feedback__pdf.html#a19b7088cf3053b9b424ab5e34c605ec5',1,'assign_feedback_pdf']]],
-  ['get_5frownum',['get_rownum',['../classassign__feedback__pdf.html#ad1fe84a17aa6b8944b51c717ca9b469e',1,'assign_feedback_pdf']]],
-  ['get_5fsubfolder',['get_subfolder',['../classassign__feedback__pdf.html#a318eec12b0f766bf0fc7458d05095c02',1,'assign_feedback_pdf']]],
-  ['get_5fsubmission',['get_submission',['../classassign__feedback__pdf.html#ac7d428a3fd93859d1a5815900ff9effc',1,'assign_feedback_pdf']]],
-  ['get_5ftemp_5ffolder',['get_temp_folder',['../classassign__feedback__pdf.html#affabbd5c8cfd0202e382931a1d693454',1,'assign_feedback_pdf']]],
-  ['get_5fuserid_5fbecause_5fassign_5freally_5fdoes_5fnot_5fwant_5fto_5ftell_5fme',['get_userid_because_assign_really_does_not_want_to_tell_me',['../classassign__feedback__pdf.html#a11d013bc22992bdb9c0154120abe5dee',1,'assign_feedback_pdf']]],
-  ['graph',['graph',['../classstats.html#ae16234023fbee2bcfe75cf60a5ee8498',1,'stats']]]
+  ['edit_5fcomment_5fpage',['edit_comment_page',['../classassign__feedback__pdf.html#afb706977a639b3d1bed246dbfc8f7b8b',1,'assign_feedback_pdf']]],
+  ['encode_5freturn_5fparams',['encode_return_params',['../classassign__feedback__pdf.html#a93fb6149cf8793dc51a8c7e7936ae1d6',1,'assign_feedback_pdf']]]
 ];

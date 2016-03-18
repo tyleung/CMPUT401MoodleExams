@@ -1,5 +1,8 @@
 var dir_3eb7550d378a1f9da5ace392124b4034 =
 [
+    [ "css", "dir_f25e2349c651f64ac3bd269053e0fff8.html", "dir_f25e2349c651f64ac3bd269053e0fff8" ],
+    [ "js", "dir_49022bbb3f5f92c2db37c5607b2fae8e.html", "dir_49022bbb3f5f92c2db37c5607b2fae8e" ],
+    [ "lang", "dir_2459978802ff0c1231f16e71871bba37.html", "dir_2459978802ff0c1231f16e71871bba37" ],
     [ "assign_books.php", "assign__books_8php.html", "assign__books_8php" ],
     [ "assign_books_form.php", "assign__books__form_8php.html", [
       [ "create_assign_books_instance", "classcreate__assign__books__instance.html", "classcreate__assign__books__instance" ]
