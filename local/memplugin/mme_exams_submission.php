@@ -4,7 +4,10 @@
 
 
 	/**
-	 *  Class for handling scanned submission for MME exams.	
+	 * Class for handling scanned submission for MME exams.	
+ 	 * @author Jaeyoon Kim
+	 * @version 0.0.1
+	 * @since 2016-03-18
 	 */ 
 	class MME_exam_submission {
 	
@@ -20,8 +23,8 @@
 		 * The .pdf should only contain 1 page. 
 		 * Only the first page will be read if a multi-page pdf is submitted.
 		 * This constructor will be changed to use database parameters instead at a later time.
+		 * @param str $path filepath to the .pdf file.
 		 */
-
 		public function __construct($path=""){
 			$this->path = $path;
 			$this->img = new Imagick($path.'[0]');
@@ -33,9 +36,9 @@
 
 		/**
 		 * Public method. 
-		 * This method takes no arguments.
 		 * This method returns a string found within the scanned QRcode.
 		 * If no QRcode is found, the method return a string "Could not read QRcode"
+		 * @return str string of the QRcode data
 		 */
 		public function get_data(){
 			if($this->qrtext == ""){
@@ -47,8 +50,8 @@
 
 		/**
 		 * Private method. 
-		 * This method takes no arguments.
 		 * This method returns the blob form of the image object.
+		 * @return string Blob of the image object.
 		 */
 		private function get_image_blob(){
 			return $this->img->getImageBlob();
@@ -56,9 +59,8 @@
 
 		/**
 		 * Private method.
-		 * This method takes no arguments.
-		 * This method does not return any values.
 		 * The method crops the image object leaving the top left corner for faster QRcode reading.
+		 * @return void
 		 */
 		private function crop_image(){
 			$this->img->cropImage(200,200,0,0);
@@ -66,9 +68,8 @@
 
 		/**
 		 * Private method.
-		 * This method takes no arguments.
-		 * This method does not return any values.
 		 * The method reads the QRcode within the image object and sets the resulting value to $this->qrtext.
+		 * @return void
 		 */
 		private function read_QRcode(){
 			$blob = $this->img->getImageBlob();
@@ -79,6 +80,7 @@
 		/**
 		 * Private method.
 		 * Unimplemented
+		 * @return void
 		 */
 		// Deserialize data after reading QR.
 		private function deserialize_data(){
@@ -88,6 +90,7 @@
 		/**
 		 * Private method.
 		 * Unimplemented
+		 * @return void
 		 */
 		//upload parameters (exam#,page#) to a table that has the image_id(?) as the key.
 		private function do_database_thing(){
