@@ -16,7 +16,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Handles the logic for the email template
+ * Form logic for uploading and beginning the process of marking exams.
+ * User is presented with a list of courses relevant to an exam, and 
+ * allowed to upload PDF documents.
  *
  * @package     local
  * @subpackage  memplugin
@@ -34,36 +36,30 @@ class create_mark_exam_instance extends moodleform{
     	$attributes_heading = 'size="24"';
     	$attributes_radio_text = 'size="11"';	
 
-		//General
+		//General Section. 
 		$mform->addElement('header', 'general', get_string('genheader', 'local_memplugin'));
 
-		//Get list of logged in user's enrolled courses.
+		//Get list of logged in user's enrolled courses and display as checkboxes.
 		$user_courses = enrol_get_users_courses($USER->id, true, '*', 'visible DESC,sortorder ASC');
         $select_course_array=array();
         $selectgroup = array();
         foreach ($user_courses as $uc){
-            $select_course_array[$uc->id] = $uc->fullname;
+			$courses_group[] =& $mform->createElement('advcheckbox', $uc->id, null, $uc->fullname, array('group'=>0),array(0,1));
         }
+		$mform->addElement('group', 'courseselect', get_string('courses', 'local_memplugin'), $courses_group, array('<br>'), false);
 
-		foreach($select_course_array as $course){
-			$selectgroup[] =& $mform->createElement('advcheckbox', $course->id, null, $course."<br>", array('group'=>0),array(0,1));
-		}
-        $mform->addElement('group', 'courseselect', get_string('courses', 'local_memplugin'), $selectgroup, array('  '), false);
 
-		//upload
+		//Upload manager for files. 
 		$mform->addElement('header', 'fileheader', get_string('file', 'local_memplugin'));
 		$mform->addElement('filemanager', 'files', get_string('exambatch', 'local_memplugin'), null, $options);
 		$mform->closeHeaderBefore('buttonar');
-
 		$buttonarray   =  array();
-		$buttonarray[] =& $mform->createElement('submit','save', get_string('savebutton', 'local_memplugin'));
-		$buttonarray[] =& $mform->createElement('submit','mark', get_string('markbutton', 'local_memplugin'));
+		$buttonarray[] =& $mform->createElement('submit','savebutton', get_string('savebutton', 'local_memplugin'));
+		$buttonarray[] =& $mform->createElement('submit','markbutton', get_string('markbutton', 'local_memplugin'));
 		$mform->addGroup($buttonarray, 'buttonar', '', array(' '), false);
 
 	}
 }
-
-
 ?>
 
 

@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'demo_plug-in', language 'en'
+ * Strings for component 'local_memplugin', language 'en'
  *
  * @package     local
  * @subpackage  memplugin
@@ -60,6 +60,7 @@ $string['exambatch']      = 'Select Exam(s)';
 $string['markbutton']     = 'Mark';
 $string['addsection']     = 'Add additional section';
 $string['courses']        = 'Select Course(s)';
+$string['finishheader']   = 'Finish';
 //Statistics
 $string['grid'] 	  = 'Grid';
 $string['stats_title']    = 'Statistics';

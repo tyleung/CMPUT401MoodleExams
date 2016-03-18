@@ -16,8 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Handles the logic of the mark_exam page. Appends a list of course 
- * IDs to a URL to send to later pages that will be used to mark exams.
+ * Handles the logic for the Assign Books form.
  *
  * @package     local
  * @subpackage  memplugin
@@ -31,44 +30,25 @@ require_once('../../config.php');
 
 require_login();
 require_capability('local/memplugin:add', context_system::instance());
-require_once($CFG->dirroot.'/local/memplugin/mark_exam_form.php');
+require_once($CFG->dirroot.'/local/memplugin/assign_books_form.php');
 
 $PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('pluginname', 'local_memplugin'));
-$PAGE->set_heading(get_string('markheader', 'local_memplugin'));
-$PAGE->set_url($CFG->wwwroot.'/local/memplugin/mark_exam.php');
+$PAGE->set_heading(get_string('Welcome', 'local_memplugin'));
+$PAGE->set_url($CFG->wwwroot.'/local/memplugin/assign_books.php');
+$form = new create_assign_books_instance();
 
-$form = new create_mark_exam_instance();
-
-//get course id somehow from other form GET
-//append to redirect name with question mark 
-//http://stackoverflow.com/questions/5479940/handling-a-dynamic-amount-of-checkboxes-with-php
-
-if($_POST['markbutton']){
-	$data = $form->get_data();
- 	//$course = $_POST['courseselect'];
-
-	var_dump( $data);
-//	foreach($data as $d){
-	//	echo $d;
-//	}
-	//serialize_courses()
-	//redirect($CFG->wwwroot.'/local/memplugin/assign_books.php?courses_ids=');
+if ($form->is_cancelled()) {
+	redirect($CFG->wwwroot.'/local/memplugin/view.php');
+} elseif ($data = $form->get_data()) {
+	$check = $data->test1;
+	redirect($CFG->wwwroot.'/local/memplugin/view.php');
+} else {
+	echo $OUTPUT->header();
+	$form->display();
+	echo $OUTPUT->footer();
 }
-else { 
-	if($form->is_cancelled()) {
-		redirect($CFG->wwwroot.'/local/memplugin/assign_books.php');
-	} elseif ($data = $form->get_data()) {
-		$check = $data->test1;
-		redirect($CFG->wwwroot.'/local/memplugin/assign_books.php');
-	} else {
-		echo $OUTPUT->header();
-		$class_section_form->display();
-		echo $OUTPUT->footer();
-	}
-}
-
 
 
 

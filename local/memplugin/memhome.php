@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Handles the logic for the email template
+ * Main page of the plugin. 
  *
  * @package     local
  * @subpackage  memplugin
@@ -41,7 +41,7 @@ $form = new create_memhome_instance();
 
 if ($_POST['create']) {
 	redirect($CFG->wwwroot.'/local/memplugin/generate_exam.php');
-} else if($_POST['mark']) {
+} elseif($_POST['mark']) {
 	redirect($CFG->wwwroot.'/local/memplugin/mark_exam.php');
 } elseif ($form->is_cancelled()) {
 	redirect($CFG->wwwroot.'/local/memplugin/view.php');
