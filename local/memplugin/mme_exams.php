@@ -1,7 +1,7 @@
 <?php
 	if (!class_exists('TCPDF')){
 		require_once "TCPDF/tcpdf.php";
-		require_once "FPDI/fpdi.php";
+		require_once "TCPDF/tcpdi.php";
 	}
 	set_time_limit (0);
 
@@ -37,8 +37,8 @@
 		 * @param str $path The path to the exam file. 
 		 * @param str $name="" Optional name of the exam.
 		 */
-		public function __construct($path,$name=""){
-			$this->path = $path;
+		public function __construct($data,$name=""){
+			$this->data = $data;
 			$this->name = $name;
 			$this->setup_pdf();
 		}
@@ -50,8 +50,8 @@
 		 * @return void
 		 */
 		private function setup_pdf(){
-			$this->pdf = new FPDI();
-			$this->size	= $this->pdf->setSourceFile($this->path);
+			$this->pdf = new TCPDI();
+			$this->size	= $this->pdf->setSourceData($this->data);
 			$this->pdf->SetFont('Courier','',10,true);
 		}
 		
