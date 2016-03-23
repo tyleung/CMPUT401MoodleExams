@@ -16,7 +16,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Handles the logic for the email template
+ * Handles the logic of generating new exams. Gives a user the ability
+ * to upload a PDF document and then generate a desired number of duplicate
+ * exams. Also allows the user to append a number of 'emergency' blank pages. 
  *
  * @package     local
  * @subpackage  memplugin
@@ -25,41 +27,36 @@
  */
 
 require_once $CFG->dirroot.'/lib/formslib.php';
+require_once $CFG->dirroot.'/lib/datalib.php';
 require_login();
-/*
-* This function creates and displays the email form
-* It also fills out predefined feedback snippets for the user to enter
-* this functionality will be further refined
-*/
+
 class create_generate_exam_instance extends moodleform{
 	function definition(){
 		global $CFG, $DB, $USER;
 		$mform = $this ->_form;
-		//set size of the header
 	    $attributes_heading = 'size="24"';
 	    $attributes_radio_text = 'size="11"';	
 
-		//General
+		//General: Set the name of an exam and upload a PDF
 		$mform->addElement('header', 'nameforyourheaderelement', get_string('genheader', 'local_memplugin'));
-	    $mform->addElement('textarea', 'introduction', get_string('makeexam', 'local_memplugin'),'wrap="virtual" rows="1" cols="120" resize="none" style="resize:none"');
+	    $mform->addElement('textarea', 'name', get_string('makeexam', 'local_memplugin'),'wrap="virtual" rows="1" cols="120" resize="none" style="resize:none"');
 		$mform->addElement('filepicker', 'userfile', get_string('file','local_memplugin'), null, array('maxbytes' => $maxbytes, 'accepted_types' => 'application/pdf'));
 
-		//Copy Options
+		//Copy Options: How many booklets and how many blank pages.
 		$mform->addElement('header', 'nameforyourheaderelement', get_string('copyheader', 'local_memplugin'));
-
-		$mform->addElement('html', '<b>'.get_string('examcopies', 'local_memplugin').'</b> <br> <input type="number" value="0" min="0"</input> <br> <br>');
-		$mform->addElement('html', '<b>'.get_string('emergencypgs', 'local_memplugin').'</b> <br> <input type="number" value="0" min="0"</input> <br>');
+		$mform->addElement('textarea','exam_count',get_string('examcopies', 'local_memplugin'),'size="1"');
+		$mform->addElement('textarea','extra_count',get_string('emergencypgs', 'local_memplugin'),'size="1"');
+		//$mform->addElement('html', '<div id="examcopies"><b>'.get_string('examcopies', 'local_memplugin').'</b> <br> <input type="number" value="0" min="0"</input> <br> <br></div>');
+		//$mform->addElement('html', '<div id="emergencypgs"><b>'.get_string('emergencypgs', 'local_memplugin').'</b> <br> <input type="number" value="0" min="0"</input> <br></div>');
 		$howtogenerate = get_string('howtogenerate', 'local_memplugin');
 
-		//Generate Options
-		//Add option for "Emergency pages"
+		//Generate Options: One large file or many small files
 		$downarray   =  array();
-		
 		//$downarray[] =& $mform->createElement('radio','yesno', '', get_string('multicopy', 'local_memplugin'), 'false');
 		$downarray[] =& $mform->createElement('radio','yesno', '', get_string('largecopy', 'local_memplugin'));
 		$mform->addGroup($downarray, 'downarray', 'How would you like to download?', array(' '), false);
-		$mform->closeHeaderBefore('genbutton');
-		$mform->addElement('button', 'genbutton', get_string('generatebutton', 'local_memplugin'));
+		$mform->closeHeaderBefore('exam_submit');
+		$mform->addElement('submit', 'exam_submit', get_string('generatebutton', 'local_memplugin'));
 
 	}
 }

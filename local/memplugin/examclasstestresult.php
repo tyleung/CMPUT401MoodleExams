@@ -41,13 +41,15 @@ $PAGE->set_url($CFG->wwwroot.'/local/memplugin/examclasstest.php');
 ob_start(); //need this line for some reason
 
 // DO NOT OUTPUT ANYTHING IN THIS FILE, OTHERWISE FPDF OUTPUT FAILS.
-$exam_count = $_GET['exam_count'];
-$extra_count = $_GET['extra_count'];
+$exam_count = floor($_GET['exam_count']);
+$extra_count = floor($_GET['extra_count']);
 $exam_path = "fnl2012.pdf"; // Get from database?
-$exam_name = "FALL2012FINAL"; //Get from database?
+$exam_data = $pdf_string = file_get_contents($exam_path);
+$exam_name = $_GET['name']; //Get from database?
 
-$exam = new MME_Exams($exam_path,$exam_name);
+$exam = new MME_Exams($exam_data,$exam_name);
 $exam->generate_exam($exam_count,$extra_count);
-$exam->output_exam();
+$exam->output_exam($exam_name);
 
 ?>
+	

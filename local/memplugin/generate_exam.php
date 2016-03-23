@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Handles the logic for the email template
+ * Handles the logic for generating a new exam.  
  *
  * @package     local
  * @subpackage  memplugin
@@ -37,16 +37,21 @@ $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('pluginname', 'local_memplugin'));
 $PAGE->set_heading(get_string('createheader', 'local_memplugin'));
 $PAGE->set_url($CFG->wwwroot.'/local/memplugin/generate_exam.php');
-$class_section_form = new create_generate_exam_instance();
+$form = new create_generate_exam_instance();
 
-if ($class_section_form->is_cancelled()) {
-	redirect($CFG->wwwroot.'/local/memplugin/view.php');
-} elseif ($data = $class_section_form->get_data()) {
-	$check = $data->test1;
-	redirect($CFG->wwwroot.'/local/memplugin/view.php');
+if ($_POST['exam_submit']) {
+	$data = $form->get_data();
+	if (is_numeric ($data->exam_count) and is_numeric ($data->extra_count)){
+		redirect($CFG->wwwroot.'/local/memplugin/examclasstestresult.php?exam_count='.$data->exam_count.'&extra_count='.$data->extra_count.'&name='.$data->name);
+	} else {
+		echo $OUTPUT->header();
+		echo "exam and extra page input must be numeric.";
+		$form->display();
+		echo $OUTPUT->footer();
+	}
 } else {
 	echo $OUTPUT->header();
-	$class_section_form->display();
+	$form->display();
 	echo $OUTPUT->footer();
 }
 ?>

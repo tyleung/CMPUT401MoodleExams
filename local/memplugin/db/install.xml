@@ -10,7 +10,7 @@
         <FIELD NAME="student_id" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" COMMENT="the id of the booklet"/>
         <FIELD NAME="prof_id" TYPE="int" LENGTH="9" NOTNULL="false" SEQUENCE="false" COMMENT="the professor's id"/>
         <FIELD NAME="date_finalized" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The date the grade is finalized and after the appeal time. exactly 1 year from this date on the exam data can be rid off. It's in Epoch Time."/>
-        <FIELD NAME="course_id" TYPE="char" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The alphanumeric course id for the course"/>
+        <FIELD NAME="course_id" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The numeric course id for the course"/>
         <FIELD NAME="year_semester_origin" TYPE="char" LENGTH="11" NOTNULL="true" SEQUENCE="false" COMMENT="The year and semester this exam booklet is from. e.g. 2015 WINTER"/>
         <FIELD NAME="max_pages" TYPE="int" LENGTH="3" NOTNULL="true" SEQUENCE="false"/>
       </FIELDS>

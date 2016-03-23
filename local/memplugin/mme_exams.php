@@ -1,59 +1,22 @@
 <?php
-	require_once '../../config.php';
-	require_once "php-qrcode-detector-decoder/QrReader.php";
-	require_once "TCPDF/tcpdf.php";
-	require_once "FPDI/fpdi.php";
+	if (!class_exists('TCPDF')){
+		require_once "TCPDF/tcpdf.php";
+		require_once "TCPDF/tcpdi.php";
+	}
 	set_time_limit (0);
 
-	class MME_QRcode {
 
-		private $data = "";
-		private $path = "";
-		private $qrcode = NULL;
-
-		#Public Constructor. both parameters are optional.
-		public function __construct($str="",$path=""){
-			$this->data = $str;
-			$this->path = $path;
-		}
-
-		#Generic Get/Setters
-		public function get_data(){
-			return $this->data;
-		}
-
-		public function set_data($data){
-			$this->data = $data;
-		}
-
-		public function get_path(){
-			return $this->path;
-		}
-
-		public function set_path($path){
-			$this->path = $path;
-		}
-
-		#Reads data from the qrcode and returns the value.
-		#TODO: Handle cases where image in the specified path doesn't exist
-		#TODO: Handle cases where the image is not a valid QR Code
-		public function get_data_from_QRcode(){
-			$qrcode = new QrReader($this->path);
-			$this->set_data($qrcode->text());
-		}
-
-		#Generates the QRcode containing $data to $path.png
-		public function generate_QRcode(){
-			QRcode::png($this->data,$this->path,'L',4,2);
-		}
-
-	}
-
+	/**
+	 * Class for handling exam generation.
+	 * @author Jaeyoon Kim
+	 * @version 0.0.1
+	 * @since 2016-03-18
+	 */ 
 	class MME_Exams	{
-		private $pdf = NULL; // the pdf object that will be outputted.
-		private $path = ""; // path to pdf file.
-		private $name = ""; // optional name
-		private $size = 0; // # of pages in the pdf file
+		private $pdf = NULL; /**< The .pdf object that will be outputted.*/
+		private $path = ""; /**< path to pdf file.*/
+		private $name = ""; /**< Optional name parameter*/
+		private $size = 0; /**< Number of pages in the pdf file*/
 
 		// QR code style
 		private $style = array(
@@ -66,47 +29,77 @@
 			'module_height' => 1
 		);
 
-		// Constructor. This takes in the file path and an optional name parameter.
-		public function __construct($path,$name=""){
-			$this->path = $path;
+		/**
+		 * The constuctor.
+		 * The constructor takes 2 arguments, $path and the optional $name.
+		 * The constructor will then setup a new pdf object based on the given arguments.
+		 * This constructor will be changed to use database parameters instead at a later time.
+		 * @param str $path The path to the exam file. 
+		 * @param str $name="" Optional name of the exam.
+		 */
+		public function __construct($data,$name=""){
+			$this->data = $data;
 			$this->name = $name;
 			$this->setup_pdf();
 		}
 
-		// This sets up a new FPDI object and is called from the constructor or whenever a new exam is being generated.
+		/**
+		 * Private method. 
+		 * The method is called by the constructor and whenever a new exam is being generated.
+		 * The method sets up a new FPDI objects and sets up the number of pages and the font for later use.
+		 * @return void
+		 */
 		private function setup_pdf(){
-			$this->pdf = new FPDI();
-			$this->size	= $this->pdf->setSourceFile($this->path);
+			$this->pdf = new TCPDI();
+			$this->size	= $this->pdf->setSourceData($this->data);
 			$this->pdf->SetFont('Courier','',10,true);
 		}
 		
-		// Generates the text string to be inserted along with the QRcode image.
+		/**
+		 * Public method. 
+		 * The method takes 2 integer arguments for the current page and exam number.
+		 * The method will return a string that will be displayed under the QRcode.
+		 * @param int $page_number Current page number
+		 * @param int $exam_number Current exam booklet number
+		 * @return str String that will be displayed under the QRcode.
+		 */
 		public function get_QRcode_string($page_number,$exam_number){
 			return $this->name.":#".$exam_number." pg:".$page_number;
 		}
 
-		// Generates the serialized data to be inserted into the QRcode....?
+		/**
+		 * Public method. 
+		 * The method takes 2 integer arguments for the current page and exam number.
+		 * This method will return a string of the serialized array data for use in the QRcode.
+ 		 * @param int $page_number Current page number.
+		 * @param int $exam_number Current exam booklet number.
+		 * @return str String of the serialized array data for use in the QRcode.
+		 */
 		public function get_QRcode_data($page_number,$exam_number){
 			$data = array('page_number'=>$page_number,'exam_number'=>$exam_number,'name'=>$this->name);
 			return serialize($data);
 		}
 
-		// Generates a serialized associative array from which the page, exam number and the name can be accessed/
+		/**
+		 * Private method.
+		 * The method takes 2 integer arguments for the current page and exam number.
+		 * The method generates and places the QRcode corresponding to the given arguments into the pdf.
+		 * @param int $page_number Current page number
+		 * @param int $exam_number Current exam booklet number 
+		 * @return void
+		 */
 		private function generate_QRcode($page_number,$exam_number){
 			$this->pdf->write2DBarcode($this->get_QRcode_string($page_number,$exam_number),'QRCODE,L',10,10,50,50,$this->style,'N');
 		}
 
-		// removes the QR code
-		private function remove_QRcode($page_number,$exam_number){
-			if (file_exists($this->get_QRcode_path($page_number,$exam_number))){
-				unlink($this->get_QRcode_path($page_number,$exam_number)); //unlink() will throw an error if file doesn't exist.
-			}
-		}
-
-		// Public function for generating exams.
-		// It takes $exam_count and the optional $extra_pages as the parameter.
-		// And generate $exam_count exams with $extra_pages blank pages appended at the back with its unique qr code
-		// 
+		/**
+		 * Public method. 
+		 * This method takes 2 integer arguments. $exam_count and $extra_pages
+		 * This method will generate a exam each with a unique QRcode placed on the top left corner.
+		 * @param int $exam_count Number of exams to be generated.
+		 * @param int $extra_pages Number of extra "emergency" pages to generate for each exam.
+		 * @return void
+		 */
 		public function generate_exam($exam_count,$extra_pages = 0){
 			$this->setup_pdf();
 			for($i = 1;$i<=$exam_count;$i++){
@@ -129,12 +122,17 @@
 			}
 		}
 
-		// outputs the PDF. This will fail if there's any non PDF output.
-		// This should be called after generating the exam. Otherwise it'll probably be a empty page.
-		// The $dest parameter is identical to the one in the FPDF docs.
-		// http://www.fpdf.org/en/doc/output.htm
-		public function output_exam($dest="I",$name=""){
-			$this->pdf->Output($dest);
+
+		/**
+		 * Public method. 
+		 * This method will output the generated .pdf file. Thus should only be called after generate_exam() method has been called.
+		 * The PDF output will fail if there are any non PDF output made beforehand.
+		 * An optional filename can be specified as the $name which will be used for the name in the download prompt.
+		 * @param str $name="output" Optional filename.
+		 * @return void
+		 */
+		public function output_exam($name="output"){
+			$this->pdf->Output($name.".pdf","D");
 		}
 	}
 ?>

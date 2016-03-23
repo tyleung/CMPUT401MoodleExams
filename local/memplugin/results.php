@@ -15,17 +15,18 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Initial page for the plug-in
+ * Exam results page for a course.
  *
  * @package     local
  * @subpackage  memplugin
- * @copyright   
+ * @copyright   Terence Leung tyleung@ualberta.ca
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 global $PAGE, $CFG, $DB;
 require_once('../../config.php');
-require($CFG->dirroot.'/lib/tablelib.php');
+
+//defined('MOODLE_INTERNAL') || die();
 
 require_login();
 require_capability('local/memplugin:add', context_system::instance());
@@ -53,28 +54,7 @@ echo $OUTPUT->header();
     </thead>
     <tbody>
 		<?php
-		$marks_rs = $DB->get_recordset('user');
-		//$m = $DB->get_recordset('mem_mark_stats, mem_booklet_data');
-		//$marks_rs = $DB->get_recordset('mem_mark_stats');
-		
-		foreach($marks_rs as $mark) {
-			echo '<tr>';
-			echo '<td>';
-			print_r($mark->firstname);
-			echo '</td>';
-			echo '<td>';
-			print_r($mark->lastname);
-			echo '</td>';
-			echo '<td>';
-			print_r($mark->idnumber);
-			echo '</td>';
-			echo '<td>';
-			print_r($mark->firstname);
-			echo '</td>';
-			echo '</tr>';
-		}
-		
-		$marks_rs->close();
+		populate_results_table();
 		?>
     </tbody>
 </table>
@@ -87,4 +67,39 @@ $(document).ready( function () {
 
 <?php
 echo $OUTPUT->footer();
+
+/**
+ * Populates the results table with data from the database.
+ */
+function populate_results_table() {
+	if($_GET['course_id']) {	
+		$course_id = $_GET['course_id'];
+		#$course_id = 2;
+		$sql = "SELECT u.firstname, u.lastname, u.idnumber, mms.total_booklet_score 
+				FROM {user} u, {mem_mark_stats} mms,  {mem_booklet_data} mbd 
+				WHERE mbd.course_id = " . $course_id . " 
+				AND mbd.student_id = u.idnumber 
+				AND mbd.booklet_id = mms.booklet_id";
+		$marks_rs = $GLOBALS['DB']->get_recordset_sql($sql);
+	}
+	
+	foreach($marks_rs as $mark) {
+		echo '<tr>';
+		echo '<td>';
+		print_r($mark->firstname);
+		echo '</td>';
+		echo '<td>';
+		print_r($mark->lastname);
+		echo '</td>';
+		echo '<td>';
+		print_r($mark->idnumber);
+		echo '</td>';
+		echo '<td>';
+		print_r($mark->total_booklet_score);
+		echo '</td>';
+		echo '</tr>';
+	}
+	
+	$marks_rs->close();
+}
 ?>
