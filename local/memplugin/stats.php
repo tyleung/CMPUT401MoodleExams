@@ -49,7 +49,6 @@ if ($_GET['course_choice']){
 	$form->display();
 	echo $OUTPUT->footer();	
 	
-
 } else if($_GET['exam_year_sem_choice']) {
 	
 	//$data = $form->get_data();
@@ -69,25 +68,30 @@ if ($_GET['course_choice']){
 
 	echo $OUTPUT->footer();
 }
-
+	
 if ($_POST['year_choice_submit']) {
-	$data = $form->get_data();
-	var_dump($data);
-	// put custom put or post methods or variables into our html header, put ? in the end at the page.
-	// ? variableName, and then get the id of the form element to get their value.
-	redirect($CFG->wwwroot.'/local/memplugin/stats.php?exam_year_sem_choice='.$data->year_choice_select);
+	//$data_y = $form->get_data();
+	//var_dump($data_y);
+	//var_dump($_REQUEST['year_choice_select']);
+
+	// $_REQUEST taken from http://www.html-form-guide.com/php-form/php-form-post.html
+	// Used here because $form->get_data(); only containted the value of the submit button for some reason, and NOT the info needed.
+	redirect($CFG->wwwroot.'/local/memplugin/stats.php?exam_year_sem_choice='.$_REQUEST['year_choice_select']);
 	//multiple variables you concatenate with & e.g. food_choice=2&test=3 
 	//prevent PUT injection: something like the "die[moodle]or else" if u try access that page directly without coming from moodle it will not let it.
-} else if($_POST['course_choice_submit']){
-	$data = $formcourse->get_data();
-	redirect($CFG->wwwroot.'/local/memplugin/stats.php?course_choice='.$data->course_choice_select);
-} else {
-	if(!$_GET['exam_year_sem_choice'] && !$_GET['course_choice']) {
-		echo $OUTPUT->header();
-		$formcourse->display();
-		echo $OUTPUT->footer();
-	}
+} else if($_POST['course_choice_submit']) {
+	$data_c = $formcourse->get_data();
+	redirect($CFG->wwwroot.'/local/memplugin/stats.php?course_choice='.$data_c->course_choice_select);
+	//header("LOCATION: ".$CFG->wwwroot.'/local/memplugin/stats.php?course_choice='.$data->course_choice_select);
+	$form->display();
+	
 }
+if(!$_GET['exam_year_sem_choice'] && !$_GET['course_choice']) {
+	echo $OUTPUT->header();
+	$formcourse->display();
+	echo $OUTPUT->footer();
+}
+
 
 /**
 Function that draws the statistics onto the page and provides a link to the downloadable CSV.
