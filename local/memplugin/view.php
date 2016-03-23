@@ -39,6 +39,7 @@ $PAGE->requires->js_init_call('M.local_memplugin.init', null, false, $jsmodule);
 echo $OUTPUT->header();
 
 echo "This page is our main page. Tests here?";
+echo '<a href=stats.php>Statistics Page</a></br>';
 echo '<a href=qrtest.php> QR test plz. </a>';
 echo '<button class="censor" onclick = "javascript:addtext()"> testtest </button>';
 echo '<script type = "javascript">

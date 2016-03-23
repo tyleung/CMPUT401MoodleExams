@@ -1,7 +1,10 @@
 <?php
+defined('MOODLE_INTERNAL') || die('unable to connect');
+
 global $PAGE, $CFG, $DB;
 require_once(dirname(__FILE__).'/../../../../config.php');
 
+<<<<<<< HEAD
 require_once($CFG->dirroot.'/local/memplugin/qrtest_class.php');
 require_once($CFG->dirroot.'/local/memplugin/marklib.php');
 
@@ -15,6 +18,10 @@ $PAGE->set_url($url);
 
 require_login();
 require_capability('local/memplugin:add', context_system::instance());//??
+=======
+require_login();
+require_capability('local/memplugin:add', context_system::instance());
+>>>>>>> f741947de094d2cedccfad6e6f5a2e5c687bb116
 
 $PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('standard');
