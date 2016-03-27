@@ -27,11 +27,12 @@ var draw_class = (function () {
       }
     },
     mDown = function(event) {
-    	var x = event.pageX;
-    	var y = event.pageY;
-    	console.log("BBB "+x+" "+y);
+	    var rect = canvas.getBoundingClientRect();
+    	var x = event.clientX-rect.left;
+    	var y = event.clientY-rect.top;
+    	console.log("BBB x"+x+" y"+y+" canvasL"+canvas.offsetLeft+" canvasR"+canvas.offsetTop);
         ctx.fillStyle = "rgb(180,0,0)";
-        ctx.fillRect (60, 60, 100, 100);
+        ctx.fillRect (x, y, 20, 20);
     };
     
 	return {init: init};
