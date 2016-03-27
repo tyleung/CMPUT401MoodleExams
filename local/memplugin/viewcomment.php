@@ -26,13 +26,13 @@
 require_once(dirname(__FILE__).'/../../../../config.php');
 global $CFG, $DB, $PAGE, $USER;
 require_once($CFG->dirroot.'/mod/assign/locallib.php');
-require_once($CFG->dirroot.'/mod/assign/submission/pdf/lib.php');
+require_once($CFG->dirroot.'/local/memplugin/marklib.php');
 
 $id   = required_param('id', PARAM_INT);
 $submissionid = optional_param('submissionid', 0, PARAM_INT);
 $pageno = optional_param('pageno', 1, PARAM_INT);
 
-$url = new moodle_url('/mod/assign/feedback/pdf/viewcomment.php', array('submissionid'=>$submissionid,
+$url = new moodle_url('/local/memplugin/viewcomment.php', array('submissionid'=>$submissionid,
                                                                        'pageno'=>$pageno,
                                                                        'id' => $id));
 $cm = get_coursemodule_from_id('assign', $id, 0, false, MUST_EXIST);

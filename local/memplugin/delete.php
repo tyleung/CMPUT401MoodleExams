@@ -25,7 +25,7 @@
 require_once(dirname(__FILE__).'/../../../../config.php');
 global $DB, $PAGE, $CFG;
 require_once($CFG->dirroot.'/mod/assign/locallib.php');
-require_once($CFG->dirroot.'/mod/assign/submission/pdf/lib.php');
+require_once($CFG->dirroot.'/local/memplugin/marklib.php');
 
 $id = required_param('id', PARAM_INT);
 $submissionid = required_param('submissionid', PARAM_INT);
@@ -34,7 +34,7 @@ $returnparams = required_param('returnparams', PARAM_TEXT);
 $cm = get_coursemodule_from_id('assign', $id, 0, false, MUST_EXIST);
 $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
 
-$url = new moodle_url('/mod/assign/feedback/pdf/delete.php', array('id' => $id, 'submissionid' => $submissionid,
+$url = new moodle_url('/local/memplugin/delete.php', array('id' => $id, 'submissionid' => $submissionid,
                                                                    'returnparams' => $returnparams));
 $PAGE->set_url($url);
 require_login($course, false, $cm);

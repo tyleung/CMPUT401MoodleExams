@@ -26,7 +26,7 @@
 require_once(dirname(__FILE__).'/../../../../config.php');
 global $CFG, $DB, $PAGE;
 require_once($CFG->dirroot.'/mod/assign/locallib.php');
-require_once($CFG->dirroot.'/mod/assign/submission/pdf/lib.php');
+require_once($CFG->dirroot.'/local/memplugin/marklib.php');
 
 $id   = required_param('id', PARAM_INT);
 $submissionid = optional_param('submissionid', 0, PARAM_INT);
@@ -35,7 +35,7 @@ $action = optional_param('action', null, PARAM_TEXT);
 $rownum = optional_param('rownum', null, PARAM_INT);
 $returnparams = optional_param('returnparams', null, PARAM_TEXT);
 
-$url = new moodle_url('/mod/assign/feedback/pdf/editcomment.php', array('submissionid'=>$submissionid,
+$url = new moodle_url('/local/memplugin/editcomment.php', array('submissionid'=>$submissionid,
                                                                        'pageno'=>$pageno,
                                                                        'id' => $id));
 if (!is_null($rownum)) {
