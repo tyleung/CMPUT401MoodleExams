@@ -41,8 +41,11 @@ $form = new create_generate_exam_instance();
 
 if ($_POST['exam_submit']) {
 	$data = $form->get_data();
+	$content = $form->get_file_content('userfile');
+
 	if (is_numeric ($data->exam_count) and is_numeric ($data->extra_count)){
-		redirect($CFG->wwwroot.'/local/memplugin/examclasstestresult.php?exam_count='.$data->exam_count.'&extra_count='.$data->extra_count.'&name='.$data->name);
+		echo $content;
+		//redirect($CFG->wwwroot.'/local/memplugin/examclasstestresult.php?exam_count='.$data->exam_count.'&extra_count='.$data->extra_count.'&name='.$data->name);
 	} else {
 		echo $OUTPUT->header();
 		echo "exam and extra page input must be numeric.";
