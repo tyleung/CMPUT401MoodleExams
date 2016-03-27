@@ -50,7 +50,6 @@ function display_draw($js) {
 	// using google hosted jquery https://developers.google.com/speed/libraries/#jquery
 	//echo '<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>';
 	echo $OUTPUT->header();
-	echo "THIS IS TEST YEH<br>";
 	echo '<script trype="text/javascript" src="js/marktools.js"></script>';
 	echo '
 			<style>
