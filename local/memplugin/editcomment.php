@@ -35,7 +35,7 @@ $action = optional_param('action', null, PARAM_TEXT);
 $rownum = optional_param('rownum', null, PARAM_INT);
 $returnparams = optional_param('returnparams', null, PARAM_TEXT);
 
-$url = new moodle_url('/mod/assign/feedback/pdf/editcomment.php', array('submissionid'=>$submissionid,
+$url = new moodle_url('/local/memplugin/editcomment.php', array('submissionid'=>$submissionid,
                                                                        'pageno'=>$pageno,
                                                                        'id' => $id));
 if (!is_null($rownum)) {
@@ -44,9 +44,8 @@ if (!is_null($rownum)) {
 if (!is_null($returnparams)) {
     $url->param('returnparams', $returnparams);
 }
-//$cm = get_coursemodule_from_id('assign', $id, 0, false, MUST_EXIST);
+$cm = get_coursemodule_from_id('assign', $id, 0, false, MUST_EXIST);
 $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
-//var_dump($course);
 
 $PAGE->set_url($url);
 require_login($course, false, $cm);

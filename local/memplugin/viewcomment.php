@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * The entry point for annotating a PDF
+ * The entry point for viewing an annotated PDF
  *
  * @package   mod_assign
  * @subpackage assignsubmission_pdf
@@ -24,47 +24,40 @@
  */
 
 require_once(dirname(__FILE__).'/../../../../config.php');
-global $CFG, $DB, $PAGE;
+global $CFG, $DB, $PAGE, $USER;
 require_once($CFG->dirroot.'/mod/assign/locallib.php');
 require_once($CFG->dirroot.'/local/memplugin/marklib.php');
 
 $id   = required_param('id', PARAM_INT);
 $submissionid = optional_param('submissionid', 0, PARAM_INT);
 $pageno = optional_param('pageno', 1, PARAM_INT);
-$action = optional_param('action', null, PARAM_TEXT);
-$rownum = optional_param('rownum', null, PARAM_INT);
-$returnparams = optional_param('returnparams', null, PARAM_TEXT);
 
-$url = new moodle_url('/mod/assign/feedback/pdf/editcomment.php', array('submissionid'=>$submissionid,
+$url = new moodle_url('/local/memplugin/viewcomment.php', array('submissionid'=>$submissionid,
                                                                        'pageno'=>$pageno,
                                                                        'id' => $id));
-if (!is_null($rownum)) {
-    $url->param('rownum', $rownum);
-}
-if (!is_null($returnparams)) {
-    $url->param('returnparams', $returnparams);
-}
-//$cm = get_coursemodule_from_id('assign', $id, 0, false, MUST_EXIST);
+$cm = get_coursemodule_from_id('assign', $id, 0, false, MUST_EXIST);
 $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
-//var_dump($course);
 
 $PAGE->set_url($url);
 require_login($course, false, $cm);
 
 $context = context_module::instance($cm->id);
-require_capability('mod/assign:grade', $context);
 
 $assignment = new assign($context, $cm, $course);
 $feedbackpdf = new assign_feedback_pdf($assignment, 'feedback_pdf');
 
-if ($action == 'showprevious') {
-    $feedbackpdf->show_previous_comments($submissionid);
-} else if ($action == 'showpreviouspage') {
-    $feedbackpdf->edit_comment_page($submissionid, $pageno, false);
-} else if ($action == 'clearcache') {
-    $feedbackpdf->clear_image_cache($submissionid, optional_param('nextaction', null, PARAM_ALPHA));
-} else if ($action == 'browseimages') {
-    $feedbackpdf->browse_images($submissionid, $pageno);
+// Check the user has the relevant capability to access this assignment submission.
+if ($submissionid) {
+    $submission = $DB->get_record('assign_submission', array('id' => $submissionid), '*', MUST_EXIST);
 } else {
-    $feedbackpdf->edit_comment_page($submissionid, $pageno);
+    if ($assignment->get_instance()->teamsubmission) {
+        $submission = $assignment->get_group_submission($USER->id, 0, false);
+    } else {
+        $submission = $assignment->get_user_submission($USER->id, false);
+    }
 }
+if (!$submission) {
+    print_error('nosubmission', 'assignfeedback_pdf');
+}
+
+$feedbackpdf->edit_comment_page($submission->id, $pageno, false);
