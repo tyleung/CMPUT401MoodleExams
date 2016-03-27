@@ -40,43 +40,70 @@ $PAGE->set_heading(get_string('pluginname', 'local_memplugin'));
 $PAGE->set_url($CFG->wwwroot.'/local/memplugin/stats.php');
 
 //error_log(print_r($db_entry));
-$form = new stats_form();
-
-if($_GET['exam_year_sem_choice']) {
+$form = new stats_sem_form();
+$formcourse = new stats_course_form();
 	
-	$data = $form->get_data();
+if ($_GET['course_choice']){
+	echo $OUTPUT->header();
+	//$form->custom_display($_GET['course_choice']);
+	$form->display();
+	echo $OUTPUT->footer();	
+	
+} else if($_GET['exam_year_sem_choice']) {
+	
+	//$data = $form->get_data();
 	$db_date = $_GET['exam_year_sem_choice'];
 	// &nbsp;
+	$courseid = strtok($db_date, "_");
+
+	print_r($courseid."-courseid<br>");
 	
+	$sem = strtok("_");
+	
+	print_r($sem."-sem<br>");
 
 	echo $OUTPUT->header();
 
-	create_stats_page($db_date);
+	create_stats_page($courseid, $sem);
 
 	echo $OUTPUT->footer();
+}
 	
-} else if ($_POST['year_choice_submit']) {
-	$data = $form->get_data();
-	
-	// put custom put or post methods or variables into our html header, put ? in the end at the page.
-	// ? variableName, and then get the id of the form element to get their value.
-	redirect($CFG->wwwroot.'/local/memplugin/stats.php?exam_year_sem_choice='.$data->year_choice_select);
+if ($_POST['year_choice_submit']) {
+	//$data_y = $form->get_data();
+	//var_dump($data_y);
+	//var_dump($_REQUEST['year_choice_select']);
+
+	// $_REQUEST taken from http://www.html-form-guide.com/php-form/php-form-post.html
+	// Used here because $form->get_data(); only containted the value of the submit button for some reason, and NOT the info needed.
+	redirect($CFG->wwwroot.'/local/memplugin/stats.php?exam_year_sem_choice='.$_REQUEST['year_choice_select']);
 	//multiple variables you concatenate with & e.g. food_choice=2&test=3 
 	//prevent PUT injection: something like the "die[moodle]or else" if u try access that page directly without coming from moodle it will not let it.
-	
-} else {
-	echo $OUTPUT->header();
+} else if($_POST['course_choice_submit']) {
+	$data_c = $formcourse->get_data();
+	redirect($CFG->wwwroot.'/local/memplugin/stats.php?course_choice='.$data_c->course_choice_select);
+	//header("LOCATION: ".$CFG->wwwroot.'/local/memplugin/stats.php?course_choice='.$data->course_choice_select);
 	$form->display();
+	
+}
+if(!$_GET['exam_year_sem_choice'] && !$_GET['course_choice']) {
+	echo $OUTPUT->header();
+	$formcourse->display();
 	echo $OUTPUT->footer();
 }
 
-function create_stats_page($got_req) {
+
+/**
+Function that draws the statistics onto the page and provides a link to the downloadable CSV.
+*/
+function create_stats_page($crs, $yr) {
 
 	$calc = new stats();
 	//$mform->addElement('header', 'year_sem', get_string('stats_title','local_memplugin'));
-	echo '<h1>Results for '.$got_req.'</h1><br>';
+	echo '<h1>Results for '.$yr.'</h1><br>';
 
-	$mark_sql = $GLOBALS['DB']->get_records_sql('SELECT {mem_mark_stats}.booklet_id, total_booklet_score, total_booklet_score_max FROM {mem_booklet_data}, {mem_mark_stats} WHERE year_semester_origin=? and {mem_mark_stats}.booklet_id={mem_booklet_data}.booklet_id', array($got_req));
+	/** The SQL query to retrieve all the totatl marks for each booklet for a specific year and course. */
+	$mark_sql = $GLOBALS['DB']->get_records_sql('SELECT {mem_mark_stats}.booklet_id, total_booklet_score, total_booklet_score_max FROM {mem_booklet_data}, {mem_mark_stats} WHERE course_id=? and year_semester_origin=? and {mem_mark_stats}.booklet_id={mem_booklet_data}.booklet_id', array($crs, $yr));
 	
 	$total_mark = current($mark_sql)->total_booklet_score_max;
 	$raw_marks = array();
@@ -84,7 +111,14 @@ function create_stats_page($got_req) {
 	foreach($mark_sql as $i) {
 		array_push($raw_marks, $i->total_booklet_score);
 	}
-
+	
+	/*
+	print_r($total_mark);
+	echo "</br>";
+	print_r($raw_marks);
+	echo "</br>";
+	*/
+	
 	//$percentage_interval = floor(100/$total_mark);
 	$percentage_interval = 5;
 	echo $calc->graph($raw_marks, $percentage_interval, $total_mark);
@@ -95,7 +129,8 @@ function create_stats_page($got_req) {
 	echo get_string('stats_max', 'local_memplugin').$calc->max( $calc->to_percentage_array($raw_marks, $total_mark) ).'%<br>';
 	echo get_string('stats_min', 'local_memplugin').$calc->min( $calc->to_percentage_array($raw_marks, $total_mark) ).'%<br>';
 
-	echo '<a href="csv_generate.php?semester='.$got_req.'" alt="download csv">'.get_string('stats_download', 'local_memplugin').'</a></br>';
+	/** This link generates the CSV by calling csv_generate.php */
+	echo '<a href="csv_generate.php?semester='.$yr.'&course='.$crs.'" alt="download csv">'.get_string('stats_download', 'local_memplugin').'</a></br>';
 }
 
 ?>

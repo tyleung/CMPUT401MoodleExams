@@ -57,7 +57,7 @@ class assign_feedback_pdf extends assign_feedback_plugin {
 
         static $gspathok = null;
         if (is_null($gspathok)) {
-            require_once($CFG->dirroot.'/mod/assign/feedback/pdf/mypdflib.php');
+            require_once($CFG->dirroot.'/local/memplugin/mypdflib.php');
             $result = AssignPDFLib::test_gs_path(false);
             $gspathok = ($result->status == AssignPDFLib::GSPATH_OK);
             if (!$gspathok && $this->is_visible()) {
@@ -267,7 +267,7 @@ class assign_feedback_pdf extends assign_feedback_plugin {
             }
             // Add 'annotate submission' link.
             $cm = $this->assignment->get_course_module();
-            $url = new moodle_url('/mod/assign/feedback/pdf/editcomment.php',
+            $url = new moodle_url('/local/memplugin/editcomment.php',
                                   array('id' => $cm->id, 'submissionid' => $realsubmission->id));
             $url->param('returnparams', $this->encode_return_params());
             $rownum = $this->get_rownum();
@@ -332,7 +332,7 @@ class assign_feedback_pdf extends assign_feedback_plugin {
                 ASSIGNFEEDBACK_PDF_FILENAME,
                 true);
             $cm = $this->assignment->get_course_module();
-            $viewurl = new moodle_url('/mod/assign/feedback/pdf/viewcomment.php',
+            $viewurl = new moodle_url('/local/memplugin/viewcomment.php',
                                       array('id' => $cm->id,
                                            'submissionid' => $realsubmission->id));
             $viewurl->param('returnparams', $this->encode_return_params());
@@ -343,7 +343,7 @@ class assign_feedback_pdf extends assign_feedback_plugin {
             $ret .= html_writer::link($viewurl, get_string('viewresponse', 'assignfeedback_pdf'));
 
             if ($deletelink) {
-                $deleteurl = new moodle_url('/mod/assign/feedback/pdf/delete.php', $viewurl->params());
+                $deleteurl = new moodle_url('/local/memplugin/delete.php', $viewurl->params());
                 $ret .= html_writer::empty_tag('br');
                 $ret .= html_writer::link($deleteurl, get_string('deleteresponse', 'assignfeedback_pdf'));
             }
@@ -500,7 +500,7 @@ class assign_feedback_pdf extends assign_feedback_plugin {
                 echo '<html><head><title>'.get_string('feedback', 'assign').':'.fullname($user, true).
                     ':'.format_string($assignment->name).'</title></head>';
                 echo html_writer::start_tag('frameset', array('cols' => "70%, 30%"));
-                $mainframeurl = new moodle_url('/mod/assign/feedback/pdf/editcomment.php', array('id' => $cm->id,
+                $mainframeurl = new moodle_url('/local/memplugin/editcomment.php', array('id' => $cm->id,
                                                                                   'submissionid' => $submission->id,
                                                                                   'pageno' => $pageno,
                                                                                   'showprevious' => $showprevious,
@@ -509,7 +509,7 @@ class assign_feedback_pdf extends assign_feedback_plugin {
                                                              false, MUST_EXIST);
                 $previoussubmission = $DB->get_field('assign_submission', 'id', array('assignment' => $showprevious,
                                                                                 'userid' => $user->id), MUST_EXIST);
-                $sideframeurl = new moodle_url('/mod/assign/feedback/pdf/editcomment.php', array('id' => $previouscm->id,
+                $sideframeurl = new moodle_url('/local/memplugin/editcomment.php', array('id' => $previouscm->id,
                                                                                        'submissionid' => $previoussubmission,
                                                                                        'action' => 'showprevious'));
                 echo html_writer::empty_tag('frame', array('src' => $mainframeurl));
@@ -601,7 +601,7 @@ class assign_feedback_pdf extends assign_feedback_plugin {
         echo '<br/>';
         echo $pageselector;
         if ($enableedit) {
-            $openurl = new moodle_url('/mod/assign/feedback/pdf/editcomment.php', array('id' => $cm->id,
+            $openurl = new moodle_url('/local/memplugin/editcomment.php', array('id' => $cm->id,
                                                                                        'submissionid' => $submission->id,
                                                                                        'pageno' => $pageno,
                                                                                        'showprevious' => $showprevious));
@@ -634,7 +634,7 @@ class assign_feedback_pdf extends assign_feedback_plugin {
         echo '<button id="cancelsendagain">'.get_string('cancel', 'assignfeedback_pdf').'</button></div>';
 
         // Prepare all the parameters to pass into the javascript.
-        $serverurl = new moodle_url('/mod/assign/feedback/pdf/updatecomment.php');
+        $serverurl = new moodle_url('/local/memplugin/updatecomment.php');
         $config = array(
             'id' => $cm->id,
             'submissionid' => $submission->id,
@@ -643,7 +643,7 @@ class assign_feedback_pdf extends assign_feedback_plugin {
             'pagecount' => $pagecount,
             'serverurl' => $serverurl->out(),
             'blank_image' => $OUTPUT->pix_url('blank', 'assignfeedback_pdf')->out(),
-            'image_path' => $CFG->wwwroot.'/mod/assign/feedback/pdf/pix/',
+            'image_path' => $CFG->wwwroot.'/local/memplugin/pix/',
             'editing' => ($enableedit ? 1 : 0),
             // This adds a form to the page to simulate clicking at positions on the PDF.
             'behattest' => defined('BEHAT_TEST') || defined('BEHAT_SITE_RUNNING'),
@@ -672,7 +672,7 @@ class assign_feedback_pdf extends assign_feedback_plugin {
         );
 
         $jsmodule = array('name' => 'assignfeedback_pdf',
-                          'fullpath' => new moodle_url('/mod/assign/feedback/pdf/scripts/annotate.js'),
+                          'fullpath' => new moodle_url('/local/memplugin/scripts/annotate.js'),
                           'requires' => array('node', 'event', 'get', 'button', 'overlay',
                                               'dd-drag', 'dd-constrain', 'resize-plugin', 'io-base', 'json',
                                               'panel', 'button-plugin', 'button-group',
@@ -807,7 +807,7 @@ class assign_feedback_pdf extends assign_feedback_plugin {
         if (!$enableedit) {
             // If opening in same window - show 'back to comment list' link.
             if (array_key_exists('uploadpdf_commentnewwindow', $_COOKIE) && !$_COOKIE['uploadpdf_commentnewwindow']) {
-                $url = new moodle_url('/mod/assign/feedback/pdf/editcomment.php',
+                $url = new moodle_url('/local/memplugin/editcomment.php',
                                       array('id' => $this->assignment->get_course_module()->id,
                                            'submissionid' => $submission->id,
                                            'action' => 'showprevious'));
@@ -1145,7 +1145,7 @@ class assign_feedback_pdf extends assign_feedback_plugin {
             echo '<table'.$style1.'><tr><th'.$style1.'>'.get_string('pagenumber', 'assignfeedback_pdf').'</th>';
             echo '<th'.$style1.'>'.get_string('comment', 'assignfeedback_pdf').'</th></tr>';
             foreach ($comments as $comment) {
-                $linkurl = new moodle_url('/mod/assign/feedback/pdf/editcomment.php', array('id' => $cm->id,
+                $linkurl = new moodle_url('/local/memplugin/editcomment.php', array('id' => $cm->id,
                                                                                            'submissionid' => $submission->id,
                                                                                            'pageno' => $comment->pageno,
                                                                                            'commentid' => $comment->id,

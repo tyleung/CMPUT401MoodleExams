@@ -5,6 +5,8 @@
 require_once '../../config.php';
 require_once $CFG->dirroot.'/lib/graphlib.php';
 
+/** Creates a new graph image using the graphlib library. */
+
 $line = new graph(400,280);
 $line->parameter['title']   = "Results";
 $line->parameter['x_label'] = "Score (%)";

@@ -16,7 +16,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Handles the logic for the email template
+ * Handles the logic of the mark_exam page. Appends a list of course 
+ * IDs to a URL to send to later pages that will be used to mark exams.
  *
  * @package     local
  * @subpackage  memplugin
@@ -37,16 +38,39 @@ $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('pluginname', 'local_memplugin'));
 $PAGE->set_heading(get_string('markheader', 'local_memplugin'));
 $PAGE->set_url($CFG->wwwroot.'/local/memplugin/mark_exam.php');
-$class_section_form = new create_mark_exam_instance();
 
-if ($class_section_form->is_cancelled()) {
-	redirect($CFG->wwwroot.'/local/memplugin/memhome.php');
-} elseif ($data = $class_section_form->get_data()) {
-	$check = $data->test1;
-	redirect($CFG->wwwroot.'/local/memplugin/memhome.php');
-} else {
-	echo $OUTPUT->header();
-	$class_section_form->display();
-	echo $OUTPUT->footer();
+$form = new create_mark_exam_instance();
+
+//get course id somehow from other form GET
+//append to redirect name with question mark 
+//http://stackoverflow.com/questions/5479940/handling-a-dynamic-amount-of-checkboxes-with-php
+
+if($_POST['markbutton']){
+	$data = $form->get_data();
+ 	//$course = $_POST['courseselect'];
+
+	var_dump( $data);
+//	foreach($data as $d){
+	//	echo $d;
+//	}
+	//serialize_courses()
+	//redirect($CFG->wwwroot.'/local/memplugin/assign_books.php?courses_ids=');
 }
+else { 
+	if($form->is_cancelled()) {
+		redirect($CFG->wwwroot.'/local/memplugin/assign_books.php');
+	} elseif ($data = $form->get_data()) {
+		$check = $data->test1;
+		redirect($CFG->wwwroot.'/local/memplugin/assign_books.php');
+	} else {
+		echo $OUTPUT->header();
+		$class_section_form->display();
+		echo $OUTPUT->footer();
+	}
+}
+
+
+
+
+
 ?>
