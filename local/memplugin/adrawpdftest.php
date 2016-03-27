@@ -37,8 +37,10 @@ $PAGE->set_url($CFG->wwwroot.'/local/memplugin/adrawpdftest.php');
 
 //$loaded = '<script>window.onload = initDrw(); </script>';
 $loaded = '<script type="text/javascript"> window.onload = draw_class.init();	</script>';
+$loaded2 = '<script type="text/javascript"> window.onload = mark_tools.init();   </script>';
 
 display_draw($loaded);
+mark_tools($loaded2);
 
 /**
 Display search method prints everything on screen to actually display everything, and links the Javascript file.
@@ -49,7 +51,47 @@ function display_draw($js) {
 	//echo '<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>';
 	echo $OUTPUT->header();
 	echo "THIS IS TEST YEH<br>";
-    echo '<script type="text/javascript" src="js/draw.js"></script>
+	echo '<script trype="text/javascript" src="js/marktools.js"></script>';
+	echo '
+			<style>
+			ul.toolbar {
+				list-style-type: none;
+				margin: 0;
+				padding: 0;
+				overflow: hidden;
+				background-color: #333;
+			}
+			li.toolbaritem {
+				float: left;
+			}
+			li.toolbaritem a {
+				display: block;
+				color: white;
+				text-align: center;
+				padding: 14px 16px;
+				text-decoration: none;
+			}
+			li.toolbaritem a:hover {
+				background-color: #111;
+			}
+			.active {
+    			background-color: #4CAF50;
+			}
+			</style>
+
+			<div id="markmenu">
+			  <div id="toolbardiv">
+				<ul class="toolbar">
+				  <li class="toolbaritem"><a><img src = "pix/freehandicon.png" width="30" height="30"></a></li>
+				  <li class="toolbaritem"><a><img src = "pix/stamps/tick.png" width="30" height="30"></a></li>
+				  <li class="toolbaritem"><a><img src = "pix/stamps/cross.png" width="30" height="30"></a></li>
+				  <li class="toolbaritem"><a><img src = "pix/eraseicon.png" width="30" height="30"></a></li>
+				  <li class="toolbaritem"><a><img src = "pix/commenticon.png" width="30" height="30"></a></li>
+				</ul>
+			  </div>
+			</div>
+			';
+	echo '<script type="text/javascript" src="js/draw.js"></script>
     	<canvas id="canvas" width="500" height="300" ></canvas>';
 	echo $js;
 	echo $OUTPUT->footer();
