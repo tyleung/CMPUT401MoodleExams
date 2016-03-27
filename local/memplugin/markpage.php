@@ -26,7 +26,7 @@
 global $CFG, $DB, $PAGE;
 require_once('../../config.php');
 require_once($CFG->dirroot.'/mod/assign/locallib.php');
-require_once($CFG->dirroot.'/mod/assign/submission/pdf/lib.php');
+require_once($CFG->dirroot.'/local/memplugin/marklib.php');
 
 $id   = required_param('id', PARAM_INT);
 $submissionid = optional_param('submissionid', 0, PARAM_INT);
