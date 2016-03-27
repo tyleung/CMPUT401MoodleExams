@@ -16,7 +16,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Handles the logic for the email template
+ * Handles the logic for the main page. Generates a table of exams
+ * relevant to the logged in user and begins the process of either
+ * creating and generating a new exam, or marking an existing exam. 
  *
  * @package     local
  * @subpackage  memplugin
@@ -26,11 +28,8 @@
 
 require_once $CFG->dirroot.'/lib/formslib.php';
 require_login();
-/*
-* This function creates and displays the email form
-* It also fills out predefined feedback snippets for the user to enter
-* this functionality will be further refined
-*/
+
+
 class create_memhome_instance extends moodleform{
 	function definition(){
 		global $CFG, $DB, $USER;
@@ -41,7 +40,7 @@ class create_memhome_instance extends moodleform{
 		$mform->addElement('header', 'general', get_string('genheader', 'local_memplugin'));
 		$buttonarray   =  array();
 		$buttonarray[] =& $mform->createElement('submit','create', get_string('createbutton', 'local_memplugin'));
-		$buttonarray[] =& $mform->createElement('submit','mark', get_string('markbutton', 'local_memplugin'));
+		$buttonarray[] =& $mform->createElement('submit','mark', get_string('markbuttonhome', 'local_memplugin'));
 		$mform->addGroup($buttonarray, 'buttonar', 'What would you like to do?', array(' '), false);
 
 //html link tag PUT or POST for sending information. Put more secure but post can get from URL

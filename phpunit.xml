@@ -1,0 +1,525 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="lib/phpunit/phpunit.xsd"
+        bootstrap="lib/phpunit/bootstrap.php"
+        convertErrorsToExceptions="true"
+        convertNoticesToExceptions="true"
+        convertWarningsToExceptions="true"
+        processIsolation="false"
+        backupGlobals="false"
+        backupStaticAttributes="false"
+        stopOnError="false"
+        stopOnFailure="false"
+        stopOnIncomplete="false"
+        stopOnSkipped="false"
+        strict="false"
+        printerClass="Hint_ResultPrinter"
+        testSuiteLoaderClass="phpunit_autoloader"
+        >
+
+    <php>
+        <!--<const name="PHPUNIT_LONGTEST" value="1"/> uncomment to execute also slow or otherwise expensive tests-->
+
+        <!--Following constants instruct tests to fetch external test files from alternative location or skip tests if empty, clone https://github.com/moodlehq/moodle-exttests to local web server-->
+        <!--<const name="TEST_EXTERNAL_FILES_HTTP_URL" value="http://download.moodle.org/unittest"/> uncomment and alter to fetch external test files from alternative location-->
+        <!--<const name="TEST_EXTERNAL_FILES_HTTPS_URL" value="https://download.moodle.org/unittest"/> uncomment and alter to fetch external test files from alternative location-->
+    </php>
+
+<!--All core suites need to be manually added here-->
+
+    <testsuites>
+        <testsuite name="core_phpunit">
+            <directory suffix="_test.php">lib/phpunit/tests</directory>
+        </testsuite>
+        <testsuite name="core_test">
+            <directory suffix="_test.php">lib/testing/tests</directory>
+        </testsuite>
+        <testsuite name="core_ddl">
+            <directory suffix="_test.php">lib/ddl/tests</directory>
+        </testsuite>
+        <testsuite name="core_dml">
+            <directory suffix="_test.php">lib/dml/tests</directory>
+        </testsuite>
+        <testsuite name="core">
+            <directory suffix="_test.php">lib/tests</directory>
+            <directory suffix="_test.php">lib/ajax/tests</directory>
+            <directory>lib/password_compat/tests</directory>
+        </testsuite>
+        <testsuite name="core_form">
+            <directory suffix="_test.php">lib/form/tests</directory>
+        </testsuite>
+        <testsuite name="core_files">
+            <directory suffix="_test.php">lib/filestorage/tests</directory>
+            <directory suffix="_test.php">files/tests</directory>
+        </testsuite>
+        <testsuite name="core_role">
+            <directory suffix="_test.php">admin/roles/tests</directory>
+        </testsuite>
+        <testsuite name="core_cohort">
+            <directory suffix="_test.php">cohort/tests</directory>
+        </testsuite>
+        <testsuite name="core_grade">
+            <directory suffix="_test.php">lib/grade/tests</directory>
+            <directory suffix="_test.php">grade/tests</directory>
+            <directory suffix="_test.php">grade/grading/tests</directory>
+        </testsuite>
+        <testsuite name="core_backup">
+            <directory suffix="_test.php">backup/controller/tests</directory>
+            <directory suffix="_test.php">backup/converter/moodle1/tests</directory>
+            <directory suffix="_test.php">backup/util</directory>
+        </testsuite>
+        <testsuite name="core_badges">
+            <directory suffix="_test.php">badges/tests</directory>
+        </testsuite>
+        <testsuite name="core_blog">
+            <directory suffix="_test.php">blog/tests</directory>
+        </testsuite>
+        <testsuite name="core_iplookup">
+            <directory suffix="_test.php">iplookup/tests</directory>
+        </testsuite>
+        <testsuite name="core_course">
+            <directory suffix="_test.php">course/tests</directory>
+        </testsuite>
+        <testsuite name="core_question">
+            <directory suffix="_test.php">question/engine/tests</directory>
+            <directory suffix="_test.php">question/tests</directory>
+            <directory suffix="_test.php">question/type/tests</directory>
+            <directory suffix="_test.php">question/engine/upgrade/tests</directory>
+        </testsuite>
+        <testsuite name="core_cache">
+            <directory suffix="_test.php">cache/tests</directory>
+        </testsuite>
+        <testsuite name="core_calendar">
+            <directory suffix="_test.php">calendar/tests</directory>
+        </testsuite>
+        <testsuite name="core_enrol">
+            <directory suffix="_test.php">enrol/tests</directory>
+        </testsuite>
+        <testsuite name="core_group">
+            <directory suffix="_test.php">group/tests</directory>
+        </testsuite>
+        <testsuite name="core_external">
+            <directory suffix="_test.php">lib/external/tests</directory>
+        </testsuite>
+        <testsuite name="core_message">
+            <directory suffix="_test.php">message/tests</directory>
+        </testsuite>
+        <testsuite name="core_notes">
+            <directory suffix="_test.php">notes/tests</directory>
+        </testsuite>
+        <testsuite name="core_rating">
+            <directory suffix="_test.php">rating/tests</directory>
+        </testsuite>
+        <testsuite name="core_repository">
+            <directory suffix="_test.php">repository/tests</directory>
+        </testsuite>
+        <testsuite name="core_user">
+            <directory suffix="_test.php">user/tests</directory>
+        </testsuite>
+        <testsuite name="core_webservice">
+            <directory suffix="_test.php">webservice/tests</directory>
+        </testsuite>
+
+        <!--Plugin suites: use admin/tool/phpunit/cli/util.php to build phpunit.xml from phpunit.xml.dist with up-to-date list of plugins in current install-->
+
+        <testsuite name="assignfeedback_editpdf test suite">
+            <directory suffix="_test.php">mod/assign/feedback/editpdf/tests</directory>
+        </testsuite>
+        <testsuite name="assignfeedback_pdf test suite">
+            <directory suffix="_test.php">mod/assign/feedback/pdf/tests</directory>
+        </testsuite>
+        <testsuite name="assignsubmission_file test suite">
+            <directory suffix="_test.php">mod/assign/submission/file/tests</directory>
+        </testsuite>
+        <testsuite name="assignsubmission_onlinetext test suite">
+            <directory suffix="_test.php">mod/assign/submission/onlinetext/tests</directory>
+        </testsuite>
+        <testsuite name="auth_db test suite">
+            <directory suffix="_test.php">auth/db/tests</directory>
+        </testsuite>
+        <testsuite name="auth_ldap test suite">
+            <directory suffix="_test.php">auth/ldap/tests</directory>
+        </testsuite>
+        <testsuite name="block_activity_modules test suite">
+            <directory suffix="_test.php">blocks/activity_modules/tests</directory>
+        </testsuite>
+        <testsuite name="block_comments test suite">
+            <directory suffix="_test.php">blocks/comments/tests</directory>
+        </testsuite>
+        <testsuite name="block_navigation test suite">
+            <directory suffix="_test.php">blocks/navigation/tests</directory>
+        </testsuite>
+        <testsuite name="block_online_users test suite">
+            <directory suffix="_test.php">blocks/online_users/tests</directory>
+        </testsuite>
+        <testsuite name="booktool_exportimscp test suite">
+            <directory suffix="_test.php">mod/book/tool/exportimscp/tests</directory>
+        </testsuite>
+        <testsuite name="booktool_importhtml test suite">
+            <directory suffix="_test.php">mod/book/tool/importhtml/tests</directory>
+        </testsuite>
+        <testsuite name="booktool_print test suite">
+            <directory suffix="_test.php">mod/book/tool/print/tests</directory>
+        </testsuite>
+        <testsuite name="cachestore_file test suite">
+            <directory suffix="_test.php">cache/stores/file/tests</directory>
+        </testsuite>
+        <testsuite name="cachestore_memcache test suite">
+            <directory suffix="_test.php">cache/stores/memcache/tests</directory>
+        </testsuite>
+        <testsuite name="cachestore_memcached test suite">
+            <directory suffix="_test.php">cache/stores/memcached/tests</directory>
+        </testsuite>
+        <testsuite name="cachestore_mongodb test suite">
+            <directory suffix="_test.php">cache/stores/mongodb/tests</directory>
+        </testsuite>
+        <testsuite name="cachestore_session test suite">
+            <directory suffix="_test.php">cache/stores/session/tests</directory>
+        </testsuite>
+        <testsuite name="cachestore_static test suite">
+            <directory suffix="_test.php">cache/stores/static/tests</directory>
+        </testsuite>
+        <testsuite name="editor_tinymce test suite">
+            <directory suffix="_test.php">lib/editor/tinymce/tests</directory>
+        </testsuite>
+        <testsuite name="enrol_category test suite">
+            <directory suffix="_test.php">enrol/category/tests</directory>
+        </testsuite>
+        <testsuite name="enrol_cohort test suite">
+            <directory suffix="_test.php">enrol/cohort/tests</directory>
+        </testsuite>
+        <testsuite name="enrol_database test suite">
+            <directory suffix="_test.php">enrol/database/tests</directory>
+        </testsuite>
+        <testsuite name="enrol_flatfile test suite">
+            <directory suffix="_test.php">enrol/flatfile/tests</directory>
+        </testsuite>
+        <testsuite name="enrol_guest test suite">
+            <directory suffix="_test.php">enrol/guest/tests</directory>
+        </testsuite>
+        <testsuite name="enrol_imsenterprise test suite">
+            <directory suffix="_test.php">enrol/imsenterprise/tests</directory>
+        </testsuite>
+        <testsuite name="enrol_ldap test suite">
+            <directory suffix="_test.php">enrol/ldap/tests</directory>
+        </testsuite>
+        <testsuite name="enrol_manual test suite">
+            <directory suffix="_test.php">enrol/manual/tests</directory>
+        </testsuite>
+        <testsuite name="enrol_meta test suite">
+            <directory suffix="_test.php">enrol/meta/tests</directory>
+        </testsuite>
+        <testsuite name="enrol_paypal test suite">
+            <directory suffix="_test.php">enrol/paypal/tests</directory>
+        </testsuite>
+        <testsuite name="enrol_self test suite">
+            <directory suffix="_test.php">enrol/self/tests</directory>
+        </testsuite>
+        <testsuite name="filter_algebra test suite">
+            <directory suffix="_test.php">filter/algebra/tests</directory>
+        </testsuite>
+        <testsuite name="filter_emoticon test suite">
+            <directory suffix="_test.php">filter/emoticon/tests</directory>
+        </testsuite>
+        <testsuite name="filter_glossary test suite">
+            <directory suffix="_test.php">filter/glossary/tests</directory>
+        </testsuite>
+        <testsuite name="filter_mediaplugin test suite">
+            <directory suffix="_test.php">filter/mediaplugin/tests</directory>
+        </testsuite>
+        <testsuite name="filter_urltolink test suite">
+            <directory suffix="_test.php">filter/urltolink/tests</directory>
+        </testsuite>
+        <testsuite name="gradingform_rubric test suite">
+            <directory suffix="_test.php">grade/grading/form/rubric/tests</directory>
+        </testsuite>
+        <testsuite name="local_memplugin test suite">
+            <directory suffix="_test.php">local/memplugin/tests</directory>
+        </testsuite>
+        <testsuite name="mod_assign test suite">
+            <directory suffix="_test.php">mod/assign/tests</directory>
+        </testsuite>
+        <testsuite name="mod_assignment test suite">
+            <directory suffix="_test.php">mod/assignment/tests</directory>
+        </testsuite>
+        <testsuite name="mod_book test suite">
+            <directory suffix="_test.php">mod/book/tests</directory>
+        </testsuite>
+        <testsuite name="mod_chat test suite">
+            <directory suffix="_test.php">mod/chat/tests</directory>
+        </testsuite>
+        <testsuite name="mod_choice test suite">
+            <directory suffix="_test.php">mod/choice/tests</directory>
+        </testsuite>
+        <testsuite name="mod_data test suite">
+            <directory suffix="_test.php">mod/data/tests</directory>
+        </testsuite>
+        <testsuite name="mod_feedback test suite">
+            <directory suffix="_test.php">mod/feedback/tests</directory>
+        </testsuite>
+        <testsuite name="mod_folder test suite">
+            <directory suffix="_test.php">mod/folder/tests</directory>
+        </testsuite>
+        <testsuite name="mod_forum test suite">
+            <directory suffix="_test.php">mod/forum/tests</directory>
+        </testsuite>
+        <testsuite name="mod_glossary test suite">
+            <directory suffix="_test.php">mod/glossary/tests</directory>
+        </testsuite>
+        <testsuite name="mod_imscp test suite">
+            <directory suffix="_test.php">mod/imscp/tests</directory>
+        </testsuite>
+        <testsuite name="mod_label test suite">
+            <directory suffix="_test.php">mod/label/tests</directory>
+        </testsuite>
+        <testsuite name="mod_lesson test suite">
+            <directory suffix="_test.php">mod/lesson/tests</directory>
+        </testsuite>
+        <testsuite name="mod_lti test suite">
+            <directory suffix="_test.php">mod/lti/tests</directory>
+        </testsuite>
+        <testsuite name="mod_page test suite">
+            <directory suffix="_test.php">mod/page/tests</directory>
+        </testsuite>
+        <testsuite name="mod_quiz test suite">
+            <directory suffix="_test.php">mod/quiz/tests</directory>
+        </testsuite>
+        <testsuite name="mod_resource test suite">
+            <directory suffix="_test.php">mod/resource/tests</directory>
+        </testsuite>
+        <testsuite name="mod_scorm test suite">
+            <directory suffix="_test.php">mod/scorm/tests</directory>
+        </testsuite>
+        <testsuite name="mod_survey test suite">
+            <directory suffix="_test.php">mod/survey/tests</directory>
+        </testsuite>
+        <testsuite name="mod_url test suite">
+            <directory suffix="_test.php">mod/url/tests</directory>
+        </testsuite>
+        <testsuite name="mod_wiki test suite">
+            <directory suffix="_test.php">mod/wiki/tests</directory>
+        </testsuite>
+        <testsuite name="mod_workshop test suite">
+            <directory suffix="_test.php">mod/workshop/tests</directory>
+        </testsuite>
+        <testsuite name="qbehaviour_adaptive test suite">
+            <directory suffix="_test.php">question/behaviour/adaptive/tests</directory>
+        </testsuite>
+        <testsuite name="qbehaviour_adaptivenopenalty test suite">
+            <directory suffix="_test.php">question/behaviour/adaptivenopenalty/tests</directory>
+        </testsuite>
+        <testsuite name="qbehaviour_deferredcbm test suite">
+            <directory suffix="_test.php">question/behaviour/deferredcbm/tests</directory>
+        </testsuite>
+        <testsuite name="qbehaviour_deferredfeedback test suite">
+            <directory suffix="_test.php">question/behaviour/deferredfeedback/tests</directory>
+        </testsuite>
+        <testsuite name="qbehaviour_immediatecbm test suite">
+            <directory suffix="_test.php">question/behaviour/immediatecbm/tests</directory>
+        </testsuite>
+        <testsuite name="qbehaviour_immediatefeedback test suite">
+            <directory suffix="_test.php">question/behaviour/immediatefeedback/tests</directory>
+        </testsuite>
+        <testsuite name="qbehaviour_informationitem test suite">
+            <directory suffix="_test.php">question/behaviour/informationitem/tests</directory>
+        </testsuite>
+        <testsuite name="qbehaviour_interactive test suite">
+            <directory suffix="_test.php">question/behaviour/interactive/tests</directory>
+        </testsuite>
+        <testsuite name="qbehaviour_interactivecountback test suite">
+            <directory suffix="_test.php">question/behaviour/interactivecountback/tests</directory>
+        </testsuite>
+        <testsuite name="qbehaviour_manualgraded test suite">
+            <directory suffix="_test.php">question/behaviour/manualgraded/tests</directory>
+        </testsuite>
+        <testsuite name="qbehaviour_missing test suite">
+            <directory suffix="_test.php">question/behaviour/missing/tests</directory>
+        </testsuite>
+        <testsuite name="qformat_aiken test suite">
+            <directory suffix="_test.php">question/format/aiken/tests</directory>
+        </testsuite>
+        <testsuite name="qformat_blackboard_six test suite">
+            <directory suffix="_test.php">question/format/blackboard_six/tests</directory>
+        </testsuite>
+        <testsuite name="qformat_examview test suite">
+            <directory suffix="_test.php">question/format/examview/tests</directory>
+        </testsuite>
+        <testsuite name="qformat_gift test suite">
+            <directory suffix="_test.php">question/format/gift/tests</directory>
+        </testsuite>
+        <testsuite name="qformat_missingword test suite">
+            <directory suffix="_test.php">question/format/missingword/tests</directory>
+        </testsuite>
+        <testsuite name="qformat_multianswer test suite">
+            <directory suffix="_test.php">question/format/multianswer/tests</directory>
+        </testsuite>
+        <testsuite name="qformat_webct test suite">
+            <directory suffix="_test.php">question/format/webct/tests</directory>
+        </testsuite>
+        <testsuite name="qformat_xml test suite">
+            <directory suffix="_test.php">question/format/xml/tests</directory>
+        </testsuite>
+        <testsuite name="qtype_calculated test suite">
+            <directory suffix="_test.php">question/type/calculated/tests</directory>
+        </testsuite>
+        <testsuite name="qtype_calculatedmulti test suite">
+            <directory suffix="_test.php">question/type/calculatedmulti/tests</directory>
+        </testsuite>
+        <testsuite name="qtype_calculatedsimple test suite">
+            <directory suffix="_test.php">question/type/calculatedsimple/tests</directory>
+        </testsuite>
+        <testsuite name="qtype_description test suite">
+            <directory suffix="_test.php">question/type/description/tests</directory>
+        </testsuite>
+        <testsuite name="qtype_essay test suite">
+            <directory suffix="_test.php">question/type/essay/tests</directory>
+        </testsuite>
+        <testsuite name="qtype_match test suite">
+            <directory suffix="_test.php">question/type/match/tests</directory>
+        </testsuite>
+        <testsuite name="qtype_missingtype test suite">
+            <directory suffix="_test.php">question/type/missingtype/tests</directory>
+        </testsuite>
+        <testsuite name="qtype_multianswer test suite">
+            <directory suffix="_test.php">question/type/multianswer/tests</directory>
+        </testsuite>
+        <testsuite name="qtype_multichoice test suite">
+            <directory suffix="_test.php">question/type/multichoice/tests</directory>
+        </testsuite>
+        <testsuite name="qtype_numerical test suite">
+            <directory suffix="_test.php">question/type/numerical/tests</directory>
+        </testsuite>
+        <testsuite name="qtype_random test suite">
+            <directory suffix="_test.php">question/type/random/tests</directory>
+        </testsuite>
+        <testsuite name="qtype_randomsamatch test suite">
+            <directory suffix="_test.php">question/type/randomsamatch/tests</directory>
+        </testsuite>
+        <testsuite name="qtype_shortanswer test suite">
+            <directory suffix="_test.php">question/type/shortanswer/tests</directory>
+        </testsuite>
+        <testsuite name="qtype_truefalse test suite">
+            <directory suffix="_test.php">question/type/truefalse/tests</directory>
+        </testsuite>
+        <testsuite name="quiz_statistics test suite">
+            <directory suffix="_test.php">mod/quiz/report/statistics/tests</directory>
+        </testsuite>
+        <testsuite name="quizaccess_delaybetweenattempts test suite">
+            <directory suffix="_test.php">mod/quiz/accessrule/delaybetweenattempts/tests</directory>
+        </testsuite>
+        <testsuite name="quizaccess_ipaddress test suite">
+            <directory suffix="_test.php">mod/quiz/accessrule/ipaddress/tests</directory>
+        </testsuite>
+        <testsuite name="quizaccess_numattempts test suite">
+            <directory suffix="_test.php">mod/quiz/accessrule/numattempts/tests</directory>
+        </testsuite>
+        <testsuite name="quizaccess_openclosedate test suite">
+            <directory suffix="_test.php">mod/quiz/accessrule/openclosedate/tests</directory>
+        </testsuite>
+        <testsuite name="quizaccess_password test suite">
+            <directory suffix="_test.php">mod/quiz/accessrule/password/tests</directory>
+        </testsuite>
+        <testsuite name="quizaccess_safebrowser test suite">
+            <directory suffix="_test.php">mod/quiz/accessrule/safebrowser/tests</directory>
+        </testsuite>
+        <testsuite name="quizaccess_securewindow test suite">
+            <directory suffix="_test.php">mod/quiz/accessrule/securewindow/tests</directory>
+        </testsuite>
+        <testsuite name="quizaccess_timelimit test suite">
+            <directory suffix="_test.php">mod/quiz/accessrule/timelimit/tests</directory>
+        </testsuite>
+        <testsuite name="repository_alfresco test suite">
+            <directory suffix="_test.php">repository/alfresco/tests</directory>
+        </testsuite>
+        <testsuite name="repository_boxnet test suite">
+            <directory suffix="_test.php">repository/boxnet/tests</directory>
+        </testsuite>
+        <testsuite name="repository_coursefiles test suite">
+            <directory suffix="_test.php">repository/coursefiles/tests</directory>
+        </testsuite>
+        <testsuite name="repository_dropbox test suite">
+            <directory suffix="_test.php">repository/dropbox/tests</directory>
+        </testsuite>
+        <testsuite name="repository_equella test suite">
+            <directory suffix="_test.php">repository/equella/tests</directory>
+        </testsuite>
+        <testsuite name="repository_filesystem test suite">
+            <directory suffix="_test.php">repository/filesystem/tests</directory>
+        </testsuite>
+        <testsuite name="repository_flickr test suite">
+            <directory suffix="_test.php">repository/flickr/tests</directory>
+        </testsuite>
+        <testsuite name="repository_flickr_public test suite">
+            <directory suffix="_test.php">repository/flickr_public/tests</directory>
+        </testsuite>
+        <testsuite name="repository_googledocs test suite">
+            <directory suffix="_test.php">repository/googledocs/tests</directory>
+        </testsuite>
+        <testsuite name="repository_local test suite">
+            <directory suffix="_test.php">repository/local/tests</directory>
+        </testsuite>
+        <testsuite name="repository_merlot test suite">
+            <directory suffix="_test.php">repository/merlot/tests</directory>
+        </testsuite>
+        <testsuite name="repository_picasa test suite">
+            <directory suffix="_test.php">repository/picasa/tests</directory>
+        </testsuite>
+        <testsuite name="repository_recent test suite">
+            <directory suffix="_test.php">repository/recent/tests</directory>
+        </testsuite>
+        <testsuite name="repository_s3 test suite">
+            <directory suffix="_test.php">repository/s3/tests</directory>
+        </testsuite>
+        <testsuite name="repository_upload test suite">
+            <directory suffix="_test.php">repository/upload/tests</directory>
+        </testsuite>
+        <testsuite name="repository_url test suite">
+            <directory suffix="_test.php">repository/url/tests</directory>
+        </testsuite>
+        <testsuite name="repository_user test suite">
+            <directory suffix="_test.php">repository/user/tests</directory>
+        </testsuite>
+        <testsuite name="repository_webdav test suite">
+            <directory suffix="_test.php">repository/webdav/tests</directory>
+        </testsuite>
+        <testsuite name="repository_wikimedia test suite">
+            <directory suffix="_test.php">repository/wikimedia/tests</directory>
+        </testsuite>
+        <testsuite name="repository_youtube test suite">
+            <directory suffix="_test.php">repository/youtube/tests</directory>
+        </testsuite>
+        <testsuite name="tool_behat test suite">
+            <directory suffix="_test.php">admin/tool/behat/tests</directory>
+        </testsuite>
+        <testsuite name="tool_generator test suite">
+            <directory suffix="_test.php">admin/tool/generator/tests</directory>
+        </testsuite>
+        <testsuite name="tool_installaddon test suite">
+            <directory suffix="_test.php">admin/tool/installaddon/tests</directory>
+        </testsuite>
+        <testsuite name="tool_uploadcourse test suite">
+            <directory suffix="_test.php">admin/tool/uploadcourse/tests</directory>
+        </testsuite>
+        <testsuite name="workshopallocation_manual test suite">
+            <directory suffix="_test.php">mod/workshop/allocation/manual/tests</directory>
+        </testsuite>
+        <testsuite name="workshopallocation_random test suite">
+            <directory suffix="_test.php">mod/workshop/allocation/random/tests</directory>
+        </testsuite>
+        <testsuite name="workshopeval_best test suite">
+            <directory suffix="_test.php">mod/workshop/eval/best/tests</directory>
+        </testsuite>
+        <testsuite name="workshopform_accumulative test suite">
+            <directory suffix="_test.php">mod/workshop/form/accumulative/tests</directory>
+        </testsuite>
+        <testsuite name="workshopform_numerrors test suite">
+            <directory suffix="_test.php">mod/workshop/form/numerrors/tests</directory>
+        </testsuite>
+        <testsuite name="workshopform_rubric test suite">
+            <directory suffix="_test.php">mod/workshop/form/rubric/tests</directory>
+        </testsuite>
+
+    </testsuites>
+
+</phpunit>

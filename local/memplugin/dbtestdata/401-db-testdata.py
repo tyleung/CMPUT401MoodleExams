@@ -18,17 +18,18 @@
 --  mdl_mem_pdf_files
 --
 -- describe mdl_mem_booklet_data;
---  +----------------------+-------------+------+-----+---------+----------------+
---  | Field                | Type        | Null | Key | Default | Extra          |
---  +----------------------+-------------+------+-----+---------+----------------+
---  | booklet_id           | bigint(10)  | NO   | PRI | NULL    | auto_increment |
---  | student_id           | int(9)      | NO   |     | NULL    |                |
---  | prof_id              | int(9)      | YES  |     | NULL    |                |
---  | date_finalized       | bigint(10)  | YES  |     | NULL    |                |
---  | course_id            | varchar(10) | YES  |     | NULL    |                |
---  | year_semester_origin | varchar(11) | NO   |     |         |                |
---  | max_pages            | smallint(3) | NO   |     |NULL     |                |
---  +----------------------+-------------+------+-----+---------+----------------+
+--  +----------------------+--------------+------+-----+---------+----------------+
+--  | Field                | Type         | Null | Key | Default | Extra          |
+--  +----------------------+--------------+------+-----+---------+----------------+
+--  | booklet_id           | bigint(10)   | NO   | PRI | NULL    | auto_increment |
+--  | student_id           | varchar(255) | YES  |     | NULL    |                |
+--  | prof_id              | int(9)       | YES  |     | NULL    |                |
+--  | date_finalized       | bigint(10)   | YES  |     | NULL    |                |
+--  | course_id            | bigint(10)   | YES  |     | NULL    |                |
+--  | year_semester_origin | varchar(11)  | NO   |     |         |                |
+--  | max_pages            | smallint(3)  | NO   |     | NULL    |                |
+--  +----------------------+--------------+------+-----+---------+----------------+
+--
 -- describe mdl_mem_pdf_files;
 --  +-------------+------------+------+-----+---------+----------------+
 --  | Field       | Type       | Null | Key | Default | Extra          |
@@ -129,11 +130,11 @@ def main():
 	#---------can simple edit if you want:
 	maxMarks = 20; # maximum marks booklet can get.
 	pages = 5; # how many pages booklet has.
-	num_inserts = 50
+	num_inserts = 200
 	#--------end simple edits
 
 	userid = random.sample(range(99999,9999999), num_inserts)
-	courseid = "2" # This corresponds to the first course you create.
+	courseid = "3" # This corresponds to the first course you create.
 	
 
 	out += courseInsert + \
