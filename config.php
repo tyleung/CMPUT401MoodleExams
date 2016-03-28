@@ -5,18 +5,18 @@ global $CFG;
 $CFG = new stdClass();
 
 $CFG->phpunit_prefix = 'phpu_';
-$CFG->phpunit_dataroot = '/var/moodletestdata'; // I HAVE NO IDEA WHAT TO DO
+$CFG->phpunit_dataroot = 'C:\xampp\moodletestdata'; // I HAVE NO IDEA WHAT TO DO
 
 $CFG->behat_prefix = 'b_';
-$CFG->behat_dataroot = '/var/behatdata';
-$CFG->behat_wwwroot = 'http://199.116.235.48/behat';
+$CFG->behat_dataroot = 'C:\xampp\behatdata';
+$CFG->behat_wwwroot = 'http://localhost/behat';
 
 $CFG->dbtype    = 'mysqli';
 $CFG->dblibrary = 'native';
 $CFG->dbhost    = 'localhost';
-$CFG->dbname    = 'moodledb';
-$CFG->dbuser    = 'moodleuser';
-$CFG->dbpass    = 'moodlepassword';
+$CFG->dbname    = 'moodle';
+$CFG->dbuser    = 'root';
+$CFG->dbpass    = 'password';
 $CFG->prefix    = 'mdl_';
 
 $CFG->dboptions = array (
@@ -26,8 +26,8 @@ $CFG->dboptions = array (
 );
 
 
-$CFG->wwwroot   =  'http://192.168.56.101/moodle';
-$CFG->dataroot  = '/var/moodledata';
+$CFG->wwwroot   =  'http://localhost/CMPUT401MoodleExams';
+$CFG->dataroot  = 'C:\xampp\moodledata';
 $CFG->admin     = 'admin';
 
 $CFG->directorypermissions = 0777;
