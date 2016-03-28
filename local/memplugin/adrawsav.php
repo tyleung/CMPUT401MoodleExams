@@ -14,7 +14,12 @@ require_once($CFG->dirroot.'/local/memplugin/stats_class.php');
 	$base64 = str_ireplace("data:image/png;base64,", "", $base64);
 	$imageBlob = base64_decode($base64);
 	
-	echo '<img src="data:image/png;base64,'.$base64.'"/>';
+	$t = time();
+	$humanTime = date("h:i:sa",$t);
+	echo "Last save performed at ".$humanTime;
+	
+	//test
+	//echo '<img src="data:image/png;base64,'.$base64.'"/>';
 	
 ?>
 

@@ -37,7 +37,7 @@ var draw_class = (function () {
 		
 		// taken from http://stackoverflow.com/questions/17391538/plain-javascript-no-jquery-to-load-a-php-file-into-a-div
 		var innerphp = document.getElementById("lastSavPDF");
-		innerphp.innerHTML="saving...";
+		innerphp.innerHTML="Saving...";
 		if(XMLHttpRequest) var x = new XMLHttpRequest();
 		else var x = new ActiveXObject("Microsoft.XMLHTTP");
 		x.open("POST", "adrawsav.php", true);
