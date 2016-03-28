@@ -50,7 +50,8 @@ function display_draw($js) {
 	echo $OUTPUT->header();
 	echo "THIS IS TEST YEH<br>";
     echo '<script type="text/javascript" src="js/draw.js"></script>
-    	<canvas id="canvas" width="500" height="300" ></canvas>';
+    	<canvas id="canvas" width="500" height="300" ></canvas> <br>';
+	echo '<button id="idbtn">imagic</button> <br> <div id="lastSavPDF">none</div>';
 	echo $js;
 	echo $OUTPUT->footer();
 }
