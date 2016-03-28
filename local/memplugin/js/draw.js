@@ -5,6 +5,10 @@
 
 
 var draw_class = (function () {
+
+	//TODO: make it more efficient, instead redrawing canvas every event, 
+	// just draw new stuff and redraw only when neede.
+	
 	var canvas = document.getElementById("canvas");
 	var ctx = "";
 	var clickX = new Array();
@@ -27,7 +31,10 @@ var draw_class = (function () {
 	savePdf = function () {
 		var canvas = document.getElementById("canvas");
 		var dat = "imgsavdat=" + canvas.toDataURL();
-
+		// prevent base64 corruption by replaceing + sign with it's encoding %2B 
+		// taken from http://stackoverflow.com/a/14803292
+		dat = dat.replace(/\+/gi, "%2B");
+		
 		// taken from http://stackoverflow.com/questions/17391538/plain-javascript-no-jquery-to-load-a-php-file-into-a-div
 		var innerphp = document.getElementById("lastSavPDF");
 		innerphp.innerHTML="saving...";
@@ -81,7 +88,7 @@ var draw_class = (function () {
 		if(clickDrag[i] && i){
 		  ctx.moveTo(clickX[i-1], clickY[i-1]);
 		 }else{
-		   ctx.moveTo(clickX[i]-1, clickY[i]);
+		   ctx.moveTo(clickX[i], clickY[i]);
 		 }
 		 ctx.lineTo(clickX[i], clickY[i]);
 		 ctx.closePath();
