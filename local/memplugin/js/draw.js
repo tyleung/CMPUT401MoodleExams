@@ -30,7 +30,7 @@ var draw_class = (function () {
 	},
 	savePdf = function () {
 		var canvas = document.getElementById("canvas");
-		var dat = "imgsavdat=" + canvas.toDataURL();
+		var dat = "imgsavdat=" + canvas.toDataURL('image/png');
 		// prevent base64 corruption by replaceing + sign with it's encoding %2B 
 		// taken from http://stackoverflow.com/a/14803292
 		dat = dat.replace(/\+/gi, "%2B");
