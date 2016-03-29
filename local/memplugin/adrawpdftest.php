@@ -40,6 +40,10 @@ $loaded = '<script type="text/javascript"> window.onload = draw_class.init();	</
 
 display_draw($loaded);
 
+// TODO: need to make it so it gets image from database and loads it into the canvas.
+//$mark_sql = $GLOBALS['DB']->get_records_sql('SELECT {mem_mark_stats}.booklet_id, total_booklet_score, total_booklet_score_max FROM {mem_booklet_data}, {mem_mark_stats} WHERE course_id=? and year_semester_origin=? and {mem_mark_stats}.booklet_id={mem_booklet_data}.booklet_id', array($crs, $yr));
+
+
 /**
 Display search method prints everything on screen to actually display everything, and links the Javascript file.
 */
@@ -50,7 +54,8 @@ function display_draw($js) {
 	echo $OUTPUT->header();
 	echo "THIS IS TEST YEH<br>";
     echo '<script type="text/javascript" src="js/draw.js"></script>
-    	<canvas id="canvas" width="500" height="300" ></canvas>';
+    <canvas id="canvas" width="500" height="300"></canvas> <br>';
+	echo '<button id="idbtn">imagic</button> <br> <div id="lastSavPDF">No save performed yet.</div>';
 	echo $js;
 	echo $OUTPUT->footer();
 }
