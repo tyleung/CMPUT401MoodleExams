@@ -37,6 +37,7 @@ $PAGE->set_url($CFG->wwwroot.'/local/memplugin/view.php');
 $PAGE->requires->js_init_call('M.local_memplugin.init', null, false, $jsmodule);
 
 header('Location: ' . $CFG->wwwroot.'/local/memplugin/memhome.php');
+die();
 
 //echo $OUTPUT->header();
 /*
