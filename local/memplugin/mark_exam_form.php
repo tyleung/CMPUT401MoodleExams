@@ -51,7 +51,11 @@ class create_mark_exam_instance extends moodleform{
 
 		//Upload manager for files. 
 		$mform->addElement('header', 'fileheader', get_string('file', 'local_memplugin'));
-		$mform->addElement('filemanager', 'files', get_string('exambatch', 'local_memplugin'), null, array('accepted_types' => 'application/pdf'));
+
+		//Switch to a filepicker for now until we figure out how it works.
+		//$mform->addElement('filemanager', 'files', get_string('exambatch', 'local_memplugin'), null, array('accepted_types' => 'image/png'));
+		$mform->addElement('filepicker', 'userfile', get_string('exambatch','local_memplugin'), null, array('accepted_types' => 'image/png'));
+
 		$mform->closeHeaderBefore('buttonar');
 		$buttonarray   =  array();
 		$buttonarray[] =& $mform->createElement('submit','savebutton', get_string('savebutton', 'local_memplugin'));

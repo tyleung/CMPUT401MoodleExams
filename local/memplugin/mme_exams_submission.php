@@ -31,7 +31,7 @@
 			$this->img->readImageBlob($this->data);
 			$this->crop_image();
 			$this->read_QRcode();
-			$this->parameters = $this->deserialize_data();
+			$this->parameters = $this->get_deserialized_data();
 		}
 
 		/**
@@ -85,7 +85,7 @@
 		 * @return array Array containing the 3 matches from the QRcode string.
 		 */
 		// Deserialize data after reading QR.
-		private function deserialize_data(){
+		public function get_deserialized_data(){
 			$result = array();
 			$regex = preg_match("~(.*):#(\d*) pg:(\d*)~",$this->qrtext,$result);
 			if ($regex === 1){
