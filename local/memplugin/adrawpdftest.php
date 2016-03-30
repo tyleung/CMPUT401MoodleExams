@@ -77,12 +77,18 @@ function display_draw($js_onload) {
 							<button id="id_btnDown">v<br>Booklet</button>
 							<br><br>
 							<div id="id_pageinfo">
-								Booklet ID: 
-								<br>
-								Page: 
-								<br>
-								Student ID: 
 							</div>
+							
+							Booklet ID: <br> <input type="number" id="id_bookIdTxt" value=2 disabled>
+							<br> <br>
+							Page: <br> <input type="number" id="id_pageTxt" value=1 disabled>
+							<br> <br>
+							Student ID: <br> <input type="number" id="id_studentIdTxt" value=2 disabled>
+							<br> <br>
+							Page Mark: <br> <input type="number" id="id_pageMark" min=0 max=999 value=2>
+							<br> <br>
+							Maximum Mark: <br> <input type="number" id="id_pageMaxMark" min=0 max=999 value=2>
+							
 							<br><br>
 							<button id="id_btnSav">Save Page</button> <br> 
 							<div id="id_lastSavPDFdiv">No save performed yet.</div>

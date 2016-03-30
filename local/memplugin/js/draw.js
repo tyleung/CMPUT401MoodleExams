@@ -52,13 +52,18 @@ var draw_class = (function () {
 		var horDir = e.target.hdir;
 		var verDir = e.target.vdir;
 		
-		var book = 0;
-		var page = 0;
-		
-		//test dir values
-		//window.alert( horDir+" "+verDir );
-		
-		var dirdat = "page=" + (page+horDir) + "&booklet=" + (book+verDir);
+		var book = parseInt(document.getElementById("id_bookIdTxt").value) + verDir;
+		book = ((book<0) ? 0 : book);
+		var page = parseInt(document.getElementById("id_pageTxt").value) + horDir;
+		page = ((page<0) ? 0 : page);
+		var mark = document.getElementById("id_pageMark").value;
+		mark = ((mark<0) ? 0 : mark);
+		mark = ((mark>999) ? 999 : mark);
+		var maxMark = document.getElementById("id_pageMaxMark").value;
+		maxMark = ((maxMark<0) ? 0 : maxMark);
+		maxMark = ((maxMark>999) ? 999 : maxMark);
+					
+		var dirdat = "page=" + page + "&booklet=" + book + "&mark=" + mark + "&max_mark=" + maxMark;
 		
 		// taken from http://stackoverflow.com/questions/17391538/plain-javascript-no-jquery-to-load-a-php-file-into-a-div
 		var innerphp = document.getElementById("id_pageinfo");

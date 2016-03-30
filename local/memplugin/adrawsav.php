@@ -8,6 +8,9 @@ require_once '../../config.php';
 	// CHANGE the database pdf pages to have another attribute = page numbers. We gonna make it so it accepts and stores image blobs.
 	// make so it stores the page and comments seperately. (enables easier erasing with clearrect easier).
 	
+	// THIS page also should retrieve the page's score and Max score and save it to database.
+	// Update if this entry already exists.
+	
 	$base64 = $_POST['imgsavdat'];
 	$base64 = str_ireplace("data:image/png;base64,", "", $base64);
 	$imageBlob = base64_decode($base64);
