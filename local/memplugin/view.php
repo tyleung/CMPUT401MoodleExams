@@ -36,8 +36,10 @@ $PAGE->set_heading(get_string('pluginname', 'local_memplugin'));
 $PAGE->set_url($CFG->wwwroot.'/local/memplugin/view.php');
 $PAGE->requires->js_init_call('M.local_memplugin.init', null, false, $jsmodule);
 
-echo $OUTPUT->header();
+header('Location: ' . $CFG->wwwroot.'/local/memplugin/memhome.php');
 
+//echo $OUTPUT->header();
+/*
 echo "This page is our main page. Tests here?";
 echo '<a href=stats.php>Statistics Page</a></br>';
 echo '<a href=qrtest.php> QR test plz. </a>';
@@ -49,7 +51,8 @@ echo '<script type = "javascript">
 		textElem.textContent = "lalala";
 		elem.appendChild(textElem);
 	}</script>';
+*/
 
-echo $OUTPUT->footer();
+//echo $OUTPUT->footer();
 
 ?>

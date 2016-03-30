@@ -56,11 +56,11 @@ if ($_GET['course_choice']){
 	// &nbsp;
 	$courseid = strtok($db_date, "_");
 
-	print_r($courseid."-courseid<br>");
+	//print_r($courseid."-courseid<br>");
 	
 	$sem = strtok("_");
 	
-	print_r($sem."-sem<br>");
+	//print_r($sem."-sem<br>");
 
 	echo $OUTPUT->header();
 
