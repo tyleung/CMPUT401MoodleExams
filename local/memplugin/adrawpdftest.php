@@ -35,28 +35,71 @@ $PAGE->set_title(get_string('pluginname', 'local_memplugin'));
 $PAGE->set_heading(get_string('pluginname', 'local_memplugin'));
 $PAGE->set_url($CFG->wwwroot.'/local/memplugin/adrawpdftest.php');
 
+$bid = intval($_GET['booklet_id']);
+$page = intval($_GET['page']);
+// get following from the query using above!
+$student = 0;
+$mark = 0;
+$maxmark = 0;
+
 //$loaded = '<script>window.onload = initDrw(); </script>';
 $loaded = '<script type="text/javascript"> window.onload = draw_class.init();	</script>';
-
 display_draw($loaded);
 
 // TODO: need to make it so it gets image from database and loads it into the canvas.
 //$mark_sql = $GLOBALS['DB']->get_records_sql('SELECT {mem_mark_stats}.booklet_id, total_booklet_score, total_booklet_score_max FROM {mem_booklet_data}, {mem_mark_stats} WHERE course_id=? and year_semester_origin=? and {mem_mark_stats}.booklet_id={mem_booklet_data}.booklet_id', array($crs, $yr));
 
+//TODO: Also when clicking assign student, then should goto search page and parse the booklet id variable. id_assignStudent
+
 
 /**
 Display search method prints everything on screen to actually display everything, and links the Javascript file.
 */
-function display_draw($js) {
-	global $OUTPUT;
-	// using google hosted jquery https://developers.google.com/speed/libraries/#jquery
-	//echo '<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>';
+function display_draw($js_onload) {
+	global $OUTPUT, $bid, $page, $student, $mark, $maxmark;
 	echo $OUTPUT->header();
-	echo "THIS IS TEST YEH<br>";
-    echo '<script type="text/javascript" src="js/draw.js"></script>
-    <canvas id="canvas" width="500" height="300"></canvas> <br>';
-	echo '<button id="idbtn">imagic</button> <br> <div id="lastSavPDF">No save performed yet.</div>';
-	echo $js;
+	echo "Marking<br>";
+    echo '<link rel="stylesheet" type="text/css" href="css/marking_canvas.css">
+			<script type="text/javascript" src="js/draw.js"></script>
+			<table  border="1" class="marking_table">
+				<tr>
+					<td>
+						<div id="id_canvas_container" class="canvas_container">
+							<canvas id="id_canvas" width="500" height="700">
+							Your browser does not support the HTML5 canvas tag.</canvas>
+						</div>
+					</td>
+					<td>
+						<div id="id_controlpage" class="controlpage">
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							<button id="id_btnUp">^<br>Booklet</button> <br>
+							<button id="id_btnLeft">&lt;<br>Page</button>
+							<button id="id_btnRight">&gt;<br>Page</button> <br>
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							<button id="id_btnDown">v<br>Booklet</button>
+							<br><br>
+							<div id="id_pageinfo">
+							</div>
+							
+							Booklet ID: <br> <input type="number" id="id_bookIdTxt" disabled value='.$bid.'>
+							<br> <br>
+							Page: <br> <input type="number" id="id_pageTxt" disabled value='.$page.'>
+							<br> <br>
+							Student ID: <br> <input type="number" id="id_studentIdTxt" disabled value='.$student.'>
+							<br><a id="id_assignStudent">Assign student</a>
+							<br> <br>
+							Page Mark: <br> <input type="number" id="id_pageMark" min=0 max=999 value='.$mark.'>
+							<br> <br>
+							Maximum Mark: <br> <input type="number" id="id_pageMaxMark" min=0 max=999 value='.$maxmark.'>
+							
+							<br><br>
+							<button id="id_btnSav">Save Page</button> <br> 
+							<div id="id_lastSavPDFdiv">No save performed yet.</div>
+						</div>
+					</td>
+				</tr>
+		   	</table>';
+	echo $js_onload;
 	echo $OUTPUT->footer();
 }
 ?>
