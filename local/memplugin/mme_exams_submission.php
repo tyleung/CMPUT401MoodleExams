@@ -15,6 +15,7 @@
 		private $img = NULL; /**< image file object converted from $pdf*/
 		private $data = NULL;
 		private $qrtext =""; /**< The string contained within the QRcode*/
+		private $parameters = NULL;
 
 		/**
 		 * The constuctor.
@@ -30,6 +31,7 @@
 			$this->img->readImageBlob($this->data);
 			$this->crop_image();
 			$this->read_QRcode();
+			$this->parameters = $this->deserialize_data();
 		}
 
 		/**
@@ -79,12 +81,18 @@
 
 		/**
 		 * Private method.
-		 * Unimplemented
-		 * @return void
+		 * Returns the data parameters used to generate the QRcode as an array.
+		 * @return array Array containing the 3 matches from the QRcode string.
 		 */
 		// Deserialize data after reading QR.
 		private function deserialize_data(){
-			return;
+			$result = array();
+			$regex = preg_match("(.*):#(\d*) pg:(\d*)",$this->qrtext,$result);
+			if $regex === 1{
+				return array($result[1],$result[2],$result[3]);
+			} else { // returns 0 if nothing found, false on error.
+				return NULL;
+			}
 		}
 
 		/**
