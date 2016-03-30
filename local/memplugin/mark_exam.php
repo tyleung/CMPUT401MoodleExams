@@ -57,10 +57,16 @@ if($_POST['markbutton']){
 	}
 	$courses = serialize($choices);
 	var_dump($choices);
-	redirect($CFG->wwwroot.'/local/memplugin/assign_books.php?courses_ids='.$courses);
+	
+	$exam_data = $form->get_file_content('userfile');
+	echo $exam_data;
+
+
+	//redirect($CFG->wwwroot.'/local/memplugin/assign_books.php?courses_ids='.$courses);
 
 } elseif($_POST['savebutton']){
 	$data = $form->get_data();
+
 	$selections = $data->courseboxes;
 	$choices = array();
 
