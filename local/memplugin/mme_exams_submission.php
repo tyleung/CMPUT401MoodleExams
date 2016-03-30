@@ -87,8 +87,8 @@
 		// Deserialize data after reading QR.
 		private function deserialize_data(){
 			$result = array();
-			$regex = preg_match("(.*):#(\d*) pg:(\d*)",$this->qrtext,$result);
-			if $regex === 1{
+			$regex = preg_match("~(.*):#(\d*) pg:(\d*)~",$this->qrtext,$result);
+			if ($regex === 1){
 				return array($result[1],$result[2],$result[3]);
 			} else { // returns 0 if nothing found, false on error.
 				return NULL;
