@@ -22,7 +22,7 @@
  * @copyright   Terence Leung tyleung@ualberta.ca
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
- 
+
 global $PAGE, $CFG, $DB;
 require_once('../../config.php');
 
@@ -40,7 +40,7 @@ echo $OUTPUT->header();
 
 // TODO: Get the course id.
 $course_id = 3;
-if($_GET['course_id']) {	
+if($_GET['course_id']) {
     $course_id = $_GET['course_id'];
 }
 
@@ -71,7 +71,7 @@ create_grid($course_id, $num_booklets, $num_pages);
 </div>
 
 <script src="http://code.jquery.com/jquery-latest.js" type="text/javascript"></script>
-<script src="js/isotope.pkgd.min.js" type="text/javascript"></script> 
+<script src="js/isotope.pkgd.min.js" type="text/javascript"></script>
 <script src="js/isotope-grid.js" type="text/javascript"></script>
 
 <?php
@@ -94,7 +94,7 @@ function create_grid_headers($num_pages) {
 		echo "\t".'<p class="page-nums">P<span class="page-num">'.$i.'</span></p>'."\n";
 		echo '</div>'."\n";
 	}
-	
+
 	echo '</div>'."\n";
 }
 
@@ -115,13 +115,13 @@ function create_grid($course_id, $num_booklets, $num_pages) {
 		echo '<div class="grid-item-booklet-nums">'."\n";
 		echo "\t".'<p class="booklet-nums">B<span class="booklet-num">'.$i.'</span></p>'."\n";
 		echo '</div>'."\n";
-        
+
         // $rs contains num_pages number of records
         $rs = $GLOBALS['DB']->get_recordset_select('mem_pages', 'booklet_id=?', array($i));
         foreach ($rs as $record) {
 			//$status = $statuses[array_rand($statuses)];
             //$status = 'finished';
-			echo '<a href="markpage.php?course_id='.$course_id.'&booklet='.$i.'&page='.$record->page_num.'" class="grid-item-select">'."\n";
+			echo '<a href="adrawpdf.php?booklet_id='.$i.'&page='.$record->page_num.'" class="grid-item-select">'."\n";
 			echo '<div class="grid-item '.$status.'">'."\n";
 			echo "\t".'<p class="mark">'.$record->page_marks.'</p>'."\n";
 			echo "\t".'<p hidden class="booklet">B<span class="booklet-num">'.$i.'</span></p>'."\n";
@@ -129,10 +129,10 @@ function create_grid($course_id, $num_booklets, $num_pages) {
 			echo '</div>'."\n";
 			echo '</a>'."\n";
 		}
-        
+
         $rs->close();
 	}
-	
+
 	echo '</div>'."\n";
 }
 ?>
