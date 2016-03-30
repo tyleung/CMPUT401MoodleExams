@@ -59,12 +59,23 @@ function display_draw($js) {
 	//echo '<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>';
 	echo $OUTPUT->header();
 	echo "Marking<br>";
-	echo '<link rel="stylesheet" type="text/css" href="css/marking_canvas.css">';
-    echo '<script type="text/javascript" src="js/draw.js"></script>
-    <div id="id_canvas_container" class="canvas_container">
-    	<canvas id="canvas" width="500" height="300"></canvas>
-    </div> <br>';
-	echo '<button id="idbtn">imagic</button> <br> <div id="lastSavPDF">No save performed yet.</div>';
+    echo '<link rel="stylesheet" type="text/css" href="css/marking_canvas.css">
+			<script type="text/javascript" src="js/draw.js"></script>
+			<table  border="1" class="marking_table">
+				<tr>
+					<td>
+						<div id="id_canvas_container" class="canvas_container">
+							<canvas id="id_canvas" width="500" height="300"></canvas>
+						</div>
+					</td>
+					<td>
+						<div id="id_controlpage" class="controlpage">
+							<button id="id_btnSav">imagic</button> <br> 
+							<div id="id_lastSavPDFdiv">No save performed yet.</div>
+						</div>
+					</td>
+				</tr>
+		   	</table>';
 	echo $js;
 	echo $OUTPUT->footer();
 }

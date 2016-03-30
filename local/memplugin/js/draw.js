@@ -11,7 +11,7 @@ var draw_class = (function () {
 	
 
 	
-	var canvas = document.getElementById("canvas");
+	var canvas = document.getElementById("id_canvas");
 	var ctx = "";
 	var clickX = new Array();
 	var clickY = new Array();
@@ -20,25 +20,24 @@ var draw_class = (function () {
 	
 	var init = function () {
 		console.log("Aaa");
-		canvas = document.getElementById("canvas");
+		canvas = document.getElementById("id_canvas");
 		ctx = canvas.getContext("2d");
 		// add event listeners
 		canvas.addEventListener("mousedown", mDown);
 		canvas.addEventListener("mouseup", mUp);
 		canvas.addEventListener("mousemove", mMove);
 		canvas.addEventListener("mouseleave", mUp);
-		var eh = document.getElementById("idbtn");
+		var eh = document.getElementById("id_btnSav");
 		eh.addEventListener("mousedown", savePdf);
 	},
 	savePdf = function () {
-		var canvas = document.getElementById("canvas");
 		var dat = "imgsavdat=" + canvas.toDataURL('image/png');
 		// prevent base64 corruption by replaceing + sign with it's encoding %2B 
 		// taken from http://stackoverflow.com/a/14803292
 		dat = dat.replace(/\+/gi, "%2B");
 		
 		// taken from http://stackoverflow.com/questions/17391538/plain-javascript-no-jquery-to-load-a-php-file-into-a-div
-		var innerphp = document.getElementById("lastSavPDF");
+		var innerphp = document.getElementById("id_lastSavPDFdiv");
 		innerphp.innerHTML="Saving...";
 		if(XMLHttpRequest) var x = new XMLHttpRequest();
 		else var x = new ActiveXObject("Microsoft.XMLHTTP");
