@@ -9,6 +9,7 @@ div.canvas_container {
 
 div.controlpage {
 	background-color: #C9C9F0;
+	padding: 5px;
 	overflow: auto;
 	min-height:200px;
 	min-width:150px;

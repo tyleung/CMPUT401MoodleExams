@@ -37,7 +37,6 @@ $PAGE->set_url($CFG->wwwroot.'/local/memplugin/adrawpdftest.php');
 
 //$loaded = '<script>window.onload = initDrw(); </script>';
 $loaded = '<script type="text/javascript"> window.onload = draw_class.init();	</script>';
-
 display_draw($loaded);
 
 // TODO: need to make it so it gets image from database and loads it into the canvas.
@@ -53,7 +52,7 @@ display_draw($loaded);
 /**
 Display search method prints everything on screen to actually display everything, and links the Javascript file.
 */
-function display_draw($js) {
+function display_draw($js_onload) {
 	global $OUTPUT;
 	// using google hosted jquery https://developers.google.com/speed/libraries/#jquery
 	//echo '<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>';
@@ -70,13 +69,28 @@ function display_draw($js) {
 					</td>
 					<td>
 						<div id="id_controlpage" class="controlpage">
-							<button id="id_btnSav">imagic</button> <br> 
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							<button id="id_btnUp">^<br>Booklet</button> <br>
+							<button id="id_btnLeft">&lt;<br>Page</button>
+							<button id="id_btnRight">&gt;<br>Page</button> <br>
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							<button id="id_btnDown">v<br>Booklet</button>
+							<br><br>
+							<div id="id_pageinfo">
+								Booklet ID: 
+								<br>
+								Page: 
+								<br>
+								Student ID: 
+							</div>
+							<br><br>
+							<button id="id_btnSav">Save Page</button> <br> 
 							<div id="id_lastSavPDFdiv">No save performed yet.</div>
 						</div>
 					</td>
 				</tr>
 		   	</table>';
-	echo $js;
+	echo $js_onload;
 	echo $OUTPUT->footer();
 }
 ?>

@@ -19,17 +19,62 @@ var draw_class = (function () {
 	var paint = false;
 	
 	var init = function () {
-		console.log("Aaa");
 		canvas = document.getElementById("id_canvas");
 		ctx = canvas.getContext("2d");
+
 		// add event listeners
 		canvas.addEventListener("mousedown", mDown);
 		canvas.addEventListener("mouseup", mUp);
 		canvas.addEventListener("mousemove", mMove);
 		canvas.addEventListener("mouseleave", mUp);
-		var eh = document.getElementById("id_btnSav");
-		eh.addEventListener("mousedown", savePdf);
-	},
+		
+		// Page control event listeners
+		var upbtn = document.getElementById("id_btnUp");
+		upbtn.addEventListener("mousedown", naviPdf);
+		upbtn.hdir = 0; upbtn.vdir = -1;
+		
+		var downbtn = document.getElementById("id_btnDown");
+		downbtn.addEventListener("mousedown", naviPdf);
+		downbtn.hdir = 0; downbtn.vdir = 1;
+		
+		var leftbtn = document.getElementById("id_btnLeft");
+		leftbtn.addEventListener("mousedown", naviPdf);
+		leftbtn.hdir = -1; leftbtn.vdir = 0;
+		
+		var rightbtn = document.getElementById("id_btnRight");
+		rightbtn.addEventListener("mousedown", naviPdf);
+		rightbtn.hdir = 1; rightbtn.vdir = 0;
+		
+		var savbtn = document.getElementById("id_btnSav");
+		savbtn.addEventListener("mousedown", savePdf);
+	},	
+	naviPdf = function (e) {
+		var horDir = e.target.hdir;
+		var verDir = e.target.vdir;
+		
+		var book = 0;
+		var page = 0;
+		
+		//test dir values
+		//window.alert( horDir+" "+verDir );
+		
+		var dirdat = "page=" + (page+horDir) + "&booklet=" + (book+verDir);
+		
+		// taken from http://stackoverflow.com/questions/17391538/plain-javascript-no-jquery-to-load-a-php-file-into-a-div
+		var innerphp = document.getElementById("id_pageinfo");
+		innerphp.innerHTML="Loading page...";
+		if(XMLHttpRequest) var x = new XMLHttpRequest();
+		else var x = new ActiveXObject("Microsoft.XMLHTTP");
+		x.open("POST", "adraw_retrieve.php", true);
+		x.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		x.send(dirdat);
+		x.onreadystatechange = function(){
+			if(x.readyState == 4){
+				if(x.status == 200) innerphp.innerHTML = x.responseText;
+				else innerphp.innerHTML = "Failed fetching page.";
+			}
+		}
+    },
 	savePdf = function () {
 		var dat = "imgsavdat=" + canvas.toDataURL('image/png');
 		// prevent base64 corruption by replaceing + sign with it's encoding %2B 
