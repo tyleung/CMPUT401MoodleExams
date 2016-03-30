@@ -236,6 +236,30 @@ function xmldb_local_memplugin_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2016031402, 'local', 'memplugin');
 	}
 
+    if ($oldversion < 2016032805) {
+
+        // Define field page_num to be added to mem_pdf_files.
+        $table = new xmldb_table('mem_pdf_files');
+        $field = new xmldb_field('page_num', XMLDB_TYPE_INTEGER, '2', null, XMLDB_NOTNULL, null, null, 'pdf_file');
+
+        // Conditionally launch add field page_num.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Define field pdf_comments to be added to mem_pdf_files.
+        $table = new xmldb_table('mem_pdf_files');
+        $field = new xmldb_field('pdf_comments', XMLDB_TYPE_BINARY, null, null, null, null, null, 'page_num');
+
+        // Conditionally launch add field pdf_comments.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Memplugin savepoint reached.
+        upgrade_plugin_savepoint(true, 2016032805, 'local', 'memplugin');
+    }
+
 
  	return true;   
 }    

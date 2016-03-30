@@ -5,35 +5,96 @@
 
 
 var draw_class = (function () {
+
+	//TODO: make it more efficient, instead redrawing canvas every event, 
+	// just draw new stuff and redraw only when neede.
+	
 	var canvas = document.getElementById("canvas");
 	var ctx = "";
+	var clickX = new Array();
+	var clickY = new Array();
+	var clickDrag = new Array();
+	var paint = false;
 	
 	var init = function () {
 		console.log("Aaa");
 		canvas = document.getElementById("canvas");
 		ctx = canvas.getContext("2d");
+		// add event listeners
 		canvas.addEventListener("mousedown", mDown);
-		testDraw();
-		
+		canvas.addEventListener("mouseup", mUp);
+		canvas.addEventListener("mousemove", mMove);
+		canvas.addEventListener("mouseleave", mUp);
+		var eh = document.getElementById("idbtn");
+		eh.addEventListener("mousedown", savePdf);
 	},
-	testDraw = function () {
-	
-      if (canvas.getContext) {
-        ctx.fillStyle = "rgb(200,0,0)";
-        ctx.fillRect (10, 10, 55, 50);
-
-        ctx.fillStyle = "rgba(0, 0, 200, 0.5)";
-        ctx.fillRect (30, 30, 55, 50);
-      }
+	savePdf = function () {
+		var canvas = document.getElementById("canvas");
+		var dat = "imgsavdat=" + canvas.toDataURL('image/png');
+		// prevent base64 corruption by replaceing + sign with it's encoding %2B 
+		// taken from http://stackoverflow.com/a/14803292
+		dat = dat.replace(/\+/gi, "%2B");
+		
+		// taken from http://stackoverflow.com/questions/17391538/plain-javascript-no-jquery-to-load-a-php-file-into-a-div
+		var innerphp = document.getElementById("lastSavPDF");
+		innerphp.innerHTML="Saving...";
+		if(XMLHttpRequest) var x = new XMLHttpRequest();
+		else var x = new ActiveXObject("Microsoft.XMLHTTP");
+		x.open("POST", "adrawsav.php", true);
+		x.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		x.send(dat);
+		x.onreadystatechange = function(){
+			if(x.readyState == 4){
+				if(x.status == 200) innerphp.innerHTML = x.responseText;
+				else innerphp.innerHTML = "Error saving.";
+			}
+		}
     },
     mDown = function(event) {
 	    var rect = canvas.getBoundingClientRect();
     	var x = event.clientX-rect.left;
     	var y = event.clientY-rect.top;
     	console.log("BBB x"+x+" y"+y+" canvasL"+canvas.offsetLeft+" canvasR"+canvas.offsetTop);
-        ctx.fillStyle = "rgb(180,0,0)";
-        ctx.fillRect (x, y, 20, 20);
-    };
+        paint = true;
+		addClick(x, y);
+		redraw();
+    },
+    mUp = function(event) {
+	    paint = false;
+    },
+    mMove = function(event) {
+	    if(paint){
+			var rect = canvas.getBoundingClientRect();
+			var x = event.clientX-rect.left;
+			var y = event.clientY-rect.top;
+			addClick(x, y, true);
+			redraw();
+		}
+    },
+    addClick = function(x, y, dragging) {
+	  clickX.push(x);
+	  clickY.push(y);
+	  clickDrag.push(dragging);
+	},
+	redraw = function(){
+	  ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // Clears the canvas
+	  
+	  ctx.strokeStyle = "#df4b26";
+	  ctx.lineJoin = "round";
+	  ctx.lineWidth = 5;
+			
+	  for(var i=0; i < clickX.length; i++) {		
+		ctx.beginPath();
+		if(clickDrag[i] && i){
+		  ctx.moveTo(clickX[i-1], clickY[i-1]);
+		 }else{
+		   ctx.moveTo(clickX[i], clickY[i]);
+		 }
+		 ctx.lineTo(clickX[i], clickY[i]);
+		 ctx.closePath();
+		 ctx.stroke();
+	  }
+	};
     
 	return {init: init};
 }());

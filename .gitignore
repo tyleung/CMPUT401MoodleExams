@@ -4,3 +4,4 @@
 #config folder that has the host IP which differs for local VM and cybera.
 config.php
 vendor/*
+composer.lock

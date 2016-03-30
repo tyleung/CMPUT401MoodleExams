@@ -42,6 +42,10 @@ $loaded2 = '<script type="text/javascript"> window.onload = mark_tools.init();  
 display_draw($loaded);
 mark_tools($loaded2);
 
+// TODO: need to make it so it gets image from database and loads it into the canvas.
+//$mark_sql = $GLOBALS['DB']->get_records_sql('SELECT {mem_mark_stats}.booklet_id, total_booklet_score, total_booklet_score_max FROM {mem_booklet_data}, {mem_mark_stats} WHERE course_id=? and year_semester_origin=? and {mem_mark_stats}.booklet_id={mem_booklet_data}.booklet_id', array($crs, $yr));
+
+
 /**
 Display search method prints everything on screen to actually display everything, and links the Javascript file.
 */
@@ -209,6 +213,12 @@ function display_draw($js) {
 
 			';
 	echo '<script type="text/javascript" src="js/draw.js"></script>';
+=======
+	echo "THIS IS TEST YEH<br>";
+    echo '<script type="text/javascript" src="js/draw.js"></script>
+    <canvas id="canvas" width="500" height="300"></canvas> <br>';
+	echo '<button id="idbtn">imagic</button> <br> <div id="lastSavPDF">No save performed yet.</div>';
+>>>>>>> b1a5bf6c13f36259325a15baff2e39ecca7bd4c1
 	echo $js;
 	echo $OUTPUT->footer();
 }

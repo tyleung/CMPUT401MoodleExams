@@ -38,10 +38,11 @@ $gridnode->make_active();
 
 echo $OUTPUT->header();
 
-// TODO: Get the course id, number of booklets and pages.
-$course_id = 2;
-$num_booklets = 15;
-$num_pages = 5;
+// TODO: Get the course id.
+$course_id = 3;
+$num_booklets = $DB->count_records_select('mem_booklet_data', 'course_id=?', array($course_id));
+$num_pages = $DB->get_field_select('mem_booklet_data', 'max_pages', 'course_id=?', array($course_id), IGNORE_MULTIPLE);
+
 
 // Each grid-item is 110px wide. Added 10px to account for the grid margins
 $grid_width = (($num_pages + 1) * 110) + 10;
