@@ -40,9 +40,12 @@ echo $OUTPUT->header();
 
 // TODO: Get the course id.
 $course_id = 3;
+if($_GET['course_id']) {	
+    $course_id = $_GET['course_id'];
+}
+
 $num_booklets = $DB->count_records_select('mem_booklet_data', 'course_id=?', array($course_id));
 $num_pages = $DB->get_field_select('mem_booklet_data', 'max_pages', 'course_id=?', array($course_id), IGNORE_MULTIPLE);
-
 
 // Each grid-item is 110px wide. Added 10px to account for the grid margins
 $grid_width = (($num_pages + 1) * 110) + 10;
@@ -72,6 +75,7 @@ create_grid($course_id, $num_booklets, $num_pages);
 <script src="js/isotope-grid.js" type="text/javascript"></script>
 
 <?php
+
 echo $OUTPUT->footer();
 
 /**
@@ -111,16 +115,22 @@ function create_grid($course_id, $num_booklets, $num_pages) {
 		echo '<div class="grid-item-booklet-nums">'."\n";
 		echo "\t".'<p class="booklet-nums">B<span class="booklet-num">'.$i.'</span></p>'."\n";
 		echo '</div>'."\n";
-		for ($j = 1; $j <= $num_pages; $j++) {
-			$status = $statuses[array_rand($statuses)];
-			echo '<a href="markpage.php?course_id='.$course_id.'&booklet='.$i.'&page='.$j.'" class="grid-item-select">'."\n";
+        
+        // $rs contains num_pages number of records
+        $rs = $GLOBALS['DB']->get_recordset_select('mem_pages', 'booklet_id=?', array($i));
+        foreach ($rs as $record) {
+			//$status = $statuses[array_rand($statuses)];
+            //$status = 'finished';
+			echo '<a href="markpage.php?course_id='.$course_id.'&booklet='.$i.'&page='.$record->page_num.'" class="grid-item-select">'."\n";
 			echo '<div class="grid-item '.$status.'">'."\n";
-			echo "\t".'<p class="mark">0</p>'."\n";
+			echo "\t".'<p class="mark">'.$record->page_marks.'</p>'."\n";
 			echo "\t".'<p hidden class="booklet">B<span class="booklet-num">'.$i.'</span></p>'."\n";
-			echo "\t".'<p class="page">P<span class="page-num">'.$j.'</span></p>'."\n";
+			echo "\t".'<p class="page">P<span class="page-num">'.$record->page_num.'</span></p>'."\n";
 			echo '</div>'."\n";
 			echo '</a>'."\n";
 		}
+        
+        $rs->close();
 	}
 	
 	echo '</div>'."\n";
