@@ -19,10 +19,10 @@ require_once '../../config.php';
 	//$imageBlob = databasestuff;
 	
 	//TODO: fetch page from database and then load it into canvas.
-	
+	echo "Page loaded.<br><br>";
 	//test
 	echo "Booklet:".$booklet." Page:".$page;
-	echo "mark:".$mark." max mark:".$max_mark;
+	echo "<br>mark:".$mark." max mark:".$max_mark;
 	//echo '<img src="data:image/png;base64,'.$base64.'"/>';
 	
 ?>

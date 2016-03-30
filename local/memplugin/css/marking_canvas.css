@@ -15,15 +15,18 @@ div.controlpage {
 	min-width:150px;
 }
 
+canvas {
+	border: 1px solid black;
+}
+
 table.marking_table {
 	width:100%;
 	height:100%;
-	border: 1px solid black;
+	border: 1px solid gray;
     border-collapse: collapse;
 }
 
-/* For test to see divisions.*/
 td, tr {
-	border: 1px solid black;
+	border: 1px solid gray;
     border-collapse: collapse;
 }

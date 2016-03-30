@@ -35,6 +35,13 @@ $PAGE->set_title(get_string('pluginname', 'local_memplugin'));
 $PAGE->set_heading(get_string('pluginname', 'local_memplugin'));
 $PAGE->set_url($CFG->wwwroot.'/local/memplugin/adrawpdftest.php');
 
+$bid = intval($_GET['booklet_id']);
+$page = intval($_GET['page']);
+// get following from the query using above!
+$student = 0;
+$mark = 0;
+$maxmark = 0;
+
 //$loaded = '<script>window.onload = initDrw(); </script>';
 $loaded = '<script type="text/javascript"> window.onload = draw_class.init();	</script>';
 display_draw($loaded);
@@ -53,9 +60,7 @@ display_draw($loaded);
 Display search method prints everything on screen to actually display everything, and links the Javascript file.
 */
 function display_draw($js_onload) {
-	global $OUTPUT;
-	// using google hosted jquery https://developers.google.com/speed/libraries/#jquery
-	//echo '<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>';
+	global $OUTPUT, $bid, $page, $student, $mark, $maxmark;
 	echo $OUTPUT->header();
 	echo "Marking<br>";
     echo '<link rel="stylesheet" type="text/css" href="css/marking_canvas.css">
@@ -64,7 +69,8 @@ function display_draw($js_onload) {
 				<tr>
 					<td>
 						<div id="id_canvas_container" class="canvas_container">
-							<canvas id="id_canvas" width="500" height="300"></canvas>
+							<canvas id="id_canvas" width="500" height="700">
+							Your browser does not support the HTML5 canvas tag.</canvas>
 						</div>
 					</td>
 					<td>
@@ -79,15 +85,15 @@ function display_draw($js_onload) {
 							<div id="id_pageinfo">
 							</div>
 							
-							Booklet ID: <br> <input type="number" id="id_bookIdTxt" value=2 disabled>
+							Booklet ID: <br> <input type="number" id="id_bookIdTxt" disabled value='.$bid.'>
 							<br> <br>
-							Page: <br> <input type="number" id="id_pageTxt" value=1 disabled>
+							Page: <br> <input type="number" id="id_pageTxt" disabled value='.$page.'>
 							<br> <br>
-							Student ID: <br> <input type="number" id="id_studentIdTxt" value=2 disabled>
+							Student ID: <br> <input type="number" id="id_studentIdTxt" disabled value='.$student.'>
 							<br> <br>
-							Page Mark: <br> <input type="number" id="id_pageMark" min=0 max=999 value=2>
+							Page Mark: <br> <input type="number" id="id_pageMark" min=0 max=999 value='.$mark.'>
 							<br> <br>
-							Maximum Mark: <br> <input type="number" id="id_pageMaxMark" min=0 max=999 value=2>
+							Maximum Mark: <br> <input type="number" id="id_pageMaxMark" min=0 max=999 value='.$maxmark.'>
 							
 							<br><br>
 							<button id="id_btnSav">Save Page</button> <br> 

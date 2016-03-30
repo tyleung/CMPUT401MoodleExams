@@ -8,19 +8,20 @@ var draw_class = (function () {
 
 	//TODO: make it more efficient, instead redrawing canvas every event, 
 	// just draw new stuff and redraw only when neede.
-	
-
-	
+		
 	var canvas = document.getElementById("id_canvas");
 	var ctx = "";
 	var clickX = new Array();
 	var clickY = new Array();
 	var clickDrag = new Array();
 	var paint = false;
+	var loadgif = "";
 	
 	var init = function () {
 		canvas = document.getElementById("id_canvas");
 		ctx = canvas.getContext("2d");
+
+		loadgif = "<img src='sunload.gif'/>";
 
 		// add event listeners
 		canvas.addEventListener("mousedown", mDown);
@@ -31,73 +32,82 @@ var draw_class = (function () {
 		// Page control event listeners
 		var upbtn = document.getElementById("id_btnUp");
 		upbtn.addEventListener("mousedown", naviPdf);
-		upbtn.hdir = 0; upbtn.vdir = -1;
+		upbtn.hdir = 0; upbtn.vdir = -1; upbtn.navi = true;
 		
 		var downbtn = document.getElementById("id_btnDown");
 		downbtn.addEventListener("mousedown", naviPdf);
-		downbtn.hdir = 0; downbtn.vdir = 1;
+		downbtn.hdir = 0; downbtn.vdir = 1; downbtn.navi = true;
 		
 		var leftbtn = document.getElementById("id_btnLeft");
 		leftbtn.addEventListener("mousedown", naviPdf);
-		leftbtn.hdir = -1; leftbtn.vdir = 0;
+		leftbtn.hdir = -1; leftbtn.vdir = 0; leftbtn.navi = true;
 		
 		var rightbtn = document.getElementById("id_btnRight");
 		rightbtn.addEventListener("mousedown", naviPdf);
-		rightbtn.hdir = 1; rightbtn.vdir = 0;
+		rightbtn.hdir = 1; rightbtn.vdir = 0; rightbtn.navi = true;
 		
 		var savbtn = document.getElementById("id_btnSav");
-		savbtn.addEventListener("mousedown", savePdf);
+		savbtn.addEventListener("mousedown", naviPdf);
+		savbtn.navi = false;
 	},	
 	naviPdf = function (e) {
 		var horDir = e.target.hdir;
 		var verDir = e.target.vdir;
+		var navi = e.target.navi;
 		
-		var book = parseInt(document.getElementById("id_bookIdTxt").value) + verDir;
+		var book = parseInt(document.getElementById("id_bookIdTxt").value);
 		book = ((book<0) ? 0 : book);
-		var page = parseInt(document.getElementById("id_pageTxt").value) + horDir;
+		var page = parseInt(document.getElementById("id_pageTxt").value);
 		page = ((page<0) ? 0 : page);
-		var mark = document.getElementById("id_pageMark").value;
+		var mark = parseInt(document.getElementById("id_pageMark").value);
 		mark = ((mark<0) ? 0 : mark);
 		mark = ((mark>999) ? 999 : mark);
-		var maxMark = document.getElementById("id_pageMaxMark").value;
+		var maxMark = parseInt(document.getElementById("id_pageMaxMark").value);
 		maxMark = ((maxMark<0) ? 0 : maxMark);
 		maxMark = ((maxMark>999) ? 999 : maxMark);
-					
-		var dirdat = "page=" + page + "&booklet=" + book + "&mark=" + mark + "&max_mark=" + maxMark;
-		
-		// taken from http://stackoverflow.com/questions/17391538/plain-javascript-no-jquery-to-load-a-php-file-into-a-div
-		var innerphp = document.getElementById("id_pageinfo");
-		innerphp.innerHTML="Loading page...";
-		if(XMLHttpRequest) var x = new XMLHttpRequest();
-		else var x = new ActiveXObject("Microsoft.XMLHTTP");
-		x.open("POST", "adraw_retrieve.php", true);
-		x.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		x.send(dirdat);
-		x.onreadystatechange = function(){
-			if(x.readyState == 4){
-				if(x.status == 200) innerphp.innerHTML = x.responseText;
-				else innerphp.innerHTML = "Failed fetching page.";
+
+		if(navi) {
+			var newbook = parseInt(document.getElementById("id_bookIdTxt").value) + verDir;
+			book = ((book<0) ? 0 : book);
+			var newpage = parseInt(document.getElementById("id_pageTxt").value) + horDir;
+			page = ((page<0) ? 0 : page);
+			
+			var dirdat = "page=" + newpage + "&booklet=" + newbook + "&mark=" + mark + "&max_mark=" + maxMark;
+			
+			// taken from http://stackoverflow.com/questions/17391538/plain-javascript-no-jquery-to-load-a-php-file-into-a-div
+			var innernaviphp = document.getElementById("id_pageinfo");
+			innernaviphp.innerHTML = "Loading page " + loadgif;
+			if(XMLHttpRequest) var xnavi = new XMLHttpRequest();
+			else var xnavi = new ActiveXObject("Microsoft.XMLHTTP");
+			xnavi.open("POST", "adraw_retrieve.php", true);
+			xnavi.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			xnavi.send(dirdat);
+			xnavi.onreadystatechange = function(){
+				if(xnavi.readyState == 4){
+					if(xnavi.status == 200) innernaviphp.innerHTML = xnavi.responseText;
+					else innernaviphp.innerHTML = "Failed fetching page.";
+				}
 			}
 		}
-    },
-	savePdf = function () {
+		
 		var dat = "imgsavdat=" + canvas.toDataURL('image/png');
 		// prevent base64 corruption by replaceing + sign with it's encoding %2B 
 		// taken from http://stackoverflow.com/a/14803292
 		dat = dat.replace(/\+/gi, "%2B");
+		dat = dat + "&page=" + page + "&booklet=" + book + "&mark=" + mark + "&max_mark=" + maxMark;
 		
 		// taken from http://stackoverflow.com/questions/17391538/plain-javascript-no-jquery-to-load-a-php-file-into-a-div
-		var innerphp = document.getElementById("id_lastSavPDFdiv");
-		innerphp.innerHTML="Saving...";
-		if(XMLHttpRequest) var x = new XMLHttpRequest();
-		else var x = new ActiveXObject("Microsoft.XMLHTTP");
-		x.open("POST", "adrawsav.php", true);
-		x.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		x.send(dat);
-		x.onreadystatechange = function(){
-			if(x.readyState == 4){
-				if(x.status == 200) innerphp.innerHTML = x.responseText;
-				else innerphp.innerHTML = "Error saving.";
+		var innersavphp = document.getElementById("id_lastSavPDFdiv");
+		innersavphp.innerHTML = "Saving " + loadgif;
+		if(XMLHttpRequest) var xsav = new XMLHttpRequest();
+		else var xsav = new ActiveXObject("Microsoft.XMLHTTP");
+		xsav.open("POST", "adrawsav.php", true);
+		xsav.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xsav.send(dat);
+		xsav.onreadystatechange = function(){
+			if(xsav.readyState == 4){
+				if(xsav.status == 200) innersavphp.innerHTML = xsav.responseText;
+				else innersavphp.innerHTML = "Error saving.";
 			}
 		}
     },
