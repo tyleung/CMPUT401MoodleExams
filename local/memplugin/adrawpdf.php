@@ -35,28 +35,38 @@ $PAGE->set_title(get_string('pluginname', 'local_memplugin'));
 $PAGE->set_heading(get_string('pluginname', 'local_memplugin'));
 $PAGE->set_url($CFG->wwwroot.'/local/memplugin/adrawpdftest.php');
 
+//TODO: Also when clicking assign student, then should goto search page and parse the booklet id variable. id_assignStudent
+
 $bid = intval($_GET['booklet_id']);
 $page = intval($_GET['page']);
+
+$rec = $DB->get_records_sql('SELECT pdf_file_id, {mem_pdf_files}.booklet_id, {mem_pdf_files}.page_num, 
+							pdf_file, page_marks, page_marks_max, student_id 
+							FROM {mem_booklet_data}, {mem_pages}, {mem_pdf_files} 
+							WHERE {mem_booklet_data}.booklet_id=?
+							AND {mem_pages}.page_num=?
+							AND {mem_pages}.booklet_id={mem_booklet_data}.booklet_id
+							AND {mem_pdf_files}.booklet_id={mem_booklet_data}.booklet_id
+							AND {mem_pdf_files}.page_num={mem_pages}.page_num', array($bid, $page));
+
 // get following from the query using above!
-$student = 0;
-$mark = 0;
-$maxmark = 0;
+$student = current($rec)->student_id;
+$mark = current($rec)->page_marks;
+$maxmark = current($rec)->page_marks_max;
+
+$img_tmp = '<img id="id_imp_tmp" class="img_tmp" src="data:image/png;base64,'.base64_encode(current($rec)->pdf_file).'" />';
+
+//NOW get the blob and import it into canvas!
 
 //$loaded = '<script>window.onload = initDrw(); </script>';
 $loaded = '<script type="text/javascript"> window.onload = draw_class.init();	</script>';
 display_draw($loaded);
 
-// TODO: need to make it so it gets image from database and loads it into the canvas.
-//$mark_sql = $GLOBALS['DB']->get_records_sql('SELECT {mem_mark_stats}.booklet_id, total_booklet_score, total_booklet_score_max FROM {mem_booklet_data}, {mem_mark_stats} WHERE course_id=? and year_semester_origin=? and {mem_mark_stats}.booklet_id={mem_booklet_data}.booklet_id', array($crs, $yr));
-
-//TODO: Also when clicking assign student, then should goto search page and parse the booklet id variable. id_assignStudent
-
-
 /**
 Display search method prints everything on screen to actually display everything, and links the Javascript file.
 */
 function display_draw($js_onload) {
-	global $OUTPUT, $bid, $page, $student, $mark, $maxmark;
+	global $OUTPUT, $bid, $page, $student, $mark, $maxmark, $img_tmp;
 	echo $OUTPUT->header();
 	echo "Marking<br>";
     echo '<link rel="stylesheet" type="text/css" href="css/marking_canvas.css">
@@ -101,5 +111,6 @@ function display_draw($js_onload) {
 		   	</table>';
 	echo $js_onload;
 	echo $OUTPUT->footer();
+	echo $img_tmp;
 }
 ?>
