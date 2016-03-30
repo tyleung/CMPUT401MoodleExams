@@ -32,6 +32,7 @@ require_once('../../config.php');
 require_login();
 require_capability('local/memplugin:add', context_system::instance());
 require_once($CFG->dirroot.'/local/memplugin/mark_exam_form.php');
+require_once($CFG->dirroot.'/local/memplugin/mme_exams_submission.php');
 
 $PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('standard');
@@ -59,10 +60,18 @@ if($_POST['markbutton']){
 	var_dump($choices);
 	
 	$exam_data = $form->get_file_content('userfile');
-	echo $exam_data;
+	$scan = new MME_exam_submission($exam_data);
 
+	//output test
+	/*
+	for ($i = 0;$i<3;$i++){
+		echo $scan->get_deserialized_data()[$i]; 
+	}
+	*/
 
-	//redirect($CFG->wwwroot.'/local/memplugin/assign_books.php?courses_ids='.$courses);
+	// Do database stuff with exam_submission class.
+
+	redirect($CFG->wwwroot.'/local/memplugin/assign_books.php?courses_ids='.$courses);
 
 } elseif($_POST['savebutton']){
 	$data = $form->get_data();
@@ -76,6 +85,12 @@ if($_POST['markbutton']){
 		}
 	}
 	$courses = serialize($choices);
+	
+	$exam_data = $form->get_file_content('userfile');
+	$scan = new MME_exam_submission($exam_data);
+
+	// Do database stuff with exam_submission class.
+
 	redirect($CFG->wwwroot.'/local/memplugin/memhome.php?courses_ids='.$courses);
 }
 else { 
