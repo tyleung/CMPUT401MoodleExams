@@ -21,7 +21,7 @@ require_once '../../config.php';
 	
 	//test
 	echo "<br>mark:".$mark." max mark:".$max_mark;
-	echo '<img src="data:image/png;base64,'.$base64.'"/>';
+	//echo '<img src="data:image/png;base64,'.$base64.'"/>';
 	
 ?>
 

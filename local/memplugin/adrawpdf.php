@@ -54,7 +54,7 @@ $student = current($rec)->student_id;
 $mark = current($rec)->page_marks;
 $maxmark = current($rec)->page_marks_max;
 
-$img_tmp = '<img id="id_imp_tmp" class="img_tmp" src="data:image/png;base64,'.base64_encode(current($rec)->pdf_file).'" />';
+$img_tmp = '<img id="id_img_tmp" class="img_tmp" src="data:image/png;base64,'.base64_encode(current($rec)->pdf_file).'"/>';
 
 //NOW get the blob and import it into canvas!
 
@@ -69,13 +69,14 @@ function display_draw($js_onload) {
 	global $OUTPUT, $bid, $page, $student, $mark, $maxmark, $img_tmp;
 	echo $OUTPUT->header();
 	echo "Marking<br>";
+	echo $img_tmp;
     echo '<link rel="stylesheet" type="text/css" href="css/marking_canvas.css">
 			<script type="text/javascript" src="js/draw.js"></script>
 			<table  border="1" class="marking_table">
 				<tr>
 					<td>
 						<div id="id_canvas_container" class="canvas_container">
-							<canvas id="id_canvas" width="500" height="700">
+							<canvas id="id_canvas" width="400" height="300">
 							Your browser does not support the HTML5 canvas tag.</canvas>
 						</div>
 					</td>
@@ -111,6 +112,5 @@ function display_draw($js_onload) {
 		   	</table>';
 	echo $js_onload;
 	echo $OUTPUT->footer();
-	echo $img_tmp;
 }
 ?>
