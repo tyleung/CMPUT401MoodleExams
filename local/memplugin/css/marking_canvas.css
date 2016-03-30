@@ -1,0 +1,9 @@
+div.canvas_container {
+	/* NOTE: resize not supported in IE and edge! */
+	resize: both;
+	background-color: #F5F5F5;
+	overflow: auto;
+	min-height:300px;
+	min-width:200px;
+}
+

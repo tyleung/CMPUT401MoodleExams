@@ -9,6 +9,8 @@ var draw_class = (function () {
 	//TODO: make it more efficient, instead redrawing canvas every event, 
 	// just draw new stuff and redraw only when neede.
 	
+
+	
 	var canvas = document.getElementById("canvas");
 	var ctx = "";
 	var clickX = new Array();
