@@ -49,12 +49,8 @@ display_draw($loaded);
 // TODO: need to make it so it gets image from database and loads it into the canvas.
 //$mark_sql = $GLOBALS['DB']->get_records_sql('SELECT {mem_mark_stats}.booklet_id, total_booklet_score, total_booklet_score_max FROM {mem_booklet_data}, {mem_mark_stats} WHERE course_id=? and year_semester_origin=? and {mem_mark_stats}.booklet_id={mem_booklet_data}.booklet_id', array($crs, $yr));
 
+//TODO: Also when clicking assign student, then should goto search page and parse the booklet id variable. id_assignStudent
 
-//draw get canvas when a JS script here detects onclick on the inside php that is the navigation for the pages.
-// when clicked button, it saves the current page, then loads the new page, and the inside php will basically write the new canvas.
-// thus this and the inside nested php share a common class that loads canvases etc.
-//  Find out the div should be innerHTML'd for the purpose of canvas. the DIV should have scroll and precise window dimension.
-//    ^  <div style="resize: both; overflow: auto;"> thus need CSS. NOTE resize not supported in IE and edge!
 
 /**
 Display search method prints everything on screen to actually display everything, and links the Javascript file.
@@ -90,6 +86,7 @@ function display_draw($js_onload) {
 							Page: <br> <input type="number" id="id_pageTxt" disabled value='.$page.'>
 							<br> <br>
 							Student ID: <br> <input type="number" id="id_studentIdTxt" disabled value='.$student.'>
+							<br><a id="id_assignStudent">Assign student</a>
 							<br> <br>
 							Page Mark: <br> <input type="number" id="id_pageMark" min=0 max=999 value='.$mark.'>
 							<br> <br>

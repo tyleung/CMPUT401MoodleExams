@@ -72,7 +72,7 @@ var draw_class = (function () {
 			var newpage = parseInt(document.getElementById("id_pageTxt").value) + horDir;
 			page = ((page<0) ? 0 : page);
 			
-			var dirdat = "page=" + newpage + "&booklet=" + newbook + "&mark=" + mark + "&max_mark=" + maxMark;
+			var dirdat = "page=" + newpage + "&booklet=" + newbook;
 			
 			// taken from http://stackoverflow.com/questions/17391538/plain-javascript-no-jquery-to-load-a-php-file-into-a-div
 			var innernaviphp = document.getElementById("id_pageinfo");

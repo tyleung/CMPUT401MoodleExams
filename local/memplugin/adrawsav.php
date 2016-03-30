@@ -3,10 +3,6 @@
 //defined('MOODLE_INTERNAL') || die();
 
 require_once '../../config.php';
-	// So basically we have a edited database:
-	// Stores each page of the pdf onto database as pdf BLOB OR as just IMAGE blobs and give them back the PDFS as needed??
-	// CHANGE the database pdf pages to have another attribute = page numbers. We gonna make it so it accepts and stores image blobs.
-	// make so it stores the page and comments seperately. (enables easier erasing with clearrect easier).
 	
 	// THIS page also should retrieve the page's score and Max score and save it to database.
 	// Update if this entry already exists.
@@ -24,6 +20,7 @@ require_once '../../config.php';
 	echo "Last save was page ".$page." of booklet ".$booklet.".<br>Performed at ".$humanTime;
 	
 	//test
+	echo "<br>mark:".$mark." max mark:".$max_mark;
 	echo '<img src="data:image/png;base64,'.$base64.'"/>';
 	
 ?>
