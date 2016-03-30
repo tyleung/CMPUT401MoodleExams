@@ -126,6 +126,8 @@ var draw_class = (function () {
 						setCanvasToImageDimensions();
 						redraw();
 						innernaviphp.innerHTML = xnavi.responseText;
+						var a = document.getElementById("id_pageinfo").innerHTML;
+						console.log(a);
 					} else {
 						innernaviphp.innerHTML = "Failed fetching page.";
 					}
@@ -138,11 +140,11 @@ var draw_class = (function () {
 	    var rect = canvas.getBoundingClientRect();
     	var x = event.clientX-rect.left;
     	var y = event.clientY-rect.top;
-    	console.log("BBB x"+x+" y"+y+" canvasL"+canvas.offsetLeft+" canvasR"+canvas.offsetTop);
         paint = true;
 		addClick(x, y);
 		redraw();
     },
+    /** Test comment */
     mUp = function(event) {
 	    paint = false;
     },

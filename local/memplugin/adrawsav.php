@@ -1,7 +1,7 @@
 <?php
 
 //defined('MOODLE_INTERNAL') || die();
-
+global $PAGE, $CFG, $DB;
 require_once '../../config.php';
 	
 	// THIS page also should retrieve the page's score and Max score and save it to database.
