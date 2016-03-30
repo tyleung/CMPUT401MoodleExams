@@ -27,7 +27,7 @@
 		public function __construct($data){
 			$this->img = new Imagick();
 			$this->data = $data;
-			$this->img->readImageBlob($this->data)
+			$this->img->readImageBlob($this->data);
 			$this->crop_image();
 			$this->read_QRcode();
 		}
@@ -61,7 +61,9 @@
 		 * @return void
 		 */
 		private function crop_image(){
-			$this->img->cropImage(200,200,0,0);
+			$height = $this->img->getImageHeight();
+			$width = $this->img->getImageWidth();
+			$this->img->cropImage($width/2,$height/2,0,0);
 		}
 
 		/**
