@@ -13,22 +13,21 @@
 
 		private $pdf = NULL; /**< .pdf file object*/
 		private $img = NULL; /**< image file object converted from $pdf*/
-		private $path = NULL; /**< path to the .pdf file*/
+		private $data = NULL;
 		private $qrtext =""; /**< The string contained within the QRcode*/
 
 		/**
 		 * The constuctor.
-		 * The constructor takes in 1 string as the parameter corresponding to the filepath to the scan.
-		 * The .pdf should only contain 1 page. 
+		 * The constructor takes in 1 string corresponding to the raw bytes of the image.
+		 * The image should be an .png image.
 		 * Only the first page will be read if a multi-page pdf is submitted.
 		 * This constructor will be changed to use database parameters instead at a later time.
-		 * @param str $path filepath to the .pdf file.
+		 * @param blob $data Raw blob of the image.
 		 */
-		public function __construct($path=""){
-			$this->path = $path;
-			$this->img = new Imagick($path.'[0]');
-			$this->img->setResolution(1000,1000);
-			$this->img->setImageFormat('png');
+		public function __construct($data){
+			$this->img = new Imagick();
+			$this->data = $data;
+			$this->img->readImageBlob($this->data)
 			$this->crop_image();
 			$this->read_QRcode();
 		}
@@ -41,7 +40,7 @@
 		 */
 		public function get_data(){
 			if($this->qrtext == ""){
-				return "Could not read QRcode";
+				return NULL;
 			} else {
 				return $this->qrtext;
 			}
