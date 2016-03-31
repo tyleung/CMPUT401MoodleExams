@@ -19,12 +19,12 @@
  *
  * @package   mod_assign
  * @subpackage assignsubmission_pdf
- * @copyright 
+ * @copyright 2012 Davo Smith
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+require_once(dirname(__FILE__).'/../../../../config.php');
 global $CFG, $DB, $PAGE;
-require_once('../../config.php');
 require_once($CFG->dirroot.'/mod/assign/locallib.php');
 require_once($CFG->dirroot.'/local/memplugin/marklib.php');
 
@@ -35,20 +35,24 @@ $action = optional_param('action', null, PARAM_TEXT);
 $rownum = optional_param('rownum', null, PARAM_INT);
 $returnparams = optional_param('returnparams', null, PARAM_TEXT);
 
-$url = new moodle_url($CFG->wwwroot.'/local/memplugin/markpage.php');
+$url = new moodle_url('/mod/assign/feedback/pdf/editcomment.php', array('submissionid'=>$submissionid,
+                                                                       'pageno'=>$pageno,
+                                                                       'id' => $id));
 if (!is_null($rownum)) {
     $url->param('rownum', $rownum);
 }
 if (!is_null($returnparams)) {
     $url->param('returnparams', $returnparams);
 }
-$cm = get_coursemodule_from_id('assign', $id, 0, false, MUST_EXIST);
+//$cm = get_coursemodule_from_id('assign', $id, 0, false, MUST_EXIST);
 $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
+//var_dump($course);
 
 $PAGE->set_url($url);
-require_login();
+require_login($course, false, $cm);
 
 $context = context_module::instance($cm->id);
+require_capability('mod/assign:grade', $context);
 
 $assignment = new assign($context, $cm, $course);
 $feedbackpdf = new assign_feedback_pdf($assignment, 'feedback_pdf');
