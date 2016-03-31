@@ -51,7 +51,7 @@ var draw_class = (function () {
 		savbtn.navi = false;
 		
 		setCanvasToImageDimensions();
-		loadImgToCanvas();
+		redraw();
 	},
 	loadImgToCanvas = function() {
     	var img=document.getElementById("id_img_tmp");
@@ -107,9 +107,9 @@ var draw_class = (function () {
 		}
 		if(navi) {
 			var newbook = parseInt(document.getElementById("id_bookIdTxt").value) + verDir;
-			book = ((book<0) ? 0 : book);
+			newbook = ((newbook<0) ? 0 : newbook);
 			var newpage = parseInt(document.getElementById("id_pageTxt").value) + horDir;
-			page = ((page<0) ? 0 : page);
+			newpage = ((newpage<0) ? 0 : newpage);
 			
 			var dirdat = "page=" + newpage + "&booklet=" + newbook;
 			

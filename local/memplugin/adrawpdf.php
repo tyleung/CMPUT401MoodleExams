@@ -53,8 +53,8 @@ $rec = $DB->get_records_sql('SELECT pdf_file_id, {mem_pdf_files}.booklet_id, {me
 $student = current($rec)->student_id;
 $mark = current($rec)->page_marks;
 $maxmark = current($rec)->page_marks_max;
-
-$img_tmp = '<img id="id_img_tmp" class="img_tmp" src="data:image/png;base64,'.base64_encode(current($rec)->pdf_file).'"/>';
+$imgdat = base64_encode(current($rec)->pdf_file);
+$img_tmp = '<img id="id_img_tmp" class="img_tmp" src="data:image/png;base64,'.$imgdat.'"/>';
 
 //NOW get the blob and import it into canvas!
 
