@@ -41,6 +41,7 @@ $string['file']           = 'Upload a PDF';
 $string['Welcome']        = 'Welcome to MEM!';
 $string['createbutton']   = 'Create Exam';
 $string['markbuttonhome'] = 'Upload an Exam to Mark';
+$string['yourexams']      = 'Available Exams';
 //Make Exams
 $string['createheader']   = 'Creating a new Exam';
 $string['makeexam']       = 'Name of Exam to Generate';

@@ -64,15 +64,5 @@ class create_mark_exam_instance extends moodleform{
 
 	}
 }
-
-//make a serialization function
-function create_courses(){
-	$user_courses = enrol_get_users_courses($USER->id, true, '*', 'visible DESC,sortorder ASC');
-    $select_course_array=array();
-    $selectgroup = array();
-    foreach ($user_courses as $uc){
-		$courses_group[] =& $mform->createElement('advcheckbox', $uc->id, null, $uc->fullname, array('group'=>0),array(0,1));
-    }
-}
 ?>
 
