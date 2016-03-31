@@ -16,7 +16,7 @@ var draw_class = (function () {
 	var clickDrag = new Array();
 	var paint = false;
 	var loadgif = "";
-	
+
 	var init = function () {
 		canvas = document.getElementById("id_canvas");
 		ctx = canvas.getContext("2d");
@@ -27,7 +27,7 @@ var draw_class = (function () {
 		canvas.addEventListener("mousedown", mDown);
 		canvas.addEventListener("mouseup", mUp);
 		canvas.addEventListener("mousemove", mMove);
-		canvas.addEventListener("mouseleave", mUp);
+		canvas.addEventListener("mouseleave", mUp);		
 		
 		// Page control event listeners
 		var upbtn = document.getElementById("id_btnUp");
@@ -49,6 +49,8 @@ var draw_class = (function () {
 		var savbtn = document.getElementById("id_btnSav");
 		savbtn.addEventListener("mousedown", naviPdf);
 		savbtn.navi = false;
+		
+		setCanvasToImageDimensions();
 		loadImgToCanvas();
 	},
 	loadImgToCanvas = function() {
@@ -122,12 +124,14 @@ var draw_class = (function () {
 			xnavi.onreadystatechange = function(){
 				if(xnavi.readyState == 4){
 					if(xnavi.status == 200) {
+						innernaviphp.innerHTML = xnavi.responseText;
+						var innerjs = document.getElementById("id_retrieve_scr");
+						// innerHTML doesn't run script, use JS' eval function.
+						eval(innerjs.innerHTML);
 						resetCanvasDrawings();
 						setCanvasToImageDimensions();
 						redraw();
-						innernaviphp.innerHTML = xnavi.responseText;
-						var a = document.getElementById("id_pageinfo").innerHTML;
-						console.log(a);
+						
 					} else {
 						innernaviphp.innerHTML = "Failed fetching page.";
 					}

@@ -68,8 +68,8 @@ Display search method prints everything on screen to actually display everything
 function display_draw($js_onload) {
 	global $OUTPUT, $bid, $page, $student, $mark, $maxmark, $img_tmp;
 	echo $OUTPUT->header();
-	echo "Marking<br>";
-	echo $img_tmp;
+	echo 'Marking<br>';
+	//Perhaps a zoom out/in function? dunno how to do that without distorting canvas&mousexy events.
     echo '<link rel="stylesheet" type="text/css" href="css/marking_canvas.css">
 			<script type="text/javascript" src="js/draw.js"></script>
 			<table  border="1" class="marking_table">
@@ -110,6 +110,7 @@ function display_draw($js_onload) {
 					</td>
 				</tr>
 		   	</table>';
+	echo $img_tmp;
 	echo $js_onload;
 	echo $OUTPUT->footer();
 }

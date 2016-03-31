@@ -2,9 +2,12 @@ div.canvas_container {
 	/* NOTE: resize not supported in IE and edge! */
 	resize: both;
 	background-color: #F5F5F5;
-	overflow: auto;
+	overflow: scroll;
 	min-height:300px;
 	min-width:200px;
+	/* vh and vw are 1% of height and width of viewport respectively. http://www.w3schools.com/cssref/css_units.asp */
+	width:60vw;
+	height:80vh;
 }
 
 div.controlpage {
@@ -24,8 +27,7 @@ canvas {
 }
 
 table.marking_table {
-	width:100%;
-	height:100%;
+	overflow:auto;
 	border: 1px solid gray;
     border-collapse: collapse;
 }
