@@ -1,7 +1,7 @@
 <?php
 	//defined('MOODLE_INTERNAL') || die();
-
-	require_once '../../config.php';
+	
+	require_once '../../../config.php';
 	require_once($CFG->dirroot.'/local/memplugin/dbtestdata/adraw_testimages.php');
 
 	global $PAGE, $CFG, $DB;

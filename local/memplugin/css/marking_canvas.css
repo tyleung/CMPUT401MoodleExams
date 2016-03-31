@@ -15,6 +15,10 @@ div.controlpage {
 	min-width:150px;
 }
 
+img.img_tmp {
+	display: none;
+}
+
 canvas {
 	border: 1px solid black;
 }
