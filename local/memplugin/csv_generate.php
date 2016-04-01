@@ -30,7 +30,7 @@ Statistics
 	header('Content-Disposition: attachment; filename=Statistics_'.$year.'.csv');
 
 	/** SQL query to retrieve all pages data and relevant booklet data. */
-	$booklet_pg_sql = $GLOBALS['DB']->get_records_sql('SELECT page_id, {mem_pages}.booklet_id, max_pages, page_num, page_marks, page_marks_max FROM {mem_booklet_data}, {mem_pages} WHERE course_id=? and year_semester_origin=? and {mem_pages}.booklet_id={mem_booklet_data}.booklet_id', array($course, $year));
+	$booklet_pg_sql = $GLOBALS['DB']->get_records_sql('SELECT page_id, {mem_pages}.booklet_id, max_pages, page_num, page_marks, page_marks_max, student_id FROM {mem_booklet_data}, {mem_pages} WHERE course_id=? and year_semester_origin=? and {mem_pages}.booklet_id={mem_booklet_data}.booklet_id', array($course, $year));
 	
 	$max_pages = current($booklet_pg_sql)->max_pages;
 	$booklet_keys = array();
@@ -39,6 +39,16 @@ Statistics
 		array_push($booklet_keys, $pg->booklet_id);
 	}
 	$booklet_keys = array_unique($booklet_keys);
+	
+	// not efficient, better way to do it but no time for deadline anymore
+	$sids = array();
+	foreach($booklet_keys as $k) {
+		foreach($booklet_pg_sql as $pg) {
+			if($pg->booklet_id == $k) {
+				array_push($sids, $pg->student_id);
+			}
+		}
+	}
 
 	/** Booklets array has an array which contains pages of marks. */
 	$booklets = array_fill_keys($booklet_keys, array_fill(1,$max_pages,0));
@@ -61,7 +71,7 @@ Statistics
 	$output = fopen('php://output', 'w');
 
 	/** Names of the Columns of the CSV, the first row to be put into the CSV */
-	$column_title = array('Booklet ID');
+	$column_title = array('Student ID','Booklet ID',);
 	for($i=0;$i<$max_pages;$i++) {
 		$str = "Page ".strval($i+1);
 		array_push($column_title, $str);
@@ -74,7 +84,8 @@ Statistics
 	
 	/** Output into CSV all the booklet pages' marks, and total. */
 	foreach($booklets as $k => $v) {
-		$out = array($k);
+		$out = array(current($sids),$k);
+		
 		foreach($v as $mark) {
 			array_push($out, $mark);
 		}
@@ -82,12 +93,13 @@ Statistics
 		array_push($out, $sumPgMark);
 		array_push($totalScore, $sumPgMark);
 		fputcsv($output, $out);
+		next($sids);
 	}
 	
 	/**Statistics array. At end is 1 row mean of pages and everything, 2nd row is std-dev of pages and everything
 	 more specifically, use the booklet_id as row name e.g. this row is "mean" thus 5 rows in total:
 	 Mean, Median, Spread, Maximum, Minimum. */
-	$stats = array( "mean" => array("Mean"), "median" => array("Median"), "spread" => array("Spread"), "max" => array("Maximum"), "min" => array("Minimum"));
+	$stats = array( "mean" => array("","Mean"), "median" => array("","Median"), "spread" => array("","Spread"), "max" => array("","Maximum"), "min" => array("","Minimum"));
 	
 	/** puts into the respective statistics arrays the total page marks. */
 	foreach($pagemarks as $each) {
