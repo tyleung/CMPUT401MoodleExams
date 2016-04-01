@@ -1,7 +1,7 @@
 <?php
 
 //defined('MOODLE_INTERNAL') || die();
-
+global $PAGE, $CFG, $DB;
 require_once '../../config.php';
 	
 	// THIS page also should retrieve the page's score and Max score and save it to database.
@@ -21,7 +21,7 @@ require_once '../../config.php';
 	
 	//test
 	echo "<br>mark:".$mark." max mark:".$max_mark;
-	echo '<img src="data:image/png;base64,'.$base64.'"/>';
+	//echo '<img src="data:image/png;base64,'.$base64.'"/>';
 	
 ?>
 

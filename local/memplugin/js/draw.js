@@ -49,7 +49,24 @@ var draw_class = (function () {
 		var savbtn = document.getElementById("id_btnSav");
 		savbtn.addEventListener("mousedown", naviPdf);
 		savbtn.navi = false;
-	},	
+		loadImgToCanvas();
+	},
+	loadImgToCanvas = function() {
+    	var img=document.getElementById("id_img_tmp");
+	    ctx.drawImage(img,0,0);
+	},
+	setCanvasToImageDimensions = function() {
+	   	var img=document.getElementById("id_img_tmp");
+    	var imgWidth = img.naturalWidth ;
+    	var imgHeight = img.naturalHeight;
+		canvas.setAttribute("width", imgWidth);
+    	canvas.setAttribute("height", imgHeight);
+	},
+	resetCanvasDrawings = function() {
+		clickX = new Array();
+		clickY = new Array();
+		clickDrag = new Array();
+	},
 	naviPdf = function (e) {
 		var horDir = e.target.hdir;
 		var verDir = e.target.vdir;
@@ -66,30 +83,6 @@ var draw_class = (function () {
 		maxMark = ((maxMark<0) ? 0 : maxMark);
 		maxMark = ((maxMark>999) ? 999 : maxMark);
 
-		if(navi) {
-			var newbook = parseInt(document.getElementById("id_bookIdTxt").value) + verDir;
-			book = ((book<0) ? 0 : book);
-			var newpage = parseInt(document.getElementById("id_pageTxt").value) + horDir;
-			page = ((page<0) ? 0 : page);
-			
-			var dirdat = "page=" + newpage + "&booklet=" + newbook;
-			
-			// taken from http://stackoverflow.com/questions/17391538/plain-javascript-no-jquery-to-load-a-php-file-into-a-div
-			var innernaviphp = document.getElementById("id_pageinfo");
-			innernaviphp.innerHTML = "Loading page " + loadgif;
-			if(XMLHttpRequest) var xnavi = new XMLHttpRequest();
-			else var xnavi = new ActiveXObject("Microsoft.XMLHTTP");
-			xnavi.open("POST", "adraw_retrieve.php", true);
-			xnavi.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-			xnavi.send(dirdat);
-			xnavi.onreadystatechange = function(){
-				if(xnavi.readyState == 4){
-					if(xnavi.status == 200) innernaviphp.innerHTML = xnavi.responseText;
-					else innernaviphp.innerHTML = "Failed fetching page.";
-				}
-			}
-		}
-		
 		var dat = "imgsavdat=" + canvas.toDataURL('image/png');
 		// prevent base64 corruption by replaceing + sign with it's encoding %2B 
 		// taken from http://stackoverflow.com/a/14803292
@@ -110,16 +103,48 @@ var draw_class = (function () {
 				else innersavphp.innerHTML = "Error saving.";
 			}
 		}
+		if(navi) {
+			var newbook = parseInt(document.getElementById("id_bookIdTxt").value) + verDir;
+			book = ((book<0) ? 0 : book);
+			var newpage = parseInt(document.getElementById("id_pageTxt").value) + horDir;
+			page = ((page<0) ? 0 : page);
+			
+			var dirdat = "page=" + newpage + "&booklet=" + newbook;
+			
+			// taken from http://stackoverflow.com/questions/17391538/plain-javascript-no-jquery-to-load-a-php-file-into-a-div
+			var innernaviphp = document.getElementById("id_pageinfo");
+			innernaviphp.innerHTML = "Loading page " + loadgif;
+			if(XMLHttpRequest) var xnavi = new XMLHttpRequest();
+			else var xnavi = new ActiveXObject("Microsoft.XMLHTTP");
+			xnavi.open("POST", "adraw_retrieve.php", true);
+			xnavi.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			xnavi.send(dirdat);
+			xnavi.onreadystatechange = function(){
+				if(xnavi.readyState == 4){
+					if(xnavi.status == 200) {
+						resetCanvasDrawings();
+						setCanvasToImageDimensions();
+						redraw();
+						innernaviphp.innerHTML = xnavi.responseText;
+						var a = document.getElementById("id_pageinfo").innerHTML;
+						console.log(a);
+					} else {
+						innernaviphp.innerHTML = "Failed fetching page.";
+					}
+				}
+			}
+		}
+		
     },
     mDown = function(event) {
 	    var rect = canvas.getBoundingClientRect();
     	var x = event.clientX-rect.left;
     	var y = event.clientY-rect.top;
-    	console.log("BBB x"+x+" y"+y+" canvasL"+canvas.offsetLeft+" canvasR"+canvas.offsetTop);
         paint = true;
 		addClick(x, y);
 		redraw();
     },
+    /** Test comment */
     mUp = function(event) {
 	    paint = false;
     },
@@ -139,7 +164,7 @@ var draw_class = (function () {
 	},
 	redraw = function(){
 	  ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // Clears the canvas
-	  
+	  loadImgToCanvas();
 	  ctx.strokeStyle = "#df4b26";
 	  ctx.lineJoin = "round";
 	  ctx.lineWidth = 5;
