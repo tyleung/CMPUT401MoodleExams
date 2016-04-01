@@ -110,6 +110,7 @@
 
 			$img_param = new stdClass();
 			$img_param->booklet_id = $booklet_id;
+			print_r("QAAAAAAAAAAAAAAAaa".$this->data);
 			$img_param->pdf_file = $this->data;
 			$img_param->page_num = $qrdata[2];
 			$img_param->booklet_num = $qrdata[1];

@@ -71,9 +71,9 @@ if($_POST['markbutton']){
 	$exam_data = $form->get_file_content('userfile');
 	
 	#
-	/*
+	
 	$scan = new MME_exam_submission($exam_data);
-	for ($i = 0;$i<3;$i++){
+	/*for ($i = 0;$i<3;$i++){
 		echo $scan->get_deserialized_data()[$i].'</br>'; 
 	}
 	*/
