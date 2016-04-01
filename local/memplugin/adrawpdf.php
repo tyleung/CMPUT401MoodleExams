@@ -53,8 +53,8 @@ $rec = $DB->get_records_sql('SELECT pdf_file_id, {mem_pdf_files}.booklet_id, {me
 $student = current($rec)->student_id;
 $mark = current($rec)->page_marks;
 $maxmark = current($rec)->page_marks_max;
-
-$img_tmp = '<img id="id_img_tmp" class="img_tmp" src="data:image/png;base64,'.base64_encode(current($rec)->pdf_file).'"/>';
+$imgdat = base64_encode(current($rec)->pdf_file);
+$img_tmp = '<img id="id_img_tmp" class="img_tmp" src="data:image/png;base64,'.$imgdat.'"/>';
 
 //NOW get the blob and import it into canvas!
 
@@ -68,8 +68,8 @@ Display search method prints everything on screen to actually display everything
 function display_draw($js_onload) {
 	global $OUTPUT, $bid, $page, $student, $mark, $maxmark, $img_tmp;
 	echo $OUTPUT->header();
-	echo "Marking<br>";
-	echo $img_tmp;
+	echo 'Marking<br>';
+	//Perhaps a zoom out/in function? dunno how to do that without distorting canvas&mousexy events.
     echo '<link rel="stylesheet" type="text/css" href="css/marking_canvas.css">
 			<script type="text/javascript" src="js/draw.js"></script>
 			<table  border="1" class="marking_table">
@@ -82,6 +82,10 @@ function display_draw($js_onload) {
 					</td>
 					<td>
 						<div id="id_controlpage" class="controlpage">
+							<br>
+							<button id="id_btnSav">Save Page</button> <br> 
+							<div id="id_lastSavPDFdiv">No save performed yet.</div>
+							<br>
 							&nbsp;&nbsp;&nbsp;&nbsp;
 							<button id="id_btnUp">^<br>Booklet</button> <br>
 							<button id="id_btnLeft">&lt;<br>Page</button>
@@ -97,19 +101,16 @@ function display_draw($js_onload) {
 							Page: <br> <input type="number" id="id_pageTxt" disabled value='.$page.'>
 							<br> <br>
 							Student ID: <br> <input type="number" id="id_studentIdTxt" disabled value='.$student.'>
-							<br><a id="id_assignStudent">Assign student</a>
+							<br><a id="id_assignStudent" href="'.$CFG->wwwroot.'search.php?booklet_id='.$bid.'&page='.$page.'">Assign student</a>
 							<br> <br>
 							Page Mark: <br> <input type="number" id="id_pageMark" min=0 max=999 value='.$mark.'>
 							<br> <br>
 							Maximum Mark: <br> <input type="number" id="id_pageMaxMark" min=0 max=999 value='.$maxmark.'>
-							
-							<br><br>
-							<button id="id_btnSav">Save Page</button> <br> 
-							<div id="id_lastSavPDFdiv">No save performed yet.</div>
 						</div>
 					</td>
 				</tr>
 		   	</table>';
+	echo $img_tmp;
 	echo $js_onload;
 	echo $OUTPUT->footer();
 }
