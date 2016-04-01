@@ -8,8 +8,19 @@ require_once '../../config.php';
 	$bid = intval($_GET['booklet_id']);
 	$page = intval($_GET['page']);
 	
-	//todo update database here!
-	
+	//todo update database here!	
+	$rec = $DB->get_records_sql('SELECT *
+								FROM {mem_booklet_data}
+								WHERE {mem_booklet_data}.booklet_id=?', array($bid));
+						
+	$nfodat = new stdClass();
+	$nfodat->booklet_id = intval(current($rec)->booklet_id);
+	//$nfodat->id = intval(current($rec)->booklet_id);
+	$nfodat->student_id = $sid;
+		
+	var_dump($nfodat);
+
+	$DB->update_record('mem_booklet_data', $nfodat);
 
 	//redirect($CFG->wwwroot.'/local/memplugin/adrawpdf.php?booklet_id='.$bid.'&page='.$page);
 	
