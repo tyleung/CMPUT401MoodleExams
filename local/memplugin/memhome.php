@@ -31,26 +31,32 @@ require_once('../../config.php');
 require_login();
 require_capability('local/memplugin:add', context_system::instance());
 require_once($CFG->dirroot.'/local/memplugin/memhome_form.php');
+require_once($CFG->dirroot.'/local/memplugin/exams_list_form.php');
 
 $PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('pluginname', 'local_memplugin'));
 $PAGE->set_heading(get_string('Welcome', 'local_memplugin'));
 $PAGE->set_url($CFG->wwwroot.'/local/memplugin/memhome.php');
-$form = new create_memhome_instance();
+$node = $PAGE->navigation->add(get_string('memhome', 'local_memplugin'), new moodle_url('memhome.php'));
+$node->make_active();
+$create_mark_form = new create_memhome_instance();
+$exam_list_form   = new create_exam_list_instance();
 
 if ($_POST['create']) {
 	redirect($CFG->wwwroot.'/local/memplugin/generate_exam.php');
 } elseif($_POST['mark']) {
 	redirect($CFG->wwwroot.'/local/memplugin/mark_exam.php');
-} elseif ($form->is_cancelled()) {
+} elseif ($create_mark_form->is_cancelled()) {
 	redirect($CFG->wwwroot.'/local/memplugin/view.php');
-} elseif ($data = $form->get_data()) {
+} elseif ($data = $create_mark_form->get_data()) {
 	$check = $data->test1;
 	redirect($CFG->wwwroot.'/local/memplugin/view.php');
 } else {
 	echo $OUTPUT->header();
-	$form->display();
+	$create_mark_form->display();
+	$exam_list_form->display();
+	display_exams_list();
 	echo $OUTPUT->footer();
 }
 ?>

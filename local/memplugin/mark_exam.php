@@ -39,6 +39,8 @@ $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('pluginname', 'local_memplugin'));
 $PAGE->set_heading(get_string('markheader', 'local_memplugin'));
 $PAGE->set_url($CFG->wwwroot.'/local/memplugin/mark_exam.php');
+$node = $PAGE->navigation->add(get_string('markheader', 'local_memplugin'), new moodle_url('mark_exam.php'));
+$node->make_active();
 
 $form = new create_mark_exam_instance();
 
@@ -73,27 +75,7 @@ if($_POST['markbutton']){
 
 	redirect($CFG->wwwroot.'/local/memplugin/assign_books.php?courses_ids='.$courses);
 
-} elseif($_POST['savebutton']){
-	$data = $form->get_data();
-
-	$selections = $data->courseboxes;
-	$choices = array();
-
-	foreach($selections as $key => $value){
-		if(strcasecmp($value, '1')==0){
-			$choices[$key] = $value;
-		}
-	}
-	$courses = serialize($choices);
-	
-	$exam_data = $form->get_file_content('userfile');
-	$scan = new MME_exam_submission($exam_data);
-
-	// Do database stuff with exam_submission class.
-
-	redirect($CFG->wwwroot.'/local/memplugin/memhome.php?courses_ids='.$courses);
-}
-else { 
+} else { 
 	if($form->is_cancelled()) {
 		redirect($CFG->wwwroot.'/local/memplugin/memhome.php');
 	} elseif ($data = $form->get_data()) {

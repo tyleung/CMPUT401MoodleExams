@@ -56,23 +56,16 @@ class create_mark_exam_instance extends moodleform{
 		//$mform->addElement('filemanager', 'files', get_string('exambatch', 'local_memplugin'), null, array('accepted_types' => 'image/png'));
 		$mform->addElement('filepicker', 'userfile', get_string('exambatch','local_memplugin'), null, array('accepted_types' => 'image/png'));
 
+		//$form_search_array[] = $mform->createElement('html', '<div style="text-align:right;"> <a href ="http://199.116.235.182/dev/ec10/feedback-plugin/local/feedback_ec10/creation.php" target="_parent"> Create New Rubric </a></div>');
+
 		$mform->closeHeaderBefore('buttonar');
 		$buttonarray   =  array();
-		$buttonarray[] =& $mform->createElement('submit','savebutton', get_string('savebutton', 'local_memplugin'));
+
 		$buttonarray[] =& $mform->createElement('submit','markbutton', get_string('markbutton', 'local_memplugin'));
+		$buttonarray[] =& $mform->createElement('cancel');
 		$mform->addGroup($buttonarray, 'buttonar', '', array(' '), false);
 
 	}
-}
-
-//make a serialization function
-function create_courses(){
-	$user_courses = enrol_get_users_courses($USER->id, true, '*', 'visible DESC,sortorder ASC');
-    $select_course_array=array();
-    $selectgroup = array();
-    foreach ($user_courses as $uc){
-		$courses_group[] =& $mform->createElement('advcheckbox', $uc->id, null, $uc->fullname, array('group'=>0),array(0,1));
-    }
 }
 ?>
 
