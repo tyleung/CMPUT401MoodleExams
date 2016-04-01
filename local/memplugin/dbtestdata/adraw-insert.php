@@ -34,22 +34,26 @@
 	$e0->pdf_file=$imageBlob0;
 	//$e0->pdf_file=$imageBlob1;
 	$e0->page_num=0;
+	$e0->booklet_num=42;
 	
 	$e1 = new stdClass();
 	$e1->booklet_id=1;
 	$e1->pdf_file=$imageBlob1;
 	$e1->page_num=1;
-		
+	$e1->booklet_num=42;
+	
 	// Walrus image too big? is there a limit???
 	$e2 = new stdClass();
 	$e2->booklet_id=1;
 	$e2->pdf_file=$imageBlob3;
 	$e2->page_num=2;
+	$e2->booklet_num=42;
 	
 	$e3 = new stdClass();
 	$e3->booklet_id=2;
 	$e3->pdf_file=$imageBlob2;
 	$e3->page_num=1;
+	$e3->booklet_num=42;
 	
 	echo "inserting<br>";
 	//echo "e0 id=".$DB->insert_record("mem_pdf_files", $e0, true, false)."<br>";
