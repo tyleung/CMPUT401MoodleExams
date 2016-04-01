@@ -1,5 +1,5 @@
 // Drawing Code reference http://www.williammalone.com/articles/create-html5-canvas-javascript-drawing-app/#demo-simple
-// Canvas reference (note especially toDataURL())  http://www.w3schools.com/tags/ref_canvas.asp
+// Canvas reference (note especially toDataURL)  http://www.w3schools.com/tags/ref_canvas.asp
 // http://stackoverflow.com/questions/12026345/live-type-in-html5-canvas
 // http://www.tcpdf.org/examples/example_009.phps
 
@@ -16,7 +16,7 @@ var draw_class = (function () {
 	var clickDrag = new Array();
 	var paint = false;
 	var loadgif = "";
-	
+
 	var init = function () {
 		canvas = document.getElementById("id_canvas");
 		ctx = canvas.getContext("2d");
@@ -27,7 +27,7 @@ var draw_class = (function () {
 		canvas.addEventListener("mousedown", mDown);
 		canvas.addEventListener("mouseup", mUp);
 		canvas.addEventListener("mousemove", mMove);
-		canvas.addEventListener("mouseleave", mUp);
+		canvas.addEventListener("mouseleave", mUp);		
 		
 		// Page control event listeners
 		var upbtn = document.getElementById("id_btnUp");
@@ -49,7 +49,10 @@ var draw_class = (function () {
 		var savbtn = document.getElementById("id_btnSav");
 		savbtn.addEventListener("mousedown", naviPdf);
 		savbtn.navi = false;
-		loadImgToCanvas();
+		setTimeout(function() {
+			setCanvasToImageDimensions();
+			redraw();
+		}, 300);
 	},
 	loadImgToCanvas = function() {
     	var img=document.getElementById("id_img_tmp");
@@ -73,9 +76,9 @@ var draw_class = (function () {
 		var navi = e.target.navi;
 		
 		var book = parseInt(document.getElementById("id_bookIdTxt").value);
-		book = ((book<0) ? 0 : book);
+		book = ((book<1) ? 1 : book);
 		var page = parseInt(document.getElementById("id_pageTxt").value);
-		page = ((page<0) ? 0 : page);
+		page = ((page<1) ? 1 : page);
 		var mark = parseInt(document.getElementById("id_pageMark").value);
 		mark = ((mark<0) ? 0 : mark);
 		mark = ((mark>999) ? 999 : mark);
@@ -102,18 +105,20 @@ var draw_class = (function () {
 				if(xsav.status == 200) innersavphp.innerHTML = xsav.responseText;
 				else innersavphp.innerHTML = "Error saving.";
 			}
-		}
+		};
 		if(navi) {
 			var newbook = parseInt(document.getElementById("id_bookIdTxt").value) + verDir;
-			book = ((book<0) ? 0 : book);
+			newbook = ((newbook<1) ? 1 : newbook);
 			var newpage = parseInt(document.getElementById("id_pageTxt").value) + horDir;
-			page = ((page<0) ? 0 : page);
+			newpage = ((newpage<1) ? 1 : newpage);
 			
 			var dirdat = "page=" + newpage + "&booklet=" + newbook;
 			
 			// taken from http://stackoverflow.com/questions/17391538/plain-javascript-no-jquery-to-load-a-php-file-into-a-div
 			var innernaviphp = document.getElementById("id_pageinfo");
 			innernaviphp.innerHTML = "Loading page " + loadgif;
+			canvas.setAttribute("width", 1);
+	    	canvas.setAttribute("height", 1);
 			if(XMLHttpRequest) var xnavi = new XMLHttpRequest();
 			else var xnavi = new ActiveXObject("Microsoft.XMLHTTP");
 			xnavi.open("POST", "adraw_retrieve.php", true);
@@ -122,17 +127,21 @@ var draw_class = (function () {
 			xnavi.onreadystatechange = function(){
 				if(xnavi.readyState == 4){
 					if(xnavi.status == 200) {
-						resetCanvasDrawings();
-						setCanvasToImageDimensions();
-						redraw();
 						innernaviphp.innerHTML = xnavi.responseText;
-						var a = document.getElementById("id_pageinfo").innerHTML;
-						console.log(a);
+						var innerjs = document.getElementById("id_retrieve_scr");
+						// innerHTML doesn't run script, use JS' eval function.
+						eval(innerjs.innerHTML);
+						setTimeout(function() {
+							resetCanvasDrawings();
+							setCanvasToImageDimensions();
+							redraw();
+						}, 300);
+						
 					} else {
 						innernaviphp.innerHTML = "Failed fetching page.";
 					}
 				}
-			}
+			};
 		}
 		
     },
