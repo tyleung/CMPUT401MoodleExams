@@ -274,6 +274,19 @@ function xmldb_local_memplugin_upgrade($oldversion) {
         // Memplugin savepoint reached.
         upgrade_plugin_savepoint(true, 2016040104, 'local', 'memplugin');
     }
+    
+    if ($oldversion < 2016040105) {
+
+        // Changing the default of field booklet_num on table mem_pdf_files to 0.
+        $table = new xmldb_table('mem_pdf_files');
+        $field = new xmldb_field('booklet_num', XMLDB_TYPE_INTEGER, '6', null, XMLDB_NOTNULL, null, '0', 'pdf_comments');
+
+        // Launch change of default for field booklet_num.
+        $dbman->change_field_default($table, $field);
+
+        // Memplugin savepoint reached.
+        upgrade_plugin_savepoint(true, 2016040105, 'local', 'memplugin');
+    }
 
  	return true;   
 }    
