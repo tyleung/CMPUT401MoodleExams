@@ -46,6 +46,7 @@ $context = context_module::instance($cm->id);
 $assignment = new assign($context, $cm, $course);
 $feedbackpdf = new assign_feedback_pdf($assignment, 'feedback_pdf');
 
+
 // Check the user has the relevant capability to access this assignment submission.
 if ($submissionid) {
     $submission = $DB->get_record('assign_submission', array('id' => $submissionid), '*', MUST_EXIST);

@@ -67,3 +67,6 @@ if ($action == 'showprevious') {
 } else {
     $feedbackpdf->edit_comment_page($submissionid, $pageno);
 }
+
+$a = array(1, 2, array("a", "b", "c"));
+var_dump($a);
