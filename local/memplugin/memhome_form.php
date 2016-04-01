@@ -29,7 +29,10 @@
 require_once $CFG->dirroot.'/lib/formslib.php';
 require_login();
 
-
+/**
+ *	Function for displaying the main screen navigation buttons: create or upload 
+ *  exams. 
+ */
 class create_memhome_instance extends moodleform{
 	function definition(){
 		global $CFG, $DB, $USER;
@@ -41,40 +44,12 @@ class create_memhome_instance extends moodleform{
 		$buttonarray   =  array();
 		$buttonarray[] =& $mform->createElement('submit','create', get_string('createbutton', 'local_memplugin'));
 		$buttonarray[] =& $mform->createElement('submit','mark', get_string('markbuttonhome', 'local_memplugin'));
-		$mform->addGroup($buttonarray, 'buttonar', 'What would you like to do?', array(' '), false);
-
-//html link tag PUT or POST for sending information. Put more secure but post can get from URL
-//Heading needs HTML justification. 
-//KEEP UNTIL DATA PICKER ADDED TO MARK EXAM PAGE. Needed for regulation storag
-		
-		//Section for showcasing exams teacher has access to
-		$mform->addElement('header', 'examstable', get_string('yourexams', 'local_memplugin'));
-		$mform->addElement('html','
-<link rel="stylesheet" type="text/css" href="css/jquery.dataTables.min.css">
-<script src="http://code.jquery.com/jquery-latest.js" type="text/javascript"></script>
-<script type="text/javascript" charset="utf8" src="js/jquery.dataTables.min.js"></script>
-
-<table id="results_table" class="display">
-    <thead>
-        <tr>
-            <th>First name</th>
-            <th>Last name</th>
-			<th>Student ID</th>
-			<th>Mark</th>
-        </tr>
-    </thead>
-    <tbody>
-		<?php
-		//populate_results_table();
-		?>
-    </tbody>
-</table>');
-
-
+		$mform->addGroup($buttonarray, 'buttonar', 'whattodo', array(' '), false);
 
 
 	}
 }
+
 
 
 ?>
