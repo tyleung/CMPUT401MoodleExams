@@ -1,0 +1,28 @@
+var class_assign_p_d_f_lib =
+[
+    [ "add_annotation", "class_assign_p_d_f_lib.html#a373b17e43a6825d3f8ae48e79d61ee91", null ],
+    [ "add_comment", "class_assign_p_d_f_lib.html#ab4257ecc6e0504902b288c089ccfc2eb", null ],
+    [ "combine_pdfs", "class_assign_p_d_f_lib.html#a6c3f9a671d06d06e25210d48f2b7359a", null ],
+    [ "copy_page", "class_assign_p_d_f_lib.html#a638d6356b1d17a0ace7eb3b2869a0b33", null ],
+    [ "copy_remaining_pages", "class_assign_p_d_f_lib.html#ae3f0adb2cbc76a5c0294eabda8015f1c", null ],
+    [ "create_page_from_source", "class_assign_p_d_f_lib.html#a45613735a4324db24272e549c363cd59", null ],
+    [ "current_page", "class_assign_p_d_f_lib.html#a35c6aff8fe16c7c595b5f05635005974", null ],
+    [ "get_image", "class_assign_p_d_f_lib.html#a43aa1f438eff8fef22cec20e67172565", null ],
+    [ "load_pdf", "class_assign_p_d_f_lib.html#a41d8da9157d2898d73dcc0f2f557672a", null ],
+    [ "page_count", "class_assign_p_d_f_lib.html#ab11826423d292294681a137b37590a68", null ],
+    [ "save_pdf", "class_assign_p_d_f_lib.html#a0b3efd4cd3102b9c59cbc47d6b0f647b", null ],
+    [ "set_image_folder", "class_assign_p_d_f_lib.html#a16ba036038a63c803351866450f7124d", null ],
+    [ "set_pdf", "class_assign_p_d_f_lib.html#a77d54f572788d5e6773260bfae6b6cc8", null ],
+    [ "$currentpage", "class_assign_p_d_f_lib.html#a2cf6eb6f2c4d1e6204209a5341ccb537", null ],
+    [ "$filename", "class_assign_p_d_f_lib.html#a0722441477f957078ee2437054556cbc", null ],
+    [ "$imagefolder", "class_assign_p_d_f_lib.html#a51687253a18c5379137e36cd2b15e003", null ],
+    [ "$pagecount", "class_assign_p_d_f_lib.html#a905390c82ddf2d57cc0c524f4e5b0425", null ],
+    [ "$scale", "class_assign_p_d_f_lib.html#a8457a6fc43abd2acbbeae26b8b7aa79f", null ],
+    [ "GSPATH_DOESNOTEXIST", "class_assign_p_d_f_lib.html#a967f38e3524d0e3908f97f3621959101", null ],
+    [ "GSPATH_EMPTY", "class_assign_p_d_f_lib.html#a66ded1f5aceb933afa7e8c0b5416ea8d", null ],
+    [ "GSPATH_ERROR", "class_assign_p_d_f_lib.html#aa3541114c185afcc122672796bc5da4d", null ],
+    [ "GSPATH_ISDIR", "class_assign_p_d_f_lib.html#ac0bdd09252f12fbc61547b91a59d5530", null ],
+    [ "GSPATH_NOTESTFILE", "class_assign_p_d_f_lib.html#a0d0120720eae475580adb3b18d476b8a", null ],
+    [ "GSPATH_NOTEXECUTABLE", "class_assign_p_d_f_lib.html#a8a43ecb200032b2b4e994571552eefb8", null ],
+    [ "GSPATH_OK", "class_assign_p_d_f_lib.html#a189705ffae581ffb3c2e4d30e747487e", null ]
+];

@@ -1,7 +1,9 @@
 var searchData=
 [
-  ['output_5fcontrols',['output_controls',['../classassign__feedback__pdf.html#aeab5b6baa542dff80fc250872f34fe7a',1,'assign_feedback_pdf']]],
-  ['output_5fexam',['output_exam',['../class_m_m_e___exams.html#a38fa7a64105c1037cbb79ded34cfbf6d',1,'MME_Exams']]],
-  ['output_5fpageselector',['output_pageselector',['../classassign__feedback__pdf.html#a13336ab646029819708a89e4ffebbece',1,'assign_feedback_pdf']]],
-  ['output_5ftoolbar',['output_toolbar',['../classassign__feedback__pdf.html#a996a04df94ccdf14ff271bdd860a0ee3',1,'assign_feedback_pdf']]]
+  ['newsearch',['newSearch',['../search_8js.html#a0a613010a4625d687149eea95de25841',1,'search.js']]],
+  ['notify_5fgrade_5fmodified',['notify_grade_modified',['../classassign.html#aa25831ef50f7186d1ce0747291c87081',1,'assign']]],
+  ['notify_5fgraders',['notify_graders',['../classassign.html#a78fce34dad13c34334625f15af00811d',1,'assign']]],
+  ['notify_5fstudent_5fsubmission_5fcopied',['notify_student_submission_copied',['../classassign.html#aeddc9b53fc1f2a6726f475e52bb0d8b4',1,'assign']]],
+  ['notify_5fstudent_5fsubmission_5freceipt',['notify_student_submission_receipt',['../classassign.html#a639f2a04e6317b3a43cebf3a5ce6c710',1,'assign']]],
+  ['nums',['nums',['../isotope-grid_8css.html#a14d758d10d49ce16581a3e369b36c5c3',1,'isotope-grid.css']]]
 ];

@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['validation',['validation',['../classmme__exam__form.html#adef283fbff4804cbfd0da2736305a35a',1,'mme_exam_form\validation()'],['../classstats__sem__form.html#adef283fbff4804cbfd0da2736305a35a',1,'stats_sem_form\validation()'],['../classstats__course__form.html#adef283fbff4804cbfd0da2736305a35a',1,'stats_course_form\validation()']]],
-  ['view',['view',['../classassign__feedback__pdf.html#ac19dd611a0dd7b1bc0c6ab7cdd07e9de',1,'assign_feedback_pdf']]],
-  ['view_5fsummary',['view_summary',['../classassign__feedback__pdf.html#a3ef7f19cc151dd0897797eae4524fa3e',1,'assign_feedback_pdf']]]
+  ['test_5fgs_5fpath',['test_gs_path',['../class_assign_p_d_f_lib.html#a1c2b2a3618af718527a2c13be83e0cdd',1,'AssignPDFLib']]],
+  ['to_5fpercentage_5farray',['to_percentage_array',['../classstats.html#a281352f0a90f11ee7c0d348d7dafe326',1,'stats']]]
 ];

@@ -1,6 +1,24 @@
 var searchData=
 [
-  ['update_5fcomment_5fpage',['update_comment_page',['../classassign__feedback__pdf.html#a2d3c715859ae5089e7de409387623674',1,'assign_feedback_pdf']]],
-  ['upgrade',['upgrade',['../classassign__feedback__pdf.html#a7cd1e59a1e90679569b9de31d703d26d',1,'assign_feedback_pdf']]],
-  ['upgrade_5fsettings',['upgrade_settings',['../classassign__feedback__pdf.html#af2cbc1f4b4d4a4489029aa6d7c833ff2',1,'assign_feedback_pdf']]]
+  ['save_5fgrade',['save_grade',['../classassign.html#a94ab216389e250949d20290e6787699f',1,'assign']]],
+  ['save_5fpdf',['save_pdf',['../class_assign_p_d_f_lib.html#a0b3efd4cd3102b9c59cbc47d6b0f647b',1,'AssignPDFLib']]],
+  ['save_5fsubmission',['save_submission',['../classassign.html#aceca958a57247b61e254687dd0ee8589',1,'assign']]],
+  ['save_5fuser_5fextension',['save_user_extension',['../classassign.html#a1ec05df941afaabe82778a0f19c9f361',1,'assign']]],
+  ['send_5fassignment_5fnotification',['send_assignment_notification',['../classassign.html#a54c9b56cb6f6c374f721c7ffa214e91b',1,'assign']]],
+  ['send_5fnotification',['send_notification',['../classassign.html#afc20742b7bb6965168ca1e73743730e2',1,'assign']]],
+  ['send_5ftest_5fimage',['send_test_image',['../class_assign_p_d_f_lib.html#a5ca73616c54ddfb558ab630efd277246',1,'AssignPDFLib']]],
+  ['set_5fcontext',['set_context',['../classassign.html#ac3e2e745f2549c6c1d093f261f691154',1,'assign']]],
+  ['set_5fcourse',['set_course',['../classassign.html#aa19addfb6522f77b449673000513dd77',1,'assign']]],
+  ['set_5fimage_5ffolder',['set_image_folder',['../class_assign_p_d_f_lib.html#a16ba036038a63c803351866450f7124d',1,'AssignPDFLib']]],
+  ['set_5finstance',['set_instance',['../classassign.html#a87547ae10c5488a82063664366eae084',1,'assign']]],
+  ['set_5fpdf',['set_pdf',['../class_assign_p_d_f_lib.html#a77d54f572788d5e6773260bfae6b6cc8',1,'AssignPDFLib']]],
+  ['show_5fintro',['show_intro',['../classassign.html#a3cf4bf5f583797c4c36ff4eaee049bb7',1,'assign']]],
+  ['show_5fonly_5factive_5fusers',['show_only_active_users',['../classassign.html#ab5ca3c2c185b056fbb836d7cba744dab',1,'assign']]],
+  ['show_5fprevious_5fcomments',['show_previous_comments',['../classassign__feedback__pdf.html#a554a2391409be5b81affb2510b24efe7',1,'assign_feedback_pdf\show_previous_comments($submissionid)'],['../classassign__feedback__pdf.html#a554a2391409be5b81affb2510b24efe7',1,'assign_feedback_pdf\show_previous_comments($submissionid)']]],
+  ['show_5fsubmit_5fbutton',['show_submit_button',['../classassign.html#a9468388569ab0e5814eeaec49ce1092b',1,'assign']]],
+  ['spread',['spread',['../classstats.html#a8463c0572e33b83e46eca9a563b8a4b6',1,'stats']]],
+  ['submission_5fempty',['submission_empty',['../classassign.html#ac651a88eecba61b7aa6f630fe75bf956',1,'assign']]],
+  ['submissions_5fopen',['submissions_open',['../classassign.html#a0c27a8be8a5bb4ec5228f5ec9d47c33e',1,'assign']]],
+  ['submit_5ffor_5fgrading',['submit_for_grading',['../classassign.html#ae018a413dbe19f76bb6ac0d1e6f3b8c6',1,'assign']]],
+  ['supports_5fquickgrading',['supports_quickgrading',['../classassign__feedback__pdf.html#ad1d3c06ef9d05df094889a610c94e7df',1,'assign_feedback_pdf\supports_quickgrading()'],['../classassign__feedback__pdf.html#ad1d3c06ef9d05df094889a610c94e7df',1,'assign_feedback_pdf\supports_quickgrading()']]]
 ];
