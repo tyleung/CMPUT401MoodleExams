@@ -33,8 +33,6 @@ $recPages = $DB->get_records_sql('SELECT page_id, {mem_booklet_data}.booklet_id,
 	
 	$page_id = intval(current($recPages)->page_id);
 	$pdf_file_id = intval(current($recPDF)->pdf_file_id);
-
-	var_dump($recPages);
 	
 	// Set the fields. Couldn't get Moodle's Update records to work.
 	// if a new page, may not exist, check for it
