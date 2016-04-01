@@ -47,30 +47,52 @@ $form = new create_mark_exam_instance();
 
 if($_POST['markbutton']){
 	$data = $form->get_data();
- 	//$course = $_POST['courseselect'];
+	$selections = $data->courseboxes;
+	$choices = array();
 
-	var_dump( $data);
-//	foreach($data as $d){
-	//	echo $d;
-//	}
-	//serialize_courses()
-	//redirect($CFG->wwwroot.'/local/memplugin/assign_books.php?courses_ids=');
+	foreach($selections as $key => $value){
+		if(strcasecmp($value, '1')==0){
+			$choices[$key] = $value;
+		}
+	}
+	$courses = serialize($choices);
+	var_dump($choices);
+	redirect($CFG->wwwroot.'/local/memplugin/assign_books.php?courses_ids='.$courses);
+
+} elseif($_POST['savebutton']){
+	$data = $form->get_data();
+	$selections = $data->courseboxes;
+	$choices = array();
+
+	foreach($selections as $key => $value){
+		if(strcasecmp($value, '1')==0){
+			$choices[$key] = $value;
+		}
+	}
+	$courses = serialize($choices);
+	redirect($CFG->wwwroot.'/local/memplugin/memhome.php?courses_ids='.$courses);
 }
 else { 
 	if($form->is_cancelled()) {
-		redirect($CFG->wwwroot.'/local/memplugin/assign_books.php');
+		redirect($CFG->wwwroot.'/local/memplugin/memhome.php');
 	} elseif ($data = $form->get_data()) {
 		$check = $data->test1;
 		redirect($CFG->wwwroot.'/local/memplugin/assign_books.php');
 	} else {
 		echo $OUTPUT->header();
-		$class_section_form->display();
+		$form->display();
 		echo $OUTPUT->footer();
 	}
 }
 
 
-
-
-
 ?>
+
+
+
+
+
+
+
+
+

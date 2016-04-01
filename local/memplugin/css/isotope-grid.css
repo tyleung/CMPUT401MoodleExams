@@ -83,8 +83,6 @@ body {
 	color: white;
 }
 
-
-
 .grid-item-select {
 	margin: 5px;
 }
@@ -95,7 +93,7 @@ body {
 	width: 100px;
 	height: 100px;
 	margin: 0px;
-	background: #888;
+	background: #c1c1c1;
 	color: #262524;
 }
 

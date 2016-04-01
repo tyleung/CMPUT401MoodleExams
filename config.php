@@ -25,8 +25,12 @@ $CFG->dboptions = array (
   'dbsocket' => '',
 );
 
+<<<<<<< HEAD
 
 $CFG->wwwroot   =  'http://192.168.56.102/moodle';
+=======
+$CFG->wwwroot   =  'http://192.168.56.101/moodle';
+>>>>>>> 35e3d04f55d33d1505cdbcb98c8434609887097f
 $CFG->dataroot  = '/var/moodledata';
 $CFG->admin     = 'admin';
 

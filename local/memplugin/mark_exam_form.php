@@ -43,15 +43,15 @@ class create_mark_exam_instance extends moodleform{
 		$user_courses = enrol_get_users_courses($USER->id, true, '*', 'visible DESC,sortorder ASC');
         $select_course_array=array();
         $selectgroup = array();
+
         foreach ($user_courses as $uc){
-			$courses_group[] =& $mform->createElement('advcheckbox', $uc->id, null, $uc->fullname, array('group'=>0),array(0,1));
+			$courses_group[] =& $mform->createElement('advcheckbox', 'courseboxes['.$uc->id.']', null, $uc->fullname, array('group'=>0),array(0,1));
         }
 		$mform->addElement('group', 'courseselect', get_string('courses', 'local_memplugin'), $courses_group, array('<br>'), false);
 
-
 		//Upload manager for files. 
 		$mform->addElement('header', 'fileheader', get_string('file', 'local_memplugin'));
-		$mform->addElement('filemanager', 'files', get_string('exambatch', 'local_memplugin'), null, $options);
+		$mform->addElement('filemanager', 'files', get_string('exambatch', 'local_memplugin'), null, array('accepted_types' => 'application/pdf'));
 		$mform->closeHeaderBefore('buttonar');
 		$buttonarray   =  array();
 		$buttonarray[] =& $mform->createElement('submit','savebutton', get_string('savebutton', 'local_memplugin'));
@@ -60,7 +60,15 @@ class create_mark_exam_instance extends moodleform{
 
 	}
 }
+
+//make a serialization function
+function create_courses(){
+	$user_courses = enrol_get_users_courses($USER->id, true, '*', 'visible DESC,sortorder ASC');
+    $select_course_array=array();
+    $selectgroup = array();
+    foreach ($user_courses as $uc){
+		$courses_group[] =& $mform->createElement('advcheckbox', $uc->id, null, $uc->fullname, array('group'=>0),array(0,1));
+    }
+}
 ?>
-
-
 
