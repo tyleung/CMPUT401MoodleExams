@@ -42,6 +42,7 @@ $string['memhome']        = 'MemHome';
 $string['Welcome']        = 'Welcome to MEM!';
 $string['createbutton']   = '   Create an Exam   ';
 $string['markbuttonhome'] = '   Upload an Exam   ';
+$string['checkstats']     = '   Check Statistics   ';
 $string['startmarking']   = 'Start Marking';
 $string['yourexams']      = 'Available Exams';
 //Make Exams

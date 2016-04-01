@@ -47,6 +47,8 @@ if ($_POST['create']) {
 	redirect($CFG->wwwroot.'/local/memplugin/generate_exam.php');
 } elseif($_POST['mark']) {
 	redirect($CFG->wwwroot.'/local/memplugin/mark_exam.php');
+} elseif($_POST['stats']){
+	redirect($CFG->wwwroot.'/local/memplugin/stats.php');
 } elseif ($create_mark_form->is_cancelled()) {
 	redirect($CFG->wwwroot.'/local/memplugin/view.php');
 } elseif ($data = $create_mark_form->get_data()) {
