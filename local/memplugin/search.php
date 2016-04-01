@@ -35,6 +35,9 @@ $PAGE->set_title(get_string('pluginname', 'local_memplugin'));
 $PAGE->set_heading(get_string('pluginname', 'local_memplugin'));
 $PAGE->set_url($CFG->wwwroot.'/local/memplugin/search.php');
 
+$bid = intval($_GET['booklet_id']);
+$page = intval($_GET['page']);
+
 $datstudents = array();
 /** Retrieve Teacher's courses.
 Note: enrolled, with no role. this is too generic, later make this so it retrieves only where user has teacher+ privilige.*/
@@ -49,7 +52,11 @@ foreach($enrolled as $course) {
 	$datstudents = array_merge($datstudents, $tmp);
 }
 // todo get booklet id as well, and parse it into search_add_to_db
-$searchable_students = '<script>var data = '.json_encode($datstudents).'; window.onload = init(data); </script>';
+$searchable_students = '<script>var data = '.json_encode($datstudents).';
+						var bid = '.$bid.';
+						var page = '.$page.';
+						window.onload = init(data, bid, page);
+						</script>';
 
 display_search($searchable_students);
 

@@ -1,5 +1,5 @@
 // Drawing Code reference http://www.williammalone.com/articles/create-html5-canvas-javascript-drawing-app/#demo-simple
-// Canvas reference (note especially toDataURL())  http://www.w3schools.com/tags/ref_canvas.asp
+// Canvas reference (note especially toDataURL)  http://www.w3schools.com/tags/ref_canvas.asp
 // http://stackoverflow.com/questions/12026345/live-type-in-html5-canvas
 // http://www.tcpdf.org/examples/example_009.phps
 
@@ -104,7 +104,7 @@ var draw_class = (function () {
 				if(xsav.status == 200) innersavphp.innerHTML = xsav.responseText;
 				else innersavphp.innerHTML = "Error saving.";
 			}
-		}
+		};
 		if(navi) {
 			var newbook = parseInt(document.getElementById("id_bookIdTxt").value) + verDir;
 			newbook = ((newbook<0) ? 0 : newbook);
@@ -116,6 +116,8 @@ var draw_class = (function () {
 			// taken from http://stackoverflow.com/questions/17391538/plain-javascript-no-jquery-to-load-a-php-file-into-a-div
 			var innernaviphp = document.getElementById("id_pageinfo");
 			innernaviphp.innerHTML = "Loading page " + loadgif;
+			canvas.setAttribute("width", 1);
+	    	canvas.setAttribute("height", 1);
 			if(XMLHttpRequest) var xnavi = new XMLHttpRequest();
 			else var xnavi = new ActiveXObject("Microsoft.XMLHTTP");
 			xnavi.open("POST", "adraw_retrieve.php", true);
@@ -136,7 +138,7 @@ var draw_class = (function () {
 						innernaviphp.innerHTML = "Failed fetching page.";
 					}
 				}
-			}
+			};
 		}
 		
     },

@@ -97,7 +97,7 @@ function display_draw($js_onload) {
 							Page: <br> <input type="number" id="id_pageTxt" disabled value='.$page.'>
 							<br> <br>
 							Student ID: <br> <input type="number" id="id_studentIdTxt" disabled value='.$student.'>
-							<br><a id="id_assignStudent">Assign student</a>
+							<br><a id="id_assignStudent" href="'.$CFG->wwwroot.'search.php?booklet_id='.$bid.'&page='.$page.'">Assign student</a>
 							<br> <br>
 							Page Mark: <br> <input type="number" id="id_pageMark" min=0 max=999 value='.$mark.'>
 							<br> <br>

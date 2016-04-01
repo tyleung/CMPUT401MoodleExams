@@ -1,15 +1,19 @@
 var data;
 var aside;
+var booklet_id;
+var page_num;
 /** This variable checks the following fields for the student, thus these are the searchable terms.
 Note: id is the unique key in the DB, thus not included here? or use idnumber? not sure which one to use.*/
 var toCheck = new Array("firstname", "middlename", "alternatename", "lastname", "email", "id", "username");
 	
 /** Sets up the inner <div> and assigns student data array to a variable that will be used by other functions in this file. */
-function init(dat) {
+function init(dat, bid, page) {
 	aside = document.getElementById("aside");
 	//aside.innerHTML = JSON.stringify(data);
 	aside.innerHTML = "No search performed yet.";
 	data = dat;
+	booklet_id = bid;
+	page_num = page;
 }
 
 /** Retrieves the input from the input field and lower cases everything. */
@@ -59,7 +63,7 @@ function buildTables(data) {
 		var first = cleanText(JSON.stringify(data[i][toCheck[0]]));
 		var last = cleanText(JSON.stringify(data[i][toCheck[3]]));
 		var email = cleanText(JSON.stringify(data[i][toCheck[4]]));
-		var btn = "<a href='search_add_to_db.php?sid="+id+"'>Add</a>";
+		var btn = "<a href='search_add_to_db.php?sid="+id+"&booklet_id="+booklet_id+"&page="+page_num+"'>Add</a>";
 		tmp += "<tr><td>"+ id +"</td><td>"+ first +"</td><td>"+ last +"</td><td>"+ email +"</td><td>"+ btn +"</td></tr>";		
 	}	
 	tmp += "</table>";

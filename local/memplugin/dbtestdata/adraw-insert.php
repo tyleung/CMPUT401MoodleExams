@@ -50,6 +50,34 @@
 	echo "e3 id=".$DB->insert_record("mem_pdf_files", $e3, true, false)."<br>";
 	echo "done<br>";
 	
+		$rec = $DB->get_records_sql('SELECT pdf_file_id, page_id, {mem_booklet_data}.booklet_id, page_marks, page_marks_max, {mem_pages}.page_num
+						FROM {mem_booklet_data}, {mem_pages}, {mem_pdf_files} 
+						WHERE {mem_booklet_data}.booklet_id=?
+						AND {mem_pages}.page_num=?
+						AND {mem_pages}.booklet_id={mem_booklet_data}.booklet_id
+						AND {mem_pdf_files}.booklet_id={mem_booklet_data}.booklet_id
+						AND {mem_pdf_files}.page_num={mem_pages}.page_num', array(1, 1));
+						
+	$nfodat = new stdClass();
+	$nfodat->page_id = intval(current($rec)->page_id);
+	$nfodat->booklet_id = intval(current($rec)->booklet_id);
+	$nfodat->page_num = intval(current($rec)->page_num);
+	$nfodat->page_marks = intval(current($rec)->page_marks);
+	$nfodat->page_marks_max = intval(current($rec)->page_marks_max);
+	//$nfodat->id = intval(current($rec)->page_id);
+		
+	var_dump($nfodat);
+	/*
+	$idat = new stdClass();
+	//$idat->pdf_file_id = current($rec)->pdf_file_id;
+	$idat->pdf_file = $imageBlob1;
+	$idat->id = intval(current($rec)->pdf_file_id);
+	*/
+	// DB update function doesnt work. it errors or something!	
+	$DB->update_record('mem_pages', $nfodat);
+	//$DB->update_record('mem_pdf_files', $idat);
+
+	
 	/* TODO: fix error:
 	When using the e2, $walrus image, a 1.68mb png (the other 2 images are less than 1/3 of walrus file!):
 	Error writing to database
