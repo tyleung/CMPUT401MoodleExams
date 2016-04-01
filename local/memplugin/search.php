@@ -60,16 +60,34 @@ $searchable_students = '<script>var data = '.json_encode($datstudents).';
 
 display_search($searchable_students);
 
+$img = $DB->get_record_sql('SELECT pdf_file_id, pdf_file
+							FROM {mem_booklet_data}, {mem_pdf_files} 
+							WHERE {mem_booklet_data}.booklet_id=?
+							AND {mem_pdf_files}.page_num=0
+							AND {mem_pdf_files}.booklet_id={mem_booklet_data}.booklet_id', array($bid));
+
 /**
 Display search method prints everything on screen to actually display everything, and links the Javascript file.
 */
+
+//TODO: page 0 is the one that has the name and id on it.
+// also show a page0 of current booklet reeceived in a <img>
+
 function display_search($js) {
-	global $OUTPUT;
+	global $OUTPUT, $img, $bid;
 	echo $OUTPUT->header();
-	echo '<script src="js/search.js" type="text/javascript"></script>';
-	echo 'Find student: <input id="inputid" name="selectname" onchange="newSearch()"></input>';
-	echo '<button type="button" id="search_btn_id" onclick="newSearch()">Search</button>';
-	echo '<div id="aside"></div>';
+	echo '<link rel="stylesheet" type="text/css" href="css/marking_canvas.css">
+			<script src="js/search.js" type="text/javascript"></script>';
+	echo '<table class="search"><tr><td>
+			<div class="img">
+			<img alt="Page 0 of Booklet ID ='.$bid.'" src="data:image/png;base64,'.base64_encode($img->pdf_file).'"/>
+			</div>
+			</td><td>
+				Find student: <input id="inputid" name="selectname" onchange="newSearch()"></input>
+				<button type="button" id="search_btn_id" onclick="newSearch()">Search</button>
+				<div id="aside"></div>
+			</td></tr></table>';
+
 	echo $js;
 	echo $OUTPUT->footer();
 }

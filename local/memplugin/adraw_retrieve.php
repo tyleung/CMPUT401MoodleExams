@@ -7,7 +7,7 @@ require_once '../../config.php';
 	$page = intval($_POST['page']);
 	$booklet = intval($_POST['booklet']);
 
-	$rec = $DB->get_records_sql('SELECT pdf_file_id, {mem_pdf_files}.booklet_id, {mem_pdf_files}.page_num, 
+	$rec = $DB->get_record_sql('SELECT pdf_file_id, {mem_pdf_files}.booklet_id, {mem_pdf_files}.page_num, 
 							pdf_file, page_marks, page_marks_max, student_id 
 							FROM {mem_booklet_data}, {mem_pages}, {mem_pdf_files} 
 							WHERE {mem_booklet_data}.booklet_id=?
@@ -16,10 +16,10 @@ require_once '../../config.php';
 							AND {mem_pdf_files}.booklet_id={mem_booklet_data}.booklet_id
 							AND {mem_pdf_files}.page_num={mem_pages}.page_num', array($booklet, $page));
 
-	$mark = current($rec)->page_marks;
-	$max_mark = current($rec)->page_marks_max;
-	$student = current($rec)->student_id;
-	$imageBlob = current($rec)->pdf_file;
+	$mark = intval($rec->page_marks);
+	$max_mark = intval($rec->page_marks_max);
+	$student = intval($rec->student_id);
+	$imageBlob = $rec->pdf_file;
 	
 	// Have to disable saving when the img_tmp is empty or size <10px?
 
@@ -43,10 +43,10 @@ require_once '../../config.php';
 			score.setAttribute("value", "'.$mark.'");
 			maxscore.setAttribute("value", "'.$max_mark.'");
 		</script>';
-	//echo '<br><div onload="loadit"> Page loaded.</div><br>';
+
 	//test
-	echo "Booklet:".$booklet." Page:".$page;
-	echo "<br>mark:".$mark." max mark:".$max_mark;
+	//echo "Booklet:".$booklet." Page:".$page;
+	//echo "<br>mark:".$mark." max mark:".$max_mark;
 	//echo '<img src="data:image/png;base64,'.$base64.'"/>';
 		
 ?>

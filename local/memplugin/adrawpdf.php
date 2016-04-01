@@ -82,6 +82,10 @@ function display_draw($js_onload) {
 					</td>
 					<td>
 						<div id="id_controlpage" class="controlpage">
+							<br>
+							<button id="id_btnSav">Save Page</button> <br> 
+							<div id="id_lastSavPDFdiv">No save performed yet.</div>
+							<br>
 							&nbsp;&nbsp;&nbsp;&nbsp;
 							<button id="id_btnUp">^<br>Booklet</button> <br>
 							<button id="id_btnLeft">&lt;<br>Page</button>
@@ -102,10 +106,6 @@ function display_draw($js_onload) {
 							Page Mark: <br> <input type="number" id="id_pageMark" min=0 max=999 value='.$mark.'>
 							<br> <br>
 							Maximum Mark: <br> <input type="number" id="id_pageMaxMark" min=0 max=999 value='.$maxmark.'>
-							
-							<br><br>
-							<button id="id_btnSav">Save Page</button> <br> 
-							<div id="id_lastSavPDFdiv">No save performed yet.</div>
 						</div>
 					</td>
 				</tr>

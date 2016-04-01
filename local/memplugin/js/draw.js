@@ -75,9 +75,9 @@ var draw_class = (function () {
 		var navi = e.target.navi;
 		
 		var book = parseInt(document.getElementById("id_bookIdTxt").value);
-		book = ((book<0) ? 0 : book);
+		book = ((book<1) ? 1 : book);
 		var page = parseInt(document.getElementById("id_pageTxt").value);
-		page = ((page<0) ? 0 : page);
+		page = ((page<1) ? 1 : page);
 		var mark = parseInt(document.getElementById("id_pageMark").value);
 		mark = ((mark<0) ? 0 : mark);
 		mark = ((mark>999) ? 999 : mark);
@@ -107,9 +107,9 @@ var draw_class = (function () {
 		};
 		if(navi) {
 			var newbook = parseInt(document.getElementById("id_bookIdTxt").value) + verDir;
-			newbook = ((newbook<0) ? 0 : newbook);
+			newbook = ((newbook<1) ? 1 : newbook);
 			var newpage = parseInt(document.getElementById("id_pageTxt").value) + horDir;
-			newpage = ((newpage<0) ? 0 : newpage);
+			newpage = ((newpage<1) ? 1 : newpage);
 			
 			var dirdat = "page=" + newpage + "&booklet=" + newbook;
 			

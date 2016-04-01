@@ -6,6 +6,7 @@
 
 	global $PAGE, $CFG, $DB;
 
+	$imageBlob0 = base64_decode($cat);
 	$imageBlob1 = base64_decode($giraffe);
 	$imageBlob2 = base64_decode($walrus);
 	$imageBlob3 = base64_decode($guy);
@@ -28,6 +29,11 @@
 	$DB->delete_records("mem_pdf_files"); 
 	echo "deleting done <br>";
 	
+	$e0 = new stdClass();
+	$e0->booklet_id=1;
+	$e0->pdf_file=$imageBlob0;
+	$e0->page_num=0;
+	
 	$e1 = new stdClass();
 	$e1->booklet_id=1;
 	$e1->pdf_file=$imageBlob1;
@@ -45,8 +51,12 @@
 	$e3->page_num=1;
 	
 	echo "inserting<br>";
+	//echo "e0 id=".$DB->insert_record("mem_pdf_files", $e0, true, false)."<br>";
+	sleep(1);
 	echo "e1 id=".$DB->insert_record("mem_pdf_files", $e1, true, false)."<br>";
+	sleep(1);
 	//echo "e2 id=".$DB->insert_record("mem_pdf_files", $e2, true, false)."<br>";
+	sleep(1);
 	echo "e3 id=".$DB->insert_record("mem_pdf_files", $e3, true, false)."<br>";
 	echo "done<br>";
 	
@@ -67,16 +77,6 @@
 	//$nfodat->id = intval(current($rec)->page_id);
 		
 	var_dump($nfodat);
-	/*
-	$idat = new stdClass();
-	//$idat->pdf_file_id = current($rec)->pdf_file_id;
-	$idat->pdf_file = $imageBlob1;
-	$idat->id = intval(current($rec)->pdf_file_id);
-	*/
-	// DB update function doesnt work. it errors or something!	
-	$DB->update_record('mem_pages', $nfodat);
-	//$DB->update_record('mem_pdf_files', $idat);
-
 	
 	/* TODO: fix error:
 	When using the e2, $walrus image, a 1.68mb png (the other 2 images are less than 1/3 of walrus file!):
