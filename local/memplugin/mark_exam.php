@@ -84,7 +84,7 @@ if($_POST['markbutton']){
 
 	// Do database stuff with exam_submission class.
 	//redirect($CFG->wwwroot.'/local/memplugin/assign_books.php?courses_ids='.$courses);
-	redirect($CFG->wwwroot.'/local/memplugin/grid.php?courses_id='.$selection);
+	redirect($CFG->wwwroot.'/local/memplugin/grid.php?course_id='.$selection);
 
 } elseif($_POST['savebutton']){
 	$data = $form->get_data();
@@ -115,12 +115,3 @@ else {
 
 
 ?>
-
-
-
-
-
-
-
-
-
