@@ -69,8 +69,11 @@ if($_POST['markbutton']){
 
 	
 	$exam_data = $form->get_file_content('userfile');
-	
-	#
+	/*//test
+	print_r("MARK_EXAM.PHP: ".$exam_data."<br>");
+	$imgdat = base64_encode($exam_data);
+	echo '<img src="data:image/png;base64,'.$imgdat.'"/>';
+	*/	
 	
 	$scan = new MME_exam_submission($exam_data);
 	/*for ($i = 0;$i<3;$i++){

@@ -91,21 +91,24 @@ var draw_class = (function () {
 		// taken from http://stackoverflow.com/a/14803292
 		dat = dat.replace(/\+/gi, "%2B");
 		dat = dat + "&page=" + page + "&booklet=" + book + "&mark=" + mark + "&max_mark=" + maxMark;
+		//DISABLE autosave as it can auto save a corrupted/not-properly-loaded image!
+		if(!navi){
+			// taken from http://stackoverflow.com/questions/17391538/plain-javascript-no-jquery-to-load-a-php-file-into-a-div
+			var innersavphp = document.getElementById("id_lastSavPDFdiv");
+			innersavphp.innerHTML = "Saving " + loadgif;
+			if(XMLHttpRequest) var xsav = new XMLHttpRequest();
+			else var xsav = new ActiveXObject("Microsoft.XMLHTTP");
+			xsav.open("POST", "adrawsav.php", true);
+			xsav.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			xsav.send(dat);
+			xsav.onreadystatechange = function(){
+				if(xsav.readyState == 4){
+					if(xsav.status == 200) innersavphp.innerHTML = xsav.responseText;
+					else innersavphp.innerHTML = "Error saving.";
+				}
+			};
+		}
 		
-		// taken from http://stackoverflow.com/questions/17391538/plain-javascript-no-jquery-to-load-a-php-file-into-a-div
-		var innersavphp = document.getElementById("id_lastSavPDFdiv");
-		innersavphp.innerHTML = "Saving " + loadgif;
-		if(XMLHttpRequest) var xsav = new XMLHttpRequest();
-		else var xsav = new ActiveXObject("Microsoft.XMLHTTP");
-		xsav.open("POST", "adrawsav.php", true);
-		xsav.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		xsav.send(dat);
-		xsav.onreadystatechange = function(){
-			if(xsav.readyState == 4){
-				if(xsav.status == 200) innersavphp.innerHTML = xsav.responseText;
-				else innersavphp.innerHTML = "Error saving.";
-			}
-		};
 		if(navi) {
 			var newbook = parseInt(document.getElementById("id_bookIdTxt").value) + verDir;
 			newbook = ((newbook<1) ? 1 : newbook);

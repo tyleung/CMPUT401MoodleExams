@@ -40,20 +40,29 @@ $PAGE->set_url($CFG->wwwroot.'/local/memplugin/adrawpdftest.php');
 $bid = intval($_GET['booklet_id']);
 $page = intval($_GET['page']);
 
-$rec = $DB->get_records_sql('SELECT pdf_file_id, {mem_pdf_files}.booklet_id, {mem_pdf_files}.page_num, 
-							pdf_file, page_marks, page_marks_max, student_id 
-							FROM {mem_booklet_data}, {mem_pages}, {mem_pdf_files} 
+$recPDF = $DB->get_records_sql('SELECT pdf_file_id, {mem_pdf_files}.booklet_id, {mem_pdf_files}.page_num, 
+							pdf_file, student_id 
+							FROM {mem_booklet_data}, {mem_pdf_files} 
+							WHERE {mem_booklet_data}.booklet_id=?
+							AND {mem_pdf_files}.page_num=?
+							AND {mem_pdf_files}.booklet_id={mem_booklet_data}.booklet_id', array($bid, $page));
+
+$recPages = $DB->get_records_sql('SELECT page_id, {mem_booklet_data}.booklet_id, page_marks, page_marks_max
+							FROM {mem_booklet_data}, {mem_pages}
 							WHERE {mem_booklet_data}.booklet_id=?
 							AND {mem_pages}.page_num=?
-							AND {mem_pages}.booklet_id={mem_booklet_data}.booklet_id
-							AND {mem_pdf_files}.booklet_id={mem_booklet_data}.booklet_id
-							AND {mem_pdf_files}.page_num={mem_pages}.page_num', array($bid, $page));
+							AND {mem_pages}.booklet_id={mem_booklet_data}.booklet_id', array($bid, $page));
 
 // get following from the query using above!
-$student = current($rec)->student_id;
-$mark = current($rec)->page_marks;
-$maxmark = current($rec)->page_marks_max;
-$imgdat = base64_encode(current($rec)->pdf_file);
+$student = current($recPDF)->student_id;
+$mark = current($recPages)->page_marks;
+$maxmark = current($recPages)->page_marks_max;
+$imgdat = base64_encode(current($recPDF)->pdf_file);
+/*
+print_r("book".$bid."pg".$page);
+var_dump(current($rec));
+var_dump(current($rec)->pdf_file);
+*/
 $img_tmp = '<img id="id_img_tmp" class="img_tmp" src="data:image/png;base64,'.$imgdat.'"/>';
 
 //NOW get the blob and import it into canvas!
