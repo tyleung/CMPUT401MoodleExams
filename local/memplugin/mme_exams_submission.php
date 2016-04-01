@@ -1,7 +1,6 @@
 <?php
 	require_once "php-qrcode-detector-decoder/QrReader.php";
 
-
 	/**
 	 * Class for handling scanned submission for MME exams.	
  	 * @author Jaeyoon Kim
@@ -28,7 +27,7 @@
 			$this->img->readImageBlob($this->data);
 			$this->crop_image();
 			$this->read_QRcode();
-			$this->parameters = $this->get_deserialized_data();
+			$this->insert_image_to_database();
 		}
 
 		/**
@@ -99,8 +98,22 @@
 		 * @return void
 		 */
 		//upload parameters (exam#,page#) to a table that has the image_id(?) as the key.
-		private function do_database_thing(){
-			return;
+		private function insert_image_to_database(){
+			global $DB;
+
+			$qrdata = $this->get_deserialized_data();
+
+			$book_param = new stdClass();
+			$book_param->year_semester_origin = "2016 SUMMER"; // replace with form data later.
+			$book_param->max_pages = $qrdata[3];
+			$booklet_id = $DB->insert_record("mem_booklet_data", $book_param, true, false);
+
+			$img_param = new stdClass();
+			$img_param->booklet_id = $booklet_id;
+			$img_param->pdf_file = $this->data;
+			$img_param->page_num = $qrdata[2];
+			$img_param->booklet_num = $qrdata[1];
+			return $DB->insert_record("mem_pdf_files", $img_param, true, false);
 		}
 
 	}
