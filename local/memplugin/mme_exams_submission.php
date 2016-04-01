@@ -10,12 +10,9 @@
 	 */ 
 	class MME_exam_submission {
 	
-
-		private $pdf = NULL; /**< .pdf file object*/
-		private $img = NULL; /**< image file object converted from $pdf*/
-		private $data = NULL;
+		private $img = NULL; /**< processed image file object*/
+		private $data = NULL;/**< original image data*/
 		private $qrtext =""; /**< The string contained within the QRcode*/
-		private $parameters = NULL;
 
 		/**
 		 * The constuctor.
@@ -82,14 +79,15 @@
 		/**
 		 * Private method.
 		 * Returns the data parameters used to generate the QRcode as an array.
-		 * @return array Array containing the 3 matches from the QRcode string.
+		 * @return array Array containing the 4 matches from the QRcode string.
+		 * Exam name, Booklet num, page num, max pages
 		 */
 		// Deserialize data after reading QR.
 		public function get_deserialized_data(){
 			$result = array();
-			$regex = preg_match("~(.*):#(\d*) pg:(\d*)~",$this->qrtext,$result);
+			$regex = preg_match("~(.*):#(\d*) pg:(\d*)\/(\d*)~",$this->qrtext,$result);
 			if ($regex === 1){
-				return array($result[1],$result[2],$result[3]);
+				return array($result[1],$result[2],$result[3],$result[4]);
 			} else { // returns 0 if nothing found, false on error.
 				return NULL;
 			}
