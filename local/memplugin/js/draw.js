@@ -49,9 +49,10 @@ var draw_class = (function () {
 		var savbtn = document.getElementById("id_btnSav");
 		savbtn.addEventListener("mousedown", naviPdf);
 		savbtn.navi = false;
-		
-		setCanvasToImageDimensions();
-		redraw();
+		setTimeout(function() {
+			setCanvasToImageDimensions();
+			redraw();
+		}, 300);
 	},
 	loadImgToCanvas = function() {
     	var img=document.getElementById("id_img_tmp");
@@ -130,9 +131,11 @@ var draw_class = (function () {
 						var innerjs = document.getElementById("id_retrieve_scr");
 						// innerHTML doesn't run script, use JS' eval function.
 						eval(innerjs.innerHTML);
-						resetCanvasDrawings();
-						setCanvasToImageDimensions();
-						redraw();
+						setTimeout(function() {
+							resetCanvasDrawings();
+							setCanvasToImageDimensions();
+							redraw();
+						}, 300);
 						
 					} else {
 						innernaviphp.innerHTML = "Failed fetching page.";

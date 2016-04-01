@@ -32,6 +32,7 @@
 	$e0 = new stdClass();
 	$e0->booklet_id=1;
 	$e0->pdf_file=$imageBlob0;
+	//$e0->pdf_file=$imageBlob1;
 	$e0->page_num=0;
 	
 	$e1 = new stdClass();
