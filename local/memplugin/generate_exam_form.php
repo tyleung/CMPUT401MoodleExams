@@ -50,6 +50,7 @@ class create_generate_exam_instance extends moodleform{
 		//$mform->addElement('html', '<div id="emergencypgs"><b>'.get_string('emergencypgs', 'local_memplugin').'</b> <br> <input type="number" value="0" min="0"</input> <br></div>');
 		$howtogenerate = get_string('howtogenerate', 'local_memplugin');
 
+
 		//Generate Options: One large file or many small files
 		$downarray   =  array();
 		//$downarray[] =& $mform->createElement('radio','yesno', '', get_string('multicopy', 'local_memplugin'), 'false');
