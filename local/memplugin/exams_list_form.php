@@ -53,41 +53,30 @@ function display_exams_list(){
 	$tableName = 'Exams';
 	$user_table = 'user';
 	$table = new html_table();
-	$table->head = array('   Course    ', '    Date    ', '   Navigation     ');
+	$table->head = array('Course', 'Date', 'Navigation');
 	$table->tablealign = 'center';
 	$table->width = '100%';
 	$user_courses = enrol_get_users_courses($USER->id, true, '*', 'visible DESC,sortorder ASC');
 	
 
+	/**
+     *	Checks the teachers courses with available tests and if exists add to the main page. 
+     */
 	foreach ($user_courses as $uc){
-		//if there's actually a booklet
 		$rec = $DB->get_records_sql('SELECT booklet_id, year_semester_origin 
 							FROM {mem_booklet_data}
 							WHERE course_id=?', array(intval($uc->id)));
 		$row_info = array();
-		//need to pass exam to link but it's fine for now
-		$row = new html_table_row(array($uc->fullname, current($rec)->year_semester_origin,'<div style="text-align: center"><a href='.$CFG->wwwroot.'/local/memplugin/grid.php?course_id='.intval($uc->id).'>'.get_string('startmarking', 'local_memplugin').'</a></div>'));
-		$table->data[] = $row;
-
+		if(count($rec) > 0){
+			$row = new html_table_row(array($uc->fullname, current($rec)->year_semester_origin,'<div style="text-align: center"><a href='.$CFG->wwwroot.'/local/memplugin/grid.php?course_id='.intval($uc->id).'>'.get_string('startmarking', 'local_memplugin').'</a></div>'));
+			$table->data[] = $row;
+		} 
 	}
 	
 	echo html_writer::table($table);
-//	redirect($CFG->wwwroot.'/local/memplugin/assign_books.php?courses_ids='.$courses);
     
 }
 
-/*
-$row = new html_table_row(array('Item #1', 'Example')); 
-$row->attributes['data-id'] = '1'; 
-$table->data[] = $row; 
-
-$row = new html_table_row(array('Item #2', 'Example')); 
-$row->attributes['data-id'] = '2'; 
-$row->attributes['data-parentid'] = '1'; 
-$table->data[] = $row; 
-
-echo html_writer::table($table); 
-*/
 
 
 ?>

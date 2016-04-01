@@ -48,18 +48,25 @@ $form = new create_mark_exam_instance();
 //append to redirect name with question mark 
 //http://stackoverflow.com/questions/5479940/handling-a-dynamic-amount-of-checkboxes-with-php
 
+//TODO Validation
+
 if($_POST['markbutton']){
 	$data = $form->get_data();
-	$selections = $data->courseboxes;
+	//$boxes = $data->courseboxes;
+	$selection = $data->coursechoices;
 	$choices = array();
 
-	foreach($selections as $key => $value){
+	//TODO uncomment following for serializing checkboxes. Refer to Mark_exam_form 
+	//for additional commented code.
+	/*
+	foreach($boxes as $key => $value){
 		if(strcasecmp($value, '1')==0){
 			$choices[$key] = $value;
 		}
 	}
 	$courses = serialize($choices);
 	var_dump($choices);
+	*/
 	
 	$exam_data = $form->get_file_content('userfile');
 	$scan = new MME_exam_submission($exam_data);
@@ -72,8 +79,8 @@ if($_POST['markbutton']){
 	*/
 
 	// Do database stuff with exam_submission class.
-
-	redirect($CFG->wwwroot.'/local/memplugin/assign_books.php?courses_ids='.$courses);
+	//redirect($CFG->wwwroot.'/local/memplugin/assign_books.php?courses_ids='.$courses);
+	redirect($CFG->wwwroot.'/local/memplugin/grid.php?courses_id='.$selection);
 
 } else { 
 	if($form->is_cancelled()) {
