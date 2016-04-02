@@ -84,6 +84,17 @@ function display_draw($js_onload) {
 			<table  border="1" class="marking_table">
 				<tr>
 					<td>
+						<div>
+							<ul class="toolbar">
+								<li class="toolbaritem" id="tool_draw"><a><img src="pix/freehandicon.png" width = "30" height="30"></a></li>
+								<li class="toolbaritem" id="tool_check"><a><img src="pix/stamps/tick.png" width = "30" height="30"></a></li>
+								<li class="toolbaritem" id="tool_cross"><a><img src="pix/stamps/cross.png" width = "30" height="30"></a></li>
+								<li class="toolbaritem" id="tool_erase"><a><img src="pix/eraseicon.png" width = "30" height="30"></a></li>
+								<li class="toolbaritem" id="tool_comment"><a><img src="pix/commenticon.png" width = "30" height="30"></a></li>
+							</ul>
+						</div>
+					</td>
+					<td>
 						<div id="id_canvas_container" class="canvas_container">
 							<canvas id="id_canvas" width="400" height="300">
 							Your browser does not support the HTML5 canvas tag.</canvas>
