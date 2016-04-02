@@ -80,6 +80,7 @@ function display_draw($js_onload) {
 	echo 'Marking<br>';
 	//Perhaps a zoom out/in function? dunno how to do that without distorting canvas&mousexy events.
     echo '<link rel="stylesheet" type="text/css" href="css/marking_canvas.css">
+		  <link rel="stylesheet" type="text/css" href="css/marking_tools.css">
 			<script type="text/javascript" src="js/draw.js"></script>
 			<table  border="1" class="marking_table">
 				<tr>
