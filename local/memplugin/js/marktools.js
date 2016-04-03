@@ -2,15 +2,14 @@
  * Created by symmetricalspoon on 3/27/16.
  */
 
-var mark_tools = (function () {
 
-    module.exports = function(api){
-        api.add{
-            "ul"
-            {
-                list - style - type: none;
-                margin: 0;
-                color:yellow;
+var init = function () {
+    canvas = document.getElementById("canvasInAPerfectWorld");
+    ctx = canvas.getContext("2d");
 
-            }
-    }
+    // add event listeners
+    canvas.addEventListener("mousedown", mDown);
+    canvas.addEventListener("mouseup", mUp);
+    canvas.addEventListener("mousemove", mMove);
+    canvas.addEventListener("mouseleave", mUp);
+}
