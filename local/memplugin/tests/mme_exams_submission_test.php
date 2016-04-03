@@ -8,7 +8,7 @@ class local_memplugin_mme_exams_submission_testcase extends basic_testcase {
     	global $CFG;
         $data = file_get_contents($CFG->dirroot.'/local/memplugin/fnl2012qr.png');
         $scan = new MME_exam_submission($data);
-        $this->assertEquals($scan->get_data(),"test:#1 pg:1/6");
+        $this->assertEquals($scan->get_data(),"TEST:#1 pg:0/5");
     }
 
     public function test_get_data_NOQR() {
