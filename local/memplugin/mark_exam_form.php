@@ -54,7 +54,7 @@ class create_mark_exam_instance extends moodleform{
 
 		//Switch to a filepicker for now until we figure out how it works.
 		//$mform->addElement('filemanager', 'files', get_string('exambatch', 'local_memplugin'), null, array('accepted_types' => 'image/png'));
-		$mform->addElement('filepicker', 'userfile', get_string('exambatch','local_memplugin'), null, array('accepted_types' => 'image/png'));
+		$mform->addElement('filepicker', 'userfile', get_string('exambatch','local_memplugin'), null, array('accepted_types' => 'application/zip'));
 
 		//$form_search_array[] = $mform->createElement('html', '<div style="text-align:right;"> <a href ="http://199.116.235.182/dev/ec10/feedback-plugin/local/feedback_ec10/creation.php" target="_parent"> Create New Rubric </a></div>');
 

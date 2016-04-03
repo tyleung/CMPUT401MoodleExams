@@ -69,7 +69,22 @@ if($_POST['markbutton']){
 	}
 	*/
 
-	redirect($CFG->wwwroot.'/local/memplugin/assign_books.php?courses_ids='.$courses);
+
+	file_put_contents(sys_get_temp_dir()."/temp.zip",$exam_data);
+	
+	$zipfile = new ZipArchive();
+
+	$zipfile->open(sys_get_temp_dir()."/temp.zip");
+
+	for($i = 0; $i < $zipfile->numFiles;$i++){
+		$stat = $zipfile->statIndex($i);
+		$img = $zipfile->getFromName($stat['name']);
+		$scan = new MME_exam_submission($img);
+		echo $scan->get_deserialized_data()[$i].'</br>';
+	}
+
+
+	//redirect($CFG->wwwroot.'/local/memplugin/assign_books.php?courses_ids='.$courses);
 
 } elseif($_POST['savebutton']){
 	$data = $form->get_data();
