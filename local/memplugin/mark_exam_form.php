@@ -77,7 +77,6 @@ class create_mark_exam_instance extends moodleform{
 		$buttonarray[] =& $mform->createElement('submit','markbutton', get_string('markbutton', 'local_memplugin'));
 		$buttonarray[] =& $mform->createElement('cancel');
 		$mform->addGroup($buttonarray, 'buttonar', '', array(' '), false);
-
 	}
 }
 ?>
