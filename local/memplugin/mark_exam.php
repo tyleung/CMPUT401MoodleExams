@@ -80,7 +80,10 @@ if($_POST['markbutton']){
 		$stat = $zipfile->statIndex($i);
 		$img = $zipfile->getFromName($stat['name']);
 		$scan = new MME_exam_submission($img);
-		echo $scan->get_deserialized_data()[$i].'</br>';
+		echo $scan->get_deserialized_data()[0].'</br>';
+		echo $scan->get_deserialized_data()[1].'</br>';
+		echo $scan->get_deserialized_data()[2].'</br>';
+		echo $scan->get_deserialized_data()[3].'</br>';
 	}
 
 
