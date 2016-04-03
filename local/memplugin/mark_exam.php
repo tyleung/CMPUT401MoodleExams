@@ -39,8 +39,6 @@ $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('pluginname', 'local_memplugin'));
 $PAGE->set_heading(get_string('markheader', 'local_memplugin'));
 $PAGE->set_url($CFG->wwwroot.'/local/memplugin/mark_exam.php');
-$node = $PAGE->navigation->add(get_string('markheader', 'local_memplugin'), new moodle_url('mark_exam.php'));
-$node->make_active();
 
 $form = new create_mark_exam_instance();
 
@@ -48,8 +46,49 @@ $form = new create_mark_exam_instance();
 //append to redirect name with question mark 
 //http://stackoverflow.com/questions/5479940/handling-a-dynamic-amount-of-checkboxes-with-php
 
+//TODO Validation
+
 if($_POST['markbutton']){
 	$data = $form->get_data();
+	//$boxes = $data->courseboxes;
+	$selection = $data->coursechoices;
+	$choices = array();
+
+	//TODO uncomment following for serializing checkboxes. Refer to Mark_exam_form 
+	//for additional commented code.
+	/*
+	foreach($boxes as $key => $value){
+		if(strcasecmp($value, '1')==0){
+			$choices[$key] = $value;
+		}
+	}
+	$courses = serialize($choices);
+
+	var_dump($choices);
+	*/
+
+	
+	$exam_data = $form->get_file_content('userfile');
+	/*//test
+	print_r("MARK_EXAM.PHP: ".$exam_data."<br>");
+	$imgdat = base64_encode($exam_data);
+	echo '<img src="data:image/png;base64,'.$imgdat.'"/>';
+	*/	
+	
+	$scan = new MME_exam_submission($exam_data);
+	/*for ($i = 0;$i<3;$i++){
+		echo $scan->get_deserialized_data()[$i].'</br>'; 
+	}
+	*/
+
+
+	// Do database stuff with exam_submission class.
+	//redirect($CFG->wwwroot.'/local/memplugin/assign_books.php?courses_ids='.$courses);
+	redirect($CFG->wwwroot.'/local/memplugin/grid.php?course_id='.$selection);
+
+} elseif($_POST['savebutton']){
+	$data = $form->get_data();
+
 	$selections = $data->courseboxes;
 	$choices = array();
 
@@ -59,23 +98,9 @@ if($_POST['markbutton']){
 		}
 	}
 	$courses = serialize($choices);
-	var_dump($choices);
-	
-	$exam_data = $form->get_file_content('userfile');
-	$scan = new MME_exam_submission($exam_data);
-
-	//output test
-	/*
-	for ($i = 0;$i<3;$i++){
-		echo $scan->get_deserialized_data()[$i]; 
-	}
-	*/
-
-	// Do database stuff with exam_submission class.
-
-	redirect($CFG->wwwroot.'/local/memplugin/assign_books.php?courses_ids='.$courses);
-
-} else { 
+	redirect($CFG->wwwroot.'/local/memplugin/memhome.php?courses_ids='.$courses);
+}
+else { 
 	if($form->is_cancelled()) {
 		redirect($CFG->wwwroot.'/local/memplugin/memhome.php');
 	} elseif ($data = $form->get_data()) {
@@ -90,12 +115,3 @@ if($_POST['markbutton']){
 
 
 ?>
-
-
-
-
-
-
-
-
-

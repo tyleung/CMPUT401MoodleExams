@@ -44,6 +44,7 @@ class create_memhome_instance extends moodleform{
 		$buttonarray   =  array();
 		$buttonarray[] =& $mform->createElement('submit','create', get_string('createbutton', 'local_memplugin'));
 		$buttonarray[] =& $mform->createElement('submit','mark', get_string('markbuttonhome', 'local_memplugin'));
+		$buttonarray[] =& $mform->createElement('submit','stats', get_string('checkstats', 'local_memplugin'));
 		$mform->addGroup($buttonarray, 'buttonar', 'whattodo', array(' '), false);
 
 

@@ -1,7 +1,6 @@
 <?php
 	require_once "php-qrcode-detector-decoder/QrReader.php";
 
-
 	/**
 	 * Class for handling scanned submission for MME exams.	
  	 * @author Jaeyoon Kim
@@ -10,12 +9,9 @@
 	 */ 
 	class MME_exam_submission {
 	
-
-		private $pdf = NULL; /**< .pdf file object*/
-		private $img = NULL; /**< image file object converted from $pdf*/
-		private $data = NULL;
+		private $img = NULL; /**< processed image file object*/
+		private $data = NULL;/**< original image data*/
 		private $qrtext =""; /**< The string contained within the QRcode*/
-		private $parameters = NULL;
 
 		/**
 		 * The constuctor.
@@ -31,7 +27,7 @@
 			$this->img->readImageBlob($this->data);
 			$this->crop_image();
 			$this->read_QRcode();
-			$this->parameters = $this->get_deserialized_data();
+			$this->insert_image_to_database();
 		}
 
 		/**
@@ -82,14 +78,15 @@
 		/**
 		 * Private method.
 		 * Returns the data parameters used to generate the QRcode as an array.
-		 * @return array Array containing the 3 matches from the QRcode string.
+		 * @return array Array containing the 4 matches from the QRcode string.
+		 * Exam name, Booklet num, page num, max pages
 		 */
 		// Deserialize data after reading QR.
 		public function get_deserialized_data(){
 			$result = array();
-			$regex = preg_match("~(.*):#(\d*) pg:(\d*)~",$this->qrtext,$result);
+			$regex = preg_match("~(.*):#(\d*) pg:(\d*)\/(\d*)~",$this->qrtext,$result);
 			if ($regex === 1){
-				return array($result[1],$result[2],$result[3]);
+				return array($result[1],$result[2],$result[3],$result[4]);
 			} else { // returns 0 if nothing found, false on error.
 				return NULL;
 			}
@@ -101,8 +98,27 @@
 		 * @return void
 		 */
 		//upload parameters (exam#,page#) to a table that has the image_id(?) as the key.
-		private function do_database_thing(){
-			return;
+		private function insert_image_to_database(){
+			global $DB;
+
+			$qrdata = $this->get_deserialized_data();
+
+			$book_param = new stdClass();
+			$book_param->year_semester_origin = "2016 SUMMER"; // replace with form data later.
+			$book_param->max_pages = $qrdata[3];
+			$booklet_id = $DB->insert_record("mem_booklet_data", $book_param, true, false);
+
+			$img_param = new stdClass();
+			$img_param->booklet_id = $booklet_id;
+
+			//print_r("QAAAAAAAAAAAAAAAaa".$this->data."<br>");
+			//$imgdat = base64_encode($this->data);
+			//print_r('works?<img src="data:image/png;base64,'.$imgdat.'"/>');
+	
+			$img_param->pdf_file = $this->data;
+			$img_param->page_num = $qrdata[2];
+			$img_param->booklet_num = $qrdata[1];
+			return $DB->insert_record("mem_pdf_files", $img_param, true, false);
 		}
 
 	}

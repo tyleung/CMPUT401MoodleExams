@@ -260,6 +260,20 @@ function xmldb_local_memplugin_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2016032805, 'local', 'memplugin');
     }
 
+	if ($oldversion < 2016040105) {
+
+        // Define field booklet_num to be added to mem_pdf_files.
+        $table = new xmldb_table('mem_pdf_files');
+        $field = new xmldb_field('booklet_num', XMLDB_TYPE_INTEGER, '6', null, XMLDB_NOTNULL, null, '0', 'pdf_comments');
+
+        // Conditionally launch add field booklet_num.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Memplugin savepoint reached.
+        upgrade_plugin_savepoint(true, 2016040105, 'local', 'memplugin');
+    }
 
  	return true;   
 }    
