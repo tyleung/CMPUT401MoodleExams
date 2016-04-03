@@ -92,7 +92,7 @@
 			for($i = 1;$i<=$exam_count;$i++){
 				
 				//Generate exam pages
-				for($curpage = 1; $curpage <= $this->size; $curpage++){
+				for($curpage = 0; $curpage < $this->size; $curpage++){
 					$tplIdx = $this->pdf->importPage($curpage,'/MediaBox');
 					$this->pdf->AddPage();
 					$this->pdf->useTemplate($tplIdx, 0, 0, 0, 0, true); 

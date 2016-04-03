@@ -14,6 +14,8 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+//
+// Images of this toolbar are cited from https://moodle.org/plugins/assignment_uploadpdf
 
 /**
  * This page is for the partial search of students, who you then can assign a booklet-id.
@@ -80,9 +82,23 @@ function display_draw($js_onload) {
 	echo 'Marking<br>';
 	//Perhaps a zoom out/in function? dunno how to do that without distorting canvas&mousexy events.
     echo '<link rel="stylesheet" type="text/css" href="css/marking_canvas.css">
+		  <link rel="stylesheet" type="text/css" href="css/marking_tools.css">
 			<script type="text/javascript" src="js/draw.js"></script>
+			<script type="text/javascript" src="js/marktools.js"></script>
 			<table  border="1" class="marking_table">
 				<tr>
+					<td>
+						<div>
+							<ul class="toolbar">
+								<li class="toolbaritem" id="tool_draw"><a onclick="javascript: test()"><img src="pix/freehandicon.png" width = "30" height="30"></a></li>
+								<li class="toolbaritem"><a class="tool_choose_color" onclick="javascript: choose_color()"><img src="pix/lineblack.gif" width = "30" height="30"></a></li>
+								<li class="toolbaritem" id="tool_check"><a onclick="javascript: drawCheck()"><img src="pix/stamps/tick.png" width = "30" height="30"></a></li>
+								<li class="toolbaritem" id="tool_cross"><a><img src="pix/stamps/cross.png" width = "30" height="30"></a></li>
+								<li class="toolbaritem" id="tool_erase"><a><img src="pix/eraseicon.png" width = "30" height="30"></a></li>
+								<li class="toolbaritem" id="tool_comment"><a><img src="pix/commenticon.png" width = "30" height="30"></a></li>
+							</ul>
+						</div>
+					</td>
 					<td>
 						<div id="id_canvas_container" class="canvas_container">
 							<canvas id="id_canvas" width="400" height="300">
