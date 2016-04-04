@@ -91,12 +91,13 @@ function display_draw($js_onload) {
 						<div>
 							<ul class="toolbar">
 
-								<li class="toolbaritem" id="tool_draw"><a onclick="javascript: test()"><img src="pix/freehandicon.png" width = "30" height="30"></a></li>
-								<li class="toolbaritem" id="tool_check"><a onclick="javascript: drawCheck()"><img src="pix/stamps/tick.png" width = "30" height="30"></a></li>
+								<li class="toolbaritem" id="tool_draw"><a><img src="pix/freehandicon.png" width = "30" height="30"></a></li>
+								<li class="toolbaritem" id="tool_check"><a><img src="pix/stamps/tick.png" width = "30" height="30"></a></li>
 								<li class="toolbaritem" id="tool_cross"><a><img src="pix/stamps/cross.png" width = "30" height="30"></a></li>
 								<li class="toolbaritem" id="tool_erase"><a><img src="pix/eraseicon.png" width = "30" height="30"></a></li>
 								<li class="toolbaritem" id="tool_comment"><a><img src="pix/commenticon.png" width = "30" height="30"></a></li>
 							</ul>
+							<img id="checkmarkimg" src="pix/stamps/tick.png" width = "30" height="30">
 						</div>
 					</td>
 					<td>

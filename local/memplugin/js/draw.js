@@ -27,25 +27,33 @@ var draw_class = (function () {
 		canvas.addEventListener("mousedown", mDown);
 		canvas.addEventListener("mouseup", mUp);
 		canvas.addEventListener("mousemove", mMove);
-		canvas.addEventListener("mouseleave", mUp);		
-		
+		canvas.addEventListener("mouseleave", mUp);
+
+		// Marktools
+		var drawbtn = document.getElementById("tool_draw");
+		// drawbtn.addEventListener("mousedown", drawing);
+
+		var checkbtn = document.getElementById("tool_check");
+		checkbtn.addEventListener("mousedown", checkTool);
+
+
 		// Page control event listeners
 		var upbtn = document.getElementById("id_btnUp");
 		upbtn.addEventListener("mousedown", naviPdf);
 		upbtn.hdir = 0; upbtn.vdir = -1; upbtn.navi = true;
-		
+
 		var downbtn = document.getElementById("id_btnDown");
 		downbtn.addEventListener("mousedown", naviPdf);
 		downbtn.hdir = 0; downbtn.vdir = 1; downbtn.navi = true;
-		
+
 		var leftbtn = document.getElementById("id_btnLeft");
 		leftbtn.addEventListener("mousedown", naviPdf);
 		leftbtn.hdir = -1; leftbtn.vdir = 0; leftbtn.navi = true;
-		
+
 		var rightbtn = document.getElementById("id_btnRight");
 		rightbtn.addEventListener("mousedown", naviPdf);
 		rightbtn.hdir = 1; rightbtn.vdir = 0; rightbtn.navi = true;
-		
+
 		var savbtn = document.getElementById("id_btnSav");
 		savbtn.addEventListener("mousedown", naviPdf);
 		savbtn.navi = false;
@@ -148,6 +156,18 @@ var draw_class = (function () {
 		}
 		
     },
+
+	checkTool = function (event){
+		var rect = canvas.getBoundingClientRect();
+		var x = event.clientX-rect.left;
+		var y = event.clientY-rect.top;
+		addClick(x,y);
+
+		var check_img = document.getElementById("checkmarkimg");
+		ctx.drawImage(check_img, 90, 130, 50, 60, 10, 10, 50, 60);
+
+	},
+
     mDown = function(event) {
 	    var rect = canvas.getBoundingClientRect();
     	var x = event.clientX-rect.left;
@@ -180,8 +200,8 @@ var draw_class = (function () {
 	  ctx.strokeStyle = "#df4b26";
 	  ctx.lineJoin = "round";
 	  ctx.lineWidth = 5;
-			
-	  for(var i=0; i < clickX.length; i++) {		
+
+	  for(var i=0; i < clickX.length; i++) {
 		ctx.beginPath();
 		if(clickDrag[i] && i){
 		  ctx.moveTo(clickX[i-1], clickY[i-1]);
@@ -196,4 +216,8 @@ var draw_class = (function () {
     
 	return {init: init};
 }());
+
+function test2(){
+	alert();
+}
 
