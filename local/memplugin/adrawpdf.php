@@ -90,8 +90,8 @@ function display_draw($js_onload) {
 					<td>
 						<div>
 							<ul class="toolbar">
+
 								<li class="toolbaritem" id="tool_draw"><a onclick="javascript: test()"><img src="pix/freehandicon.png" width = "30" height="30"></a></li>
-								<li class="toolbaritem"><a class="tool_choose_color" onclick="javascript: choose_color()"><img src="pix/lineblack.gif" width = "30" height="30"></a></li>
 								<li class="toolbaritem" id="tool_check"><a onclick="javascript: drawCheck()"><img src="pix/stamps/tick.png" width = "30" height="30"></a></li>
 								<li class="toolbaritem" id="tool_cross"><a><img src="pix/stamps/cross.png" width = "30" height="30"></a></li>
 								<li class="toolbaritem" id="tool_erase"><a><img src="pix/eraseicon.png" width = "30" height="30"></a></li>
