@@ -84,13 +84,15 @@ function display_draw($js_onload) {
     echo '<link rel="stylesheet" type="text/css" href="css/marking_canvas.css">
 		  <link rel="stylesheet" type="text/css" href="css/marking_tools.css">
 			<script type="text/javascript" src="js/draw.js"></script>
+			<script type="text/javascript" src="js/marktools.js"></script>
+			<table  border="1" class="marking_table">
 			<table  border="1" class="marking_table">
 				<tr>
 					<td>
 						<div>
 							<ul class="toolbar">
-								<li class="toolbaritem" id="tool_draw"><a><img src="pix/freehandicon.png" width = "30" height="30"></a></li>
-								<li class="toolbaritem" id="tool_check"><a><img src="pix/stamps/tick.png" width = "30" height="30"></a></li>
+								<li class="toolbaritem" id="tool_draw"><a onclick="test()"><img src="pix/freehandicon.png" width = "30" height="30"></a></li>
+								<li class="toolbaritem" id="tool_check"><a onclick="markcheck()"><img src="pix/stamps/tick.png" width = "30" height="30"></a></li>
 								<li class="toolbaritem" id="tool_cross"><a><img src="pix/stamps/cross.png" width = "30" height="30"></a></li>
 								<li class="toolbaritem" id="tool_erase"><a><img src="pix/eraseicon.png" width = "30" height="30"></a></li>
 								<li class="toolbaritem" id="tool_comment"><a><img src="pix/commenticon.png" width = "30" height="30"></a></li>
