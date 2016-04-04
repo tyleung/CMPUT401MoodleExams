@@ -69,7 +69,8 @@ var draw_class = (function () {
 		savbtn.navi = false;
 		setTimeout(function() {
 			setCanvasToImageDimensions();
-			redraw();
+			loadImgToCanvas();
+			// redraw();
 		}, 300);
 	},
 	loadImgToCanvas = function() {
@@ -155,7 +156,8 @@ var draw_class = (function () {
 						setTimeout(function() {
 							resetCanvasDrawings();
 							setCanvasToImageDimensions();
-							redraw();
+							loadImgToCanvas();
+							//redraw();
 						}, 300);
 						
 					} else {
@@ -213,8 +215,8 @@ var draw_class = (function () {
     	var x = event.clientX-rect.left;
     	var y = event.clientY-rect.top;
         paint = true;
-		addClick(x, y);
 		if (draw_tool_activate == true){
+			addClick(x, y);
 			redraw();
 		}
 		if (check_tool_activate == true){
@@ -239,8 +241,8 @@ var draw_class = (function () {
 			var rect = canvas.getBoundingClientRect();
 			var x = event.clientX-rect.left;
 			var y = event.clientY-rect.top;
-			addClick(x, y, true);
 			if (draw_tool_activate == true){
+				addClick(x, y, true);
 				redraw();
 			}
 			if (erase_tool_activate == true){
@@ -287,15 +289,15 @@ var draw_class = (function () {
 		}
 	},
 	typecomment = function(x,y){
-		var comment_text = prompt("Please Comment Here", "");
+		var comment_text = prompt("Please Comment Here", " ");
 
 		ctx.font="18px Georgia";
 		ctx.fillText(comment_text,x,y);
 	},
 
 	redraw = function(){
-	  ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // Clears the canvas
-	  loadImgToCanvas();
+	  //ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // Clears the canvas
+	  //loadImgToCanvas();
 	  ctx.strokeStyle = "#df4b26";
 	  ctx.lineJoin = "round";
 	  ctx.lineWidth = 5;
