@@ -1,4 +1,4 @@
-div.canvas_container {
+div.img {
 	/* NOTE: resize not supported in IE and edge! */
 	resize: both;
 	background-color: #F5F5F5;
@@ -10,23 +10,7 @@ div.canvas_container {
 	height:80vh;
 }
 
-div.controlpage {
-	background-color: #C9C9F0;
-	padding: 5px;
-	overflow: auto;
-	min-height:200px;
-	min-width:150px;
-}
-
-img.img_tmp {
-	display: none;
-}
-
-canvas {
-	border: 1px solid black;
-}
-
-table.marking_table {
+table.search {
 	overflow:auto;
 	border: 1px solid gray;
     border-collapse: collapse;

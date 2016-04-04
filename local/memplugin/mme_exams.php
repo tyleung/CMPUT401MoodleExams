@@ -64,20 +64,7 @@
 		 * @return str String that will be displayed under the QRcode.
 		 */
 		public function get_QRcode_string($page_number,$exam_number){
-			return $this->name.":#".$exam_number." pg:".$page_number;
-		}
-
-		/**
-		 * Public method. 
-		 * The method takes 2 integer arguments for the current page and exam number.
-		 * This method will return a string of the serialized array data for use in the QRcode.
- 		 * @param int $page_number Current page number.
-		 * @param int $exam_number Current exam booklet number.
-		 * @return str String of the serialized array data for use in the QRcode.
-		 */
-		public function get_QRcode_data($page_number,$exam_number){
-			$data = array('page_number'=>$page_number,'exam_number'=>$exam_number,'name'=>$this->name);
-			return serialize($data);
+			return sprintf("%s:#%d pg:%d/%d", $this->name, $exam_number, $page_number, $this->size-1);
 		}
 
 		/**
@@ -109,15 +96,15 @@
 					$tplIdx = $this->pdf->importPage($curpage,'/MediaBox');
 					$this->pdf->AddPage();
 					$this->pdf->useTemplate($tplIdx, 0, 0, 0, 0, true); 
-					$this->generate_QRcode($curpage,$i);
-					$this->pdf->Cell(50,0,$this->get_QRcode_string($curpage,$i),1);
+					$this->generate_QRcode($curpage-1,$i);
+					$this->pdf->Cell(50,0,$this->get_QRcode_string($curpage-1,$i),1);
 				}
 
 				//Generate extra "emergency" pages
 				for($curpage = 1; $curpage<=$extra_pages; $curpage++){
 					$this->pdf->AddPage();
-					$this->generate_QRcode($curpage+$this->size,$i);
-					$this->pdf->Cell(50,0,$this->get_QRcode_string($curpage+$this->size,$i),1);
+					$this->generate_QRcode($curpage+$this->size-1,$i);
+					$this->pdf->Cell(50,0,$this->get_QRcode_string($curpage+$this->size-1,$i),1);
 				}
 			}
 		}

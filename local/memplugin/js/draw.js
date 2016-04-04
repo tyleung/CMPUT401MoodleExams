@@ -1,8 +1,8 @@
 // Drawing Code reference http://www.williammalone.com/articles/create-html5-canvas-javascript-drawing-app/#demo-simple
-// Canvas reference (note especially toDataURL())  http://www.w3schools.com/tags/ref_canvas.asp
+// Canvas reference (note especially toDataURL)  http://www.w3schools.com/tags/ref_canvas.asp
 // http://stackoverflow.com/questions/12026345/live-type-in-html5-canvas
 // http://www.tcpdf.org/examples/example_009.phps
-
+// http://www.w3schools.com/tags/canvas_filltext.asp
 
 var draw_class = (function () {
 
@@ -16,7 +16,12 @@ var draw_class = (function () {
 	var clickDrag = new Array();
 	var paint = false;
 	var loadgif = "";
-	
+	var draw_tool_activate = true;
+	var check_tool_activate = false;
+	var cross_tool_activate = false;
+	var erase_tool_activate = false;
+	var type_tool_activate = false;
+
 	var init = function () {
 		canvas = document.getElementById("id_canvas");
 		ctx = canvas.getContext("2d");
@@ -28,37 +33,70 @@ var draw_class = (function () {
 		canvas.addEventListener("mouseup", mUp);
 		canvas.addEventListener("mousemove", mMove);
 		canvas.addEventListener("mouseleave", mUp);
-		
+
+		// Marktools
+		var drawbtn = document.getElementById("tool_draw");
+		drawbtn.addEventListener("mousedown", drawingTool);
+		var checkbtn = document.getElementById("tool_check");
+		checkbtn.addEventListener("mousedown", checkTool);
+		var crossbtn = document.getElementById("tool_cross");
+		crossbtn.addEventListener("mousedown", crossTool);
+		var erasebtn = document.getElementById("tool_erase");
+		erasebtn.addEventListener("mousedown", eraseTool);
+		var typebtn = document.getElementById("tool_type");
+		typebtn.addEventListener("mousedown", typeTool);
+
+
 		// Page control event listeners
 		var upbtn = document.getElementById("id_btnUp");
 		upbtn.addEventListener("mousedown", naviPdf);
 		upbtn.hdir = 0; upbtn.vdir = -1; upbtn.navi = true;
-		
+
 		var downbtn = document.getElementById("id_btnDown");
 		downbtn.addEventListener("mousedown", naviPdf);
 		downbtn.hdir = 0; downbtn.vdir = 1; downbtn.navi = true;
-		
+
 		var leftbtn = document.getElementById("id_btnLeft");
 		leftbtn.addEventListener("mousedown", naviPdf);
 		leftbtn.hdir = -1; leftbtn.vdir = 0; leftbtn.navi = true;
-		
+
 		var rightbtn = document.getElementById("id_btnRight");
 		rightbtn.addEventListener("mousedown", naviPdf);
 		rightbtn.hdir = 1; rightbtn.vdir = 0; rightbtn.navi = true;
-		
+
 		var savbtn = document.getElementById("id_btnSav");
 		savbtn.addEventListener("mousedown", naviPdf);
 		savbtn.navi = false;
-	},	
+		setTimeout(function() {
+			setCanvasToImageDimensions();
+			redraw();
+		}, 300);
+	},
+	loadImgToCanvas = function() {
+    	var img=document.getElementById("id_img_tmp");
+	    ctx.drawImage(img,0,0);
+	},
+	setCanvasToImageDimensions = function() {
+	   	var img=document.getElementById("id_img_tmp");
+    	var imgWidth = img.naturalWidth ;
+    	var imgHeight = img.naturalHeight;
+		canvas.setAttribute("width", imgWidth);
+    	canvas.setAttribute("height", imgHeight);
+	},
+	resetCanvasDrawings = function() {
+		clickX = new Array();
+		clickY = new Array();
+		clickDrag = new Array();
+	},
 	naviPdf = function (e) {
 		var horDir = e.target.hdir;
 		var verDir = e.target.vdir;
 		var navi = e.target.navi;
 		
 		var book = parseInt(document.getElementById("id_bookIdTxt").value);
-		book = ((book<0) ? 0 : book);
+		book = ((book<1) ? 1 : book);
 		var page = parseInt(document.getElementById("id_pageTxt").value);
-		page = ((page<0) ? 0 : page);
+		page = ((page<1) ? 1 : page);
 		var mark = parseInt(document.getElementById("id_pageMark").value);
 		mark = ((mark<0) ? 0 : mark);
 		mark = ((mark>999) ? 999 : mark);
@@ -66,17 +104,42 @@ var draw_class = (function () {
 		maxMark = ((maxMark<0) ? 0 : maxMark);
 		maxMark = ((maxMark>999) ? 999 : maxMark);
 
+		var dat = "imgsavdat=" + canvas.toDataURL('image/png');
+		// prevent base64 corruption by replaceing + sign with it's encoding %2B 
+		// taken from http://stackoverflow.com/a/14803292
+		dat = dat.replace(/\+/gi, "%2B");
+		dat = dat + "&page=" + page + "&booklet=" + book + "&mark=" + mark + "&max_mark=" + maxMark;
+		//DISABLE autosave as it can auto save a corrupted/not-properly-loaded image!
+		if(!navi){
+			// taken from http://stackoverflow.com/questions/17391538/plain-javascript-no-jquery-to-load-a-php-file-into-a-div
+			var innersavphp = document.getElementById("id_lastSavPDFdiv");
+			innersavphp.innerHTML = "Saving " + loadgif;
+			if(XMLHttpRequest) var xsav = new XMLHttpRequest();
+			else var xsav = new ActiveXObject("Microsoft.XMLHTTP");
+			xsav.open("POST", "adrawsav.php", true);
+			xsav.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			xsav.send(dat);
+			xsav.onreadystatechange = function(){
+				if(xsav.readyState == 4){
+					if(xsav.status == 200) innersavphp.innerHTML = xsav.responseText;
+					else innersavphp.innerHTML = "Error saving.";
+				}
+			};
+		}
+		
 		if(navi) {
 			var newbook = parseInt(document.getElementById("id_bookIdTxt").value) + verDir;
-			book = ((book<0) ? 0 : book);
+			newbook = ((newbook<1) ? 1 : newbook);
 			var newpage = parseInt(document.getElementById("id_pageTxt").value) + horDir;
-			page = ((page<0) ? 0 : page);
+			newpage = ((newpage<1) ? 1 : newpage);
 			
 			var dirdat = "page=" + newpage + "&booklet=" + newbook;
 			
 			// taken from http://stackoverflow.com/questions/17391538/plain-javascript-no-jquery-to-load-a-php-file-into-a-div
 			var innernaviphp = document.getElementById("id_pageinfo");
 			innernaviphp.innerHTML = "Loading page " + loadgif;
+			canvas.setAttribute("width", 1);
+	    	canvas.setAttribute("height", 1);
 			if(XMLHttpRequest) var xnavi = new XMLHttpRequest();
 			else var xnavi = new ActiveXObject("Microsoft.XMLHTTP");
 			xnavi.open("POST", "adraw_retrieve.php", true);
@@ -84,42 +147,90 @@ var draw_class = (function () {
 			xnavi.send(dirdat);
 			xnavi.onreadystatechange = function(){
 				if(xnavi.readyState == 4){
-					if(xnavi.status == 200) innernaviphp.innerHTML = xnavi.responseText;
-					else innernaviphp.innerHTML = "Failed fetching page.";
+					if(xnavi.status == 200) {
+						innernaviphp.innerHTML = xnavi.responseText;
+						var innerjs = document.getElementById("id_retrieve_scr");
+						// innerHTML doesn't run script, use JS' eval function.
+						eval(innerjs.innerHTML);
+						setTimeout(function() {
+							resetCanvasDrawings();
+							setCanvasToImageDimensions();
+							redraw();
+						}, 300);
+						
+					} else {
+						innernaviphp.innerHTML = "Failed fetching page.";
+					}
 				}
-			}
+			};
 		}
 		
-		var dat = "imgsavdat=" + canvas.toDataURL('image/png');
-		// prevent base64 corruption by replaceing + sign with it's encoding %2B 
-		// taken from http://stackoverflow.com/a/14803292
-		dat = dat.replace(/\+/gi, "%2B");
-		dat = dat + "&page=" + page + "&booklet=" + book + "&mark=" + mark + "&max_mark=" + maxMark;
-		
-		// taken from http://stackoverflow.com/questions/17391538/plain-javascript-no-jquery-to-load-a-php-file-into-a-div
-		var innersavphp = document.getElementById("id_lastSavPDFdiv");
-		innersavphp.innerHTML = "Saving " + loadgif;
-		if(XMLHttpRequest) var xsav = new XMLHttpRequest();
-		else var xsav = new ActiveXObject("Microsoft.XMLHTTP");
-		xsav.open("POST", "adrawsav.php", true);
-		xsav.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		xsav.send(dat);
-		xsav.onreadystatechange = function(){
-			if(xsav.readyState == 4){
-				if(xsav.status == 200) innersavphp.innerHTML = xsav.responseText;
-				else innersavphp.innerHTML = "Error saving.";
-			}
-		}
     },
+
+	drawingTool = function (event){
+		check_tool_activate = false;
+		cross_tool_activate = false;
+		erase_tool_activate = false;
+		type_tool_activate = false;
+
+		draw_tool_activate = true;
+	},
+	checkTool = function (event){
+		draw_tool_activate = false;
+		cross_tool_activate = false;
+		erase_tool_activate = false;
+		type_tool_activate = false;
+
+		check_tool_activate = true;
+	},
+	crossTool = function (event){
+		draw_tool_activate = false;
+		check_tool_activate = false;
+		erase_tool_activate = false;
+		type_tool_activate = false;
+
+		cross_tool_activate = true;
+	},
+	eraseTool = function (event){
+		draw_tool_activate = false;
+		check_tool_activate = false;
+		cross_tool_activate = false;
+		type_tool_activate = false;
+
+		erase_tool_activate = true;
+	},
+	typeTool = function (event){
+		draw_tool_activate = false;
+		check_tool_activate = false;
+		cross_tool_activate = false;
+		erase_tool_activate = false;
+
+		type_tool_activate = true;
+	},
+
     mDown = function(event) {
 	    var rect = canvas.getBoundingClientRect();
     	var x = event.clientX-rect.left;
     	var y = event.clientY-rect.top;
-    	console.log("BBB x"+x+" y"+y+" canvasL"+canvas.offsetLeft+" canvasR"+canvas.offsetTop);
         paint = true;
 		addClick(x, y);
-		redraw();
+		if (draw_tool_activate == true){
+			redraw();
+		}
+		if (check_tool_activate == true){
+			drawcheckmark(x,y);
+		}
+		if (cross_tool_activate == true){
+			drawcrossmark(x,y);
+		}
+		if (erase_tool_activate == true){
+			erasedraw();
+		}
+		if (type_tool_activate == true){
+			typecomment(x,y);
+		}
     },
+    /** Test comment */
     mUp = function(event) {
 	    paint = false;
     },
@@ -129,7 +240,12 @@ var draw_class = (function () {
 			var x = event.clientX-rect.left;
 			var y = event.clientY-rect.top;
 			addClick(x, y, true);
-			redraw();
+			if (draw_tool_activate == true){
+				redraw();
+			}
+			if (erase_tool_activate == true){
+				erasedraw();
+			}
 		}
     },
     addClick = function(x, y, dragging) {
@@ -137,14 +253,54 @@ var draw_class = (function () {
 	  clickY.push(y);
 	  clickDrag.push(dragging);
 	},
+	drawcheckmark = function(x,y){
+		//ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // Clears the canvas
+		//loadImgToCanvas();
+
+		var check_img = document.getElementById("checkmarkimg");
+		ctx.drawImage(check_img, x, y, 80, 80);
+	},
+	drawcrossmark = function(x,y){
+		//ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // Clears the canvas
+		//loadImgToCanvas();
+
+		var cross_img = document.getElementById("crossmarkimg");
+		ctx.drawImage(cross_img, x, y, 80, 80);
+	},
+	erasedraw = function(){
+		//ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // Clears the canvas
+		//loadImgToCanvas();
+		ctx.strokeStyle = "#fff";
+		ctx.lineJoin = "round";
+		ctx.lineWidth = 20;
+
+		for(var i=0; i < clickX.length; i++) {
+			ctx.beginPath();
+			if(clickDrag[i] && i){
+				ctx.moveTo(clickX[i-1], clickY[i-1]);
+			}else{
+				ctx.moveTo(clickX[i], clickY[i]);
+			}
+			ctx.lineTo(clickX[i], clickY[i]);
+			ctx.closePath();
+			ctx.stroke();
+		}
+	},
+	typecomment = function(x,y){
+		var comment_text = prompt("Please Comment Here", "");
+
+		ctx.font="18px Georgia";
+		ctx.fillText(comment_text,x,y);
+	},
+
 	redraw = function(){
 	  ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // Clears the canvas
-	  
+	  loadImgToCanvas();
 	  ctx.strokeStyle = "#df4b26";
 	  ctx.lineJoin = "round";
 	  ctx.lineWidth = 5;
-			
-	  for(var i=0; i < clickX.length; i++) {		
+
+	  for(var i=0; i < clickX.length; i++) {
 		ctx.beginPath();
 		if(clickDrag[i] && i){
 		  ctx.moveTo(clickX[i-1], clickY[i-1]);
@@ -159,4 +315,5 @@ var draw_class = (function () {
     
 	return {init: init};
 }());
+
 

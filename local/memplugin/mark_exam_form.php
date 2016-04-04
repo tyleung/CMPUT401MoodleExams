@@ -42,37 +42,42 @@ class create_mark_exam_instance extends moodleform{
 		//Get list of logged in user's enrolled courses and display as checkboxes.
 		$user_courses = enrol_get_users_courses($USER->id, true, '*', 'visible DESC,sortorder ASC');
         $select_course_array=array();
+        $select_course_array[0]=''; // Add a blank space to the select box.
         $selectgroup = array();
 
+		//TODO Remove below Select code for checkboxes instead of dropdown
         foreach ($user_courses as $uc){
+            $select_course_array[$uc->id] = $uc->fullname;
+        }
+
+        $selectgroup[] = $mform->createElement('select', 'coursechoices', get_string('sectionheader', 'local_memplugin'), $select_course_array);
+		$mform->addElement('group', 'courseselect', get_string('courses', 'local_memplugin'), $selectgroup, array('<br>'), false);
+		
+        
+		//TODO For now we can only handle one course section but uncomment the following and get rid of the above 
+		//Selection items to make it checkboxes again. 
+        /*
+		
+		foreach ($user_courses as $uc){
 			$courses_group[] =& $mform->createElement('advcheckbox', 'courseboxes['.$uc->id.']', null, $uc->fullname, array('group'=>0),array(0,1));
         }
 		$mform->addElement('group', 'courseselect', get_string('courses', 'local_memplugin'), $courses_group, array('<br>'), false);
+		*/
 
-		//Upload manager for files. 
+
 		$mform->addElement('header', 'fileheader', get_string('file', 'local_memplugin'));
 
 		//Switch to a filepicker for now until we figure out how it works.
 		//$mform->addElement('filemanager', 'files', get_string('exambatch', 'local_memplugin'), null, array('accepted_types' => 'image/png'));
-		$mform->addElement('filepicker', 'userfile', get_string('exambatch','local_memplugin'), null, array('accepted_types' => 'image/png'));
+		$mform->addElement('filepicker', 'userfile', get_string('exambatch','local_memplugin'), null, array('accepted_types' => 'application/zip'));
 
 		$mform->closeHeaderBefore('buttonar');
 		$buttonarray   =  array();
-		$buttonarray[] =& $mform->createElement('submit','savebutton', get_string('savebutton', 'local_memplugin'));
+		//$buttonarray[] =& $mform->createElement('submit','savebutton', get_string('savebutton', 'local_memplugin'));
 		$buttonarray[] =& $mform->createElement('submit','markbutton', get_string('markbutton', 'local_memplugin'));
+		$buttonarray[] =& $mform->createElement('cancel');
 		$mform->addGroup($buttonarray, 'buttonar', '', array(' '), false);
-
 	}
-}
-
-//make a serialization function
-function create_courses(){
-	$user_courses = enrol_get_users_courses($USER->id, true, '*', 'visible DESC,sortorder ASC');
-    $select_course_array=array();
-    $selectgroup = array();
-    foreach ($user_courses as $uc){
-		$courses_group[] =& $mform->createElement('advcheckbox', $uc->id, null, $uc->fullname, array('group'=>0),array(0,1));
-    }
 }
 ?>
 

@@ -134,7 +134,7 @@ def main():
 	#--------end simple edits
 
 	userid = random.sample(range(99999,9999999), num_inserts)
-	courseid = "3" # This corresponds to the first course you create.
+	courseid = "8" # This corresponds to the first course you create.
 	
 
 	out += courseInsert + \

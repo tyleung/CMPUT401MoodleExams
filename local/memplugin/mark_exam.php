@@ -48,30 +48,55 @@ $form = new create_mark_exam_instance();
 
 if($_POST['markbutton']){
 	$data = $form->get_data();
-	$selections = $data->courseboxes;
+	//$boxes = $data->courseboxes;
+	$selection = $data->coursechoices;
 	$choices = array();
-
+	//TODO uncomment following for serializing checkboxes. Refer to Mark_exam_form 
+	//for additional commented code.
+	/*
 	foreach($selections as $key => $value){
 		if(strcasecmp($value, '1')==0){
 			$choices[$key] = $value;
 		}
 	}
 	$courses = serialize($choices);
-	var_dump($choices);
+	//var_dump($choices);
+	*/
 	
 	$exam_data = $form->get_file_content('userfile');
-	$scan = new MME_exam_submission($exam_data);
-
-	//output test
+	
+	#
 	/*
+	$scan = new MME_exam_submission($exam_data);
 	for ($i = 0;$i<3;$i++){
-		echo $scan->get_deserialized_data()[$i]; 
+		echo $scan->get_deserialized_data()[$i].'</br>'; 
 	}
 	*/
 
-	// Do database stuff with exam_submission class.
 
-	redirect($CFG->wwwroot.'/local/memplugin/assign_books.php?courses_ids='.$courses);
+	file_put_contents(sys_get_temp_dir()."/temp.zip",$exam_data);
+	
+	$zipfile = new ZipArchive();
+
+	$zipfile->open(sys_get_temp_dir()."/temp.zip");
+
+	for($i = 0; $i < $zipfile->numFiles;$i++){
+		$stat = $zipfile->statIndex($i);
+		$img = $zipfile->getFromName($stat['name']);
+		// 2nd argument is course_id.
+		$scan = new MME_exam_submission($img, $selection);
+		/*
+		echo $scan->get_deserialized_data()[0].'</br>';
+		echo $scan->get_deserialized_data()[1].'</br>';
+		echo $scan->get_deserialized_data()[2].'</br>';
+		echo $scan->get_deserialized_data()[3].'</br>';
+		*/
+	}
+
+
+		// Do database stuff with exam_submission class.
+	//redirect($CFG->wwwroot.'/local/memplugin/assign_books.php?courses_ids='.$courses);
+	redirect($CFG->wwwroot.'/local/memplugin/grid.php?courses_id='.$selection);
 
 } elseif($_POST['savebutton']){
 	$data = $form->get_data();
@@ -85,12 +110,6 @@ if($_POST['markbutton']){
 		}
 	}
 	$courses = serialize($choices);
-	
-	$exam_data = $form->get_file_content('userfile');
-	$scan = new MME_exam_submission($exam_data);
-
-	// Do database stuff with exam_submission class.
-
 	redirect($CFG->wwwroot.'/local/memplugin/memhome.php?courses_ids='.$courses);
 }
 else { 

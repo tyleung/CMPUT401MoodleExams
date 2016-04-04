@@ -29,7 +29,10 @@
 require_once $CFG->dirroot.'/lib/formslib.php';
 require_login();
 
-
+/**
+ *	Function for displaying the main screen navigation buttons: create or upload 
+ *  exams. 
+ */
 class create_memhome_instance extends moodleform{
 	function definition(){
 		global $CFG, $DB, $USER;
@@ -41,18 +44,13 @@ class create_memhome_instance extends moodleform{
 		$buttonarray   =  array();
 		$buttonarray[] =& $mform->createElement('submit','create', get_string('createbutton', 'local_memplugin'));
 		$buttonarray[] =& $mform->createElement('submit','mark', get_string('markbuttonhome', 'local_memplugin'));
-		$mform->addGroup($buttonarray, 'buttonar', 'What would you like to do?', array(' '), false);
-
-//html link tag PUT or POST for sending information. Put more secure but post can get from URL
-//Heading needs HTML justification. 
-//KEEP UNTIL DATA PICKER ADDED TO MARK EXAM PAGE. Needed for regulation storag
-
-
-// section for saved exams
+		$buttonarray[] =& $mform->createElement('submit','stats', get_string('checkstats', 'local_memplugin'));
+		$mform->addGroup($buttonarray, 'buttonar', 'whattodo', array(' '), false);
 
 
 	}
 }
+
 
 
 ?>
