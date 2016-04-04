@@ -84,7 +84,6 @@ function display_draw($js_onload) {
     echo '<link rel="stylesheet" type="text/css" href="css/marking_canvas.css">
 		  <link rel="stylesheet" type="text/css" href="css/marking_tools.css">
 			<script type="text/javascript" src="js/draw.js"></script>
-			<script type="text/javascript" src="js/marktools.js"></script>
 			<table  border="1" class="marking_table">
 				<tr>
 					<td>
@@ -98,6 +97,7 @@ function display_draw($js_onload) {
 								<li class="toolbaritem" id="tool_comment"><a><img src="pix/commenticon.png" width = "30" height="30"></a></li>
 							</ul>
 							<img id="checkmarkimg" src="pix/stamps/tick.png" width = "30" height="30">
+							<img id="crossmarkimg" src="pix/stamps/cross.png" width = "30" height="30">
 						</div>
 					</td>
 					<td>

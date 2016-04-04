@@ -16,6 +16,7 @@ var draw_class = (function () {
 	var clickDrag = new Array();
 	var paint = false;
 	var loadgif = "";
+	var draw_tool_activate = true;
 
 	var init = function () {
 		canvas = document.getElementById("id_canvas");
@@ -31,7 +32,7 @@ var draw_class = (function () {
 
 		// Marktools
 		var drawbtn = document.getElementById("tool_draw");
-		// drawbtn.addEventListener("mousedown", drawing);
+		drawbtn.addEventListener("mousedown", drawingTool);
 
 		var checkbtn = document.getElementById("tool_check");
 		checkbtn.addEventListener("mousedown", checkTool);
@@ -157,15 +158,17 @@ var draw_class = (function () {
 		
     },
 
+	drawingTool = function (event){
+		draw_tool_activate = true;
+	},
 	checkTool = function (event){
+		draw_tool_activate = false;
+
 		var rect = canvas.getBoundingClientRect();
 		var x = event.clientX-rect.left;
 		var y = event.clientY-rect.top;
 		addClick(x,y);
-
-		var check_img = document.getElementById("checkmarkimg");
-		ctx.drawImage(check_img, 90, 130, 50, 60, 10, 10, 50, 60);
-
+		drawcheckmark();
 	},
 
     mDown = function(event) {
@@ -173,8 +176,10 @@ var draw_class = (function () {
     	var x = event.clientX-rect.left;
     	var y = event.clientY-rect.top;
         paint = true;
-		addClick(x, y);
-		redraw();
+		if (draw_tool_activate == true){
+			addClick(x, y);
+			redraw();
+		}
     },
     /** Test comment */
     mUp = function(event) {
@@ -185,14 +190,22 @@ var draw_class = (function () {
 			var rect = canvas.getBoundingClientRect();
 			var x = event.clientX-rect.left;
 			var y = event.clientY-rect.top;
-			addClick(x, y, true);
-			redraw();
+			if (draw_tool_activate == true){
+				addClick(x, y, true);
+				redraw();
+			}
 		}
     },
     addClick = function(x, y, dragging) {
 	  clickX.push(x);
 	  clickY.push(y);
 	  clickDrag.push(dragging);
+	},
+	drawcheckmark = function(){
+		loadImgToCanvas();
+		var check_img = document.getElementById("checkmarkimg");
+		ctx.drawImage(check_img, clickX[i], clickY[i]);
+		alert("haha");
 	},
 	redraw = function(){
 	  ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // Clears the canvas
@@ -217,7 +230,4 @@ var draw_class = (function () {
 	return {init: init};
 }());
 
-function test2(){
-	alert();
-}
 
