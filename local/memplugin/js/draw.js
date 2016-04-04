@@ -2,7 +2,7 @@
 // Canvas reference (note especially toDataURL)  http://www.w3schools.com/tags/ref_canvas.asp
 // http://stackoverflow.com/questions/12026345/live-type-in-html5-canvas
 // http://www.tcpdf.org/examples/example_009.phps
-
+// http://www.w3schools.com/tags/canvas_filltext.asp
 
 var draw_class = (function () {
 
@@ -18,6 +18,9 @@ var draw_class = (function () {
 	var loadgif = "";
 	var draw_tool_activate = true;
 	var check_tool_activate = false;
+	var cross_tool_activate = false;
+	var erase_tool_activate = false;
+	var type_tool_activate = false;
 
 	var init = function () {
 		canvas = document.getElementById("id_canvas");
@@ -34,9 +37,14 @@ var draw_class = (function () {
 		// Marktools
 		var drawbtn = document.getElementById("tool_draw");
 		drawbtn.addEventListener("mousedown", drawingTool);
-
 		var checkbtn = document.getElementById("tool_check");
 		checkbtn.addEventListener("mousedown", checkTool);
+		var crossbtn = document.getElementById("tool_cross");
+		crossbtn.addEventListener("mousedown", crossTool);
+		var erasebtn = document.getElementById("tool_erase");
+		erasebtn.addEventListener("mousedown", eraseTool);
+		var typebtn = document.getElementById("tool_type");
+		typebtn.addEventListener("mousedown", typeTool);
 
 
 		// Page control event listeners
@@ -161,19 +169,43 @@ var draw_class = (function () {
 
 	drawingTool = function (event){
 		check_tool_activate = false;
+		cross_tool_activate = false;
+		erase_tool_activate = false;
+		type_tool_activate = false;
 
 		draw_tool_activate = true;
 	},
 	checkTool = function (event){
 		draw_tool_activate = false;
+		cross_tool_activate = false;
+		erase_tool_activate = false;
+		type_tool_activate = false;
 
 		check_tool_activate = true;
-		//var rect = canvas.getBoundingClientRect();
-		//var x = event.clientX-rect.left;
-		//var y = event.clientY-rect.top;
-		//addClick(x,y);
+	},
+	crossTool = function (event){
+		draw_tool_activate = false;
+		check_tool_activate = false;
+		erase_tool_activate = false;
+		type_tool_activate = false;
 
-		//drawcheckmark();
+		cross_tool_activate = true;
+	},
+	eraseTool = function (event){
+		draw_tool_activate = false;
+		check_tool_activate = false;
+		cross_tool_activate = false;
+		type_tool_activate = false;
+
+		erase_tool_activate = true;
+	},
+	typeTool = function (event){
+		draw_tool_activate = false;
+		check_tool_activate = false;
+		cross_tool_activate = false;
+		erase_tool_activate = false;
+
+		type_tool_activate = true;
 	},
 
     mDown = function(event) {
@@ -188,6 +220,15 @@ var draw_class = (function () {
 		if (check_tool_activate == true){
 			drawcheckmark(x,y);
 		}
+		if (cross_tool_activate == true){
+			drawcrossmark(x,y);
+		}
+		if (erase_tool_activate == true){
+			erasedraw();
+		}
+		if (type_tool_activate == true){
+			typecomment(x,y);
+		}
     },
     /** Test comment */
     mUp = function(event) {
@@ -198,9 +239,12 @@ var draw_class = (function () {
 			var rect = canvas.getBoundingClientRect();
 			var x = event.clientX-rect.left;
 			var y = event.clientY-rect.top;
+			addClick(x, y, true);
 			if (draw_tool_activate == true){
-				addClick(x, y, true);
 				redraw();
+			}
+			if (erase_tool_activate == true){
+				erasedraw();
 			}
 		}
     },
@@ -210,13 +254,45 @@ var draw_class = (function () {
 	  clickDrag.push(dragging);
 	},
 	drawcheckmark = function(x,y){
-		ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // Clears the canvas
-		loadImgToCanvas();
+		//ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // Clears the canvas
+		//loadImgToCanvas();
 
 		var check_img = document.getElementById("checkmarkimg");
-		ctx.drawImage(check_img, x, y, 100, 100);
-		alert("haha");
+		ctx.drawImage(check_img, x, y, 80, 80);
 	},
+	drawcrossmark = function(x,y){
+		//ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // Clears the canvas
+		//loadImgToCanvas();
+
+		var cross_img = document.getElementById("crossmarkimg");
+		ctx.drawImage(cross_img, x, y, 80, 80);
+	},
+	erasedraw = function(){
+		//ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // Clears the canvas
+		//loadImgToCanvas();
+		ctx.strokeStyle = "#fff";
+		ctx.lineJoin = "round";
+		ctx.lineWidth = 20;
+
+		for(var i=0; i < clickX.length; i++) {
+			ctx.beginPath();
+			if(clickDrag[i] && i){
+				ctx.moveTo(clickX[i-1], clickY[i-1]);
+			}else{
+				ctx.moveTo(clickX[i], clickY[i]);
+			}
+			ctx.lineTo(clickX[i], clickY[i]);
+			ctx.closePath();
+			ctx.stroke();
+		}
+	},
+	typecomment = function(x,y){
+		var comment_text = prompt("Please Comment Here", "");
+
+		ctx.font="18px Georgia";
+		ctx.fillText(comment_text,x,y);
+	},
+
 	redraw = function(){
 	  ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // Clears the canvas
 	  loadImgToCanvas();

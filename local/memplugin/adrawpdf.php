@@ -94,10 +94,10 @@ function display_draw($js_onload) {
 								<li class="toolbaritem" id="tool_check"><a><img src="pix/stamps/tick.png" width = "30" height="30"></a></li>
 								<li class="toolbaritem" id="tool_cross"><a><img src="pix/stamps/cross.png" width = "30" height="30"></a></li>
 								<li class="toolbaritem" id="tool_erase"><a><img src="pix/eraseicon.png" width = "30" height="30"></a></li>
-								<li class="toolbaritem" id="tool_comment"><a><img src="pix/commenticon.png" width = "30" height="30"></a></li>
+								<li class="toolbaritem" id="tool_type"><a><img src="pix/commenticon.png" width = "30" height="30"></a></li>
 							</ul>
-							<img id="checkmarkimg" src="pix/stamps/tick.png" width = "30" height="30">
-							<img id="crossmarkimg" src="pix/stamps/cross.png" width = "30" height="30">
+							<img id="checkmarkimg" src="pix/stamps/tick.png" width = "0" height="0">
+							<img id="crossmarkimg" src="pix/stamps/cross.png" width = "0" height="0">
 						</div>
 					</td>
 					<td>
