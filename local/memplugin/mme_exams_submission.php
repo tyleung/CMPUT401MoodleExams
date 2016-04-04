@@ -12,6 +12,7 @@
 		private $img = NULL; /**< processed image file object*/
 		private $data = NULL;/**< original image data*/
 		private $qrtext =""; /**< The string contained within the QRcode*/
+		private $cid = -1; /**< The course id that the booklet will be assigned for */
 
 		/**
 		 * The constuctor.
@@ -21,12 +22,13 @@
 		 * This constructor will be changed to use database parameters instead at a later time.
 		 * @param blob $data Raw blob of the image.
 		 */
-		public function __construct($data){
+		public function __construct($data, $courseId){
 			$this->img = new Imagick();
 			$this->data = $data;
 			$this->img->readImageBlob($this->data);
 			$this->crop_image();
 			$this->read_QRcode();
+			$this->cid = $courseId;
 			$this->insert_image_to_database();
 		}
 
@@ -102,9 +104,12 @@
 			global $DB;
 
 			$qrdata = $this->get_deserialized_data();
-
+			if ($qrdata === NULL){
+				return NULL;
+			}
 			$book_param = new stdClass();
 			$book_param->year_semester_origin = "2016 SUMMER"; // replace with form data later.
+			$book_param->course_id = intval($this->cid);
 			$book_param->max_pages = $qrdata[3];
 			$booklet_id = $DB->insert_record("mem_booklet_data", $book_param, true, false);
 

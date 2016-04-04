@@ -69,7 +69,7 @@ class create_mark_exam_instance extends moodleform{
 
 		//Switch to a filepicker for now until we figure out how it works.
 		//$mform->addElement('filemanager', 'files', get_string('exambatch', 'local_memplugin'), null, array('accepted_types' => 'image/png'));
-		$mform->addElement('filepicker', 'userfile', get_string('exambatch','local_memplugin'), null, array('accepted_types' => 'image/png'));
+		$mform->addElement('filepicker', 'userfile', get_string('exambatch','local_memplugin'), null, array('accepted_types' => 'application/zip'));
 
 		$mform->closeHeaderBefore('buttonar');
 		$buttonarray   =  array();
@@ -77,7 +77,6 @@ class create_mark_exam_instance extends moodleform{
 		$buttonarray[] =& $mform->createElement('submit','markbutton', get_string('markbutton', 'local_memplugin'));
 		$buttonarray[] =& $mform->createElement('cancel');
 		$mform->addGroup($buttonarray, 'buttonar', '', array(' '), false);
-
 	}
 }
 ?>
