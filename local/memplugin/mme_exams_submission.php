@@ -104,7 +104,9 @@
 			global $DB;
 
 			$qrdata = $this->get_deserialized_data();
-
+			if ($qrdata === NULL){
+				return NULL;
+			}
 			$book_param = new stdClass();
 			$book_param->year_semester_origin = "2016 SUMMER"; // replace with form data later.
 			$book_param->course_id = intval($this->cid);

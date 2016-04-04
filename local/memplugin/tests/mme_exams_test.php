@@ -10,8 +10,8 @@ class local_memplugin_mme_exams_testcase extends basic_testcase {
         $exam_path = $CFG->dirroot.'/local/memplugin/fnl2012.pdf';
         $exam_data = file_get_contents($exam_path);
         $exam = new MME_exams($exam_data,"test_exam");
-        $this->assertEquals($exam->get_Qrcode_string(1,1),"test_exam:#1 pg:1/6"); //normal case
-        $this->assertEquals($exam->get_Qrcode_string(0,0),"test_exam:#0 pg:0/6");
+        $this->assertEquals($exam->get_Qrcode_string(1,1),"test_exam:#1 pg:1/5"); //normal case
+        $this->assertEquals($exam->get_Qrcode_string(0,0),"test_exam:#0 pg:0/5");
     }
  }
  ?>
