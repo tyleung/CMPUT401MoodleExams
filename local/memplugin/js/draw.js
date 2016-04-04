@@ -17,6 +17,7 @@ var draw_class = (function () {
 	var paint = false;
 	var loadgif = "";
 	var draw_tool_activate = true;
+	var check_tool_activate = false;
 
 	var init = function () {
 		canvas = document.getElementById("id_canvas");
@@ -159,16 +160,20 @@ var draw_class = (function () {
     },
 
 	drawingTool = function (event){
+		check_tool_activate = false;
+
 		draw_tool_activate = true;
 	},
 	checkTool = function (event){
 		draw_tool_activate = false;
 
-		var rect = canvas.getBoundingClientRect();
-		var x = event.clientX-rect.left;
-		var y = event.clientY-rect.top;
-		addClick(x,y);
-		drawcheckmark();
+		check_tool_activate = true;
+		//var rect = canvas.getBoundingClientRect();
+		//var x = event.clientX-rect.left;
+		//var y = event.clientY-rect.top;
+		//addClick(x,y);
+
+		//drawcheckmark();
 	},
 
     mDown = function(event) {
@@ -176,9 +181,12 @@ var draw_class = (function () {
     	var x = event.clientX-rect.left;
     	var y = event.clientY-rect.top;
         paint = true;
+		addClick(x, y);
 		if (draw_tool_activate == true){
-			addClick(x, y);
 			redraw();
+		}
+		if (check_tool_activate == true){
+			drawcheckmark(x,y);
 		}
     },
     /** Test comment */
@@ -201,10 +209,12 @@ var draw_class = (function () {
 	  clickY.push(y);
 	  clickDrag.push(dragging);
 	},
-	drawcheckmark = function(){
+	drawcheckmark = function(x,y){
+		ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // Clears the canvas
 		loadImgToCanvas();
+
 		var check_img = document.getElementById("checkmarkimg");
-		ctx.drawImage(check_img, clickX[i], clickY[i]);
+		ctx.drawImage(check_img, x, y, 100, 100);
 		alert("haha");
 	},
 	redraw = function(){
