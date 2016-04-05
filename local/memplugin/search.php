@@ -32,11 +32,19 @@ require_capability('local/memplugin:add', context_system::instance());
 $PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('pluginname', 'local_memplugin'));
-$PAGE->set_heading(get_string('pluginname', 'local_memplugin'));
+$PAGE->set_heading(get_string('searchtitle', 'local_memplugin'));
 $PAGE->set_url($CFG->wwwroot.'/local/memplugin/search.php');
 
+$course = intavl($_GET['course_id']);
 $bid = intval($_GET['booklet_id']);
 $page = intval($_GET['page']);
+
+$memhomenode = $PAGE->navigation->add(get_string('memhome', 'local_memplugin'), new moodle_url('memhome.php'));
+$gridnode = $memhomenode->add(get_string('grid', 'local_memplugin'), new moodle_url('grid.php?course_id='.$course));
+$adrawpdfnode = $gridnode->add(get_string('canvasnav', 'local_memplugin'), new moodle_url('adrawpdf.php?course_id='.$course.'&booklet_id='.$bid.'&page='.$page));
+$searchnode = $adrawpdfnode->add(get_string('searchnav', 'local_memplugin'), new moodle_url('search.php?course_id='.$course.'&booklet_id='.$bid.'&page='.$page));
+$searchnode->make_active();
+
 
 $datstudents = array();
 /** Retrieve Teacher's courses.
