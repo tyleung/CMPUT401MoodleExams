@@ -17,6 +17,7 @@
 		private $path = ""; /**< path to pdf file.*/
 		private $name = ""; /**< Optional name parameter*/
 		private $size = 0; /**< Number of pages in the pdf file*/
+		private $md5 = "";
 
 		// QR code style
 		private $style = array(
@@ -40,6 +41,7 @@
 		public function __construct($data,$name=""){
 			$this->data = $data;
 			$this->name = $name;
+			$this->md5 = md5($data);
 			$this->setup_pdf();
 		}
 
@@ -57,15 +59,39 @@
 		
 		/**
 		 * Public method. 
-		 * The method takes 2 integer arguments for the current page and exam number.
+		 * The method takes 3 integer arguments for the current page and exam number.
 		 * The method will return a string that will be displayed under the QRcode.
 		 * @param int $page_number Current page number
 		 * @param int $exam_number Current exam booklet number
+		 * @param int $extra_count Number of extra pages to generate
 		 * @return str String that will be displayed under the QRcode.
 		 */
 		public function get_QRcode_string($page_number, $exam_number, $extra_count = 0){
 			return sprintf("%s:#%d pg:%d/%d", $this->name, $exam_number, $page_number, $this->size-1+$extra_count);
 		}
+
+
+		/**
+		 * Public method. 
+		 * The method takes 3 integer arguments for the current page and exam number.
+		 * The method will return a string containing serialized data.
+		 * @param int $page_number Current page number
+		 * @param int $exam_number Current exam booklet number
+		 * @param int $extra_count Number of extra pages to generate
+		 * @return str String that will be displayed under the QRcode.
+		 */
+		public function get_serialized_data($page_number, $exam_number, $extra_count = 0){
+			$data = array(
+				'page_number' => $page_number,
+				'exam_number' => $exam_number,
+				'max_pages' => $this->size-1+$extra_count,
+				'name' => $this->name,
+				'md5' => $this->md5,
+			);
+			return serialize($data);
+		}
+
+
 
 		/**
 		 * Private method.
@@ -73,10 +99,11 @@
 		 * The method generates and places the QRcode corresponding to the given arguments into the pdf.
 		 * @param int $page_number Current page number
 		 * @param int $exam_number Current exam booklet number 
+		 * @param int $extra_count Number of extra pages to generate
 		 * @return void
 		 */
 		private function generate_QRcode($page_number, $exam_number,  $extra_count = 0){
-			$this->pdf->write2DBarcode($this->get_QRcode_string($page_number, $exam_number, $extra_count),'QRCODE,L',10,10,50,50,$this->style,'N');
+			$this->pdf->write2DBarcode($this->get_serialized_data($page_number, $exam_number, $extra_count),'QRCODE,L',10,10,50,50,$this->style,'N');
 		}
 
 		/**
