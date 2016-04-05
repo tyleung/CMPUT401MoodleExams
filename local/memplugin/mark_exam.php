@@ -85,18 +85,19 @@ if($_POST['markbutton']){
 		$img = $zipfile->getFromName($stat['name']);
 		// 2nd argument is course_id.
 		$scan = new MME_exam_submission($img, $selection);
-		/*
-		echo $scan->get_deserialized_data()[0].'</br>';
-		echo $scan->get_deserialized_data()[1].'</br>';
-		echo $scan->get_deserialized_data()[2].'</br>';
-		echo $scan->get_deserialized_data()[3].'</br>';
-		*/
+		
+		echo $scan->get_deserialized_data()['name'].'</br>';
+		echo $scan->get_deserialized_data()['md5'].'</br>';
+		echo $scan->get_deserialized_data()['exam_number'].'</br>';
+		echo $scan->get_deserialized_data()['page_number'].'</br>';
+		echo $scan->get_deserialized_data()['max_pages'].'</br>';
+		
 	}
 
 
 		// Do database stuff with exam_submission class.
 	//redirect($CFG->wwwroot.'/local/memplugin/assign_books.php?courses_ids='.$courses);
-	redirect($CFG->wwwroot.'/local/memplugin/grid.php?courses_id='.$selection);
+	//redirect($CFG->wwwroot.'/local/memplugin/grid.php?courses_id='.$selection);
 
 } elseif($_POST['savebutton']){
 	$data = $form->get_data();

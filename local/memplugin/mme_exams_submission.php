@@ -78,20 +78,14 @@
 		}
 
 		/**
-		 * Private method.
+		 * Public method.
 		 * Returns the data parameters used to generate the QRcode as an array.
-		 * @return array Array containing the 4 matches from the QRcode string.
+		 * @return array Associative array containing data from QRcode string.
 		 * Exam name, Booklet num, page num, max pages
 		 */
 		// Deserialize data after reading QR.
 		public function get_deserialized_data(){
-			$result = array();
-			$regex = preg_match("~(.*):#(\d*) pg:(\d*)\/(\d*)~",$this->qrtext,$result);
-			if ($regex === 1){
-				return array($result[1],$result[2],$result[3],$result[4]);
-			} else { // returns 0 if nothing found, false on error.
-				return NULL;
-			}
+			return Deserialize($this->qrtext);
 		}
 
 		/**
@@ -101,6 +95,7 @@
 		 */
 		//upload parameters (exam#,page#) to a table that has the image_id(?) as the key.
 		private function insert_image_to_database(){
+			/*
 			global $DB;
 
 			$qrdata = $this->get_deserialized_data();
@@ -124,6 +119,7 @@
 			$img_param->page_num = $qrdata[2];
 			$img_param->booklet_num = $qrdata[1];
 			return $DB->insert_record("mem_pdf_files", $img_param, true, false);
+			*/
 		}
 
 	}
