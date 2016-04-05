@@ -21,6 +21,9 @@ var draw_class = (function () {
 	var clickX = new Array();
 	var clickY = new Array();
 	var clickDrag = new Array();
+	var clickX_erase = new Array();
+	var clickY_erase = new Array();
+	var clickDrag_erase = new Array();
 	var paint = false;
 	var loadgif = "";
 	var draw_tool_activate = true;
@@ -76,7 +79,8 @@ var draw_class = (function () {
 		savbtn.navi = false;
 		setTimeout(function() {
 			setCanvasToImageDimensions();
-			redraw();
+			loadImgToCanvas();
+			// redraw();
 		}, 300);
 	},
 	loadImgToCanvas = function() {
@@ -94,6 +98,10 @@ var draw_class = (function () {
 		clickX = new Array();
 		clickY = new Array();
 		clickDrag = new Array();
+
+		clickX_erase = new Array();
+		clickY_erase = new Array();
+		clickDrag_erase = new Array();
 	},
 	naviPdf = function (e) {
 		var horDir = e.target.hdir;
@@ -175,7 +183,7 @@ var draw_class = (function () {
 						setTimeout(function(){
 							resetCanvasDrawings();
 							setCanvasToImageDimensions();
-							redraw();
+							loadImgToCanvas();
 							setTimeout(function(){ document.getElementById("id_btnSav").disabled = false }, 200);
 						}, 200);
 					} else {
@@ -240,8 +248,8 @@ var draw_class = (function () {
     	var x = event.clientX-rect.left;
     	var y = event.clientY-rect.top;
         paint = true;
-		addClick(x, y);
 		if (draw_tool_activate == true){
+			addClick(x, y);
 			redraw();
 		}
 		if (check_tool_activate == true){
@@ -251,6 +259,7 @@ var draw_class = (function () {
 			drawcrossmark(x,y);
 		}
 		if (erase_tool_activate == true){
+			addClickErase(x, y);
 			erasedraw();
 		}
 		if (type_tool_activate == true){
@@ -266,11 +275,12 @@ var draw_class = (function () {
 			var rect = canvas.getBoundingClientRect();
 			var x = event.clientX-rect.left;
 			var y = event.clientY-rect.top;
-			addClick(x, y, true);
 			if (draw_tool_activate == true){
+				addClick(x, y, true);
 				redraw();
 			}
 			if (erase_tool_activate == true){
+				addClickErase(x, y, true);
 				erasedraw();
 			}
 		}
@@ -279,6 +289,11 @@ var draw_class = (function () {
 	  clickX.push(x);
 	  clickY.push(y);
 	  clickDrag.push(dragging);
+	},
+	addClickErase = function(x, y, dragging){
+		clickX_erase.push(x);
+		clickY_erase.push(y);
+		clickDrag_erase.push(dragging);
 	},
 	drawcheckmark = function(x,y){
 		//ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // Clears the canvas
@@ -297,32 +312,33 @@ var draw_class = (function () {
 	erasedraw = function(){
 		//ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // Clears the canvas
 		//loadImgToCanvas();
+		//ctx.strokeStyle = "#000";
 		ctx.strokeStyle = "#fff";
 		ctx.lineJoin = "round";
 		ctx.lineWidth = 20;
 
-		for(var i=0; i < clickX.length; i++) {
+		for(var i=0; i < clickX_erase.length; i++) {
 			ctx.beginPath();
-			if(clickDrag[i] && i){
-				ctx.moveTo(clickX[i-1], clickY[i-1]);
+			if(clickDrag_erase[i] && i){
+				ctx.moveTo(clickX_erase[i-1], clickY_erase[i-1]);
 			}else{
-				ctx.moveTo(clickX[i], clickY[i]);
+				ctx.moveTo(clickX_erase[i], clickY_erase[i]);
 			}
-			ctx.lineTo(clickX[i], clickY[i]);
+			ctx.lineTo(clickX_erase[i], clickY_erase[i]);
 			ctx.closePath();
 			ctx.stroke();
 		}
 	},
 	typecomment = function(x,y){
-		var comment_text = prompt("Please Comment Here", "");
+		var comment_text = prompt("Please Comment Here", " ");
 
 		ctx.font="18px Georgia";
 		ctx.fillText(comment_text,x,y);
 	},
 
 	redraw = function(){
-	  ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // Clears the canvas
-	  loadImgToCanvas();
+	  //ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // Clears the canvas
+	  //loadImgToCanvas();
 	  ctx.strokeStyle = "#df4b26";
 	  ctx.lineJoin = "round";
 	  ctx.lineWidth = 5;
