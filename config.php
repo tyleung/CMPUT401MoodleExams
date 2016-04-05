@@ -19,7 +19,7 @@ $CFG->dboptions = array (
   'dbport' => 3306,
   'dbsocket' => '',
 );
-$CFG->wwwroot   =  'http://192.168.56.101/moodle';
+$CFG->wwwroot   =  'http://199.116.235.48/moodle';
 $CFG->dataroot  = '/var/moodledata';
 $CFG->admin     = 'admin';
 $CFG->directorypermissions = 0777;

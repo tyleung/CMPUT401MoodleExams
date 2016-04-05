@@ -7,7 +7,8 @@ require_once '../../config.php';
 	// THIS page also should retrieve the page's score and Max score and save it to database.
 	// Update if this entry already exists.
 	// first save score and stuff, then the png blob.
-	
+
+	$course = intval($_POST['course_id']);
 	$page = intval($_POST['page']);
 	$booklet = intval($_POST['booklet']);
 	$mark = intval($_POST['mark']);
@@ -57,6 +58,8 @@ $recPages = $DB->get_records_sql('SELECT page_id, {mem_booklet_data}.booklet_id,
 	//test
 	//echo "<br>mark:".$mark." max mark:".$max_mark;
 	//echo '<img src="data:image/png;base64,'.$base64.'"/>';
+	
+	// Update is_marked field
+	$DB->set_field('mem_pages', 'is_marked', '1', array('page_id'=>$page_id));
 
 ?>
-

@@ -39,8 +39,9 @@ $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('pluginname', 'local_memplugin'));
 $PAGE->set_heading(get_string('createheader', 'local_memplugin'));
 $PAGE->set_url($CFG->wwwroot.'/local/memplugin/generate_exam.php');
-$node = $PAGE->navigation->add(get_string('generatenav', 'local_memplugin'), new moodle_url('generate_exam.php'));
-$node->make_active();
+$homenode = $PAGE->navigation->add(get_string('memhome', 'local_memplugin'), new moodle_url('memhome.php'), navigation_node::TYPE_CONTAINER);
+$pagenode = $homenode->add(get_string('generatenav', 'local_memplugin'), new moodle_url('generate_exam.php'));
+$pagenode->make_active();
 $form = new create_generate_exam_instance();
 
 if ($_POST['exam_submit']) {
@@ -62,7 +63,7 @@ if ($_POST['exam_submit']) {
 		//redirect($CFG->wwwroot.'/local/memplugin/examclasstestresult.php?exam_count='.$data->exam_count.'&extra_count='.$data->extra_count.'&name='.$data->name);
 	} else {
 		echo $OUTPUT->header();
-		echo "exam and extra page input must be numeric.";
+		echo '<p style="color: red">exam and extra page input must be numeric.</p>';
 		$form->display();
 		echo $OUTPUT->footer();
 	}

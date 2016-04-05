@@ -30,14 +30,22 @@ require_once('../../config.php');
 global $PAGE, $CFG, $DB;
 
 require_login();
+
+// TODO PROPER permission, so teachers can access.
 require_capability('local/memplugin:add', context_system::instance());
+//require_capability('moodle/course:update', context_system::instance());
+
 require_once($CFG->dirroot.'/local/memplugin/stats_class.php');
 require_once($CFG->dirroot.'/local/memplugin/stats_form.php');
 $PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('pluginname', 'local_memplugin'));
-$PAGE->set_heading(get_string('pluginname', 'local_memplugin'));
+$PAGE->set_heading(get_string('statstitle', 'local_memplugin'));
 $PAGE->set_url($CFG->wwwroot.'/local/memplugin/stats.php');
+
+$homenode = $PAGE->navigation->add(get_string('memhome', 'local_memplugin'), new moodle_url('memhome.php'), navigation_node::TYPE_CONTAINER);
+$pagenode = $homenode->add(get_string('statsnav', 'local_memplugin'), new moodle_url('stats.php'));
+$pagenode->make_active();
 
 //error_log(print_r($db_entry));
 $form = new stats_sem_form();

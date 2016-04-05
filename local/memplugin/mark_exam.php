@@ -40,6 +40,10 @@ $PAGE->set_title(get_string('pluginname', 'local_memplugin'));
 $PAGE->set_heading(get_string('markheader', 'local_memplugin'));
 $PAGE->set_url($CFG->wwwroot.'/local/memplugin/mark_exam.php');
 
+$homenode = $PAGE->navigation->add(get_string('memhome', 'local_memplugin'), new moodle_url('memhome.php'), navigation_node::TYPE_CONTAINER);
+$pagenode = $homenode->add(get_string('markexamnav', 'local_memplugin'), new moodle_url('mark_exam.php'));
+$pagenode->make_active();
+
 $form = new create_mark_exam_instance();
 
 //get course id somehow from other form GET
@@ -85,18 +89,19 @@ if($_POST['markbutton']){
 		$img = $zipfile->getFromName($stat['name']);
 		// 2nd argument is course_id.
 		$scan = new MME_exam_submission($img, $selection);
-		/*
-		echo $scan->get_deserialized_data()[0].'</br>';
-		echo $scan->get_deserialized_data()[1].'</br>';
-		echo $scan->get_deserialized_data()[2].'</br>';
-		echo $scan->get_deserialized_data()[3].'</br>';
-		*/
+		
+		echo $scan->get_deserialized_data()['name'].'</br>';
+		echo $scan->get_deserialized_data()['md5'].'</br>';
+		echo $scan->get_deserialized_data()['exam_number'].'</br>';
+		echo $scan->get_deserialized_data()['page_number'].'</br>';
+		echo $scan->get_deserialized_data()['max_pages'].'</br>';
+		
 	}
 
 
 		// Do database stuff with exam_submission class.
 	//redirect($CFG->wwwroot.'/local/memplugin/assign_books.php?courses_ids='.$courses);
-	redirect($CFG->wwwroot.'/local/memplugin/grid.php?courses_id='.$selection);
+	//redirect($CFG->wwwroot.'/local/memplugin/grid.php?courses_id='.$selection);
 
 } elseif($_POST['savebutton']){
 	$data = $form->get_data();

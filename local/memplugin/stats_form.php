@@ -83,7 +83,7 @@
 			// groups submit button with the dropdown menu
 			$select[] = $mform->createElement('submit', 'course_choice_submit', get_string('stats_choice_submit', 'local_memplugin'));
 			// array(' ') makes empty space so formatting is easier to read.
-			$mform->addElement('group', 'course_sem_selection', get_string('stats_grouping', 'local_memplugin'), $select, array(' '),false);
+			$mform->addElement('group', 'course_sem_selection', get_string('stats_grouping2', 'local_memplugin'), $select, array(' '),false);
 				
 		}
 	
