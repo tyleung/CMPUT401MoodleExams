@@ -17,7 +17,7 @@
       </FIELDS>
       <KEYS>
         <KEY NAME="primary_key" TYPE="primary" FIELDS="booklet_id"/>
-        <KEY NAME="compound_key" TYPE="primary" FIELDS="exam_hash"/>
+        <KEY NAME="compound_key" TYPE="unique" FIELDS="exam_hash"/>
       </KEYS>
     </TABLE>
     <TABLE NAME="mem_mark_stats" COMMENT="The collection of total score the booklet has.">

@@ -299,8 +299,10 @@ function xmldb_local_memplugin_upgrade($oldversion) {
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }
-		$key = new xmldb_key('compound_key', XMLDB_KEY_PRIMARY, array('exam_hash'));
-		// Launch add key compound_key.
+		// Define key compound_key (unique) to be added to mem_booklet_data.
+        $table = new xmldb_table('mem_booklet_data');
+        $key = new xmldb_key('compound_key', XMLDB_KEY_UNIQUE, array('exam_hash'));
+        // Launch add key compound_key.
         $dbman->add_key($table, $key);
 
 
