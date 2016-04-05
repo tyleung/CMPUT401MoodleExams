@@ -48,11 +48,12 @@ $num_booklets = $DB->count_records_select('mem_booklet_data', 'course_id=?', arr
 $num_pages = $DB->get_field_select('mem_booklet_data', 'max_pages', 'course_id=?', array($course_id), IGNORE_MULTIPLE);
 
 // Each grid-item is 110px wide. Added 10px to account for the grid margins
-$grid_width = (($num_pages + 1) * 110) + 10;
+$grid_width = (($num_pages + 2) * 110) + 10;
 ?>
 
 <link rel="stylesheet" href="css/isotope-grid.css">
 
+<div>
 <h3 class="sort-group-title">Sort</h3>
 <div class="sort-group-booklet">
 	<a href="javascript:void(0);" data-sort="bookletAsc" class="current">Booklet Asc</a>
@@ -62,13 +63,27 @@ $grid_width = (($num_pages + 1) * 110) + 10;
 	<a href="javascript:void(0);" data-sort="booklet,pageAsc" class="current">Page Asc</a>
 	<a href="javascript:void(0);" data-sort="booklet,pageDec">Page Dec</a>
 </div>
+</div>
 
-<div class="grid-outer" style="width:<?php echo $grid_width; ?>px">
+<div class="grid-outer" style="width:<?php echo $grid_width; ?>px; float: left;">
 <?php
 create_grid_headers($num_pages);
 create_grid($course_id, $num_booklets, $num_pages);
 ?>
 </div>
+
+<!-- Totals column 
+<div style="width:<?php //echo $grid_width + 110; ?>px;">
+    <div class="grid-item-page-nums"><p class="page-nums">Total</p></div>
+    <?php
+    //for ($i = 1; $i <= $num_booklets; $i++) {
+    //    echo '<div class="grid-item-page-nums">'."\n";
+    //    echo "\t".'<p class="booklet-num">'.$i.'</p>'."\n";
+    //    echo '</div>'."\n";
+    //}
+    ?>
+</div>-->
+
 
 <script src="http://code.jquery.com/jquery-latest.js" type="text/javascript"></script>
 <script src="js/isotope.pkgd.min.js" type="text/javascript"></script>
@@ -94,7 +109,8 @@ function create_grid_headers($num_pages) {
 		echo "\t".'<p class="page-nums">P<span class="page-num">'.$i.'</span></p>'."\n";
 		echo '</div>'."\n";
 	}
-
+    
+    echo '<div class="grid-item-page-nums"><p class="page-nums">Total</p></div>'."\n";
 	echo '</div>'."\n";
 }
 
@@ -118,6 +134,7 @@ function create_grid($course_id, $num_booklets, $num_pages) {
 
         // $rs contains num_pages number of records
         $rs = $GLOBALS['DB']->get_recordset_select('mem_pages', 'booklet_id=?', array($i));
+        $booklet_total = 0;
         foreach ($rs as $record) {
 			//$status = $statuses[array_rand($statuses)];
             //$status = 'finished';
@@ -128,8 +145,15 @@ function create_grid($course_id, $num_booklets, $num_pages) {
 			echo "\t".'<p class="page">P<span class="page-num">'.$record->page_num.'</span></p>'."\n";
 			echo '</div>'."\n";
 			echo '</a>'."\n";
+            $booklet_total += $record->page_marks;
 		}
-
+        
+        // Totals column
+        $max_booklet_mark = $GLOBALS['DB']->get_field_select('mem_mark_stats', 'total_booklet_score_max', 'booklet_id=?', array($i));
+        echo '<div class="grid-item-t" style="margin: 5px">'."\n";
+        echo "\t".'<p class="mark">'.$booklet_total.'/'.$max_booklet_mark.'</p>'."\n";
+        echo "\t".'<p hidden class="booklet">B<span class="booklet-num">'.$i.'</span></p>'."\n";
+        echo '</div>'."\n";
         $rs->close();
 	}
 
