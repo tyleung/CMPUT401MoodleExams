@@ -115,7 +115,12 @@ var draw_class = (function () {
 		// prevent base64 corruption by replaceing + sign with it's encoding %2B 
 		// taken from http://stackoverflow.com/a/14803292
 		dat = dat.replace(/\+/gi, "%2B");
+		
+		// get course id
+		var course_id = parseInt(document.getElementById("id_course_id").value);
+
 		dat = dat + "&page=" + page + "&booklet=" + book + "&mark=" + mark + "&max_mark=" + maxMark + "&course_id=" + course_id;
+
 		//DISABLE autosave as it can auto save a corrupted/not-properly-loaded image!
 		if(!navi){
 			// taken from http://stackoverflow.com/questions/17391538/plain-javascript-no-jquery-to-load-a-php-file-into-a-div
@@ -145,8 +150,8 @@ var draw_class = (function () {
 			newbook = ((newbook<1) ? 1 : newbook);
 			var newpage = parseInt(document.getElementById("id_pageTxt").value) + horDir;
 			newpage = ((newpage<1) ? 1 : newpage);
-			
-			var dirdat = "page=" + newpage + "&booklet=" + newbook;
+
+			var dirdat = "page=" + newpage + "&booklet=" + newbook + "&course_id=" + course_id;
 			
 			// taken from http://stackoverflow.com/questions/17391538/plain-javascript-no-jquery-to-load-a-php-file-into-a-div
 			var innernaviphp = document.getElementById("id_pageinfo");

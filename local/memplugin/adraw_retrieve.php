@@ -39,7 +39,7 @@ require_once '../../config.php';
 			bid.setAttribute("value", "'.$booklet.'");
 			page.setAttribute("value", "'.$page.'");
 			sid.setAttribute("value", "'.$student.'");
-			assign.setAttribute("href", "'.$CFG->wwwroot.'/local/memplugin/search.php?course_id='.$course_id.'&booklet_id='.$booklet.'&page='.$page.'");
+			assign.setAttribute("href", "'.$CFG->wwwroot.'/local/memplugin/search.php?course_id='.$course.'&booklet_id='.$booklet.'&page='.$page.'");
 			
 			var newInnerHtml = \'<br>			Page Mark: <br> <input type=\"number\" id=\"id_pageMark\" min=0 max=999 onchange=\"checkMax()\" value='.$mark.'>			<br> <br>			Maximum Mark: <br> <input type=\"number\" id=\"id_pageMaxMark\" min=0 max=999 onchange=\"checkMax()\" value='.$max_mark.'>\';
 			

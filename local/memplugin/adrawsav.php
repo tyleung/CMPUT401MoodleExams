@@ -7,7 +7,8 @@ require_once '../../config.php';
 	// THIS page also should retrieve the page's score and Max score and save it to database.
 	// Update if this entry already exists.
 	// first save score and stuff, then the png blob.
-	
+
+	$course = intval($_POST['course_id']);
 	$page = intval($_POST['page']);
 	$booklet = intval($_POST['booklet']);
 	$mark = intval($_POST['mark']);
