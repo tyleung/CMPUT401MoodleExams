@@ -85,7 +85,7 @@
 		 */
 		// Deserialize data after reading QR.
 		public function get_deserialized_data(){
-			return Deserialize($this->qrtext);
+			return unserialize($this->qrtext);
 		}
 
 		/**
