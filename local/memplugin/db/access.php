@@ -31,9 +31,12 @@ $capabilities = array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array( // The roles that you want to allow
-            'teacher' => CAP_ALLOW,
-            'editingteacher' => CAP_ALLOW,
-            'manager' => CAP_ALLOW
+            'teacher'        => CAP_ALLOW,
+    	    'editingteacher' => CAP_ALLOW,
+    	    'coursecreator'  => CAP_ALLOW,
+	        'manager'        => CAP_ALLOW,
+            'student' => CAP_PREVENT,
+            'guest' => CAP_PREVENT
         ),
     ),
 );

@@ -78,6 +78,7 @@ $string['stats_median']   = 'Median: ';
 $string['stats_select_title'] = 'Exam Statistics from Year & Semester';
 $string['stats_choice_submit'] = 'Get Statistics';
 $string['stats_grouping'] = 'Select Semester';
+$string['stats_grouping2'] = 'Select Course';
 
 // Followings are from 'Assignment_upload' by Davo Smith (https://moodle.org/plugins/assignment_uploadpdf)
 $string['addquicklist'] = 'Add to comment Quicklist';
