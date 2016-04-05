@@ -13,7 +13,7 @@ class local_memplugin_mme_exams_submission_testcase extends advanced_testcase {
         $data = array(
             'page_number' => 0,
             'exam_number' => 1,
-            'max_pages' => 7,
+            'max_pages' => 7.0,
             'name' => 'uwaaa',
             'md5' => '23d8db48e9886b45526663af9e478223',
         );
