@@ -57,6 +57,8 @@ $recPages = $DB->get_records_sql('SELECT page_id, {mem_booklet_data}.booklet_id,
 	//test
 	//echo "<br>mark:".$mark." max mark:".$max_mark;
 	//echo '<img src="data:image/png;base64,'.$base64.'"/>';
+	
+	// Update is_marked field
+	$DB->set_field('mem_pages', 'is_marked', '1', array('page_id'=>$page_id));
 
 ?>
-

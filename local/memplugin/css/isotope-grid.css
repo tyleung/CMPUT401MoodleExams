@@ -107,11 +107,11 @@ body {
 	color: #262524;
 }
 
-.grid-item.finished {
+.grid-item.marked {
 	background: #99ff99;
 }
 
-.grid-item.unfinished {
+.grid-item.unmarked {
 	background: #ff9999;
 }
 

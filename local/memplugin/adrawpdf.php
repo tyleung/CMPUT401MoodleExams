@@ -35,7 +35,7 @@ $PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('pluginname', 'local_memplugin'));
 $PAGE->set_heading(get_string('pluginname', 'local_memplugin'));
-$PAGE->set_url($CFG->wwwroot.'/local/memplugin/adrawpdftest.php');
+$PAGE->set_url($CFG->wwwroot.'/local/memplugin/adrawpdf.php');
 
 //TODO: Also when clicking assign student, then should goto search page and parse the booklet id variable. id_assignStudent
 
@@ -74,7 +74,7 @@ $loaded = '<script type="text/javascript"> window.onload = draw_class.init();	</
 display_draw($loaded);
 
 /**
-Display search method prints everything on screen to actually display everything, and links the Javascript file.
+* Display search method prints everything on screen to actually display everything, and links the Javascript file.
 */
 function display_draw($js_onload) {
 	global $OUTPUT, $bid, $page, $student, $mark, $maxmark, $img_tmp;

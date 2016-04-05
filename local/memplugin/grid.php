@@ -112,7 +112,6 @@ function create_grid_headers($num_pages) {
  */
 function create_grid($course_id, $num_booklets, $num_pages) {
 	echo '<div class="grid">'."\n";
-	$statuses = array('finished', 'unfinished');
 
 	for ($i = 1; $i <= $num_booklets; $i++) {
 		echo '<div class="grid-item-booklet-nums">'."\n";
@@ -123,10 +122,9 @@ function create_grid($course_id, $num_booklets, $num_pages) {
         $rs = $GLOBALS['DB']->get_recordset_select('mem_pages', 'booklet_id=?', array($i));
         $booklet_total = 0;
         foreach ($rs as $record) {
-			//$status = $statuses[array_rand($statuses)];
-            //$status = 'finished';
+            $is_marked = $record->is_marked == 1 ? 'marked' : 'unmarked';
 			echo '<a href="adrawpdf.php?booklet_id='.$i.'&page='.$record->page_num.'" class="grid-item-select">'."\n";
-			echo '<div class="grid-item '.$status.'">'."\n";
+			echo '<div class="grid-item '.$is_marked.'">'."\n";
 			echo "\t".'<p class="mark">'.$record->page_marks.'</p>'."\n";
 			echo "\t".'<p hidden class="booklet">B<span class="booklet-num">'.$i.'</span></p>'."\n";
 			echo "\t".'<p class="page">P<span class="page-num">'.$record->page_num.'</span></p>'."\n";
