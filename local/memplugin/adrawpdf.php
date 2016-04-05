@@ -35,12 +35,23 @@ $PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('pluginname', 'local_memplugin'));
 $PAGE->set_heading(get_string('pluginname', 'local_memplugin'));
-$PAGE->set_url($CFG->wwwroot.'/local/memplugin/adrawpdftest.php');
+$PAGE->set_url($CFG->wwwroot.'/local/memplugin/adrawpdf.php');
 
-//TODO: Also when clicking assign student, then should goto search page and parse the booklet id variable. id_assignStudent
+$course_id = 0;
+if($_GET['course_id']) {
+    $course_id = $_GET['course_id'];
+}
 
 $bid = intval($_GET['booklet_id']);
 $page = intval($_GET['page']);
+
+// Breadcrumbs
+$memhomenode = $PAGE->navigation->add(get_string('memhome', 'local_memplugin'), new moodle_url('memhome.php'));
+$gridnode = $memhomenode->add(get_string('grid', 'local_memplugin'), new moodle_url('grid.php?course_id='.$course_id));
+$adrawpdfnode = $gridnode->add(get_string('markheader', 'local_memplugin'), new moodle_url('adrawpdf.php?course_id='.$course_id.'&booklet_id='.$bid.'&page='.$page));
+$adrawpdfnode->make_active();
+
+//TODO: Also when clicking assign student, then should goto search page and parse the booklet id variable. id_assignStudent
 
 $recPDF = $DB->get_records_sql('SELECT pdf_file_id, {mem_pdf_files}.booklet_id, {mem_pdf_files}.page_num, 
 							pdf_file, student_id 
@@ -75,7 +86,7 @@ $loaded = '<script type="text/javascript"> window.onload = draw_class.init();	</
 display_draw($loaded);
 
 /**
-Display search method prints everything on screen to actually display everything, and links the Javascript file.
+* Display search method prints everything on screen to actually display everything, and links the Javascript file.
 */
 function display_draw($js_onload) {
 	global $OUTPUT, $bid, $page, $student, $mark, $maxmark, $img_tmp;

@@ -62,7 +62,7 @@ if ($_POST['exam_submit']) {
 		//redirect($CFG->wwwroot.'/local/memplugin/examclasstestresult.php?exam_count='.$data->exam_count.'&extra_count='.$data->extra_count.'&name='.$data->name);
 	} else {
 		echo $OUTPUT->header();
-		echo "exam and extra page input must be numeric.";
+		echo '<p style="color: red">exam and extra page input must be numeric.</p>';
 		$form->display();
 		echo $OUTPUT->footer();
 	}

@@ -275,6 +275,21 @@ function xmldb_local_memplugin_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2016040105, 'local', 'memplugin');
     }
 
+    if ($oldversion < 2016040401) {
+
+        // Define field is_marked to be added to mem_pages.
+        $table = new xmldb_table('mem_pages');
+        $field = new xmldb_field('is_marked', XMLDB_TYPE_INTEGER, '1', null, null, null, '0', 'page_num');
+
+        // Conditionally launch add field is_marked.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Memplugin savepoint reached.
+        upgrade_plugin_savepoint(true, 2016040401, 'local', 'memplugin');
+    }
+
  	return true;   
 }    
     

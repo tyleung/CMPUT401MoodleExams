@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="local/memplugin/db" VERSION="20160401" COMMENT="XMLDB file for Moodle local/memplugin"
+<XMLDB PATH="local/memplugin/db" VERSION="20160404" COMMENT="XMLDB file for Moodle local/memplugin"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -51,6 +51,7 @@
         <FIELD NAME="page_marks" TYPE="int" LENGTH="3" NOTNULL="true" SEQUENCE="false" COMMENT="The amount of marks this page got."/>
         <FIELD NAME="page_marks_max" TYPE="int" LENGTH="3" NOTNULL="true" SEQUENCE="false" COMMENT="The maximum amount of marks this page can earn."/>
         <FIELD NAME="page_num" TYPE="int" LENGTH="3" NOTNULL="true" SEQUENCE="false" COMMENT="the page number of this exam"/>
+        <FIELD NAME="is_marked" TYPE="int" LENGTH="1" NOTNULL="false" DEFAULT="0" SEQUENCE="false"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="page_id"/>
