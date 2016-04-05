@@ -33,16 +33,18 @@ $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('pluginname', 'local_memplugin'));
 $PAGE->set_heading(get_string('pluginname', 'local_memplugin'));
 $PAGE->set_url($CFG->wwwroot.'/local/memplugin/grid.php');
-$gridnode = $PAGE->navigation->add(get_string('grid', 'local_memplugin'), new moodle_url('grid.php'));
-$gridnode->make_active();
 
-echo $OUTPUT->header();
-
-// TODO: Get the course id.
 $course_id = 3;
 if($_GET['course_id']) {
     $course_id = $_GET['course_id'];
 }
+
+// Breadcrumbs
+$memhomenode = $PAGE->navigation->add(get_string('memhome', 'local_memplugin'), new moodle_url('memhome.php'));
+$gridnode = $memhomenode->add(get_string('grid', 'local_memplugin'), new moodle_url('grid.php?course_id='.$course_id));
+$gridnode->make_active();
+
+echo $OUTPUT->header();
 
 $num_booklets = $DB->count_records_select('mem_booklet_data', 'course_id=?', array($course_id));
 $num_pages = $DB->get_field_select('mem_booklet_data', 'max_pages', 'course_id=?', array($course_id), IGNORE_MULTIPLE);
@@ -123,7 +125,7 @@ function create_grid($course_id, $num_booklets, $num_pages) {
         $booklet_total = 0;
         foreach ($rs as $record) {
             $is_marked = $record->is_marked == 1 ? 'marked' : 'unmarked';
-			echo '<a href="adrawpdf.php?booklet_id='.$i.'&page='.$record->page_num.'" class="grid-item-select">'."\n";
+			echo '<a href="adrawpdf.php?course_id='.$course_id.'&booklet_id='.$i.'&page='.$record->page_num.'" class="grid-item-select">'."\n";
 			echo '<div class="grid-item '.$is_marked.'">'."\n";
 			echo "\t".'<p class="mark">'.$record->page_marks.'</p>'."\n";
 			echo "\t".'<p hidden class="booklet">B<span class="booklet-num">'.$i.'</span></p>'."\n";
