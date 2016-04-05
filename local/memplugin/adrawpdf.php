@@ -60,6 +60,7 @@ $student = current($recPDF)->student_id;
 $mark = current($recPages)->page_marks;
 $maxmark = current($recPages)->page_marks_max;
 $imgdat = base64_encode(current($recPDF)->pdf_file);
+//var_dump($recPDF);
 /*
 print_r("book".$bid."pg".$page);
 var_dump(current($rec));
@@ -79,6 +80,7 @@ Display search method prints everything on screen to actually display everything
 function display_draw($js_onload) {
 	global $OUTPUT, $bid, $page, $student, $mark, $maxmark, $img_tmp;
 	echo $OUTPUT->header();
+	echo $img_tmp;
 	echo 'Marking<br>';
 	//Perhaps a zoom out/in function? dunno how to do that without distorting canvas&mousexy events.
     echo '<link rel="stylesheet" type="text/css" href="css/marking_canvas.css">
@@ -128,15 +130,16 @@ function display_draw($js_onload) {
 							<br> <br>
 							Student ID: <br> <input type="number" id="id_studentIdTxt" disabled value='.$student.'>
 							<br><a id="id_assignStudent" href="'.$CFG->wwwroot.'search.php?booklet_id='.$bid.'&page='.$page.'">Assign student</a>
+							<div id="id_div_page_mark">
+							<br>
+							Page Mark: <br> <input type="number" id="id_pageMark" min=0 max=999 onchange="checkMax()" value='.$mark.'>
 							<br> <br>
-							Page Mark: <br> <input type="number" id="id_pageMark" min=0 max=999 value='.$mark.'>
-							<br> <br>
-							Maximum Mark: <br> <input type="number" id="id_pageMaxMark" min=0 max=999 value='.$maxmark.'>
+							Maximum Mark: <br> <input type="number" id="id_pageMaxMark" min=0 max=999 onchange="checkMax()" value='.$maxmark.'>
+							</div>
 						</div>
 					</td>
 				</tr>
 		   	</table>';
-	echo $img_tmp;
 	echo $js_onload;
 	echo $OUTPUT->footer();
 }

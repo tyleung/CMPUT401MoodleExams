@@ -4,6 +4,13 @@
 // http://www.tcpdf.org/examples/example_009.phps
 // http://www.w3schools.com/tags/canvas_filltext.asp
 
+function checkMax() {
+	var mark = parseInt(document.getElementById("id_pageMark").value);
+	var maxMark = parseInt(document.getElementById("id_pageMaxMark").value);
+	if(mark > maxMark)
+		alert("Warning: you're assigning a mark higher than the maximum mark.");
+}
+
 var draw_class = (function () {
 
 	//TODO: make it more efficient, instead redrawing canvas every event, 
@@ -114,6 +121,7 @@ var draw_class = (function () {
 			// taken from http://stackoverflow.com/questions/17391538/plain-javascript-no-jquery-to-load-a-php-file-into-a-div
 			var innersavphp = document.getElementById("id_lastSavPDFdiv");
 			innersavphp.innerHTML = "Saving " + loadgif;
+			disableNaviBtn(true);
 			if(XMLHttpRequest) var xsav = new XMLHttpRequest();
 			else var xsav = new ActiveXObject("Microsoft.XMLHTTP");
 			xsav.open("POST", "adrawsav.php", true);
@@ -121,8 +129,13 @@ var draw_class = (function () {
 			xsav.send(dat);
 			xsav.onreadystatechange = function(){
 				if(xsav.readyState == 4){
-					if(xsav.status == 200) innersavphp.innerHTML = xsav.responseText;
-					else innersavphp.innerHTML = "Error saving.";
+					if(xsav.status == 200) {
+						innersavphp.innerHTML = xsav.responseText;
+						setTimeout(function(){ disableNaviBtn(false) }, 200);
+					} else {
+						innersavphp.innerHTML = "Error saving.";
+						disableNaviBtn(false);
+					}
 				}
 			};
 		}
@@ -138,6 +151,7 @@ var draw_class = (function () {
 			// taken from http://stackoverflow.com/questions/17391538/plain-javascript-no-jquery-to-load-a-php-file-into-a-div
 			var innernaviphp = document.getElementById("id_pageinfo");
 			innernaviphp.innerHTML = "Loading page " + loadgif;
+			document.getElementById("id_btnSav").disabled = true;
 			canvas.setAttribute("width", 1);
 	    	canvas.setAttribute("height", 1);
 			if(XMLHttpRequest) var xnavi = new XMLHttpRequest();
@@ -152,21 +166,29 @@ var draw_class = (function () {
 						var innerjs = document.getElementById("id_retrieve_scr");
 						// innerHTML doesn't run script, use JS' eval function.
 						eval(innerjs.innerHTML);
-						setTimeout(function() {
+						
+						setTimeout(function(){
 							resetCanvasDrawings();
 							setCanvasToImageDimensions();
 							redraw();
-						}, 300);
-						
+							setTimeout(function(){ document.getElementById("id_btnSav").disabled = false }, 200);
+						}, 200);
 					} else {
 						innernaviphp.innerHTML = "Failed fetching page.";
+						document.getElementById("id_btnSav").disabled = false;
 					}
 				}
 			};
 		}
 		
     },
-
+	disableNaviBtn = function(bool) {
+		document.getElementById("id_btnUp").disabled = bool;
+		document.getElementById("id_btnLeft").disabled = bool;
+		document.getElementById("id_btnRight").disabled = bool;
+		document.getElementById("id_btnDown").disabled = bool;
+	},
+	
 	drawingTool = function (event){
 		check_tool_activate = false;
 		cross_tool_activate = false;
