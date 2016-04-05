@@ -72,19 +72,6 @@ create_grid($course_id, $num_booklets, $num_pages);
 ?>
 </div>
 
-<!-- Totals column 
-<div style="width:<?php //echo $grid_width + 110; ?>px;">
-    <div class="grid-item-page-nums"><p class="page-nums">Total</p></div>
-    <?php
-    //for ($i = 1; $i <= $num_booklets; $i++) {
-    //    echo '<div class="grid-item-page-nums">'."\n";
-    //    echo "\t".'<p class="booklet-num">'.$i.'</p>'."\n";
-    //    echo '</div>'."\n";
-    //}
-    ?>
-</div>-->
-
-
 <script src="http://code.jquery.com/jquery-latest.js" type="text/javascript"></script>
 <script src="js/isotope.pkgd.min.js" type="text/javascript"></script>
 <script src="js/isotope-grid.js" type="text/javascript"></script>
