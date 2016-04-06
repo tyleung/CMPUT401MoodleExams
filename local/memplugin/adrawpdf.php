@@ -161,7 +161,7 @@ function display_draw($js_onload) {
 							Page: <br> <input type="number" id="id_pageTxt" disabled value='.$page.'>
 							<br> <br>
 							Student ID: <br> <input type="number" id="id_studentIdTxt" disabled value='.$student.'>
-							<br><a id="id_assignStudent" href="'.$CFG->wwwroot.'search.php?course_id='.$course_id.'&booklet_id='.$bid.'&page='.$page.'">Assign student</a>
+							<br><a id="id_assignStudent" href="'.$CFG->wwwroot.'/local/memplugin/search.php?course_id='.$course_id.'&booklet_id='.$bid.'&page='.$page.'">Assign student</a>
 							<div id="id_div_page_mark">
 							<br>
 							Page Mark: <br> <input type="number" id="id_pageMark" min=0 max=999 onchange="checkMax()" value='.$mark.'>

@@ -8,7 +8,13 @@ require_once '../../config.php';
 	$bid = intval($_GET['booklet_id']);
 	$page = intval($_GET['page']);
 	
-	$DB->set_field("mem_booklet_data", "student_id", $sid, array("booklet_id"=>$bid, "course_id"=>$course));
+	$hash = $DB->get_record_sql('SELECT {mem_booklet_data}.booklet_id, student_id, exam_hash
+							FROM {mem_booklet_data}
+							WHERE {mem_booklet_data}.course_id=?
+							AND {mem_booklet_data}.booklet_id=?
+							', array($course, $booklet));
+	
+	$DB->set_field("mem_booklet_data", "student_id", $sid, array("booklet_id"=>$bid, "exam_hash"=>$hash, "course_id"=>$course));
 
 	redirect($CFG->wwwroot.'/local/memplugin/adrawpdf.php?booklet_id='.$bid.'&page='.$page.'&course_id='.$course);
 	

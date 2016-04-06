@@ -39,6 +39,12 @@ $course = intval($_GET['course_id']);
 $bid = intval($_GET['booklet_id']);
 $page = intval($_GET['page']);
 
+$hash = $DB->get_record_sql('SELECT {mem_booklet_data}.booklet_id, student_id, exam_hash
+							FROM {mem_booklet_data}
+							WHERE {mem_booklet_data}.course_id=?
+							AND {mem_booklet_data}.booklet_id=?
+							', array($course, $bid));
+
 $memhomenode = $PAGE->navigation->add(get_string('memhome', 'local_memplugin'), new moodle_url('memhome.php'));
 $gridnode = $memhomenode->add(get_string('grid', 'local_memplugin'), new moodle_url('grid.php?course_id='.$course));
 $adrawpdfnode = $gridnode->add(get_string('canvasnav', 'local_memplugin'), new moodle_url('adrawpdf.php?course_id='.$course.'&booklet_id='.$bid.'&page='.$page));
@@ -59,46 +65,43 @@ foreach($enrolled as $course) {
 	$tmp = get_enrolled_users(context_course::instance($course->id),'', 0, 'u.*');
 	$datstudents = array_merge($datstudents, $tmp);
 }
-// todo get booklet id as well, and parse it into search_add_to_db
-$searchable_students = '<script>var data = '.json_encode($datstudents).';
-						var bid = '.$bid.';
-						var page = '.$page.';
-						window.onload = init(data, bid, page);
-						</script>';
 
-display_search($searchable_students);
+$recBk = $DB->get_record_sql('SELECT {mem_booklet_data}.booklet_id, student_id, exam_hash
+							FROM {mem_booklet_data}
+							WHERE {mem_booklet_data}.course_id=?
+							AND {mem_booklet_data}.booklet_id=?
+							', array(intval($course), $bid));
 
-$img = $DB->get_record_sql('SELECT pdf_file_id, pdf_file
-							FROM {mem_booklet_data}, {mem_pdf_files} 
-							WHERE {mem_booklet_data}.booklet_id=?
-							AND {mem_booklet_data}.course_id=?
-							AND {mem_pdf_files}.page_num=0
-							AND {mem_pdf_files}.booklet_id={mem_booklet_data}.booklet_id', array($bid, $course));
+						
+$recPdf = $DB->get_record_sql('SELECT pdf_file_id, pdf_file
+							FROM {mem_pdf_files}
+							WHERE {mem_pdf_files}.page_num=?
+							AND {mem_pdf_files}.exam_hash=?
+							AND {mem_pdf_files}.booklet_id=?
+							', array($page, $recBk->exam_hash, $bid));
 
 /**
 Display search method prints everything on screen to actually display everything, and links the Javascript file.
 */
+echo $OUTPUT->header();
+echo '<link rel="stylesheet" type="text/css" href="css/marking_canvas.css">
+		<script>var course_id_val = '.intval($course).';</script>
+		<script src="js/search.js" type="text/javascript"></script>';
+echo '<table class="search"><tr><td>
+		<div class="img">
+		<img alt="Page 0 of Booklet ID ='.$bid.'" src="data:image/png;base64,'.base64_encode($recPdf->pdf_file).'"/>
+		</div>
+		</td><td>
+			Find student: <input id="inputid" name="selectname" onchange="newSearch()"></input>
+			<button type="button" id="search_btn_id" onclick="newSearch()">Search</button>
+			<div id="aside"></div>
+		</td></tr></table>';
 
-//TODO: page 0 is the one that has the name and id on it.
-// also show a page0 of current booklet reeceived in a <img>
+echo '<script>var data = '.json_encode($datstudents).';
+					var bid = '.$bid.';
+					var page = '.$page.';
+					window.onload = init(data, bid, page);
+					</script>';
+echo $OUTPUT->footer();
 
-function display_search($js) {
-	global $OUTPUT, $img, $bid;
-	echo $OUTPUT->header();
-	echo '<link rel="stylesheet" type="text/css" href="css/marking_canvas.css">
-			<script>var course_id_val = '.$course.';</script>
-			<script src="js/search.js" type="text/javascript"></script>';
-	echo '<table class="search"><tr><td>
-			<div class="img">
-			<img alt="Page 0 of Booklet ID ='.$bid.'" src="data:image/png;base64,'.base64_encode($img->pdf_file).'"/>
-			</div>
-			</td><td>
-				Find student: <input id="inputid" name="selectname" onchange="newSearch()"></input>
-				<button type="button" id="search_btn_id" onclick="newSearch()">Search</button>
-				<div id="aside"></div>
-			</td></tr></table>';
-
-	echo $js;
-	echo $OUTPUT->footer();
-}
 ?>
