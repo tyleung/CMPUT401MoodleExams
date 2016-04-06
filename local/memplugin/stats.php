@@ -141,17 +141,18 @@ function create_stats_page($crs, $yr) {
 		$student_totals += $pageMarks;
 		$max_score = $pageTotals;
 		array_push($raw_data_score, $pageMarks);
+		
 	}
 	
 	$total_mark = $student_totals;
 	$raw_marks = $raw_data_score;
 	
-	/*
-	print_r($total_mark);
+	
+	var_dump($total_mark);
 	echo "</br>";
-	print_r($raw_marks);
+	var_dump($raw_marks);
 	echo "</br>";
-	*/
+	
 	
 	//$percentage_interval = floor(100/$total_mark);
 	$percentage_interval = 5;
