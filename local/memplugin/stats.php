@@ -30,7 +30,11 @@ require_once('../../config.php');
 global $PAGE, $CFG, $DB;
 
 require_login();
+
+// TODO PROPER permission, so teachers can access.
 require_capability('local/memplugin:add', context_system::instance());
+//require_capability('moodle/course:update', context_system::instance());
+
 require_once($CFG->dirroot.'/local/memplugin/stats_class.php');
 require_once($CFG->dirroot.'/local/memplugin/stats_form.php');
 $PAGE->set_context(context_system::instance());

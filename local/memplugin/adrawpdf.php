@@ -140,7 +140,9 @@ function display_draw($js_onload) {
 							<div id="id_pageinfo">
 							</div>
 							</br></br></br>
-							
+
+							<input type="hidden" id="id_course_id" value='.$course_id.'>
+
 							Booklet ID: <br> <input type="number" id="id_bookIdTxt" disabled value='.$bid.'>
 							<br> <br>
 							Page: <br> <input type="number" id="id_pageTxt" disabled value='.$page.'>
