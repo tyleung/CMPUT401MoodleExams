@@ -121,7 +121,7 @@
 							AND {mem_booklet_data}.booklet_id={mem_pdf_files}.booklet_id
 							AND {mem_pdf_files}.booklet_num=?'
 							, array($this->cid, $hash, $booknum));
-
+			var_dump($rec_check);
 			$booklet_id = -1;
 			
 			if(empty($rec_check)) {
