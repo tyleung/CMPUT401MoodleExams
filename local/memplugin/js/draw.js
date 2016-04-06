@@ -42,7 +42,7 @@ var draw_class = (function () {
 		loadgif = "<img src='sunload.gif'/>";
 		
 		validBks = bks;
-		currentBk = parseInt(startBook);
+		currentBk = validBks.indexOf(JSON.stringify(startBook));
 		maxPg = parseInt(maxPages);
 
 		// add event listeners
@@ -164,7 +164,7 @@ var draw_class = (function () {
 		if(navi) {
 			currentBk = currentBk + verDir;
 			currentBk = ((currentBk<0) ? 0 : currentBk);
-			currentBk = ((currentBk>=validBks.length) ? validBks.length-1 : currentBk);
+			currentBk = ((currentBk>=validBks.length) ? (validBks.length-1) : currentBk);
 			var newpage = parseInt(document.getElementById("id_pageTxt").value) + horDir;
 			newpage = ((newpage<1) ? 1 : newpage);
 
