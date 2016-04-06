@@ -33,9 +33,6 @@
 
 			//Cleanup
 			$this->img->clear();
-			unset($this->data);
-			unset($this->img);
-			unset($qrtext);
 		}
 
 
