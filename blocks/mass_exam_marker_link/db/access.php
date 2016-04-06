@@ -10,7 +10,7 @@
             'manager' => CAP_ALLOW
         ),
  
-        //'clonepermissionsfrom' => 'moodle/my:manageblocks'
+        'clonepermissionsfrom' => 'moodle/my:manageblocks'
     ),
  
     'blocks/mass_exam_marker_link:addinstance' => array(
@@ -24,7 +24,7 @@
             'manager' => CAP_ALLOW
         ),
  
-        //'clonepermissionsfrom' => 'moodle/site:manageblocks'
+        'clonepermissionsfrom' => 'moodle/site:manageblocks'
     ),
 );
 ?>

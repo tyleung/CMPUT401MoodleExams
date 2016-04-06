@@ -34,7 +34,7 @@ require_capability('local/memplugin:add', context_system::instance());
 $PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('pluginname', 'local_memplugin'));
-$PAGE->set_heading(get_string('pluginname', 'local_memplugin'));
+$PAGE->set_heading(get_string('canvastitle', 'local_memplugin'));
 $PAGE->set_url($CFG->wwwroot.'/local/memplugin/adrawpdf.php');
 
 $course_id = 0;
@@ -48,11 +48,10 @@ $page = intval($_GET['page']);
 // Breadcrumbs
 $memhomenode = $PAGE->navigation->add(get_string('memhome', 'local_memplugin'), new moodle_url('memhome.php'));
 $gridnode = $memhomenode->add(get_string('grid', 'local_memplugin'), new moodle_url('grid.php?course_id='.$course_id));
-$adrawpdfnode = $gridnode->add(get_string('markheader', 'local_memplugin'), new moodle_url('adrawpdf.php?course_id='.$course_id.'&booklet_id='.$bid.'&page='.$page));
+$adrawpdfnode = $gridnode->add(get_string('canvasnav', 'local_memplugin'), new moodle_url('adrawpdf.php?course_id='.$course_id.'&booklet_id='.$bid.'&page='.$page));
 $adrawpdfnode->make_active();
 
 //TODO: Also when clicking assign student, then should goto search page and parse the booklet id variable. id_assignStudent
-
 $recPDF = $DB->get_records_sql('SELECT pdf_file_id, {mem_pdf_files}.booklet_id, {mem_pdf_files}.page_num, 
 							pdf_file, student_id 
 							FROM {mem_booklet_data}, {mem_pdf_files} 
@@ -96,6 +95,7 @@ function display_draw($js_onload) {
 	//Perhaps a zoom out/in function? dunno how to do that without distorting canvas&mousexy events.
     echo '<link rel="stylesheet" type="text/css" href="css/marking_canvas.css">
 		  <link rel="stylesheet" type="text/css" href="css/marking_tools.css">
+		  <link rel="stylesheet" type="text/css" href="css/calculator.css">
 			<script type="text/javascript" src="js/draw.js"></script>
 			<table  border="1" class="marking_table">
 				<tr>
@@ -122,36 +122,76 @@ function display_draw($js_onload) {
 					<td>
 						<div id="id_controlpage" class="controlpage">
 							<br>
-							<button id="id_btnSav">Save Page</button> <br> 
-							<div id="id_lastSavPDFdiv">No save performed yet.</div>
+							<center><button id="id_btnSav" class="btn_sav">Save Page</button><br> </center>
 							<br>
-							&nbsp;&nbsp;&nbsp;&nbsp;
-							<button id="id_btnUp">^<br>Booklet</button> <br>
-							<button id="id_btnLeft">&lt;<br>Page</button>
-							<button id="id_btnRight">&gt;<br>Page</button> <br>
-							&nbsp;&nbsp;&nbsp;&nbsp;
-							<button id="id_btnDown">v<br>Booklet</button>
-							<br><br>
+							<center><div id="id_lastSavPDFdiv">No save performed yet.</div></center>
+							<br>
+							<center><button id="id_btnUp" class="btn_updwn">^<br>Booklet</button><br></center>
+							<div style="width:250px;">   
+							   <div style="display:inline; float:left;">
+									<button id="id_btnLeft" class="btn_left">&lt;<br>Page</button>
+							   </div>  
+							   <div  style="display:inline; float:right;">
+							   		<button id="id_btnRight" class="btn_right">&gt;<br>Page</button> <br>
+							   </div>
+							</div>
+							</br></br></br>
+							<center><button id="id_btnDown" class="btn_updwn">v<br>Booklet</button><br><br></center>
 							<div id="id_pageinfo">
 							</div>
-							
+							</br></br></br>
+
+							<input type="hidden" id="id_course_id" value='.$course_id.'>
+
 							Booklet ID: <br> <input type="number" id="id_bookIdTxt" disabled value='.$bid.'>
 							<br> <br>
 							Page: <br> <input type="number" id="id_pageTxt" disabled value='.$page.'>
 							<br> <br>
 							Student ID: <br> <input type="number" id="id_studentIdTxt" disabled value='.$student.'>
-							<br><a id="id_assignStudent" href="'.$CFG->wwwroot.'search.php?booklet_id='.$bid.'&page='.$page.'">Assign student</a>
+							<br><a id="id_assignStudent" href="'.$CFG->wwwroot.'search.php?course_id='.$course_id.'&booklet_id='.$bid.'&page='.$page.'">Assign student</a>
 							<div id="id_div_page_mark">
 							<br>
 							Page Mark: <br> <input type="number" id="id_pageMark" min=0 max=999 onchange="checkMax()" value='.$mark.'>
 							<br> <br>
 							Maximum Mark: <br> <input type="number" id="id_pageMaxMark" min=0 max=999 onchange="checkMax()" value='.$maxmark.'>
 							</div>
+							<div id="calculator">
+								<!-- Screen and clear key -->
+								<div class="top">
+									<span class="clear">C</span>
+									<div class="screen"></div>
+								</div>
+	
+								<div class="keys">
+									<!-- operators and other keys -->
+									<span>7</span>
+									<span>8</span>
+									<span>9</span>
+									<span class="operator">+</span>
+									<span>4</span>
+									<span>5</span>
+									<span>6</span>
+									<span class="operator">-</span>
+									<span>1</span>
+									<span>2</span>
+									<span>3</span>
+									<span class="operator">÷</span>
+									<span>0</span>
+									<span>.</span>
+									<span class="eval">=</span>
+									<span class="operator">x</span>
+								</div>
+							</div>
+							<!-- PrefixFree -->
+							<script src="js/calculator.js" type="text/javascript" type="text/javascript"></script>
 						</div>
 					</td>
 				</tr>
 		   	</table>';
+
+
 	echo $js_onload;
 	echo $OUTPUT->footer();
 }
 ?>
+

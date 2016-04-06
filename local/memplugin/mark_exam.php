@@ -40,6 +40,10 @@ $PAGE->set_title(get_string('pluginname', 'local_memplugin'));
 $PAGE->set_heading(get_string('markheader', 'local_memplugin'));
 $PAGE->set_url($CFG->wwwroot.'/local/memplugin/mark_exam.php');
 
+$homenode = $PAGE->navigation->add(get_string('memhome', 'local_memplugin'), new moodle_url('memhome.php'), navigation_node::TYPE_CONTAINER);
+$pagenode = $homenode->add(get_string('markexamnav', 'local_memplugin'), new moodle_url('mark_exam.php'));
+$pagenode->make_active();
+
 $form = new create_mark_exam_instance();
 
 //get course id somehow from other form GET

@@ -113,6 +113,7 @@ final class QrReader
         }catch( \Zxing\ChecksumException $er){
             $this->result = false;
         }
+        $im->clear();
     }
 
     public function text()

@@ -25,7 +25,7 @@ class local_memplugin_mme_exams_testcase extends basic_testcase {
         $data = array(
 			'page_number' => 1,
 			'exam_number' => 1,
-			'max_pages' => 5.0,
+			'max_pages' => 5,
 			'name' => $exam_name,
 			'md5' => md5($exam_data),
 		);
