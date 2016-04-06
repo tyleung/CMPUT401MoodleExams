@@ -28,14 +28,15 @@
 global $CFG, $PAGE, $DB;
  
 require_once('../../config.php');
-set_time_limit (0);
+
 require_login();
 require_capability('local/memplugin:add', context_system::instance());
 require_once($CFG->dirroot.'/local/memplugin/mark_exam_form.php');
 require_once($CFG->dirroot.'/local/memplugin/mme_exams_submission.php');
 
 // set memory as handing large pngs and using QR codes scanning via their pixels.
-ini_set('memory_limit', '256');
+//ini_set('memory_limit', '256');
+set_time_limit (0);
 
 $PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('standard');
