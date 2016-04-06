@@ -30,8 +30,15 @@
 			$this->read_QRcode();
 			$this->cid = $courseId;
 			$this->insert_image_to_database();
+
+			//Cleanup
 			$this->img->clear();
+			unset($this->data);
+			unset($this->img);
+			unset($qrtext);
 		}
+
+
 
 		/**
 		 * Public method. 
