@@ -8,14 +8,14 @@ require_once '../../config.php';
 	$page = intval($_POST['page']);
 	$booklet = intval($_POST['booklet']);
 
-	$rec = $DB->get_record_sql('SELECT pdf_file_id, {mem_pdf_files}.booklet_id, {mem_pdf_files}.page_num, 
+	$rec = $DB->get_record_sql('SELECT pdf_file_id, {mem_pdf_files}.page_num, 
 							pdf_file, page_marks, page_marks_max, student_id 
 							FROM {mem_booklet_data}, {mem_pages}, {mem_pdf_files} 
 							WHERE {mem_booklet_data}.booklet_id=?
 							AND {mem_pages}.page_num=?
 							AND {mem_booklet_data}.course_id=?
-							AND {mem_pages}.booklet_id={mem_booklet_data}.booklet_id
-							AND {mem_pdf_files}.booklet_id={mem_booklet_data}.booklet_id
+							AND {mem_pages}.exam_hash={mem_booklet_data}.exam_hash
+							AND {mem_pdf_files}.exam_hash={mem_booklet_data}.exam_hash
 							AND {mem_pdf_files}.page_num={mem_pages}.page_num', array($booklet, $page, $course));
 
 	$mark = intval($rec->page_marks);

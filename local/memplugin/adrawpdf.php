@@ -53,7 +53,7 @@ $adrawpdfnode->make_active();
 
 //TODO: Also when clicking assign student, then should goto search page and parse the booklet id variable. id_assignStudent
 $recPDF = $DB->get_records_sql('SELECT pdf_file_id, {mem_pdf_files}.booklet_id, {mem_pdf_files}.page_num, 
-							pdf_file, student_id 
+							pdf_file, student_id, max_pages
 							FROM {mem_booklet_data}, {mem_pdf_files} 
 							WHERE {mem_booklet_data}.booklet_id=?
 							AND {mem_pdf_files}.page_num=?
@@ -67,11 +67,22 @@ $recPages = $DB->get_records_sql('SELECT page_id, {mem_booklet_data}.booklet_id,
 							AND {mem_booklet_data}.course_id=?
 							AND {mem_pages}.booklet_id={mem_booklet_data}.booklet_id', array($bid, $page, $course_id));
 
+						
+$rec_bk = $DB->get_records_sql('SELECT booklet_id
+							FROM {mem_booklet_data}
+							WHERE {mem_booklet_data}.course_id=?', array($course_id));
+$js_arr = array();
+foreach($rec_bk as $i) {
+	$js_arr[] = $i->booklet_id;
+}
+$json = json_encode($js_arr);
+
 // get following from the query using above!
 $student = current($recPDF)->student_id;
 $mark = current($recPages)->page_marks;
 $maxmark = current($recPages)->page_marks_max;
 $imgdat = base64_encode(current($recPDF)->pdf_file);
+$maxPages = current($recPDF)->max_pages;
 //var_dump($recPDF);
 /*
 print_r("book".$bid."pg".$page);
@@ -83,14 +94,14 @@ $img_tmp = '<img id="id_img_tmp" class="img_tmp" src="data:image/png;base64,'.$i
 //NOW get the blob and import it into canvas!
 
 //$loaded = '<script>window.onload = initDrw(); </script>';
-$loaded = '<script type="text/javascript"> window.onload = draw_class.init();	</script>';
+$loaded = '<script type="text/javascript"> window.onload = draw_class.init('.$json.','.$bid.','.$maxPages.');</script> ';
 display_draw($loaded);
 
 /**
 * Display search method prints everything on screen to actually display everything, and links the Javascript file.
 */
 function display_draw($js_onload) {
-	global $OUTPUT, $bid, $page, $student, $mark, $maxmark, $img_tmp;
+	global $CFG, $course_id, $OUTPUT, $bid, $page, $student, $mark, $maxmark, $img_tmp;
 	echo $OUTPUT->header();
 	echo $img_tmp;
 	echo 'Marking<br>';

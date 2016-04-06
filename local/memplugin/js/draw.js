@@ -31,12 +31,19 @@ var draw_class = (function () {
 	var cross_tool_activate = false;
 	var erase_tool_activate = false;
 	var type_tool_activate = false;
+	var validBks = "";
+	var currentBk = 0;
+	var maxPg = 0;
 
-	var init = function () {
+	var init = function (bks, startBook, maxPages) {
 		canvas = document.getElementById("id_canvas");
 		ctx = canvas.getContext("2d");
 
 		loadgif = "<img src='sunload.gif'/>";
+		
+		validBks = bks;
+		currentBk = parseInt(startBook);
+		maxPg = parseInt(maxPages);
 
 		// add event listeners
 		canvas.addEventListener("mousedown", mDown);
@@ -112,6 +119,7 @@ var draw_class = (function () {
 		book = ((book<1) ? 1 : book);
 		var page = parseInt(document.getElementById("id_pageTxt").value);
 		page = ((page<1) ? 1 : page);
+		page = ((page>maxPg) ? maxPg : page);
 		var mark = parseInt(document.getElementById("id_pageMark").value);
 		mark = ((mark<0) ? 0 : mark);
 		mark = ((mark>999) ? 999 : mark);
@@ -127,7 +135,7 @@ var draw_class = (function () {
 		// get course id
 		var course_id = parseInt(document.getElementById("id_course_id").value);
 
-		dat = dat + "&page=" + page + "&booklet=" + book + "&mark=" + mark + "&max_mark=" + maxMark + "&course_id=" + course_id;
+		dat = dat + "&page=" + page + "&booklet=" + validBks[currentBk] + "&mark=" + mark + "&max_mark=" + maxMark + "&course_id=" + course_id;
 
 		//DISABLE autosave as it can auto save a corrupted/not-properly-loaded image!
 		if(!navi){
@@ -154,12 +162,13 @@ var draw_class = (function () {
 		}
 		
 		if(navi) {
-			var newbook = parseInt(document.getElementById("id_bookIdTxt").value) + verDir;
-			newbook = ((newbook<1) ? 1 : newbook);
+			currentBk = currentBk + verDir;
+			currentBk = ((currentBk<0) ? 0 : currentBk);
+			currentBk = ((currentBk>=validBks.length) ? validBks.length-1 : currentBk);
 			var newpage = parseInt(document.getElementById("id_pageTxt").value) + horDir;
 			newpage = ((newpage<1) ? 1 : newpage);
 
-			var dirdat = "page=" + newpage + "&booklet=" + newbook + "&course_id=" + course_id;
+			var dirdat = "page=" + newpage + "&booklet=" + validBks[currentBk] + "&course_id=" + course_id;
 			
 			// taken from http://stackoverflow.com/questions/17391538/plain-javascript-no-jquery-to-load-a-php-file-into-a-div
 			var innernaviphp = document.getElementById("id_pageinfo");
