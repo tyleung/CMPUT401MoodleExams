@@ -155,7 +155,7 @@ function create_grid($course_id, $num_booklets, $num_pages) {
 		}
         
         // Totals column
-        $max_booklet_mark = intval(current($rec_check)->page_marks_max);
+        $max_booklet_mark = $DB->get_field_select('mem_mark_stats', 'total_booklet_score_max', 'exam_hash=? AND booklet_id=?', array($bk->exam_hash, $bk->booklet_id));
         echo '<div class="grid-item-t" style="margin: 5px">'."\n";
         echo "\t".'<p class="mark">'.$booklet_total.'/'.$max_booklet_mark.'</p>'."\n";
         echo "\t".'<p hidden class="booklet">B<span class="booklet-num">'.$i.'</span></p>'."\n";
