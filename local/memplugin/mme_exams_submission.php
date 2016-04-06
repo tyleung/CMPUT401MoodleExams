@@ -112,18 +112,26 @@
 			}
 			
 			$hash = $qrdata['md5'];
+			$booknum = intval($qrdata['exam_number']);
 			
-			$rec_check = $DB->get_records_sql('SELECT {mem_booklet_data}.booklet_id
-							FROM {mem_booklet_data}
-							WHERE {mem_booklet_data}.course_id=? AND {mem_booklet_data}.exam_hash=?'
-							, array($this->cid, $hash));
+			$rec_check = $DB->get_records_sql('SELECT pdf_file_id, {mem_booklet_data}.booklet_id
+							FROM {mem_booklet_data}, {mem_pdf_files}
+							WHERE {mem_booklet_data}.course_id=?
+							AND {mem_booklet_data}.exam_hash=?
+							AND {mem_booklet_data}.booklet_id={mem_pdf_files}.booklet_id
+							AND {mem_pdf_files}.booklet_num=?'
+							, array($this->cid, $hash, $booknum));
 
 			$booklet_id = -1;
 
-			print_r("qrData: ".var_dump($qrdata));
-			
-			print_r("rec check:".var_dump($rec_check));
+			echo "qrData: ";
+			var_dump($qrdata);
 
+			echo" <br> ";
+			
+			echo "rec_check: ";
+			var_dump($rec_check);
+			
 			if(empty($rec_check)) {
 				$book_param = new stdClass();
 				$book_param->year_semester_origin = "2016 SUMMER"; // replace with form data later.
@@ -132,15 +140,24 @@
 				$book_param->exam_hash = $hash;
 				$booklet_id = $DB->insert_record("mem_booklet_data", $book_param, true, false);
 			} else {
-				$booklet_id = $rec_check->booklet_id;
+				$booklet_id = intval(current($rec_check)->booklet_id);
 			}
+			
+			echo "bookid ";
+			var_dump($booklet_id);
 			
 			$img_param = new stdClass();
 			$img_param->booklet_id = $booklet_id;
 			$img_param->exam_hash = $hash;
 			$img_param->pdf_file = $this->data;
 			$img_param->page_num = intval($qrdata['page_number']);
-			$img_param->booklet_num = intval($qrdata['exam_number']); // exam-number is booklet number
+			$img_param->booklet_num = intval($booknum); // exam-number is booklet number
+			
+			echo " img param ";
+			var_dump($img_param->exam_hash);
+			var_dump($img_param->exam_hash);
+			
+			
 			return $DB->insert_record("mem_pdf_files", $img_param, true, false);
 			
 		}

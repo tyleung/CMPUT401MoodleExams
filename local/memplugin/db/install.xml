@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="local/memplugin/db" VERSION="20160405" COMMENT="XMLDB file for Moodle local/memplugin"
+<XMLDB PATH="local/memplugin/db" VERSION="20160406" COMMENT="XMLDB file for Moodle local/memplugin"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -46,7 +46,7 @@
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="pdf_file_id"/>
-        <KEY NAME="foreign_key" TYPE="foreign-unique" FIELDS="booklet_id" REFTABLE="mem_booklet_data" REFFIELDS="booklet_id"/>
+        <KEY NAME="foreign_key" TYPE="foreign" FIELDS="booklet_id" REFTABLE="mem_booklet_data" REFFIELDS="booklet_id"/>
         <KEY NAME="exam_hash" TYPE="foreign" FIELDS="exam_hash" REFTABLE="mem_booklet_data" REFFIELDS="exam_hash"/>
       </KEYS>
     </TABLE>

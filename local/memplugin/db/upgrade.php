@@ -353,6 +353,38 @@ function xmldb_local_memplugin_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2016050400, 'local', 'memplugin');
     }
 
+    if ($oldversion < 2016060400) {
+
+        // Define key foreign_key (foreign) to be dropped form mem_pdf_files.
+        $table = new xmldb_table('mem_pdf_files');
+        $key = new xmldb_key('foreign_key', XMLDB_KEY_FOREIGN, array('booklet_id'), 'mem_booklet_data', array('booklet_id'));
+
+        // Launch drop key foreign_key.
+        $dbman->drop_key($table, $key);
+        
+        // Define key foreign_key (foreign) to be added to mem_pdf_files.
+        $table = new xmldb_table('mem_pdf_files');
+        $key = new xmldb_key('foreign_key', XMLDB_KEY_FOREIGN, array('booklet_id'), 'mem_booklet_data', array('booklet_id'));
+
+        // Launch add key foreign_key.
+        $dbman->add_key($table, $key);
+        
+        // Memplugin savepoint reached.
+        upgrade_plugin_savepoint(true, 2016060400, 'local', 'memplugin');
+    }
+
+    if ($oldversion < 2016060404) {
+
+        // Define key compound_key (unique) to be dropped form mem_booklet_data.
+        $table = new xmldb_table('mem_booklet_data');
+        $key = new xmldb_key('compound_key', XMLDB_KEY_UNIQUE, array('exam_hash'));
+
+        // Launch drop key compound_key.
+        $dbman->drop_key($table, $key);
+
+        // Memplugin savepoint reached.
+        upgrade_plugin_savepoint(true, 2016060404, 'local', 'memplugin');
+    }
 
  	return true;   
 }    

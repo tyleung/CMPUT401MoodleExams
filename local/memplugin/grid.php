@@ -49,6 +49,9 @@ echo $OUTPUT->header();
 $num_booklets = $DB->count_records_select('mem_booklet_data', 'course_id=?', array($course_id));
 $num_pages = $DB->get_field_select('mem_booklet_data', 'max_pages', 'course_id=?', array($course_id), IGNORE_MULTIPLE);
 
+var_dump($num_booklets);
+var_dump($num_pages);
+
 // Each grid-item is 110px wide. Added 10px to account for the grid margins
 $grid_width = (($num_pages + 2) * 110) + 10;
 ?>

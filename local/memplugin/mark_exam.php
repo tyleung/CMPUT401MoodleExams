@@ -79,34 +79,34 @@ if($_POST['markbutton']){
 	$zipfile = new ZipArchive();
 
 	$zipfile->open(sys_get_temp_dir()."/temp.zip");
-
-	echo 'start';
-	echo $zipfile->numFiles;
-
+	
+	//echo 'start';
+	//echo $zipfile->numFiles;
+	
 	for($i = 0; $i < $zipfile->numFiles;$i++){
 		$stat = $zipfile->statIndex($i);
 		$img = $zipfile->getFromName($stat['name']);
 		// 2nd argument is course_id.
-		echo 'test'.$i.' </br>';
 		$scan = new MME_exam_submission($img, $selection);
+		/*echo 'test'.$i.' </br>';
 		if ($scan->get_data() === NULL){
 			echo "NULL</br>";
 		} else {
-			echo $scan->get_data().'</br>';
+			echo var_dump($scan->get_data()).'</br>';
 		}
-		/*
+		
 		echo $scan->get_deserialized_data()['name'].'</br>';
 		echo $scan->get_deserialized_data()['md5'].'</br>';
 		echo $scan->get_deserialized_data()['exam_number'].'</br>';
 		echo $scan->get_deserialized_data()['page_number'].'</br>';
-		echo $scan->get_deserialized_data()['max_pages'].'</br>';
+		echo $scan->get_deserialized_data()['max_pages'].'</br></br>';
 		*/
 	}
 
 
 		// Do database stuff with exam_submission class.
 	//redirect($CFG->wwwroot.'/local/memplugin/assign_books.php?courses_ids='.$courses);
-	//redirect($CFG->wwwroot.'/local/memplugin/grid.php?courses_id='.$selection);
+	redirect($CFG->wwwroot.'/local/memplugin/grid.php?course_id='.$selection);
 
 } elseif($_POST['savebutton']){
 	$data = $form->get_data();
@@ -120,7 +120,7 @@ if($_POST['markbutton']){
 		}
 	}
 	$courses = serialize($choices);
-	redirect($CFG->wwwroot.'/local/memplugin/memhome.php?courses_ids='.$courses);
+	redirect($CFG->wwwroot.'/local/memplugin/memhome.php?course_id='.$courses);
 }
 else { 
 	if($form->is_cancelled()) {
