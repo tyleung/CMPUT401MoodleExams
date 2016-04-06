@@ -122,19 +122,27 @@ function display_draw($js_onload) {
 					<td>
 						<div id="id_controlpage" class="controlpage">
 							<br>
-							<button id="id_btnSav" class="btn_sav">Save Page</button><br> 
+							<center><button id="id_btnSav" class="btn_sav">Save Page</button><br> </center>
 							<br>
 							<center><div id="id_lastSavPDFdiv">No save performed yet.</div></center>
 							<br>
-							<center><button id="id_btnUp" class="btn_up">^<br>Booklet</button><br></center>
-							<button id="id_btnLeft" class="btn_left">&lt;<br>Page</button>
-							<button id="id_btnRight" class="btn_right">&gt;<br>Page</button> <br>
-
-							<center><button id="id_btnDown" class="btn_down">v<br>Booklet</button>
-							<br><br></center>
+							<center><button id="id_btnUp" class="btn_updwn">^<br>Booklet</button><br></center>
+							<div style="width:250px;">   
+							   <div style="display:inline; float:left;">
+									<button id="id_btnLeft" class="btn_left">&lt;<br>Page</button>
+							   </div>  
+							   <div  style="display:inline; float:right;">
+							   		<button id="id_btnRight" class="btn_right">&gt;<br>Page</button> <br>
+							   </div>
+							</div>
+							</br></br></br>
+							<center><button id="id_btnDown" class="btn_updwn">v<br>Booklet</button><br><br></center>
 							<div id="id_pageinfo">
 							</div>
+							</br></br></br>
+
 							<input type="hidden" id="id_course_id" value='.$course_id.'>
+
 							Booklet ID: <br> <input type="number" id="id_bookIdTxt" disabled value='.$bid.'>
 							<br> <br>
 							Page: <br> <input type="number" id="id_pageTxt" disabled value='.$page.'>
