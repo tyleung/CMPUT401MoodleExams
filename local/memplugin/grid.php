@@ -130,6 +130,7 @@ function create_grid($course_id, $num_booklets, $num_pages) {
         // $rs contains num_pages number of records
         //$rs = $GLOBALS['DB']->get_recordset_select('mem_pages', 'booklet_id=?', array($i));
         $booklet_total = 0;
+        $booklet_max = 0;
         $maxpg = intval($bk->max_pages);
         
         $rec_check = $DB->get_records_sql('SELECT page_id, page_num, is_marked, page_marks, page_marks_max
@@ -151,13 +152,14 @@ function create_grid($course_id, $num_booklets, $num_pages) {
 			echo '</div>'."\n";
 			echo '</a>'."\n";
             $booklet_total += intval(current($rec_check)->page_marks);
+            $booklet_max += intval(current($rec_check)->page_marks_max);
             next($rec_check);
 		}
         
         // Totals column
-        $max_booklet_mark = $DB->get_field_select('mem_mark_stats', 'total_booklet_score_max', 'exam_hash=? AND booklet_id=?', array($bk->exam_hash, $bk->booklet_id));
+        //$max_booklet_mark = $DB->get_field_select('mem_mark_stats', 'total_booklet_score_max', 'exam_hash=? AND booklet_id=?', array($bk->exam_hash, $bk->booklet_id));
         echo '<div class="grid-item-t" style="margin: 5px">'."\n";
-        echo "\t".'<p class="mark">'.$booklet_total.'/'.$max_booklet_mark.'</p>'."\n";
+        echo "\t".'<p class="mark">'.$booklet_total.'/'.$booklet_max.'</p>'."\n";
         echo "\t".'<p hidden class="booklet">B<span class="booklet-num">'.$i.'</span></p>'."\n";
         echo '</div>'."\n";
         $i += 1;
