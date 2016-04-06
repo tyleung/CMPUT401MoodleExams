@@ -126,7 +126,7 @@
 			
 			$img_param = new stdClass();
 			$img_param->booklet_id = $booklet_id;
-			
+			$img_param->exam_hash = $hash;
 			$img_param->pdf_file = $this->data;
 			$img_param->page_num = $qrdata['page_number'];
 			$img_param->booklet_num = $qrdata['exam_number']; // exam-number is booklet number
