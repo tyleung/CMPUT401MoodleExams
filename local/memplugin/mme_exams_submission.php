@@ -30,8 +30,12 @@
 			$this->read_QRcode();
 			$this->cid = $courseId;
 			$this->insert_image_to_database();
+
+			//Cleanup
 			$this->img->clear();
 		}
+
+
 
 		/**
 		 * Public method. 
@@ -62,9 +66,8 @@
 		 * @return void
 		 */
 		private function crop_image(){
-			$height = $this->img->getImageHeight();
-			$width = $this->img->getImageWidth();
-			$this->img->cropImage($width/2,$height/2,0,0);
+			$this->img->scaleImage(1000,0);
+			$this->img->cropImage(350,350,0,0);
 		}
 
 		/**
@@ -86,7 +89,11 @@
 		 */
 		// Deserialize data after reading QR.
 		public function get_deserialized_data(){
-			return unserialize($this->qrtext);
+			if($this->qrtext == "" or $this->qrtext === NULL){
+				return NULL;
+			} else {
+				return unserialize($this->qrtext);
+			}
 		}
 
 		/**
