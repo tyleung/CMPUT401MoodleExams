@@ -28,7 +28,7 @@
 global $CFG, $PAGE, $DB;
  
 require_once('../../config.php');
-
+set_time_limit (0);
 require_login();
 require_capability('local/memplugin:add', context_system::instance());
 require_once($CFG->dirroot.'/local/memplugin/mark_exam_form.php');
@@ -72,13 +72,20 @@ if($_POST['markbutton']){
 
 	$zipfile->open(sys_get_temp_dir()."/temp.zip");
 
+	echo 'start';
+	echo $zipfile->numFiles;
 
 	for($i = 0; $i < $zipfile->numFiles;$i++){
 		$stat = $zipfile->statIndex($i);
 		$img = $zipfile->getFromName($stat['name']);
 		// 2nd argument is course_id.
+		echo 'test'.$i.' </br>';
 		$scan = new MME_exam_submission($img, $selection);
-		
+		if ($scan->get_data() === NULL){
+			echo "NULL</br>";
+		} else {
+			echo $scan->get_data().'</br>';
+		}
 		/*
 		echo $scan->get_deserialized_data()['name'].'</br>';
 		echo $scan->get_deserialized_data()['md5'].'</br>';
@@ -91,7 +98,7 @@ if($_POST['markbutton']){
 
 		// Do database stuff with exam_submission class.
 	//redirect($CFG->wwwroot.'/local/memplugin/assign_books.php?courses_ids='.$courses);
-	redirect($CFG->wwwroot.'/local/memplugin/grid.php?courses_id='.$selection);
+	//redirect($CFG->wwwroot.'/local/memplugin/grid.php?courses_id='.$selection);
 
 } elseif($_POST['savebutton']){
 	$data = $form->get_data();
