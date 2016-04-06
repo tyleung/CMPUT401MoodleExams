@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="local/memplugin/db" VERSION="20160404" COMMENT="XMLDB file for Moodle local/memplugin"
+<XMLDB PATH="local/memplugin/db" VERSION="20160406" COMMENT="XMLDB file for Moodle local/memplugin"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -13,9 +13,12 @@
         <FIELD NAME="course_id" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The numeric course id for the course"/>
         <FIELD NAME="year_semester_origin" TYPE="char" LENGTH="11" NOTNULL="true" SEQUENCE="false" COMMENT="The year and semester this exam booklet is from. e.g. 2015 WINTER"/>
         <FIELD NAME="max_pages" TYPE="int" LENGTH="3" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="exam_hash" TYPE="char" LENGTH="32" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="a MD5 hash to uniquely identify a batch of generated exam upon generating the exams."/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary_key" TYPE="primary" FIELDS="booklet_id"/>
+        <KEY NAME="compound_key" TYPE="unique" FIELDS="exam_hash"/>
+        <KEY NAME="changeme" TYPE="" FIELDS=""/>
       </KEYS>
     </TABLE>
     <TABLE NAME="mem_mark_stats" COMMENT="The collection of total score the booklet has.">
@@ -24,10 +27,12 @@
         <FIELD NAME="total_booklet_score" TYPE="int" LENGTH="3" NOTNULL="true" SEQUENCE="false" COMMENT="The summed marks of each page of the booklet."/>
         <FIELD NAME="total_booklet_score_max" TYPE="int" LENGTH="3" NOTNULL="true" SEQUENCE="false" COMMENT="The maximum amount of marks the booklet can have."/>
         <FIELD NAME="mark_stats_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="exam_hash" TYPE="char" LENGTH="32" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="a MD5 hash to uniquely identify a batch of generated exam upon generating the exams."/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="mark_stats_id"/>
         <KEY NAME="foreign_key" TYPE="foreign-unique" FIELDS="booklet_id" REFTABLE="mem_booklet_data" REFFIELDS="booklet_id"/>
+        <KEY NAME="exam_hash" TYPE="foreign" FIELDS="exam_hash" REFTABLE="mem_booklet_data" REFFIELDS="exam_hash" COMMENT="a MD5 hash to uniquely identify a batch of generated exam upon generating the exams."/>
       </KEYS>
     </TABLE>
     <TABLE NAME="mem_pdf_files" COMMENT="Stores the binary PDF files of the marked exams.">
@@ -38,24 +43,28 @@
         <FIELD NAME="page_num" TYPE="int" LENGTH="2" NOTNULL="true" SEQUENCE="false" COMMENT="The page number of the file"/>
         <FIELD NAME="pdf_comments" TYPE="binary" NOTNULL="false" SEQUENCE="false" COMMENT="the comments file that the image will have if marked."/>
         <FIELD NAME="booklet_num" TYPE="int" LENGTH="6" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="the booklet number on the QR code. idependent from the foreign key booklet_id. This QR code booklet number is not unique (only unique within that batch of generated exam pdf)."/>
+        <FIELD NAME="exam_hash" TYPE="char" LENGTH="32" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="a MD5 hash to uniquely identify a batch of generated exam upon generating the exams."/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="pdf_file_id"/>
-        <KEY NAME="foreign_key" TYPE="foreign-unique" FIELDS="booklet_id" REFTABLE="mem_booklet_data" REFFIELDS="booklet_id"/>
+        <KEY NAME="foreign_key" TYPE="foreign" FIELDS="booklet_id" REFTABLE="mem_booklet_data" REFFIELDS="booklet_id"/>
+        <KEY NAME="exam_hash" TYPE="foreign" FIELDS="exam_hash" REFTABLE="mem_booklet_data" REFFIELDS="exam_hash"/>
       </KEYS>
     </TABLE>
     <TABLE NAME="mem_pages" COMMENT="Contains the amount of marks per page for a booklet.">
       <FIELDS>
         <FIELD NAME="page_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="booklet_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
-        <FIELD NAME="page_marks" TYPE="int" LENGTH="3" NOTNULL="true" SEQUENCE="false" COMMENT="The amount of marks this page got."/>
-        <FIELD NAME="page_marks_max" TYPE="int" LENGTH="3" NOTNULL="true" SEQUENCE="false" COMMENT="The maximum amount of marks this page can earn."/>
+        <FIELD NAME="page_marks" TYPE="int" LENGTH="3" NOTNULL="false" SEQUENCE="false" COMMENT="The amount of marks this page got."/>
+        <FIELD NAME="page_marks_max" TYPE="int" LENGTH="3" NOTNULL="false" SEQUENCE="false" COMMENT="The maximum amount of marks this page can earn."/>
         <FIELD NAME="page_num" TYPE="int" LENGTH="3" NOTNULL="true" SEQUENCE="false" COMMENT="the page number of this exam"/>
         <FIELD NAME="is_marked" TYPE="int" LENGTH="1" NOTNULL="false" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="exam_hash" TYPE="char" LENGTH="32" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="a MD5 hash to uniquely identify a batch of generated exam upon generating the exams."/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="page_id"/>
         <KEY NAME="foreign_key" TYPE="foreign" FIELDS="booklet_id" REFTABLE="mem_booklet_data" REFFIELDS="booklet_id"/>
+        <KEY NAME="exam_hash" TYPE="foreign" FIELDS="exam_hash" REFTABLE="mem_booklet_data" REFFIELDS="exam_hash"/>
       </KEYS>
     </TABLE>
   </TABLES>

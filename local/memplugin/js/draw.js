@@ -4,6 +4,13 @@
 // http://www.tcpdf.org/examples/example_009.phps
 // http://www.w3schools.com/tags/canvas_filltext.asp
 
+function checkMax() {
+	var mark = parseInt(document.getElementById("id_pageMark").value);
+	var maxMark = parseInt(document.getElementById("id_pageMaxMark").value);
+	if(mark > maxMark)
+		alert("Warning: you're assigning a mark higher than the maximum mark.");
+}
+
 var draw_class = (function () {
 
 	//TODO: make it more efficient, instead redrawing canvas every event, 
@@ -14,6 +21,9 @@ var draw_class = (function () {
 	var clickX = new Array();
 	var clickY = new Array();
 	var clickDrag = new Array();
+	var clickX_erase = new Array();
+	var clickY_erase = new Array();
+	var clickDrag_erase = new Array();
 	var paint = false;
 	var loadgif = "";
 	var draw_tool_activate = true;
@@ -21,12 +31,19 @@ var draw_class = (function () {
 	var cross_tool_activate = false;
 	var erase_tool_activate = false;
 	var type_tool_activate = false;
+	var validBks = "";
+	var currentBk = 0;
+	var maxPg = 0;
 
-	var init = function () {
+	var init = function (bks, startBook, maxPages) {
 		canvas = document.getElementById("id_canvas");
 		ctx = canvas.getContext("2d");
 
 		loadgif = "<img src='sunload.gif'/>";
+		
+		validBks = bks;
+		currentBk = validBks.indexOf(JSON.stringify(startBook));
+		maxPg = parseInt(maxPages);
 
 		// add event listeners
 		canvas.addEventListener("mousedown", mDown);
@@ -69,7 +86,8 @@ var draw_class = (function () {
 		savbtn.navi = false;
 		setTimeout(function() {
 			setCanvasToImageDimensions();
-			redraw();
+			loadImgToCanvas();
+			// redraw();
 		}, 300);
 	},
 	loadImgToCanvas = function() {
@@ -87,6 +105,10 @@ var draw_class = (function () {
 		clickX = new Array();
 		clickY = new Array();
 		clickDrag = new Array();
+
+		clickX_erase = new Array();
+		clickY_erase = new Array();
+		clickDrag_erase = new Array();
 	},
 	naviPdf = function (e) {
 		var horDir = e.target.hdir;
@@ -97,6 +119,7 @@ var draw_class = (function () {
 		book = ((book<1) ? 1 : book);
 		var page = parseInt(document.getElementById("id_pageTxt").value);
 		page = ((page<1) ? 1 : page);
+		page = ((page>maxPg) ? maxPg : page);
 		var mark = parseInt(document.getElementById("id_pageMark").value);
 		mark = ((mark<0) ? 0 : mark);
 		mark = ((mark>999) ? 999 : mark);
@@ -108,12 +131,18 @@ var draw_class = (function () {
 		// prevent base64 corruption by replaceing + sign with it's encoding %2B 
 		// taken from http://stackoverflow.com/a/14803292
 		dat = dat.replace(/\+/gi, "%2B");
-		dat = dat + "&page=" + page + "&booklet=" + book + "&mark=" + mark + "&max_mark=" + maxMark;
+		
+		// get course id
+		var course_id = parseInt(document.getElementById("id_course_id").value);
+
+		dat = dat + "&page=" + page + "&booklet=" + validBks[currentBk] + "&mark=" + mark + "&max_mark=" + maxMark + "&course_id=" + course_id;
+
 		//DISABLE autosave as it can auto save a corrupted/not-properly-loaded image!
 		if(!navi){
 			// taken from http://stackoverflow.com/questions/17391538/plain-javascript-no-jquery-to-load-a-php-file-into-a-div
 			var innersavphp = document.getElementById("id_lastSavPDFdiv");
 			innersavphp.innerHTML = "Saving " + loadgif;
+			disableNaviBtn(true);
 			if(XMLHttpRequest) var xsav = new XMLHttpRequest();
 			else var xsav = new ActiveXObject("Microsoft.XMLHTTP");
 			xsav.open("POST", "adrawsav.php", true);
@@ -121,23 +150,30 @@ var draw_class = (function () {
 			xsav.send(dat);
 			xsav.onreadystatechange = function(){
 				if(xsav.readyState == 4){
-					if(xsav.status == 200) innersavphp.innerHTML = xsav.responseText;
-					else innersavphp.innerHTML = "Error saving.";
+					if(xsav.status == 200) {
+						innersavphp.innerHTML = xsav.responseText;
+						setTimeout(function(){ disableNaviBtn(false) }, 200);
+					} else {
+						innersavphp.innerHTML = "Error saving.";
+						disableNaviBtn(false);
+					}
 				}
 			};
 		}
 		
 		if(navi) {
-			var newbook = parseInt(document.getElementById("id_bookIdTxt").value) + verDir;
-			newbook = ((newbook<1) ? 1 : newbook);
+			currentBk = currentBk + verDir;
+			currentBk = ((currentBk<0) ? 0 : currentBk);
+			currentBk = ((currentBk>=validBks.length) ? (validBks.length-1) : currentBk);
 			var newpage = parseInt(document.getElementById("id_pageTxt").value) + horDir;
 			newpage = ((newpage<1) ? 1 : newpage);
-			
-			var dirdat = "page=" + newpage + "&booklet=" + newbook;
+
+			var dirdat = "page=" + newpage + "&booklet=" + validBks[currentBk] + "&course_id=" + course_id;
 			
 			// taken from http://stackoverflow.com/questions/17391538/plain-javascript-no-jquery-to-load-a-php-file-into-a-div
 			var innernaviphp = document.getElementById("id_pageinfo");
 			innernaviphp.innerHTML = "Loading page " + loadgif;
+			document.getElementById("id_btnSav").disabled = true;
 			canvas.setAttribute("width", 1);
 	    	canvas.setAttribute("height", 1);
 			if(XMLHttpRequest) var xnavi = new XMLHttpRequest();
@@ -152,21 +188,29 @@ var draw_class = (function () {
 						var innerjs = document.getElementById("id_retrieve_scr");
 						// innerHTML doesn't run script, use JS' eval function.
 						eval(innerjs.innerHTML);
-						setTimeout(function() {
+						
+						setTimeout(function(){
 							resetCanvasDrawings();
 							setCanvasToImageDimensions();
-							redraw();
-						}, 300);
-						
+							loadImgToCanvas();
+							setTimeout(function(){ document.getElementById("id_btnSav").disabled = false }, 200);
+						}, 200);
 					} else {
 						innernaviphp.innerHTML = "Failed fetching page.";
+						document.getElementById("id_btnSav").disabled = false;
 					}
 				}
 			};
 		}
 		
     },
-
+	disableNaviBtn = function(bool) {
+		document.getElementById("id_btnUp").disabled = bool;
+		document.getElementById("id_btnLeft").disabled = bool;
+		document.getElementById("id_btnRight").disabled = bool;
+		document.getElementById("id_btnDown").disabled = bool;
+	},
+	
 	drawingTool = function (event){
 		check_tool_activate = false;
 		cross_tool_activate = false;
@@ -213,8 +257,8 @@ var draw_class = (function () {
     	var x = event.clientX-rect.left;
     	var y = event.clientY-rect.top;
         paint = true;
-		addClick(x, y);
 		if (draw_tool_activate == true){
+			addClick(x, y);
 			redraw();
 		}
 		if (check_tool_activate == true){
@@ -224,6 +268,7 @@ var draw_class = (function () {
 			drawcrossmark(x,y);
 		}
 		if (erase_tool_activate == true){
+			addClickErase(x, y);
 			erasedraw();
 		}
 		if (type_tool_activate == true){
@@ -239,11 +284,12 @@ var draw_class = (function () {
 			var rect = canvas.getBoundingClientRect();
 			var x = event.clientX-rect.left;
 			var y = event.clientY-rect.top;
-			addClick(x, y, true);
 			if (draw_tool_activate == true){
+				addClick(x, y, true);
 				redraw();
 			}
 			if (erase_tool_activate == true){
+				addClickErase(x, y, true);
 				erasedraw();
 			}
 		}
@@ -252,6 +298,11 @@ var draw_class = (function () {
 	  clickX.push(x);
 	  clickY.push(y);
 	  clickDrag.push(dragging);
+	},
+	addClickErase = function(x, y, dragging){
+		clickX_erase.push(x);
+		clickY_erase.push(y);
+		clickDrag_erase.push(dragging);
 	},
 	drawcheckmark = function(x,y){
 		//ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // Clears the canvas
@@ -270,32 +321,33 @@ var draw_class = (function () {
 	erasedraw = function(){
 		//ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // Clears the canvas
 		//loadImgToCanvas();
+		//ctx.strokeStyle = "#000";
 		ctx.strokeStyle = "#fff";
 		ctx.lineJoin = "round";
 		ctx.lineWidth = 20;
 
-		for(var i=0; i < clickX.length; i++) {
+		for(var i=0; i < clickX_erase.length; i++) {
 			ctx.beginPath();
-			if(clickDrag[i] && i){
-				ctx.moveTo(clickX[i-1], clickY[i-1]);
+			if(clickDrag_erase[i] && i){
+				ctx.moveTo(clickX_erase[i-1], clickY_erase[i-1]);
 			}else{
-				ctx.moveTo(clickX[i], clickY[i]);
+				ctx.moveTo(clickX_erase[i], clickY_erase[i]);
 			}
-			ctx.lineTo(clickX[i], clickY[i]);
+			ctx.lineTo(clickX_erase[i], clickY_erase[i]);
 			ctx.closePath();
 			ctx.stroke();
 		}
 	},
 	typecomment = function(x,y){
-		var comment_text = prompt("Please Comment Here", "");
+		var comment_text = prompt("Please Comment Here", " ");
 
 		ctx.font="18px Georgia";
 		ctx.fillText(comment_text,x,y);
 	},
 
 	redraw = function(){
-	  ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // Clears the canvas
-	  loadImgToCanvas();
+	  //ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // Clears the canvas
+	  //loadImgToCanvas();
 	  ctx.strokeStyle = "#df4b26";
 	  ctx.lineJoin = "round";
 	  ctx.lineWidth = 5;

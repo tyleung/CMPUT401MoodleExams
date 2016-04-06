@@ -289,6 +289,122 @@ function xmldb_local_memplugin_upgrade($oldversion) {
         // Memplugin savepoint reached.
         upgrade_plugin_savepoint(true, 2016040401, 'local', 'memplugin');
     }
+    
+    if ($oldversion < 2016050400) {
+
+        // Define field exam_hash to be added to mem_booklet_data.
+        $table = new xmldb_table('mem_booklet_data');
+        $field = new xmldb_field('exam_hash', XMLDB_TYPE_CHAR, '32', null, XMLDB_NOTNULL, null, '0', 'max_pages');
+        // Conditionally launch add field exam_hash.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+		// Define key compound_key (unique) to be added to mem_booklet_data.
+        $table = new xmldb_table('mem_booklet_data');
+        $key = new xmldb_key('compound_key', XMLDB_KEY_UNIQUE, array('exam_hash'));
+        // Launch add key compound_key.
+        $dbman->add_key($table, $key);
+
+
+		// Define field exam_hash to be added to mem_mark_stats.
+        $table = new xmldb_table('mem_mark_stats');
+        $field = new xmldb_field('exam_hash', XMLDB_TYPE_CHAR, '32', null, XMLDB_NOTNULL, null, '0', 'mark_stats_id');
+        // Conditionally launch add field exam_hash.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+        // Define key exam_hash (foreign) to be added to mem_mark_stats.
+        $table = new xmldb_table('mem_mark_stats');
+        $key = new xmldb_key('exam_hash', XMLDB_KEY_FOREIGN, array('exam_hash'), 'mem_booklet_data', array('exam_hash'));
+        // Launch add key exam_hash.
+        $dbman->add_key($table, $key);
+
+
+		// Define field exam_hash to be added to mem_pdf_files.
+        $table = new xmldb_table('mem_pdf_files');
+        $field = new xmldb_field('exam_hash', XMLDB_TYPE_CHAR, '32', null, XMLDB_NOTNULL, null, '0', 'booklet_num');
+        // Conditionally launch add field exam_hash.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+		// Define key exam_hash (foreign) to be added to mem_pdf_files.
+        $table = new xmldb_table('mem_pdf_files');
+        $key = new xmldb_key('exam_hash', XMLDB_KEY_FOREIGN, array('exam_hash'), 'mem_booklet_data', array('exam_hash'));
+        // Launch add key exam_hash.
+        $dbman->add_key($table, $key);
+
+
+		// Define field exam_hash to be added to mem_pages.
+        $table = new xmldb_table('mem_pages');
+        $field = new xmldb_field('exam_hash', XMLDB_TYPE_CHAR, '32', null, XMLDB_NOTNULL, null, '0', 'is_marked');
+
+        // Conditionally launch add field exam_hash.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+		// Define key exam_hash (foreign) to be added to mem_pages.
+        $table = new xmldb_table('mem_pages');
+        $key = new xmldb_key('exam_hash', XMLDB_KEY_FOREIGN, array('exam_hash'), 'mem_booklet_data', array('exam_hash'));
+        // Launch add key exam_hash.
+        $dbman->add_key($table, $key);
+        
+        
+        // Memplugin savepoint reached.
+        upgrade_plugin_savepoint(true, 2016050400, 'local', 'memplugin');
+    }
+
+    if ($oldversion < 2016060400) {
+
+        // Define key foreign_key (foreign) to be dropped form mem_pdf_files.
+        $table = new xmldb_table('mem_pdf_files');
+        $key = new xmldb_key('foreign_key', XMLDB_KEY_FOREIGN, array('booklet_id'), 'mem_booklet_data', array('booklet_id'));
+
+        // Launch drop key foreign_key.
+        $dbman->drop_key($table, $key);
+        
+        // Define key foreign_key (foreign) to be added to mem_pdf_files.
+        $table = new xmldb_table('mem_pdf_files');
+        $key = new xmldb_key('foreign_key', XMLDB_KEY_FOREIGN, array('booklet_id'), 'mem_booklet_data', array('booklet_id'));
+
+        // Launch add key foreign_key.
+        $dbman->add_key($table, $key);
+        
+        // Memplugin savepoint reached.
+        upgrade_plugin_savepoint(true, 2016060400, 'local', 'memplugin');
+    }
+
+    if ($oldversion < 2016060404) {
+
+        // Define key compound_key (unique) to be dropped form mem_booklet_data.
+        $table = new xmldb_table('mem_booklet_data');
+        $key = new xmldb_key('compound_key', XMLDB_KEY_UNIQUE, array('exam_hash'));
+
+        // Launch drop key compound_key.
+        $dbman->drop_key($table, $key);
+
+        // Memplugin savepoint reached.
+        upgrade_plugin_savepoint(true, 2016060404, 'local', 'memplugin');
+    }
+
+    if ($oldversion < 2016060405) {
+
+        // Changing nullability of field page_marks on table mem_pages to null.
+        $table = new xmldb_table('mem_pages');
+        $field = new xmldb_field('page_marks', XMLDB_TYPE_INTEGER, '3', null, null, null, null, 'booklet_id');
+
+        // Launch change of nullability for field page_marks.
+        $dbman->change_field_notnull($table, $field);
+
+        // Changing nullability of field page_marks_max on table mem_pages to null.
+        $table = new xmldb_table('mem_pages');
+        $field = new xmldb_field('page_marks_max', XMLDB_TYPE_INTEGER, '3', null, null, null, null, 'page_marks');
+
+        // Launch change of nullability for field page_marks_max.
+        $dbman->change_field_notnull($table, $field);
+
+        // Memplugin savepoint reached.
+        upgrade_plugin_savepoint(true, 2016060405, 'local', 'memplugin');
+    }
 
  	return true;   
 }    

@@ -3,14 +3,20 @@
 //defined('MOODLE_INTERNAL') || die();
 
 require_once '../../config.php';
-
+	$course = intval($_GET['course_id']);
 	$sid = intval($_GET['sid']);
 	$bid = intval($_GET['booklet_id']);
 	$page = intval($_GET['page']);
 	
-	$DB->set_field("mem_booklet_data", "student_id", $sid, array("booklet_id"=>$bid));
+	$hash = $DB->get_record_sql('SELECT {mem_booklet_data}.booklet_id, student_id, exam_hash
+							FROM {mem_booklet_data}
+							WHERE {mem_booklet_data}.booklet_id=?
+							AND {mem_booklet_data}.course_id=?
+							', array($bid, $course));
+	
+	$DB->set_field("mem_booklet_data", "student_id", $sid, array("booklet_id"=>$bid, "exam_hash"=>$hash->exam_hash, "course_id"=>$course));
 
-	redirect($CFG->wwwroot.'/local/memplugin/adrawpdf.php?booklet_id='.$bid.'&page='.$page);
+	redirect($CFG->wwwroot.'/local/memplugin/adrawpdf.php?booklet_id='.$bid.'&page='.$page.'&course_id='.$course);
 	
 	// Test
 	//echo "adding student".$sid."<br>";

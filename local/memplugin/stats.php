@@ -30,14 +30,22 @@ require_once('../../config.php');
 global $PAGE, $CFG, $DB;
 
 require_login();
+
+// TODO PROPER permission, so teachers can access.
 require_capability('local/memplugin:add', context_system::instance());
+//require_capability('moodle/course:update', context_system::instance());
+
 require_once($CFG->dirroot.'/local/memplugin/stats_class.php');
 require_once($CFG->dirroot.'/local/memplugin/stats_form.php');
 $PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('pluginname', 'local_memplugin'));
-$PAGE->set_heading(get_string('pluginname', 'local_memplugin'));
+$PAGE->set_heading(get_string('statstitle', 'local_memplugin'));
 $PAGE->set_url($CFG->wwwroot.'/local/memplugin/stats.php');
+
+$homenode = $PAGE->navigation->add(get_string('memhome', 'local_memplugin'), new moodle_url('memhome.php'), navigation_node::TYPE_CONTAINER);
+$pagenode = $homenode->add(get_string('statsnav', 'local_memplugin'), new moodle_url('stats.php'));
+$pagenode->make_active();
 
 //error_log(print_r($db_entry));
 $form = new stats_sem_form();
@@ -97,20 +105,46 @@ if(!$_GET['exam_year_sem_choice'] && !$_GET['course_choice']) {
 Function that draws the statistics onto the page and provides a link to the downloadable CSV.
 */
 function create_stats_page($crs, $yr) {
-
+	global $DB;
+	
 	$calc = new stats();
 	//$mform->addElement('header', 'year_sem', get_string('stats_title','local_memplugin'));
 	echo '<h1>Results for '.$yr.'</h1><br>';
 
 	/** The SQL query to retrieve all the totatl marks for each booklet for a specific year and course. */
-	$mark_sql = $GLOBALS['DB']->get_records_sql('SELECT {mem_mark_stats}.booklet_id, total_booklet_score, total_booklet_score_max FROM {mem_booklet_data}, {mem_mark_stats} WHERE course_id=? and year_semester_origin=? and {mem_mark_stats}.booklet_id={mem_booklet_data}.booklet_id', array($crs, $yr));
+	/*
+	$mark_sql = $GLOBALS['DB']->get_records_sql('SELECT {mem_mark_stats}.booklet_id, total_booklet_score, total_booklet_score_max FROM {mem_booklet_data}, {mem_mark_stats} WHERE course_id=? and year_semester_origin=? and {mem_mark_stats}.booklet_id={mem_booklet_data}.booklet_id and {mem_mark_stats}.exam_hash={mem_booklet_data}.exam_hash', array($crs, $yr));
+	*/
 	
-	$total_mark = current($mark_sql)->total_booklet_score_max;
-	$raw_marks = array();
-	
-	foreach($mark_sql as $i) {
-		array_push($raw_marks, $i->total_booklet_score);
+	// get hash
+	$recBk = $DB->get_records_sql('SELECT {mem_booklet_data}.booklet_id, student_id, exam_hash, max_pages
+							FROM {mem_booklet_data}
+							WHERE {mem_booklet_data}.course_id=?
+							and year_semester_origin=?
+							', array($crs, $yr));
+	$student_totals = 0;
+	$raw_data_score = array();
+	$max_score = 0;
+	foreach($recBk as $bk) {
+		$pageMarks = 0;
+		$pageTotals = 0;
+		for($i=1; $i<=$bk->max_pages; $i++) {
+			$recPg = $DB->get_record_sql('SELECT page_id, page_marks, page_marks_max
+							FROM {mem_pages}
+							WHERE {mem_pages}.page_num=?
+							AND {mem_pages}.exam_hash=?
+							AND {mem_pages}.booklet_id=?
+							', array($i, $bk->exam_hash, $bk->booklet_id));
+			$pageMarks += $recPg->page_marks;
+			$pageTotals += $recPg->page_marks_max;
+		}
+		$student_totals += $pageMarks;
+		$max_score = $pageTotals;
+		array_push($raw_data_score, $pageMarks);
 	}
+	
+	$total_mark = $student_totals;
+	$raw_marks = $raw_data_score;
 	
 	/*
 	print_r($total_mark);

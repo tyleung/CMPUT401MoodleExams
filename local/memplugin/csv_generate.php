@@ -30,20 +30,50 @@ Statistics
 	header('Content-Disposition: attachment; filename=Statistics_'.$year.'.csv');
 
 	/** SQL query to retrieve all pages data and relevant booklet data. */
-	$booklet_pg_sql = $GLOBALS['DB']->get_records_sql('SELECT page_id, {mem_pages}.booklet_id, max_pages, page_num, page_marks, page_marks_max, student_id FROM {mem_booklet_data}, {mem_pages} WHERE course_id=? and year_semester_origin=? and {mem_pages}.booklet_id={mem_booklet_data}.booklet_id', array($course, $year));
+/*	$booklet_pg_sql = $GLOBALS['DB']->get_records_sql('SELECT page_id, {mem_pages}.booklet_id, max_pages, page_num, page_marks, page_marks_max, student_id FROM {mem_booklet_data}, {mem_pages} WHERE course_id=? and year_semester_origin=? and {mem_pages}.booklet_id={mem_booklet_data}.booklet_id and {mem_pages}.exam_hash={mem_booklet_data}.exam_hash', array($course, $year));*/
+	$recBk = $DB->get_records_sql('SELECT {mem_booklet_data}.booklet_id, student_id, exam_hash, max_pages
+							FROM {mem_booklet_data}
+							WHERE {mem_booklet_data}.course_id=?
+							and year_semester_origin=?
+							', array($course, $year));
+	$student_totals = 0;
+	$raw_data_score = array();
+	$max_score = 0;
+	$max_pages = 0;
+	foreach($recBk as $bk) {
+		$pageMarks = 0;
+		$pageTotals = 0;
+		$max_pages = $bk->max_pages;
+		for($i=1; $i<=$bk->max_pages; $i++) {
+			$recPg = $DB->get_record_sql('SELECT page_id, page_marks, page_marks_max
+							FROM {mem_pages}
+							WHERE {mem_pages}.page_num=?
+							AND {mem_pages}.exam_hash=?
+							AND {mem_pages}.booklet_id=?
+							', array($i, $bk->exam_hash, $bk->booklet_id));
+			$pageMarks += $recPg->page_marks;
+			$pageTotals += $recPg->page_marks_max;
+		}
+		$student_totals += $pageMarks;
+		$max_score = $pageTotals;
+		array_push($raw_data_score, $pageMarks);
+	}
 	
-	$max_pages = current($booklet_pg_sql)->max_pages;
+	$total_mark = $student_totals;
+	$raw_marks = $raw_data_score;
+	
 	$booklet_keys = array();
 	
-	foreach($booklet_pg_sql as $pg) {
+	foreach($recBk as $pg) {
 		array_push($booklet_keys, $pg->booklet_id);
+		array_push($sids, $pg->student_id);
 	}
 	$booklet_keys = array_unique($booklet_keys);
 	
 	// not efficient, better way to do it but no time for deadline anymore
 	$sids = array();
 	foreach($booklet_keys as $k) {
-		foreach($booklet_pg_sql as $pg) {
+		foreach($recBk as $pg) {
 			if($pg->booklet_id == $k) {
 				array_push($sids, $pg->student_id);
 			}

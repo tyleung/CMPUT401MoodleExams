@@ -30,7 +30,12 @@
 			$this->read_QRcode();
 			$this->cid = $courseId;
 			$this->insert_image_to_database();
+
+			//Cleanup
+			$this->img->clear();
 		}
+
+
 
 		/**
 		 * Public method. 
@@ -61,9 +66,8 @@
 		 * @return void
 		 */
 		private function crop_image(){
-			$height = $this->img->getImageHeight();
-			$width = $this->img->getImageWidth();
-			$this->img->cropImage($width/2,$height/2,0,0);
+			$this->img->scaleImage(1000,0);
+			$this->img->cropImage(350,350,0,0);
 		}
 
 		/**
@@ -78,19 +82,17 @@
 		}
 
 		/**
-		 * Private method.
+		 * Public method.
 		 * Returns the data parameters used to generate the QRcode as an array.
-		 * @return array Array containing the 4 matches from the QRcode string.
+		 * @return array Associative array containing data from QRcode string.
 		 * Exam name, Booklet num, page num, max pages
 		 */
 		// Deserialize data after reading QR.
 		public function get_deserialized_data(){
-			$result = array();
-			$regex = preg_match("~(.*):#(\d*) pg:(\d*)\/(\d*)~",$this->qrtext,$result);
-			if ($regex === 1){
-				return array($result[1],$result[2],$result[3],$result[4]);
-			} else { // returns 0 if nothing found, false on error.
+			if($this->qrtext == "" or $this->qrtext === NULL){
 				return NULL;
+			} else {
+				return unserialize($this->qrtext);
 			}
 		}
 
@@ -101,29 +103,54 @@
 		 */
 		//upload parameters (exam#,page#) to a table that has the image_id(?) as the key.
 		private function insert_image_to_database(){
+			
 			global $DB;
 
 			$qrdata = $this->get_deserialized_data();
 			if ($qrdata === NULL){
 				return NULL;
 			}
-			$book_param = new stdClass();
-			$book_param->year_semester_origin = "2016 SUMMER"; // replace with form data later.
-			$book_param->course_id = intval($this->cid);
-			$book_param->max_pages = $qrdata[3];
-			$booklet_id = $DB->insert_record("mem_booklet_data", $book_param, true, false);
+			
+			$hash = $qrdata['md5'];
+			$booknum = intval($qrdata['exam_number']);
+			
+			$rec_check = $DB->get_records_sql('SELECT pdf_file_id, {mem_booklet_data}.booklet_id
+							FROM {mem_booklet_data}, {mem_pdf_files}
+							WHERE {mem_booklet_data}.course_id=?
+							AND {mem_booklet_data}.exam_hash=?
+							AND {mem_booklet_data}.booklet_id={mem_pdf_files}.booklet_id
+							AND {mem_pdf_files}.booklet_num=?'
+							, array($this->cid, $hash, $booknum));
 
+			$booklet_id = -1;
+			
+			if(empty($rec_check)) {
+				$book_param = new stdClass();
+				$book_param->year_semester_origin = "2016 SUMMER"; // replace with form data later.
+				$book_param->course_id = intval($this->cid);
+				$book_param->max_pages = intval($qrdata['max_pages']);
+				$book_param->exam_hash = $hash;
+				$booklet_id = $DB->insert_record("mem_booklet_data", $book_param, true, false);
+			} else {
+				$booklet_id = intval(current($rec_check)->booklet_id);
+			}
+			
 			$img_param = new stdClass();
 			$img_param->booklet_id = $booklet_id;
-
-			//print_r("QAAAAAAAAAAAAAAAaa".$this->data."<br>");
-			//$imgdat = base64_encode($this->data);
-			//print_r('works?<img src="data:image/png;base64,'.$imgdat.'"/>');
-	
+			$img_param->exam_hash = $hash;
 			$img_param->pdf_file = $this->data;
-			$img_param->page_num = $qrdata[2];
-			$img_param->booklet_num = $qrdata[1];
-			return $DB->insert_record("mem_pdf_files", $img_param, true, false);
+			$img_param->page_num = intval($qrdata['page_number']);
+			$img_param->booklet_num = intval($booknum); // exam-number is booklet number
+			$ret = $DB->insert_record("mem_pdf_files", $img_param, true, false);
+			
+			$pg_param = new stdClass();
+			$pg_param->booklet_id = $booklet_id;
+			$pg_param->exam_hash = $hash;
+			$pg_param->page_num = intval($qrdata['page_number']);
+			$DB->insert_record("mem_pages", $pg_param, true, false);
+			
+			return $ret;
+			
 		}
 
 	}

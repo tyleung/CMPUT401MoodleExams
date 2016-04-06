@@ -46,7 +46,7 @@ $string['checkstats']     = '   Check Statistics   ';
 $string['startmarking']   = 'Start Marking';
 $string['yourexams']      = 'Available Exams';
 //Make Exams
-$string['generatenav']    = 'Generate Exams';
+$string['generatenav']    = 'Create Exams';
 $string['createheader']   = 'Creating a new Exam';
 $string['makeexam']       = 'Name of Exam to Generate';
 $string['copyheader']     = 'Copy Options';
@@ -58,16 +58,27 @@ $string['largecopy']      = 'One Large Exam File';
 $string['emergencypgs']   = 'How many blank pages would you like to include?';
 $string['generatebutton'] = 'Generate Exams';
 //Mark Exam
+$string['sectionheader']    = 'Section Header';
+$string['markexamnav']    = 'Upload Exam';
 $string['classselection'] = 'Please select a class section.';
-$string['markheader']     = 'Mark Exams';
-$string['sectionheader']  = 'Select course section(s)';
+$string['markheader']     = 'Uploading an Existing Exam';
 $string['exambatch']      = 'Select Exam(s)';
 $string['markbutton']     = '    Mark    ';
 $string['addsection']     = 'Add additional section';
-$string['courses']        = 'Select Course(s)';
+$string['courses']        = 'Select Course';
 $string['finishheader']   = 'Finish';
-//Statistics
+//Search Page
+$string['searchnav']      = 'Search Roster';
+$string['searchtitle']    = 'Assign Student To Booklet';
+//Grid
 $string['grid'] 	  = 'Grid';
+$string['gridtitle']      = 'Exam Grid';
+//Canvas Page
+$string['canvasnav']      = 'Page Mark';
+$string['canvastitle']    = 'Marking a Booklet Page';
+//Statistics
+$string['statsnav']       = 'Statistics';
+$string['statstitle']     = 'Course Statistics';
 $string['stats_title']    = 'Statistics';
 $string['stats_download'] = 'Download Statistics';
 $string['stats_spread']   = 'Spread: ';
@@ -78,6 +89,7 @@ $string['stats_median']   = 'Median: ';
 $string['stats_select_title'] = 'Exam Statistics from Year & Semester';
 $string['stats_choice_submit'] = 'Get Statistics';
 $string['stats_grouping'] = 'Select Semester';
+$string['stats_grouping2'] = 'Select Course';
 
 // Followings are from 'Assignment_upload' by Davo Smith (https://moodle.org/plugins/assignment_uploadpdf)
 $string['addquicklist'] = 'Add to comment Quicklist';

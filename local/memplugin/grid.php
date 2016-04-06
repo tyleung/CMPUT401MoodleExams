@@ -31,18 +31,20 @@ require_capability('local/memplugin:add', context_system::instance());
 $PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('pluginname', 'local_memplugin'));
-$PAGE->set_heading(get_string('pluginname', 'local_memplugin'));
+$PAGE->set_heading(get_string('gridtitle', 'local_memplugin'));
 $PAGE->set_url($CFG->wwwroot.'/local/memplugin/grid.php');
-$gridnode = $PAGE->navigation->add(get_string('grid', 'local_memplugin'), new moodle_url('grid.php'));
-$gridnode->make_active();
 
-echo $OUTPUT->header();
-
-// TODO: Get the course id.
 $course_id = 3;
 if($_GET['course_id']) {
     $course_id = $_GET['course_id'];
 }
+
+// Breadcrumbs
+$memhomenode = $PAGE->navigation->add(get_string('memhome', 'local_memplugin'), new moodle_url('memhome.php'));
+$gridnode = $memhomenode->add(get_string('grid', 'local_memplugin'), new moodle_url('grid.php?course_id='.$course_id));
+$gridnode->make_active();
+
+echo $OUTPUT->header();
 
 $num_booklets = $DB->count_records_select('mem_booklet_data', 'course_id=?', array($course_id));
 $num_pages = $DB->get_field_select('mem_booklet_data', 'max_pages', 'course_id=?', array($course_id), IGNORE_MULTIPLE);
@@ -111,35 +113,53 @@ function create_grid_headers($num_pages) {
  * @return void
  */
 function create_grid($course_id, $num_booklets, $num_pages) {
-	echo '<div class="grid">'."\n";
+	global $DB;
 
-	for ($i = 1; $i <= $num_booklets; $i++) {
+	//$booklet_id = intval(current($rec_check)->booklet_id);
+	$rec_books = $DB->get_records_sql('SELECT booklet_id, max_pages, exam_hash
+										FROM {mem_booklet_data} 
+										WHERE {mem_booklet_data}.course_id=?', array($course_id));
+										
+	echo '<div class="grid">'."\n";
+	$i=1;
+	foreach ($rec_books as $bk) {
 		echo '<div class="grid-item-booklet-nums">'."\n";
 		echo "\t".'<p class="booklet-nums">B<span class="booklet-num">'.$i.'</span></p>'."\n";
 		echo '</div>'."\n";
 
         // $rs contains num_pages number of records
-        $rs = $GLOBALS['DB']->get_recordset_select('mem_pages', 'booklet_id=?', array($i));
+        //$rs = $GLOBALS['DB']->get_recordset_select('mem_pages', 'booklet_id=?', array($i));
         $booklet_total = 0;
-        foreach ($rs as $record) {
-            $is_marked = $record->is_marked == 1 ? 'marked' : 'unmarked';
-			echo '<a href="adrawpdf.php?booklet_id='.$i.'&page='.$record->page_num.'" class="grid-item-select">'."\n";
+        $maxpg = intval($bk->max_pages);
+        
+        $rec_check = $DB->get_records_sql('SELECT page_id, page_num, is_marked, page_marks, page_marks_max
+									FROM {mem_pages}
+									WHERE exam_hash=?
+									AND booklet_id=?'
+									, array($bk->exam_hash, $bk->booklet_id));
+        next($rec_check);
+        for ($k = 1; $k <= $maxpg; $k++) {
+            $is_marked = intval(current($rec_check)->is_marked) == 1 ? 'marked' : 'unmarked';
+            $bid = intval($bk->booklet_id);
+            $pg = intval(current($rec_check)->page_num);
+			echo '<a href="adrawpdf.php?course_id='.$course_id.'&booklet_id='.$bid.'&page='.$pg.'" class="grid-item-select">'."\n";
 			echo '<div class="grid-item '.$is_marked.'">'."\n";
-			echo "\t".'<p class="mark">'.$record->page_marks.'</p>'."\n";
+			echo "\t".'<p class="mark">'.current($rec_check)->page_marks.'</p>'."\n";
 			echo "\t".'<p hidden class="booklet">B<span class="booklet-num">'.$i.'</span></p>'."\n";
-			echo "\t".'<p class="page">P<span class="page-num">'.$record->page_num.'</span></p>'."\n";
+			echo "\t".'<p class="page">P<span class="page-num">'.$pg.'</span></p>'."\n";
 			echo '</div>'."\n";
 			echo '</a>'."\n";
-            $booklet_total += $record->page_marks;
+            $booklet_total += intval(current($rec_check)->page_marks);
+            next($rec_check);
 		}
         
         // Totals column
-        $max_booklet_mark = $GLOBALS['DB']->get_field_select('mem_mark_stats', 'total_booklet_score_max', 'booklet_id=?', array($i));
+        $max_booklet_mark = intval(current($rec_check)->page_marks_max);
         echo '<div class="grid-item-t" style="margin: 5px">'."\n";
         echo "\t".'<p class="mark">'.$booklet_total.'/'.$max_booklet_mark.'</p>'."\n";
         echo "\t".'<p hidden class="booklet">B<span class="booklet-num">'.$i.'</span></p>'."\n";
         echo '</div>'."\n";
-        $rs->close();
+        $i += 1;
 	}
 
 	echo '</div>'."\n";
