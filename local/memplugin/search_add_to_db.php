@@ -10,11 +10,11 @@ require_once '../../config.php';
 	
 	$hash = $DB->get_record_sql('SELECT {mem_booklet_data}.booklet_id, student_id, exam_hash
 							FROM {mem_booklet_data}
-							WHERE {mem_booklet_data}.course_id=?
-							AND {mem_booklet_data}.booklet_id=?
-							', array($course, $booklet));
+							WHERE {mem_booklet_data}.booklet_id=?
+							AND {mem_booklet_data}.course_id=?
+							', array($bid, $course));
 	
-	$DB->set_field("mem_booklet_data", "student_id", $sid, array("booklet_id"=>$bid, "exam_hash"=>$hash, "course_id"=>$course));
+	$DB->set_field("mem_booklet_data", "student_id", $sid, array("booklet_id"=>$bid, "exam_hash"=>$hash->exam_hash, "course_id"=>$course));
 
 	redirect($CFG->wwwroot.'/local/memplugin/adrawpdf.php?booklet_id='.$bid.'&page='.$page.'&course_id='.$course);
 	

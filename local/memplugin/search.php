@@ -35,7 +35,7 @@ $PAGE->set_title(get_string('pluginname', 'local_memplugin'));
 $PAGE->set_heading(get_string('searchtitle', 'local_memplugin'));
 $PAGE->set_url($CFG->wwwroot.'/local/memplugin/search.php');
 
-$course = intval($_GET['course_id']);
+$course_id = intval($_GET['course_id']);
 $bid = intval($_GET['booklet_id']);
 $page = intval($_GET['page']);
 
@@ -43,12 +43,12 @@ $hash = $DB->get_record_sql('SELECT {mem_booklet_data}.booklet_id, student_id, e
 							FROM {mem_booklet_data}
 							WHERE {mem_booklet_data}.course_id=?
 							AND {mem_booklet_data}.booklet_id=?
-							', array($course, $bid));
+							', array($course_id, $bid));
 
 $memhomenode = $PAGE->navigation->add(get_string('memhome', 'local_memplugin'), new moodle_url('memhome.php'));
 $gridnode = $memhomenode->add(get_string('grid', 'local_memplugin'), new moodle_url('grid.php?course_id='.$course));
-$adrawpdfnode = $gridnode->add(get_string('canvasnav', 'local_memplugin'), new moodle_url('adrawpdf.php?course_id='.$course.'&booklet_id='.$bid.'&page='.$page));
-$searchnode = $adrawpdfnode->add(get_string('searchnav', 'local_memplugin'), new moodle_url('search.php?course_id='.$course.'&booklet_id='.$bid.'&page='.$page));
+$adrawpdfnode = $gridnode->add(get_string('canvasnav', 'local_memplugin'), new moodle_url('adrawpdf.php?course_id='.$course_id.'&booklet_id='.$bid.'&page='.$page));
+$searchnode = $adrawpdfnode->add(get_string('searchnav', 'local_memplugin'), new moodle_url('search.php?course_id='.$course_id.'&booklet_id='.$bid.'&page='.$page));
 $searchnode->make_active();
 
 
@@ -70,7 +70,7 @@ $recBk = $DB->get_record_sql('SELECT {mem_booklet_data}.booklet_id, student_id, 
 							FROM {mem_booklet_data}
 							WHERE {mem_booklet_data}.course_id=?
 							AND {mem_booklet_data}.booklet_id=?
-							', array(intval($course), $bid));
+							', array(intval($course_id), $bid));
 
 						
 $recPdf = $DB->get_record_sql('SELECT pdf_file_id, pdf_file
@@ -78,18 +78,18 @@ $recPdf = $DB->get_record_sql('SELECT pdf_file_id, pdf_file
 							WHERE {mem_pdf_files}.page_num=?
 							AND {mem_pdf_files}.exam_hash=?
 							AND {mem_pdf_files}.booklet_id=?
-							', array($page, $recBk->exam_hash, $bid));
+							', array(0, $recBk->exam_hash, $bid));
 
 /**
 Display search method prints everything on screen to actually display everything, and links the Javascript file.
 */
 echo $OUTPUT->header();
 echo '<link rel="stylesheet" type="text/css" href="css/marking_canvas.css">
-		<script>var course_id_val = '.intval($course).';</script>
+		<script>var course_id_val = '.intval($course_id).';</script>
 		<script src="js/search.js" type="text/javascript"></script>';
 echo '<table class="search"><tr><td>
 		<div class="img">
-		<img alt="Page 0 of Booklet ID ='.$bid.'" src="data:image/png;base64,'.base64_encode($recPdf->pdf_file).'"/>
+		<img alt="Page 0 of Booklet ID ='.$bid.'" width="75%" src="data:image/png;base64,'.base64_encode($recPdf->pdf_file).'"/>
 		</div>
 		</td><td>
 			Find student: <input id="inputid" name="selectname" onchange="newSearch()"></input>
@@ -100,7 +100,8 @@ echo '<table class="search"><tr><td>
 echo '<script>var data = '.json_encode($datstudents).';
 					var bid = '.$bid.';
 					var page = '.$page.';
-					window.onload = init(data, bid, page);
+					var course = '.$course_id.';
+					window.onload = init(data, bid, page, course);
 					</script>';
 echo $OUTPUT->footer();
 
