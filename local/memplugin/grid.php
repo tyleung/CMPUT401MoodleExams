@@ -137,6 +137,7 @@ function create_grid($course_id, $num_booklets, $num_pages) {
 									WHERE exam_hash=?
 									AND booklet_id=?'
 									, array($bk->exam_hash, $bk->booklet_id));
+									
         next($rec_check);
         for ($k = 1; $k <= $maxpg; $k++) {
             $is_marked = intval(current($rec_check)->is_marked) == 1 ? 'marked' : 'unmarked';
