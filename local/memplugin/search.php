@@ -100,7 +100,7 @@ echo '<table class="search"><tr><td>
 echo '<script>var data = '.json_encode($datstudents).';
 					var bid = '.$bid.';
 					var page = '.$page.';
-					var course = '.$course_id.';
+					var course = '.intval($course_id).';
 					window.onload = init(data, bid, page, course);
 					</script>';
 echo $OUTPUT->footer();
