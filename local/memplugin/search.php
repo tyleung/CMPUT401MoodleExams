@@ -35,7 +35,7 @@ $PAGE->set_title(get_string('pluginname', 'local_memplugin'));
 $PAGE->set_heading(get_string('searchtitle', 'local_memplugin'));
 $PAGE->set_url($CFG->wwwroot.'/local/memplugin/search.php');
 
-$course = intavl($_GET['course_id']);
+$course = intval($_GET['course_id']);
 $bid = intval($_GET['booklet_id']);
 $page = intval($_GET['page']);
 
@@ -71,8 +71,9 @@ display_search($searchable_students);
 $img = $DB->get_record_sql('SELECT pdf_file_id, pdf_file
 							FROM {mem_booklet_data}, {mem_pdf_files} 
 							WHERE {mem_booklet_data}.booklet_id=?
+							AND {mem_booklet_data}.course_id=?
 							AND {mem_pdf_files}.page_num=0
-							AND {mem_pdf_files}.booklet_id={mem_booklet_data}.booklet_id', array($bid));
+							AND {mem_pdf_files}.booklet_id={mem_booklet_data}.booklet_id', array($bid, $course));
 
 /**
 Display search method prints everything on screen to actually display everything, and links the Javascript file.
@@ -85,6 +86,7 @@ function display_search($js) {
 	global $OUTPUT, $img, $bid;
 	echo $OUTPUT->header();
 	echo '<link rel="stylesheet" type="text/css" href="css/marking_canvas.css">
+			<script>var course_id_val = '.$course.';</script>
 			<script src="js/search.js" type="text/javascript"></script>';
 	echo '<table class="search"><tr><td>
 			<div class="img">

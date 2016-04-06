@@ -19,20 +19,23 @@ require_once '../../config.php';
 	$imageBlob = base64_decode($base64);
 	
 	// Query for id's of rows to be updated
-$recPDF = $DB->get_records_sql('SELECT pdf_file_id, {mem_pdf_files}.booklet_id, {mem_pdf_files}.page_num, 
+$recPDF = $DB->get_records_sql('SELECT pdf_file_id, {mem_pdf_files}.booklet_id, {mem_booklet_data}.exam_hash, {mem_pdf_files}.page_num, 
 							pdf_file, student_id 
 							FROM {mem_booklet_data}, {mem_pdf_files} 
 							WHERE {mem_booklet_data}.booklet_id=?
 							AND {mem_pdf_files}.page_num=?
-							AND {mem_pdf_files}.booklet_id={mem_booklet_data}.booklet_id', array($booklet, $page));
+							AND {mem_booklet_data}.course_id=?
+							AND {mem_pdf_files}.booklet_id={mem_booklet_data}.booklet_id', array($booklet, $page, $course));
 
-$recPages = $DB->get_records_sql('SELECT page_id, {mem_booklet_data}.booklet_id, page_marks, page_marks_max
+$recPages = $DB->get_records_sql('SELECT page_id, {mem_booklet_data}.booklet_id, {mem_booklet_data}.exam_hash, page_marks, page_marks_max
 							FROM {mem_booklet_data}, {mem_pages}
 							WHERE {mem_booklet_data}.booklet_id=?
 							AND {mem_pages}.page_num=?
-							AND {mem_pages}.booklet_id={mem_booklet_data}.booklet_id', array($booklet, $page));
+							AND {mem_booklet_data}.course_id=?
+							AND {mem_pages}.booklet_id={mem_booklet_data}.booklet_id', array($booklet, $page, $course));
 	
 	$page_id = intval(current($recPages)->page_id);
+	$hash = intval(current($recPDF)->exam_hash);
 	$pdf_file_id = intval(current($recPDF)->pdf_file_id);
 	
 	// Set the fields. Couldn't get Moodle's Update records to work.
@@ -43,6 +46,7 @@ $recPages = $DB->get_records_sql('SELECT page_id, {mem_booklet_data}.booklet_id,
 	} else {
 		$i = new stdClass();
 		$i->booklet_id=$booklet;
+		$i->exam_hash=$hash;
 		$i->page_marks=$mark;
 		$i->page_marks_max=$max_mark;
 		$i->page_num=$page;

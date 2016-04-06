@@ -63,7 +63,7 @@ function buildTables(data) {
 		var first = cleanText(JSON.stringify(data[i][toCheck[0]]));
 		var last = cleanText(JSON.stringify(data[i][toCheck[3]]));
 		var email = cleanText(JSON.stringify(data[i][toCheck[4]]));
-		var btn = "<a href='search_add_to_db.php?sid="+id+"&booklet_id="+booklet_id+"&page="+page_num+"'>Assign</a>";
+		var btn = "<a href='search_add_to_db.php?sid="+id+"&booklet_id="+booklet_id+"&page="+page_num+"&course_id="+course_id_val+"'>Assign</a>";
 		tmp += "<tr><td>"+ id +"</td><td>"+ first +"</td><td>"+ last +"</td><td>"+ email +"</td><td>"+ btn +"</td></tr>";		
 	}	
 	tmp += "</table>";

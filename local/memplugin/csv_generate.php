@@ -30,7 +30,7 @@ Statistics
 	header('Content-Disposition: attachment; filename=Statistics_'.$year.'.csv');
 
 	/** SQL query to retrieve all pages data and relevant booklet data. */
-	$booklet_pg_sql = $GLOBALS['DB']->get_records_sql('SELECT page_id, {mem_pages}.booklet_id, max_pages, page_num, page_marks, page_marks_max, student_id FROM {mem_booklet_data}, {mem_pages} WHERE course_id=? and year_semester_origin=? and {mem_pages}.booklet_id={mem_booklet_data}.booklet_id', array($course, $year));
+	$booklet_pg_sql = $GLOBALS['DB']->get_records_sql('SELECT page_id, {mem_pages}.booklet_id, max_pages, page_num, page_marks, page_marks_max, student_id FROM {mem_booklet_data}, {mem_pages} WHERE course_id=? and year_semester_origin=? and {mem_pages}.booklet_id={mem_booklet_data}.booklet_id and {mem_pages}.exam_hash={mem_booklet_data}.exam_hash', array($course, $year));
 	
 	$max_pages = current($booklet_pg_sql)->max_pages;
 	$booklet_keys = array();

@@ -58,6 +58,7 @@ $string['largecopy']      = 'One Large Exam File';
 $string['emergencypgs']   = 'How many blank pages would you like to include?';
 $string['generatebutton'] = 'Generate Exams';
 //Mark Exam
+$string['sectionheader']    = 'Section Header';
 $string['markexamnav']    = 'Upload Exam';
 $string['classselection'] = 'Please select a class section.';
 $string['markheader']     = 'Uploading an Existing Exam';

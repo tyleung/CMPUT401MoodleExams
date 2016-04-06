@@ -111,7 +111,7 @@ function create_stats_page($crs, $yr) {
 	echo '<h1>Results for '.$yr.'</h1><br>';
 
 	/** The SQL query to retrieve all the totatl marks for each booklet for a specific year and course. */
-	$mark_sql = $GLOBALS['DB']->get_records_sql('SELECT {mem_mark_stats}.booklet_id, total_booklet_score, total_booklet_score_max FROM {mem_booklet_data}, {mem_mark_stats} WHERE course_id=? and year_semester_origin=? and {mem_mark_stats}.booklet_id={mem_booklet_data}.booklet_id', array($crs, $yr));
+	$mark_sql = $GLOBALS['DB']->get_records_sql('SELECT {mem_mark_stats}.booklet_id, total_booklet_score, total_booklet_score_max FROM {mem_booklet_data}, {mem_mark_stats} WHERE course_id=? and year_semester_origin=? and {mem_mark_stats}.booklet_id={mem_booklet_data}.booklet_id and {mem_mark_stats}.exam_hash={mem_booklet_data}.exam_hash', array($crs, $yr));
 	
 	$total_mark = current($mark_sql)->total_booklet_score_max;
 	$raw_marks = array();

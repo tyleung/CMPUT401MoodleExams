@@ -112,13 +112,16 @@
 							, array($this->cid, $hash));
 
 			$booklet_id = -1;
-			var_dump($rec_check);
+
+			print_r("qrData: ".var_dump($qrdata));
 			
+			print_r("rec check:".var_dump($rec_check));
+
 			if(empty($rec_check)) {
 				$book_param = new stdClass();
 				$book_param->year_semester_origin = "2016 SUMMER"; // replace with form data later.
 				$book_param->course_id = intval($this->cid);
-				$book_param->max_pages = $qrdata['max_pages'];
+				$book_param->max_pages = intval($qrdata['max_pages']);
 				$book_param->exam_hash = $hash;
 				$booklet_id = $DB->insert_record("mem_booklet_data", $book_param, true, false);
 			} else {
@@ -129,8 +132,8 @@
 			$img_param->booklet_id = $booklet_id;
 			$img_param->exam_hash = $hash;
 			$img_param->pdf_file = $this->data;
-			$img_param->page_num = $qrdata['page_number'];
-			$img_param->booklet_num = $qrdata['exam_number']; // exam-number is booklet number
+			$img_param->page_num = intval($qrdata['page_number']);
+			$img_param->booklet_num = intval($qrdata['exam_number']); // exam-number is booklet number
 			return $DB->insert_record("mem_pdf_files", $img_param, true, false);
 			
 		}

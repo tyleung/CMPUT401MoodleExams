@@ -57,13 +57,15 @@ $recPDF = $DB->get_records_sql('SELECT pdf_file_id, {mem_pdf_files}.booklet_id, 
 							FROM {mem_booklet_data}, {mem_pdf_files} 
 							WHERE {mem_booklet_data}.booklet_id=?
 							AND {mem_pdf_files}.page_num=?
-							AND {mem_pdf_files}.booklet_id={mem_booklet_data}.booklet_id', array($bid, $page));
+							AND {mem_booklet_data}.course_id=?
+							AND {mem_pdf_files}.booklet_id={mem_booklet_data}.booklet_id', array($bid, $page, $course_id));
 
 $recPages = $DB->get_records_sql('SELECT page_id, {mem_booklet_data}.booklet_id, page_marks, page_marks_max
 							FROM {mem_booklet_data}, {mem_pages}
 							WHERE {mem_booklet_data}.booklet_id=?
 							AND {mem_pages}.page_num=?
-							AND {mem_pages}.booklet_id={mem_booklet_data}.booklet_id', array($bid, $page));
+							AND {mem_booklet_data}.course_id=?
+							AND {mem_pages}.booklet_id={mem_booklet_data}.booklet_id', array($bid, $page, $course_id));
 
 // get following from the query using above!
 $student = current($recPDF)->student_id;

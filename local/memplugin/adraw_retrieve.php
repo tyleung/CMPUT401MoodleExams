@@ -13,9 +13,10 @@ require_once '../../config.php';
 							FROM {mem_booklet_data}, {mem_pages}, {mem_pdf_files} 
 							WHERE {mem_booklet_data}.booklet_id=?
 							AND {mem_pages}.page_num=?
+							AND {mem_booklet_data}.course_id=?
 							AND {mem_pages}.booklet_id={mem_booklet_data}.booklet_id
 							AND {mem_pdf_files}.booklet_id={mem_booklet_data}.booklet_id
-							AND {mem_pdf_files}.page_num={mem_pages}.page_num', array($booklet, $page));
+							AND {mem_pdf_files}.page_num={mem_pages}.page_num', array($booklet, $page, $course));
 
 	$mark = intval($rec->page_marks);
 	$max_mark = intval($rec->page_marks_max);
