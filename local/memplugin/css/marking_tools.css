@@ -1,0 +1,25 @@
+/* Some of following codes are cited from: http://www.w3schools.com/css/css_navbar.asp */
+
+ul.toolbar {
+    list-style-type: none;
+    margin : 0;
+    padding: 0;
+}
+
+li.toolbaritem {
+    width: 50px;
+    backgroud-color: #f1f1f1;
+}
+
+li.toolbaritem a{
+    display: block;
+    color: #000000;
+    padding:8px 0px 8px 8px;
+    text-decoration: none;
+
+}
+
+li.toolbaritem a:hover {
+    background-color: #555;
+    color:white;
+}

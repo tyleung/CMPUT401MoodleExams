@@ -2,7 +2,7 @@
 // Canvas reference (note especially toDataURL)  http://www.w3schools.com/tags/ref_canvas.asp
 // http://stackoverflow.com/questions/12026345/live-type-in-html5-canvas
 // http://www.tcpdf.org/examples/example_009.phps
-
+// http://www.w3schools.com/tags/canvas_filltext.asp
 
 var draw_class = (function () {
 
@@ -16,6 +16,11 @@ var draw_class = (function () {
 	var clickDrag = new Array();
 	var paint = false;
 	var loadgif = "";
+	var draw_tool_activate = true;
+	var check_tool_activate = false;
+	var cross_tool_activate = false;
+	var erase_tool_activate = false;
+	var type_tool_activate = false;
 
 	var init = function () {
 		canvas = document.getElementById("id_canvas");
@@ -27,25 +32,38 @@ var draw_class = (function () {
 		canvas.addEventListener("mousedown", mDown);
 		canvas.addEventListener("mouseup", mUp);
 		canvas.addEventListener("mousemove", mMove);
-		canvas.addEventListener("mouseleave", mUp);		
-		
+		canvas.addEventListener("mouseleave", mUp);
+
+		// Marktools
+		var drawbtn = document.getElementById("tool_draw");
+		drawbtn.addEventListener("mousedown", drawingTool);
+		var checkbtn = document.getElementById("tool_check");
+		checkbtn.addEventListener("mousedown", checkTool);
+		var crossbtn = document.getElementById("tool_cross");
+		crossbtn.addEventListener("mousedown", crossTool);
+		var erasebtn = document.getElementById("tool_erase");
+		erasebtn.addEventListener("mousedown", eraseTool);
+		var typebtn = document.getElementById("tool_type");
+		typebtn.addEventListener("mousedown", typeTool);
+
+
 		// Page control event listeners
 		var upbtn = document.getElementById("id_btnUp");
 		upbtn.addEventListener("mousedown", naviPdf);
 		upbtn.hdir = 0; upbtn.vdir = -1; upbtn.navi = true;
-		
+
 		var downbtn = document.getElementById("id_btnDown");
 		downbtn.addEventListener("mousedown", naviPdf);
 		downbtn.hdir = 0; downbtn.vdir = 1; downbtn.navi = true;
-		
+
 		var leftbtn = document.getElementById("id_btnLeft");
 		leftbtn.addEventListener("mousedown", naviPdf);
 		leftbtn.hdir = -1; leftbtn.vdir = 0; leftbtn.navi = true;
-		
+
 		var rightbtn = document.getElementById("id_btnRight");
 		rightbtn.addEventListener("mousedown", naviPdf);
 		rightbtn.hdir = 1; rightbtn.vdir = 0; rightbtn.navi = true;
-		
+
 		var savbtn = document.getElementById("id_btnSav");
 		savbtn.addEventListener("mousedown", naviPdf);
 		savbtn.navi = false;
@@ -148,13 +166,69 @@ var draw_class = (function () {
 		}
 		
     },
+
+	drawingTool = function (event){
+		check_tool_activate = false;
+		cross_tool_activate = false;
+		erase_tool_activate = false;
+		type_tool_activate = false;
+
+		draw_tool_activate = true;
+	},
+	checkTool = function (event){
+		draw_tool_activate = false;
+		cross_tool_activate = false;
+		erase_tool_activate = false;
+		type_tool_activate = false;
+
+		check_tool_activate = true;
+	},
+	crossTool = function (event){
+		draw_tool_activate = false;
+		check_tool_activate = false;
+		erase_tool_activate = false;
+		type_tool_activate = false;
+
+		cross_tool_activate = true;
+	},
+	eraseTool = function (event){
+		draw_tool_activate = false;
+		check_tool_activate = false;
+		cross_tool_activate = false;
+		type_tool_activate = false;
+
+		erase_tool_activate = true;
+	},
+	typeTool = function (event){
+		draw_tool_activate = false;
+		check_tool_activate = false;
+		cross_tool_activate = false;
+		erase_tool_activate = false;
+
+		type_tool_activate = true;
+	},
+
     mDown = function(event) {
 	    var rect = canvas.getBoundingClientRect();
     	var x = event.clientX-rect.left;
     	var y = event.clientY-rect.top;
         paint = true;
 		addClick(x, y);
-		redraw();
+		if (draw_tool_activate == true){
+			redraw();
+		}
+		if (check_tool_activate == true){
+			drawcheckmark(x,y);
+		}
+		if (cross_tool_activate == true){
+			drawcrossmark(x,y);
+		}
+		if (erase_tool_activate == true){
+			erasedraw();
+		}
+		if (type_tool_activate == true){
+			typecomment(x,y);
+		}
     },
     /** Test comment */
     mUp = function(event) {
@@ -166,7 +240,12 @@ var draw_class = (function () {
 			var x = event.clientX-rect.left;
 			var y = event.clientY-rect.top;
 			addClick(x, y, true);
-			redraw();
+			if (draw_tool_activate == true){
+				redraw();
+			}
+			if (erase_tool_activate == true){
+				erasedraw();
+			}
 		}
     },
     addClick = function(x, y, dragging) {
@@ -174,14 +253,54 @@ var draw_class = (function () {
 	  clickY.push(y);
 	  clickDrag.push(dragging);
 	},
+	drawcheckmark = function(x,y){
+		//ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // Clears the canvas
+		//loadImgToCanvas();
+
+		var check_img = document.getElementById("checkmarkimg");
+		ctx.drawImage(check_img, x, y, 80, 80);
+	},
+	drawcrossmark = function(x,y){
+		//ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // Clears the canvas
+		//loadImgToCanvas();
+
+		var cross_img = document.getElementById("crossmarkimg");
+		ctx.drawImage(cross_img, x, y, 80, 80);
+	},
+	erasedraw = function(){
+		//ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // Clears the canvas
+		//loadImgToCanvas();
+		ctx.strokeStyle = "#fff";
+		ctx.lineJoin = "round";
+		ctx.lineWidth = 20;
+
+		for(var i=0; i < clickX.length; i++) {
+			ctx.beginPath();
+			if(clickDrag[i] && i){
+				ctx.moveTo(clickX[i-1], clickY[i-1]);
+			}else{
+				ctx.moveTo(clickX[i], clickY[i]);
+			}
+			ctx.lineTo(clickX[i], clickY[i]);
+			ctx.closePath();
+			ctx.stroke();
+		}
+	},
+	typecomment = function(x,y){
+		var comment_text = prompt("Please Comment Here", "");
+
+		ctx.font="18px Georgia";
+		ctx.fillText(comment_text,x,y);
+	},
+
 	redraw = function(){
 	  ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // Clears the canvas
 	  loadImgToCanvas();
 	  ctx.strokeStyle = "#df4b26";
 	  ctx.lineJoin = "round";
 	  ctx.lineWidth = 5;
-			
-	  for(var i=0; i < clickX.length; i++) {		
+
+	  for(var i=0; i < clickX.length; i++) {
 		ctx.beginPath();
 		if(clickDrag[i] && i){
 		  ctx.moveTo(clickX[i-1], clickY[i-1]);
@@ -196,4 +315,5 @@ var draw_class = (function () {
     
 	return {init: init};
 }());
+
 
