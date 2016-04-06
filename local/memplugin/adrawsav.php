@@ -18,41 +18,36 @@ require_once '../../config.php';
 	$base64 = str_ireplace("data:image/png;base64,", "", $base64);
 	$imageBlob = base64_decode($base64);
 	
-	// Query for id's of rows to be updated
-$recPDF = $DB->get_records_sql('SELECT pdf_file_id, {mem_pdf_files}.booklet_id, {mem_booklet_data}.exam_hash, {mem_pdf_files}.page_num, 
-							pdf_file, student_id 
-							FROM {mem_booklet_data}, {mem_pdf_files} 
-							WHERE {mem_booklet_data}.booklet_id=?
-							AND {mem_pdf_files}.page_num=?
-							AND {mem_booklet_data}.course_id=?
-							AND {mem_pdf_files}.booklet_id={mem_booklet_data}.booklet_id', array($booklet, $page, $course));
-
-$recPages = $DB->get_records_sql('SELECT page_id, {mem_booklet_data}.booklet_id, {mem_booklet_data}.exam_hash, page_marks, page_marks_max
-							FROM {mem_booklet_data}, {mem_pages}
-							WHERE {mem_booklet_data}.booklet_id=?
-							AND {mem_pages}.page_num=?
-							AND {mem_booklet_data}.course_id=?
-							AND {mem_pages}.booklet_id={mem_booklet_data}.booklet_id', array($booklet, $page, $course));
+	// get hash
+	$recBk = $DB->get_record_sql('SELECT {mem_booklet_data}.booklet_id, student_id, exam_hash
+							FROM {mem_booklet_data}
+							WHERE {mem_booklet_data}.course_id=?
+							AND {mem_booklet_data}.booklet_id=?
+							', array($course, $booklet));
 	
-	$page_id = intval(current($recPages)->page_id);
-	$hash = intval(current($recPDF)->exam_hash);
-	$pdf_file_id = intval(current($recPDF)->pdf_file_id);
+	$recPg = $DB->get_record_sql('SELECT page_id, page_marks, page_marks_max
+							FROM {mem_pages}
+							WHERE {mem_pages}.page_num=?
+							AND {mem_pages}.exam_hash=?
+							AND {mem_pages}.booklet_id=?
+							', array($page, $recBk->exam_hash, $booklet));
+							
+	$recPdf = $DB->get_record_sql('SELECT pdf_file_id, pdf_file
+							FROM {mem_pdf_files}
+							WHERE {mem_pdf_files}.page_num=?
+							AND {mem_pdf_files}.exam_hash=?
+							AND {mem_pdf_files}.booklet_id=?
+							', array($page, $recBk->exam_hash, $booklet));
+		
+	$page_id = intval($recPg->page_id);
+	$hash = intval($recBk->exam_hash);
+	$pdf_file_id = intval($recPdf->pdf_file_id);
 	
 	// Set the fields. Couldn't get Moodle's Update records to work.
-	// if a new page, may not exist, check for it
-	if(!empty($recPages)) {
-		$DB->set_field("mem_pages", "page_marks", $mark, array("page_id"=>$page_id));
-		$DB->set_field("mem_pages", "page_marks_max", $max_mark, array("page_id"=>$page_id));
-	} else {
-		$i = new stdClass();
-		$i->booklet_id=$booklet;
-		$i->exam_hash=$hash;
-		$i->page_marks=$mark;
-		$i->page_marks_max=$max_mark;
-		$i->page_num=$page;
-		$DB->insert_record("mem_pages", $i, true, false);
-	}
-	//always exist.
+
+	$DB->set_field("mem_pages", "page_marks", $mark, array("page_id"=>$page_id));
+	$DB->set_field("mem_pages", "page_marks_max", $max_mark, array("page_id"=>$page_id));
+
 	$DB->set_field("mem_pdf_files", "pdf_file", $imageBlob, array("pdf_file_id"=>$pdf_file_id));	
 
 	$t = time();
