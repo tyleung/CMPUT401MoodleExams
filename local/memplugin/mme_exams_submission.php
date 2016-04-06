@@ -95,31 +95,43 @@
 		 */
 		//upload parameters (exam#,page#) to a table that has the image_id(?) as the key.
 		private function insert_image_to_database(){
-			/*
+			
 			global $DB;
 
 			$qrdata = $this->get_deserialized_data();
 			if ($qrdata === NULL){
 				return NULL;
 			}
-			$book_param = new stdClass();
-			$book_param->year_semester_origin = "2016 SUMMER"; // replace with form data later.
-			$book_param->course_id = intval($this->cid);
-			$book_param->max_pages = $qrdata[3];
-			$booklet_id = $DB->insert_record("mem_booklet_data", $book_param, true, false);
+			
+			$hash = $qrdata['md5'];
+			
+			$rec_check = $DB->get_records_sql('SELECT {mem_booklet_data}.booklet_id
+							FROM {mem_booklet_data}
+							WHERE {mem_booklet_data}.course_id=? AND {mem_booklet_data}.exam_hash=?'
+							, array($this->cid, $hash));
 
+			$booklet_id = -1;
+			var_dump($rec_check);
+			
+			if(empty($rec_check)) {
+				$book_param = new stdClass();
+				$book_param->year_semester_origin = "2016 SUMMER"; // replace with form data later.
+				$book_param->course_id = intval($this->cid);
+				$book_param->max_pages = $qrdata['max_pages'];
+				$book_param->exam_hash = $hash;
+				$booklet_id = $DB->insert_record("mem_booklet_data", $book_param, true, false);
+			} else {
+				$booklet_id = $rec_check->booklet_id;
+			}
+			
 			$img_param = new stdClass();
 			$img_param->booklet_id = $booklet_id;
-
-			//print_r("QAAAAAAAAAAAAAAAaa".$this->data."<br>");
-			//$imgdat = base64_encode($this->data);
-			//print_r('works?<img src="data:image/png;base64,'.$imgdat.'"/>');
-	
+			
 			$img_param->pdf_file = $this->data;
-			$img_param->page_num = $qrdata[2];
-			$img_param->booklet_num = $qrdata[1];
+			$img_param->page_num = $qrdata['page_number'];
+			$img_param->booklet_num = $qrdata['exam_number']; // exam-number is booklet number
 			return $DB->insert_record("mem_pdf_files", $img_param, true, false);
-			*/
+			
 		}
 
 	}

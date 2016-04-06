@@ -34,6 +34,8 @@ require_capability('local/memplugin:add', context_system::instance());
 require_once($CFG->dirroot.'/local/memplugin/mark_exam_form.php');
 require_once($CFG->dirroot.'/local/memplugin/mme_exams_submission.php');
 
+ini_set('memory_limit', '512M');
+
 $PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('pluginname', 'local_memplugin'));
