@@ -386,6 +386,26 @@ function xmldb_local_memplugin_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2016060404, 'local', 'memplugin');
     }
 
+    if ($oldversion < 2016060405) {
+
+        // Changing nullability of field page_marks on table mem_pages to null.
+        $table = new xmldb_table('mem_pages');
+        $field = new xmldb_field('page_marks', XMLDB_TYPE_INTEGER, '3', null, null, null, null, 'booklet_id');
+
+        // Launch change of nullability for field page_marks.
+        $dbman->change_field_notnull($table, $field);
+
+        // Changing nullability of field page_marks_max on table mem_pages to null.
+        $table = new xmldb_table('mem_pages');
+        $field = new xmldb_field('page_marks_max', XMLDB_TYPE_INTEGER, '3', null, null, null, null, 'page_marks');
+
+        // Launch change of nullability for field page_marks_max.
+        $dbman->change_field_notnull($table, $field);
+
+        // Memplugin savepoint reached.
+        upgrade_plugin_savepoint(true, 2016060405, 'local', 'memplugin');
+    }
+
  	return true;   
 }    
     

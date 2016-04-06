@@ -18,6 +18,7 @@
       <KEYS>
         <KEY NAME="primary_key" TYPE="primary" FIELDS="booklet_id"/>
         <KEY NAME="compound_key" TYPE="unique" FIELDS="exam_hash"/>
+        <KEY NAME="changeme" TYPE="" FIELDS=""/>
       </KEYS>
     </TABLE>
     <TABLE NAME="mem_mark_stats" COMMENT="The collection of total score the booklet has.">
@@ -54,8 +55,8 @@
       <FIELDS>
         <FIELD NAME="page_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="booklet_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
-        <FIELD NAME="page_marks" TYPE="int" LENGTH="3" NOTNULL="true" SEQUENCE="false" COMMENT="The amount of marks this page got."/>
-        <FIELD NAME="page_marks_max" TYPE="int" LENGTH="3" NOTNULL="true" SEQUENCE="false" COMMENT="The maximum amount of marks this page can earn."/>
+        <FIELD NAME="page_marks" TYPE="int" LENGTH="3" NOTNULL="false" SEQUENCE="false" COMMENT="The amount of marks this page got."/>
+        <FIELD NAME="page_marks_max" TYPE="int" LENGTH="3" NOTNULL="false" SEQUENCE="false" COMMENT="The maximum amount of marks this page can earn."/>
         <FIELD NAME="page_num" TYPE="int" LENGTH="3" NOTNULL="true" SEQUENCE="false" COMMENT="the page number of this exam"/>
         <FIELD NAME="is_marked" TYPE="int" LENGTH="1" NOTNULL="false" DEFAULT="0" SEQUENCE="false"/>
         <FIELD NAME="exam_hash" TYPE="char" LENGTH="32" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="a MD5 hash to uniquely identify a batch of generated exam upon generating the exams."/>

@@ -123,14 +123,6 @@
 							, array($this->cid, $hash, $booknum));
 
 			$booklet_id = -1;
-
-			echo "qrData: ";
-			var_dump($qrdata);
-
-			echo" <br> ";
-			
-			echo "rec_check: ";
-			var_dump($rec_check);
 			
 			if(empty($rec_check)) {
 				$book_param = new stdClass();
@@ -143,22 +135,21 @@
 				$booklet_id = intval(current($rec_check)->booklet_id);
 			}
 			
-			echo "bookid ";
-			var_dump($booklet_id);
-			
 			$img_param = new stdClass();
 			$img_param->booklet_id = $booklet_id;
 			$img_param->exam_hash = $hash;
 			$img_param->pdf_file = $this->data;
 			$img_param->page_num = intval($qrdata['page_number']);
 			$img_param->booklet_num = intval($booknum); // exam-number is booklet number
+			$ret = $DB->insert_record("mem_pdf_files", $img_param, true, false);
 			
-			echo " img param ";
-			var_dump($img_param->exam_hash);
-			var_dump($img_param->exam_hash);
+			$pg_param = new stdClass();
+			$pg_param->booklet_id = $booklet_id;
+			$pg_param->exam_hash = $hash;
+			$pg_param->page_num = intval($qrdata['page_number']);
+			$DB->insert_record("mem_pages", $pg_param, true, false);
 			
-			
-			return $DB->insert_record("mem_pdf_files", $img_param, true, false);
+			return $ret;
 			
 		}
 
