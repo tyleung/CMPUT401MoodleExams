@@ -1,0 +1,56 @@
+CMPUT 401 Moodle Exams Administrator Manual
+-------------------------------------------
+
+Moodle sandbox setup:
+
+1. Setup a VM to host the Moodle sandbox and boot it up.
+2. Clone the project repository at into your VM.
+	
+	git clone https://github.com/tyleung/CMPUT401MoodleExams.git
+	
+3. Go into config.php and modify the settings according to your VM
+4. Install Imagemagick and Imagick in your VM (http://www.imagemagick.org/script/index.php):
+	
+	sudo apt-get install imagemagick
+	sudo apt-get install php5-imagick
+	
+5. Install Ghostscript in your VM (http://www.ghostscript.com/)
+6. In a browser, go to http://<ip address of VM>/moodle/ and follow the
+installation instructions that follow.
+
+-------------------------------------------------------------------------------
+
+To setup the php unit test environment:
+
+1. Installing Composer dependencies. It's likely been already installed but
+just to make sure:
+	
+	sudo apt-get update
+	sudo apt-get install curl php5-cli git
+	
+2. Install composer:
+	
+	curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
+	
+3. Go to the Moodle's dirroot (the main folder that has the config file, etc.)
+and run:
+	
+	composer update
+	
+4. Wait a few minutes while it searches for the versions of the library
+specified. After some time, it'll ask you to create a github OAuth token to go
+over the API rate limit. Go to the link they give you in the terminal, and
+create the token and paste that value into Token (hidden): in the terminal. It
+will then display Token stored successfully. and will let you finish.
+
+4. To initialize the PHPUnit environment, type this into the terminal:
+	
+	php admin/tool/phpunit/cli/init.php
+	
+5. You can then run the PHPUnit test by doing this in the terminal from moodle's dirroot:
+	
+	vendor/bin/phpunit
+	
+6. To run individual tests (aka: just ours), run this in the terminal from moodle's dirroot:
+	
+	vendor/bin/phpunit local/memplugin/tests/<filename of the unittest>.php
