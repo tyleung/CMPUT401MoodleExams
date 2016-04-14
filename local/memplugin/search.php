@@ -20,7 +20,7 @@
  *
  * @package     local
  * @subpackage  memplugin
- * @copyright   
+ * @copyright   Ryan Satyabrata satyabra@ualberta.ca
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
