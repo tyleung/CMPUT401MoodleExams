@@ -18,11 +18,12 @@
 // Images of this toolbar are cited from https://moodle.org/plugins/assignment_uploadpdf
 
 /**
- * This page is for the partial search of students, who you then can assign a booklet-id.
- *
+ * This page creates the page where you can draw on the exam images retrieved from the database.
+ * As well navigate through each of those pages.
+ * 
  * @package     local
  * @subpackage  memplugin
- * @copyright   
+ * @copyright   Ryan Satyabrata satyabra@ualberta.ca
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
